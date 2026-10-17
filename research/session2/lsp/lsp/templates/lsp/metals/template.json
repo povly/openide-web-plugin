@@ -1,0 +1,22 @@
+{
+  "id": "metals",
+  "name": "Scala Language Server (Metals)",
+  "programArgs": {
+    "windows": "\"$USER_HOME$/.lsp4ij/lsp/metals/metals.bat\"",
+    "default": "\"$USER_HOME$/.lsp4ij/lsp/metals/metals\""
+  },
+  "expandConfiguration": true,
+  "fileTypeMappings": [
+    {
+      "fileType": {
+        "name": "Scala",
+        "patterns": [
+          "*.scala",
+          "*.sbt",
+          "*.sc"
+        ]
+      },
+      "languageId": "scala"
+    }
+  ]
+}

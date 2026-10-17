@@ -1,0 +1,50 @@
+{
+  "id": "gopls",
+  "name": "Install and verify Go Language Server",
+  "executeOnStartServer": false,
+  "check": {
+    "exec": {
+      "name": "Trying current command",
+      "command": "${server.command}",
+      "timeout": 2000,
+      "onFail": {
+        "exec": {
+          "name": "Check Go runtime",
+          "command": {
+            "windows": "where go",
+            "default": "which go"
+          },
+          "onSuccess": {
+            "exec": {
+              "name": "Trying current command",
+              "command": "${server.command}",
+              "timeout": 2000
+            }
+          },
+          "onFail": {
+            "showMessage": {
+              "name": "Go Language Server install problem",
+              "content": [
+                "<a href=\"https://go.dev/doc/install\">Install Go</a> to install the Go Language Server (<code>gopls</code>) using <code>go install</code>.",
+                "Make sure <code>go</code> is in your PATH, then restart your IDE."
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "run": {
+    "exec": {
+      "name": "Install Go Language Server Globally",
+      "command": "go install golang.org/x/tools/gopls@latest"
+    },
+    "onSuccess": {
+      "configureServer": {
+        "name": "Configure Go Language Server command",
+        "command": "gopls -mode=stdio",
+        "update": true
+      }
+    }
+  }
+}

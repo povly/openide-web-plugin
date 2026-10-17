@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Created-By: Gradle 8.10.2
+Version: 0.0.9
+Build-JVM: 17 (Eclipse Adoptium 17+35)
+Build-OS: Linux 4.4.0-210-generic amd64
+Build-Plugin: IntelliJ Platform Gradle Plugin
+Build-Plugin-Version: 2.1.0
+Platform-Type: IC
+Platform-Version: 2024.2.1
+Platform-Build: 242.21829.142
+Kotlin-Available: true
+Kotlin-Stdlib-Bundled: false
+Kotlin-Version: 1.9.25
+

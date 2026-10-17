@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Created-By: Gradle 9.6.1
+Version: 3.6.1
+Build-JVM: 21.0.11 (Azul Systems, Inc. 21.0.11+10-LTS)
+Build-OS: Linux 6.17.0-1020-azure amd64
+Build-Plugin: IntelliJ Platform Gradle Plugin
+Build-Plugin-Version: 2.18.1
+Platform-Type: IC
+Platform-Version: 2025.2.1
+Platform-Build: 252.25557.131
+Kotlin-Available: true
+Kotlin-Stdlib-Bundled: false
+Kotlin-Version: 2.4.10
+

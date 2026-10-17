@@ -7,3 +7,9 @@ manifest.mf
 .idea/
 *.iml
 .DS_Store
+
+# research/session2: heavy re-derivable artifacts (kept on disk only)
+#  - zip: 142M > GitHub 100MB per-file limit; re-download recipe in research/session2/README.md
+#  - ideimpl/: 107M decompiled IntelliJ platform, re-derivable from /usr/share/openide
+research/session2/web-tools-1.0.1-signed.zip
+research/session2/ideimpl/

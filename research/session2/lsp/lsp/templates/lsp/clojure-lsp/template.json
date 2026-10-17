@@ -1,0 +1,35 @@
+{
+  "id": "clojure-lsp",
+  "name": "Clojure LSP",
+  "programArgs": {
+    "windows": "\"${BASE_DIR}/clojure-lsp.exe\"",
+    "default": "\"${BASE_DIR}/clojure-lsp.sh\""
+  },
+  "expandConfiguration": true,
+  "disablePromotionFor": ["com.github.clojure-lsp"],
+  "fileTypeMappings": [
+    {
+      "fileType": {
+        "name": "Clojure",
+        "patterns": [
+          "*.clj",
+          "*.cljs",
+          "*.cljc",
+          "*.cljd",
+          "*.cljr",
+          "*.cljx",
+          "*.clojure",
+          "*.edn",
+          "*.joke",
+          "*.boot",
+          "*.bb",
+          "*.ly",
+          "*.lpy",
+          "*.calva-repl",
+          "*.fiddle"
+        ]
+      },
+      "languageId": "clojure"
+    }
+  ]
+}

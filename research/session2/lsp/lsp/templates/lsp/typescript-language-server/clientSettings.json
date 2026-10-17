@@ -1,0 +1,23 @@
+{
+  "caseSensitive": true,
+  "lineCommentPrefix": "//",
+  "blockCommentPrefix": "/*",
+  "blockCommentSuffix": "*/",
+  "statementTerminatorCharacters": ";",
+  "completion": {
+    "useContextAwareSorting": true,
+    "useTemplateForInvocationOnlySnippet": false
+  },
+  "format": {
+    "onTypeFormatting": {
+      "clientSide": {
+        "formatOnCloseBrace": true,
+        "formatOnStatementTerminator": true,
+        "formatOnCompletionTrigger": true
+      }
+    }
+  },
+  "workspaceSymbol": {
+    "supportsGotoClass": true
+  }
+}

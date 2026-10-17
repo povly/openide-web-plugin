@@ -1,0 +1,268 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/redhat-developer/lsp4ij/tree/main/src/main/resources/jsonSchema/clientSettings.schema.json",
+  "title": "LSP4IJ user-defined language server client-side settings JSON schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "caseSensitive": {
+      "type": "boolean",
+      "title": "Language grammar case-sensitivity",
+      "description": "Whether or not the language grammar is case-sensitive.",
+      "default": false
+    },
+    "lineCommentPrefix": {
+      "type": "string",
+      "title": "Line comment prefix",
+      "description": "The line comment prefix in the language grammar.",
+      "default": null
+    },
+    "blockCommentPrefix": {
+      "type": "string",
+      "title": "Block comment prefix",
+      "description": "The block comment prefix in the language grammar.",
+      "default": null
+    },
+    "blockCommentSuffix": {
+      "type": "string",
+      "title": "Block comment suffix",
+      "description": "The block comment suffix in the language grammar.",
+      "default": null
+    },
+    "statementTerminatorCharacters": {
+      "type": "string",
+      "title": "Language statement terminator characters",
+      "description": "The statement terminator characters in the language grammar.",
+      "default": ""
+    },
+    "uriSupport": {
+      "type": "object",
+      "title": "Client-side Uri support configuration",
+      "additionalProperties": false,
+      "properties": {
+        "encoded": {
+          "type": "boolean",
+          "title": "Encode uri with vscode style (ex: file:///c%3A/Users)",
+          "description": "Encode uri with vscode style (ex: file:///c%3A/Users).",
+          "default": false
+        }
+      }
+    },
+    "completion": {
+      "type": "object",
+      "title": "Client-side completion configuration",
+      "additionalProperties": false,
+      "properties": {
+        "useContextAwareSorting": {
+          "type": "boolean",
+          "title": "Use context-aware completion sorting",
+          "description": "Whether or not client-side context-aware completion sorting should be used.",
+          "default": false
+        },
+        "useTemplateForInvocationOnlySnippet": {
+          "type": "boolean",
+          "title": "Use editor template for invocation-only snippets",
+          "description": "Whether or not an editor template should be used for invocation-only snippets.",
+          "default": true
+        }
+      }
+    },
+    "breadcrumbs": {
+      "type": "object",
+      "title": "Breadcrumbs feature configuration",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "title": "Enable breadcrumbs",
+          "description": "Whether or not document symbols-based breadcrumbs info provider is enabled.",
+          "default": true
+        }
+      }
+    },
+    "editor": {
+      "type": "object",
+      "title": "Client-side editor behavior configuration",
+      "additionalProperties": false,
+      "properties": {
+        "enableStringLiteralImprovements": {
+          "type": "boolean",
+          "title": "Enable string literal improvements",
+          "description": "Whether or not editor improvements for string literals are enabled.",
+          "default": true
+        },
+        "enableStatementTerminatorImprovements": {
+          "type": "boolean",
+          "title": "Enable statement terminator improvements",
+          "description": "Whether or not editor improvements for statement terminators are enabled.",
+          "default": true
+        },
+        "enableEnterBetweenBracesFix": {
+          "type": "boolean",
+          "title": "Enable enter-between-braces fix",
+          "description": "Whether or not the fix for enter-between-braces behavior in TextMate and abstract file type files is enabled.",
+          "default": true
+        },
+        "enableTextMateNestedBracesImprovements": {
+          "type": "boolean",
+          "title": "Enable TextMate nested braces fix",
+          "description": "Whether or not editor improvements for nested braces/brackets/parentheses in TextMate files are enabled.",
+          "default": true
+        },
+        "enableSemanticTokensFileViewProvider": {
+          "type": "boolean",
+          "title": "Enable semantic tokens-based file view provider",
+          "description": "Whether or not the semantic tokens-based file view provider is enabled.",
+          "default": true
+        }
+      }
+    },
+    "format": {
+      "type": "object",
+      "title": "Client-side formatter configuration",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "title": "Server-side formatting enabled",
+          "description": "Server-side formatting enabled"
+        },
+        "tabSize": {
+          "type": "integer",
+          "title": "Size of a tab in spaces.",
+          "description": "Size of a tab in spaces."
+        },
+        "insertSpaces": {
+          "type": "boolean",
+          "title": "Prefer spaces over tabs.",
+          "description": "Prefer spaces over tabs."
+        },
+        "existingFormatterOverrideable": {
+          "type": "boolean",
+          "title": "Returns true to use the language server for code formatting and false to use plugin-provided/built-in formatters.",
+          "description": "Returns true to use the language server for code formatting and false to use plugin-provided/built-in formatters."
+        },
+        "onTypeFormatting": {
+          "type": "object",
+          "title": "On-type formatting configuration",
+          "additionalProperties": false,
+          "properties": {
+            "serverSide": {
+              "type": "object",
+              "title": "Server-side on-type-formatting feature configuration",
+              "additionalProperties": false,
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "title": "Server-side on-type formatting enabled",
+                  "description": "Whether or not server-side on-type formatting is enabled if 'textDocument/onTypeFormatting' is supported by the language server.",
+                  "default": true
+                }
+              }
+            },
+            "clientSide": {
+              "type": "object",
+              "title": "Client-side on-type formatting feature configuration",
+              "additionalProperties": false,
+              "properties": {
+                "formatOnCloseBrace": {
+                  "type": "boolean",
+                  "title": "Format on close brace",
+                  "description": "Whether or not to format on close brace.",
+                  "default": false
+                },
+                "formatOnCloseBraceCharacters": {
+                  "type": "string",
+                  "title": "Close brace characters that should trigger on-type formatting",
+                  "description": "The specific close brace characters that should trigger on-type formatting. Defaults to the language's close brace characters."
+                },
+                "formatOnCloseBraceScope": {
+                  "type": "string",
+                  "enum": [
+                    "CODE_BLOCK",
+                    "FILE"
+                  ],
+                  "title": "The scope to format when close brace is typed",
+                  "description": "The scope that should be formatted when a close brace is typed.",
+                  "default": "CODE_BLOCK"
+                },
+                "formatOnStatementTerminator": {
+                  "type": "boolean",
+                  "title": "Format on statement terminator",
+                  "description": "Whether or not to format on statement terminator.",
+                  "default": false
+                },
+                "formatOnStatementTerminatorCharacters": {
+                  "type": "string",
+                  "title": "Statement terminator characters that should trigger on-type formatting",
+                  "description": "The specific statement terminator characters that should trigger on-type formatting. Defaults to 'statementTerminatorCharacters'."
+                },
+                "formatOnStatementTerminatorScope": {
+                  "type": "string",
+                  "enum": [
+                    "STATEMENT",
+                    "CODE_BLOCK",
+                    "FILE"
+                  ],
+                  "title": "The scope to format when statement terminator is typed",
+                  "description": "The scope that should be formatted when a statement terminator is typed.",
+                  "default": "STATEMENT"
+                },
+                "formatOnCompletionTrigger": {
+                  "type": "boolean",
+                  "title": "Format on completion trigger",
+                  "description": "Whether or not to format on completion trigger.",
+                  "default": false
+                },
+                "formatOnCompletionTriggerCharacters": {
+                  "type": "string",
+                  "title": "Completion trigger characters that should trigger on-type formatting",
+                  "description": "The specific completion trigger characters that should trigger on-type formatting. Defaults to the language's completion trigger characters."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "references": {
+      "type": "object",
+      "title": "Client-side references configuration",
+      "additionalProperties": false,
+      "properties": {
+        "processExternalReferences": {
+          "type": "boolean",
+          "title": "Process external references",
+          "description": "Whether or not client-side external references should be processed for symbols from this language server.",
+          "default": false
+        }
+      }
+    },
+    "workspaceSymbol": {
+      "type": "object",
+      "title": "Client-side workspace symbol configuration",
+      "additionalProperties": false,
+      "properties": {
+        "supportsGotoClass": {
+          "type": "boolean",
+          "title": "Go to class support",
+          "description": "Whether or not the language server can efficiently support the IDE's Go To Class feature.",
+          "default": false
+        }
+      }
+    },
+    "jsonRpc": {
+      "type": "object",
+      "title": "JSON-RPC communication configuration",
+      "additionalProperties": false,
+      "properties": {
+        "useIntegerIds": {
+          "type": "boolean",
+          "title": "Use integer IDs for JSON-RPC messages",
+          "description": "Whether or not to use integer IDs instead of string IDs for JSON-RPC messages.",
+          "default": false
+        }
+      }
+    }
+  }
+}

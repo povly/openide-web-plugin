@@ -1,0 +1,60 @@
+<!-- Plugin Configuration File: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+  <idea-version since-build="262.8665" />
+  <change-notes><![CDATA[<h3>Added</h3>
+
+<ul><li>Изменена версия платформы до 2026.2</li></ul>]]></change-notes>
+  <description><![CDATA[<p>OpenIDE Pro — профессиональная версия IDE для команд и компаний, которым важны контроль, безопасность и предсказуемость разработки.</p>
+
+<p>Что даёт OpenIDE Pro:</p>
+<ul><li>Расширенные инструменты для корпоративной разработки на Java/Spring, Go, JS/TS и Python</li><li>Юридически оформленную поставку, коммерческую поддержку и SLA</li><li>Возможность работы в закрытом контуре</li></ul>]]></description>
+  <version>0.0.12</version>
+  <id>ru.openide.pro.updater</id>
+  <name>OpenIDE Pro Upgrade</name>
+  <vendor email="openide@openide.ru" url="https://openide.ru">OpenIDE</vendor>
+  <depends>com.intellij.modules.platform</depends>
+  <resource-bundle>messages.MyMessageBundle</resource-bundle>
+  <!-- Extensions defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+  <extensions defaultExtensionNs="com.intellij">
+    <notificationGroup displayType="BALLOON" id="ru.openide.license.checker.common.notification" bundle="messages.MainBundle" key="openide.common.notifications" />
+    <notificationGroup displayType="STICKY_BALLOON" id="ru.openide.license.checker.sticky.notification" bundle="messages.MainBundle" key="openide.sticky.notifications" />
+    <notificationGroup displayType="NONE" id="ru.openide.license.checker.logs.notification" bundle="messages.MainBundle" key="openide.logs" />
+    <postStartupActivity order="last" implementation="ru.openide.license.checker.licensing.ProjectWatcher$MyAcceptableProjectImportListener" />
+    <editorNotificationProvider implementation="ru.openide.license.checker.licensing.free.TrialExpiryBannerProvider" />
+    <registryKey defaultValue="true" description="Enable online license verification. Can be disabled to skip remote license checks." key="openide.license.online.verification.enabled" />
+    <registryKey defaultValue="false" description="Test license actions" key="test.license.actions" />
+    <backgroundPostStartupActivity implementation="ru.openide.license.checker.PromoStartupActivity" />
+  </extensions>
+  <applicationListeners>
+    <!-- Concurrent license info sender/receiver -->
+    <listener class="ru.openide.license.checker.licensing.um.UBStarter" topic="ru.openide.license.checker.licensing.events.SubscriptionActivatedListener" />
+    <listener class="ru.openide.license.checker.licensing.um.UBStarter" topic="ru.openide.license.checker.licensing.events.SubscriptionDeactivatedListener" />
+    <listener class="ru.openide.license.checker.licensing.um.UBStarter" topic="ru.openide.license.checker.licensing.AcceptableProjectListener" />
+    <listener class="ru.openide.license.checker.licensing.ProjectWatcher$MyProjectManagerListener" topic="com.intellij.openapi.project.ProjectCloseListener" />
+    <!--AcceptableProjectListenerImpl-->
+    <listener class="ru.openide.license.checker.licensing.sm.AcceptableProjectListenerImpl" topic="ru.openide.license.checker.licensing.AcceptableProjectListener" />
+    <listener class="ru.openide.license.checker.licensing.sm.AcceptableProjectListenerImpl" topic="ru.openide.license.checker.licensing.events.SubscriptionActivatedListener" />
+    <listener class="ru.openide.license.checker.licensing.sm.AcceptableProjectListenerImpl" topic="ru.openide.license.checker.licensing.events.SubscriptionDeactivatedListener" />
+    <listener class="ru.openide.license.checker.LicenseStartupListener" topic="com.intellij.ide.AppLifecycleListener" />
+    <listener class="ru.openide.license.checker.licensing.events.FusProTrialTelemetryListener" topic="ru.openide.license.checker.licensing.events.ProTrialTelemetryListener" />
+  </applicationListeners>
+  <projectListeners>
+    <listener class="ru.openide.license.checker.licensing.event.SubscriptionNotificationsEventHandler" topic="ru.openide.license.checker.licensing.lc.SubscriptionNotificationsListener" />
+  </projectListeners>
+  <actions>
+    <action id="ru.openide.license.checker.studioPremiumSettings" class="ru.openide.license.checker.licensing.ShowSubscriptionInfoAction" text="OpenIDE Pro Subscription Information">
+      <add-to-group group-id="HelpMenu" anchor="last" />
+    </action>
+    <action id="ru.openide.license.checker.showNeedLicenseAction" class="ru.openide.license.checker.licensing.ShowNeedLicenseAction" text="OpenIDE Need License" icon="AllIcons.General.User" />
+    <action id="ru.openide.license.checker.activateOpenIdeProAction2" class="ru.openide.license.checker.licensing.ActivateOpenIdeProAction" text="Manage Subscriptions…">
+      <add-to-group group-id="HelpMenu" anchor="last" />
+    </action>
+    <action id="ru.openide.license.checker.activateOpenIdeProAction" class="ru.openide.license.checker.licensing.ActivateOpenIdeProAction" text="Upgrade to OpenIDE Pro">
+      <add-to-group group-id="HelpMenu" anchor="last" />
+    </action>
+    <action id="ru.openide.license.checker.toolbarUpgradeToPro" class="ru.openide.license.checker.licensing.ActivateOpenIdeProAction" text="Try OpenIDE Pro">
+      <add-to-group group-id="MainToolbarRight" anchor="last" />
+    </action>
+  </actions>
+</idea-plugin>

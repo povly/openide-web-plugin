@@ -1,0 +1,1408 @@
+<!--
+  ~ Copyright (c) 2025-2026 OpenIDE. All rights reserved.
+  ~
+  ~ This software is proprietary and confidential.
+  ~ Unauthorized copying, modification, or distribution is strictly prohibited.
+  ~ See the LICENSE file for details.
+  -->
+<idea-plugin>
+  <idea-version since-build="262" until-build="262.*" />
+  <change-notes><![CDATA[<p>Добавлены ручные корни namespace без Composer. Исправлены запуск и остановка PHP, работа с путями Windows/WSL, отладка, анализаторы и выбор каталогов тестов. Сторонние тестовые раннеры могут использовать выбранный профиль интерпретатора без переключения профиля проекта.</p>
+
+<ul><li><strong>Namespace без Composer</strong> — В Settings → PHP → Namespace Roots можно сопоставить каталог и префикс namespace. New PHP File учитывает вложенные корни и относительный путь при создании класса, интерфейса, трейта или enum; настройки сохраняются между открытиями проекта. (#1108)</li><li><strong>Запуск и остановка PHP</strong> — Run и Debug сохраняют аргументы с пробелами, Unicode, кавычками и пустыми значениями. Stop завершает локальный процесс и его потомков даже при игнорируемом SIGINT; при отладке самостоятельный выход сохраняет свой код. Каталог в поле Script path отклоняется до запуска. (#1109, #1125, #1127)</li><li><strong>Запуск в Docker/Compose/WSL</strong> — Пути скрипта, корня веб-сервера, router и команд фреймворков переводятся в окружение выбранного PHP. Путь вне доступного сопоставления отклоняется до запуска с понятной ошибкой. Yii Console различает автоматически найденный bootstrap, файл хоста и путь внутри окружения. (#997)</li><li><strong>WSL и покрытие тестов</strong> — Аргументы и значения окружения передаются буквально: доллар, пробелы и Unicode в имени Clover-отчёта не меняют путь. Загруженное покрытие относится к исходному файлу проекта. (#1111)</li><li><strong>Пути Windows и Docker</strong> — Сопоставления учитывают регистр Windows-путей, границы каталогов и различие локальных и удалённых путей. На Windows поиск Docker выбирает docker.exe перед одноимённым файлом без расширения. (#1120, #1113)</li><li><strong>Проверка интерпретатора</strong> — Диалог показывает полученную версию PHP. Поле executable для WSL отклоняет Windows drive/UNC пути и объясняет, что нужен путь внутри Linux. (#1123, #1126)</li><li><strong>Composer на Windows</strong> — composer.PHAR и другие варианты регистра запускаются через настроенный PHP. После восстановления временно недоступного корня проекта Composer и библиотеки vendor снова доступны без перезапуска IDE. (#1121, #1102)</li><li><strong>Composer и соседние проекты</strong> — Namespace и автоматический dump-autoload учитывают границу текущего проекта и ближайший Composer-корень. Будущий каталог внутри проекта получает правильный namespace; соседний проект не подхватывается. (#1133)</li><li><strong>Xdebug и имена файлов</strong> — Debug mappings сохраняют знак = в пути. Имена с #, %, пробелами и Unicode корректно проходят DBGp. Сопоставление /app не захватывает /apple, удалённые /app и /APP различаются; PHP Script Debug получает обратное подключение из WSL. (#1122, #1124, #1130)</li><li><strong>Внешние анализаторы</strong> — Mago привязывает диагностику к редактору для расширенных Windows drive/UNC путей. Пути конфигураций анализаторов различаются по окружению, а изменение удалённой конфигурации обновляет результаты без изменения PHP-файла. (#1112, #1131)</li><li><strong>Каталоги тестов</strong> — Run All и New Test сохраняют drive/UNC корни autoload-dev, выбирают собственные тестовые каталоги и исключают vendor, корень проекта и соседние проекты. Сохраняются ещё не созданные каталоги и правильный namespace нового теста. (#1134)</li><li><strong>Выбранный профиль для тестового раннера</strong> — Сторонний раннер может получить окружение и пути тестового фреймворка по id выбранного интерпретатора. Бинарник и конфигурация независимо наследуют настройки профиля, проекта и автоопределение; активный профиль проекта не меняется. (#1137, #1138)</li><li><strong>Windows: управляемый запуск и консоль</strong> — При управляемом запуске инструментов .bat/.cmd интерпретатор отклоняется с подсказкой выбрать php.exe; обычный PHP Run сохраняет поддержку обёрток. Ссылки в стектрейсах C:/project/File.php(12) и с обратными разделителями ведут к нужному файлу и строке. (#1135, #1136)</li><li><strong>Локальные проверки при индексации</strong> — Предупреждение об отсутствии declare(strict_types=1) сохраняется при индексации и в явно открытом исключённом PHP-файле. (#1119)</li></ul>]]></change-notes>
+  <version>0.9.8</version>
+  <id>ru.openide.openphp</id>
+  <name>PHP for OpenIDE</name>
+  <vendor url="https://openide.ru">OpenIDE</vendor>
+  <description><![CDATA[<p>PHP for OpenIDE provides PHP language support for OpenIDE and OpenIDE Pro 2026.2.
+        Работа с кодом PHP в OpenIDE и OpenIDE Pro 2026.2 (ветка платформы 262).
+        Поддерживаются уровни языка PHP 7.0–8.5, включая оператор <code>|></code> и <code>clone(...)</code> с изменением свойств.
+        Плагин не требует JetBrains PHP.</p>
+
+        <p><b>Редактирование кода</b></p>
+        <ul>
+            <li>Дополнение классов, членов, переменных и ключевых слов, автоматическое добавление импортов.
+                Живые шаблоны и постфиксный шаблон <code>.var</code> для создания локальной переменной.</li>
+            <li>Вывод типов: обобщённые типы (<code>@template</code>), условные и DNF-типы, структуры массивов,
+                уточнение типов через <code>instanceof</code>, проверки <code>null</code>, <code>match</code> и <code>assert()</code>.
+                Учитываются PHPDoc и <code>.phpstorm.meta.php</code> для контейнеров зависимостей и фабрик.</li>
+            <li>Подсказки имён параметров и типов переменных, элементов <code>foreach</code>, параметров обратных вызовов,
+                возвращаемых значений и промежуточных результатов цепочки вызовов. Информация о параметрах и быстрая документация.</li>
+            <li>Проверка орфографии в комментариях, PHPDoc и строках при включённом модуле проверки орфографии IDE.</li>
+            <li>Переход к классу, символу, реализации и объявлению типа; поиск использований, иерархии типов и вызовов,
+                структура файла и счётчики использований Code Vision.</li>
+        </ul>
+
+        <p><b>Качество кода</b></p>
+        <ul>
+            <li>Встроенные инспекции: неопределённые имена, несовпадения сигнатур и типов, неиспользуемый код,
+                ошибки управления потоком, PSR-12, PHPDoc, секреты в коде и другие проверки. Исправления доступны для поддерживаемых случаев;
+                набор включённых инспекций управляется настройками IDE.</li>
+            <li>Интеграция PHPStan, Psalm, Mago, PHP_CodeSniffer и PHP-CS-Fixer: именованные конфигурации,
+                общие настройки проекта, отображение результатов в редакторе и устранение повторов со встроенными проверками.
+                Доступные режимы и исправления зависят от выбранного инструмента.</li>
+            <li>Mago: проверки lint, analyze и guard. Форматирование файла встроенным форматтером, PHP-CS-Fixer или Mago.</li>
+            <li>Переименование с обновлением ссылок, извлечение метода и переменной, встраивание переменной, изменение сигнатуры.
+                Генерация конструктора, методов доступа к свойствам, переопределений, реализаций и PHPDoc.</li>
+        </ul>
+
+        <p><b>Запуск, тесты и отладка</b></p>
+        <ul>
+            <li>Запуск PHP-скриптов, встроенный веб-сервер с открытием страницы в браузере и конфигурации PHP-FPM.</li>
+            <li>Профили интерпретаторов: локальный PHP, Docker, Docker Compose и WSL на Windows;
+                перевод путей между проектом и окружением запуска.</li>
+            <li>PHPUnit: запуск файла, класса и метода из редактора, провайдеры данных, переход из результатов к тесту.
+                Покрытие кода через PCOV или Xdebug с отметками в редакторе.</li>
+            <li>Xdebug 3: точки останова по строке и исключению, наблюдение за выражениями и вычисление выражений,
+                сопоставление удалённых путей и регистрация в DBGp proxy для общих серверов.</li>
+        </ul>
+
+        <p><b>Фреймворки и экосистема</b></p>
+        <ul>
+            <li>Laravel: фасады, Eloquent — локальные области запросов, цепочки построителя запросов и свойства моделей из миграций;
+                маршруты, представления, конфигурация, переводы, правила валидации и шаблоны Blade.</li>
+            <li>Symfony: контейнер сервисов, имена маршрутов и параметры путей, шаблоны Twig, переводы,
+                консольные команды и проверки метаданных Doctrine.</li>
+            <li>Bitrix: подключение компонентов и их параметры, файлы переводов <code>Loc::getMessage</code>,
+                проверки D7 и старого ядра — пролог, недоверенные фильтры и устаревшие вызовы.</li>
+            <li>Yii2: связи ActiveRecord и атрибуты из миграций, переход к представлению из <code>render()</code>.</li>
+            <li>Smarty (<code>.tpl</code>): настраиваемые разделители, переходы из <code>{include}</code>, <code>{extends}</code>,
+                PHP-вызовов <code>display()</code> и <code>fetch()</code>; дополнение тегов, модификаторов и переменных,
+                назначенных через <code>assign()</code>, с информацией о типах; форматирование и живые шаблоны.</li>
+            <li>Composer: дополнение и переходы в <code>composer.json</code>, подсказки версий, библиотеки vendor и автозагрузка PSR-4.
+                Для поддерживаемых встроенных классов — подсказка добавить требование <code>ext-*</code> в ближайший файл <code>composer.json</code>.</li>
+            <li>Создание проекта PHP, Laravel или Symfony с выбором интерпретатора и компонентов.</li>
+        </ul>
+
+        <p><b>Для разработчиков плагинов</b></p>
+        <ul>
+            <li>Публичное API: чтение атрибутов и объявлений PHP, иерархия типов с учётом трейтов,
+                запуск PHP-инструментов под интерпретатором проекта, отладка через Xdebug и подключение собственных тестовых фреймворков.</li>
+        </ul>
+
+        <p><b>Окружение и ограничения</b></p>
+        <p>Сборка рассчитана на платформу 262 и использует модули YAML, покрытия кода и тестового раннера IDE.
+        В штатной OpenIDE 2026.2 YAML требует JSON; отключение JSON исключает PHP-плагин.
+        HTML-возможности шаблонов и проверка орфографии зависят от соответствующих модулей IDE.</p>
+        <p>Для выполнения кода нужен настроенный PHP. Composer, PHPUnit и внешние инструменты устанавливаются отдельно;
+        для отладки нужен Xdebug 3, для покрытия — PCOV или Xdebug. Контейнерные профили требуют Docker;
+        WSL используется с установленным дистрибутивом на Windows.</p>]]></description>
+  <depends>com.intellij.modules.platform</depends>
+  <depends optional="true" config-file="openphp-spellchecker.xml">com.intellij.modules.spellchecker</depends>
+  <depends optional="true" config-file="composer-json.xml">com.intellij.modules.json</depends>
+  <!-- spec 014-B — Blade <x-...> component tag completion (XmlTagNameProvider); XML-optional. -->
+  <depends optional="true" config-file="openphp-xml.xml">com.intellij.modules.xml</depends>
+  <!-- YAML plugin (bundled in IntelliJ Community/Ultimate) — required for docker-compose.yml parsing -->
+  <depends>org.jetbrains.plugins.yaml</depends>
+  <!-- #611 — platform code-coverage module (CoverageEngine/CoverageRunner EPs) for PHPUnit coverage -->
+  <depends>com.intellij.modules.coverage</depends>
+  <!-- SM-тест-раннер (PHPUnit-консоль: SMTRunnerConsoleProperties, TestConsoleProperties,
+         SMTestRunnerConnectionUtil). В OpenIDE это не ядро, а отдельный плагин
+         intellij.testRunner.plugin с двумя публичными модулями; IntelliJ IDEA отдаёт их из ядра, и
+         именно поэтому Verifier против IDEA разрыва не видит, а против OpenIDE — видит.
+         Объявление здесь — второе из двух: bundledModule(...) в build.gradle.kts даёт только
+         compile classpath, видимость в рантайме описывает этот блок. На 262.8665.81.1 рантайм
+         разрешает эти классы и без него (измерено: verification/968-phpunit-runtime.txt), но
+         неявная видимость нигде не обещана — объявляем так, как это делает бандленный JUnit. -->
+  <dependencies>
+    <module name="intellij.platform.smRunner" />
+    <module name="intellij.platform.testRunner" />
+  </dependencies>
+  <!-- #591 — i18n: resolves key= / groupKey= attributes (e.g. inspection group names). -->
+  <resource-bundle>messages.PhpBundle</resource-bundle>
+  <projectListeners>
+    <!-- Убирает <excludeFolder> для vendor/-поддиректорий при изменении модульных корней -->
+    <listener class="ru.openide.openphp.composer.PhpVendorRootListener" topic="com.intellij.openapi.roots.ModuleRootListener" />
+    <!-- #994: тип проекта или корень сайта сменились в уже открытом проекте.
+             Индикатор, dev-сервер и путь «тип стал известен» — здесь; свои эффекты
+             фреймворка (исключения из индексации, предложение стабов) — в подписчике
+             пакета bitrix: пакеты фреймворков лежат ВЫШЕ run по слоям, поэтому
+             детектор не может позвать их сам. -->
+    <listener class="ru.openide.openphp.run.webserver.PhpProjectShapeChangeHandler" topic="ru.openide.openphp.run.webserver.PhpProjectTypeListener" />
+    <listener class="ru.openide.openphp.bitrix.BitrixProjectShapeChangeHandler" topic="ru.openide.openphp.run.webserver.PhpProjectTypeListener" />
+    <listener class="ru.openide.openphp.symfony.SymfonyExclusionShapeChangeHandler" topic="ru.openide.openphp.run.webserver.PhpProjectTypeListener" />
+    <!-- #1022: гейт PHP-проекта сменил ответ после чтения каталога — виджет анализатора
+             создаётся заново: его доступность платформа спрашивает один раз. -->
+    <listener class="ru.openide.openphp.analyzer.status.PhpAnalyzerWidgetGateHandler" topic="ru.openide.openphp.lang.psi.PhpProjectGateListener" />
+    <listener class="ru.openide.openphp.settings.PhpLanguageLevelWidgetGateHandler" topic="ru.openide.openphp.lang.psi.PhpProjectGateListener" />
+    <!-- #1045: a tool is enabled when its inspection is on and the project has its setting; both change outside
+             the node's pages too (Inspections page, the offer on project open), so the widget follows both. -->
+    <listener class="ru.openide.openphp.analyzer.status.PhpAnalyzerWidgetStateHandler" topic="com.intellij.profile.ProfileChangeAdapter" />
+    <listener class="ru.openide.openphp.analyzer.status.PhpAnalyzerWidgetStateHandler" topic="ru.openide.openphp.analyzer.settings.PhpAnalyzerSettingsTopic" />
+    <!-- #1047: the run of one tool changed (its config on disk, a setting its run depends on, an unnoticed change
+             caught by the fingerprints) — one reaction drops that tool's results and rechecks by its mode. -->
+    <listener class="ru.openide.openphp.analyzer.AnalyzerRunInputsReaction" topic="ru.openide.openphp.analyzer.settings.AnalyzerRunInputsTopic" />
+  </projectListeners>
+  <applicationListeners>
+    <!-- ON_SAVE trigger для external-аналайзеров (PHPStan/Psalm/Mago).
+             Слушает beforeDocumentSaving (afterDocumentSaved ещё не доступен в 2025.2.x),
+             ставит флаг в PhpAnalyzerTriggerState, кикает DaemonCodeAnalyzer.restart через
+             invokeLater — annotator делает один проход и замолкает до следующего save. -->
+    <listener class="ru.openide.openphp.analyzer.PhpAnalyzerSaveHook" topic="com.intellij.openapi.fileEditor.FileDocumentManagerListener" />
+    <!-- #609 (Phase 5) — fix-on-save: runs phpcbf / php-cs-fixer on save when enabled
+             in Settings → Code Quality (both OFF by default). -->
+    <listener class="ru.openide.openphp.analyzer.PhpFormatterSaveHook" topic="com.intellij.openapi.fileEditor.FileDocumentManagerListener" />
+  </applicationListeners>
+  <!-- #954 — sources of references on PHP string literals. The core hands the references out
+         from PhpStringExpressionElement (a platform referenceContributor does not fire on these
+         tokens, #543), but must not KNOW who the sources are: frameworks register here instead
+         of being listed by `lang`. A contributor decides for itself whether it applies — there
+         is no project-type parameter, because PhpProjectType lives in `run` and any gate in the
+         core would keep the lang -> run edge alive. Order is the contributor's own `order`/`id`,
+         and it is load-bearing: in an ambiguous project every contributor runs and the first
+         non-empty answer wins. -->
+  <extensionPoints>
+    <extensionPoint name="phpStringReferenceContributor" interface="ru.openide.openphp.lang.psi.PhpStringReferenceContributor" dynamic="true" />
+    <!-- #955 (seam B of #954) — who may override a call's return type BEFORE the reference is
+             resolved. Unlike the string-reference point above there is no project gate anywhere in
+             this seam: no source consults PhpWebRootDetector, so the contract carries no
+             isApplicable and the core keeps no per-project cache. The extra axis here is CallKind:
+             a contributor declares which call shapes it handles and the core filters on that
+             before calling, exactly as the pre-#955 registry did. -->
+    <extensionPoint name="phpCallReturnTypeContributor" interface="ru.openide.openphp.lang.psi.types.PhpCallReturnTypeContributor" dynamic="true" />
+    <!-- #954 (seam D) — sources that REFINE an inferred type. One point per shape of input:
+             the questions differ by what they take and where they run, and no contributor answers
+             more than one of them. Where the same input is asked at two points in the pipeline the
+             difference is a declared stage, filtered by the core before calling — moving a
+             contributor between stages changes which answer wins over declared members. -->
+    <extensionPoint name="phpStaticCallReturnTypeContributor" interface="ru.openide.openphp.lang.psi.types.PhpStaticCallReturnTypeContributor" dynamic="true" />
+    <extensionPoint name="phpFieldAccessTypeContributor" interface="ru.openide.openphp.lang.psi.types.PhpFieldAccessTypeContributor" dynamic="true" />
+    <extensionPoint name="phpArrayAccessSourceContributor" interface="ru.openide.openphp.lang.psi.types.PhpArrayAccessSourceContributor" dynamic="true" />
+    <extensionPoint name="phpClosureParamTypeContributor" interface="ru.openide.openphp.lang.psi.types.PhpClosureParamTypeContributor" dynamic="true" />
+    <extensionPoint name="phpReceiverCandidateContributor" interface="ru.openide.openphp.lang.psi.types.PhpReceiverCandidateContributor" dynamic="true" />
+    <extensionPoint name="phpDestructStepTypeContributor" interface="ru.openide.openphp.lang.psi.types.PhpDestructStepTypeContributor" dynamic="true" />
+    <!-- #954 (seam C) — members that exist at runtime but are declared nowhere the hierarchy
+             walk can see. ONE point, not two, although the answers come in two shapes: the input is
+             the same triple for every contributor, and only the answer differs, so the two shapes
+             are cases of one return type. Splitting them would also split the order, and the actual
+             order interleaves them — the facade redirect runs BEFORE the Eloquent scopes.
+             The declared axis here is MemberKind, filtered by the core before calling; unlike seam
+             D's stages it is a filter, not a precedence rule. -->
+    <extensionPoint name="phpVirtualMemberContributor" interface="ru.openide.openphp.lang.psi.elements.PhpVirtualMemberContributor" dynamic="true" />
+    <!-- #958 — references on a PHPDoc tag the core does not own. Consulted AFTER every tag the
+             core claims, which is a constraint and not a preference: the core's last rule takes any
+             uppercase-first tag as a class annotation, so contributors here serve lowercase tags. -->
+    <extensionPoint name="phpDocTagReferenceContributor" interface="ru.openide.openphp.lang.phpdoc.PhpDocTagReferenceContributor" dynamic="true" />
+    <!-- #1003 — a PHP test framework declared to the plugin: descriptor, launch rules, composer
+             detection, version probe. The full declaration is a kit of three registrations — this
+             type, a configurationType subclass of PhpTestConfigurationType and a
+             runConfigurationProducer subclass of PhpTestRunConfigurationProducer — because the
+             platform gives configuration types and producers an identity of their own. -->
+    <extensionPoint name="testFrameworkType" interface="ru.openide.openphp.run.testing.PhpTestFrameworkType" dynamic="true" />
+  </extensionPoints>
+  <extensions defaultExtensionNs="ru.openide.openphp">
+    <!-- #1003 — PHPUnit is the first client of the test-framework SPI -->
+    <testFrameworkType implementation="ru.openide.openphp.run.phpunit.PhpUnitFrameworkType" />
+    <phpDocTagReferenceContributor implementation="ru.openide.openphp.codeInsight.PhpUnitDataProviderDocTagContributor" />
+  </extensions>
+  <!-- #954 (seam C) — members declared nowhere the hierarchy walk can see. `order` reproduces the
+         sequence the core chain had: facade, scope, macro, magic property, Yii AR, Yii component,
+         Eloquent Builder. -->
+  <extensions defaultExtensionNs="ru.openide.openphp">
+    <phpVirtualMemberContributor implementation="ru.openide.openphp.laravel.PhpLaravelFacadeMemberContributor" />
+    <phpVirtualMemberContributor implementation="ru.openide.openphp.laravel.PhpLaravelEloquentScopeMemberContributor" />
+    <phpVirtualMemberContributor implementation="ru.openide.openphp.laravel.PhpLaravelMacroMemberContributor" />
+    <phpVirtualMemberContributor implementation="ru.openide.openphp.laravel.PhpLaravelMagicPropertyMemberContributor" />
+    <phpVirtualMemberContributor implementation="ru.openide.openphp.yii.YiiActiveRecordMemberContributor" />
+    <phpVirtualMemberContributor implementation="ru.openide.openphp.yii.YiiAppComponentMemberContributor" />
+    <phpVirtualMemberContributor implementation="ru.openide.openphp.laravel.PhpLaravelEloquentBuilderMemberContributor" />
+  </extensions>
+  <!-- #954 (seam D) — type overlays. `order` inside each class decides order within a stage;
+         the STAGE decides where in the pipeline the answer is offered, and moving a contributor
+         between stages changes which answer wins over declared members. Asserted by
+         PhpTypeOverlayContributorsTest. -->
+  <extensions defaultExtensionNs="ru.openide.openphp">
+    <phpStaticCallReturnTypeContributor implementation="ru.openide.openphp.laravel.PhpLaravelEloquentBuilderReturnTypeContributor" />
+    <phpStaticCallReturnTypeContributor implementation="ru.openide.openphp.bitrix.PhpBitrixOrmResultTypeContributor" />
+    <phpFieldAccessTypeContributor implementation="ru.openide.openphp.yii.YiiActiveRecordMemberTypeContributor" />
+    <phpFieldAccessTypeContributor implementation="ru.openide.openphp.yii.YiiAppComponentTypeContributor" />
+    <phpFieldAccessTypeContributor implementation="ru.openide.openphp.laravel.PhpLaravelHigherOrderProxyTypeContributor" />
+    <phpArrayAccessSourceContributor implementation="ru.openide.openphp.bitrix.PhpBitrixArResultSourceContributor" />
+    <phpClosureParamTypeContributor implementation="ru.openide.openphp.laravel.PhpLaravelContainerCallbackParamContributor" />
+    <phpReceiverCandidateContributor implementation="ru.openide.openphp.laravel.PhpLaravelHigherOrderProxyReceiverContributor" />
+    <phpDestructStepTypeContributor implementation="ru.openide.openphp.laravel.PhpLaravelCollectionDestructContributor" />
+  </extensions>
+  <!-- #955 — call-return-type sources, in execution order. `order` in each class is what
+         actually decides it; this block is grouped so the chain reads at once, and
+         PhpCallReturnTypeContributorsTest asserts the resolved list plus the kinds of each entry.
+         phpstorm-meta is first by requirement, not by taste: `.phpstorm.meta.php` ships with the
+         library's own vendor and outranks any heuristic of ours. -->
+  <extensions defaultExtensionNs="ru.openide.openphp">
+    <phpCallReturnTypeContributor implementation="ru.openide.openphp.lang.psi.types.PhpStormMetaReturnTypeContributor" />
+    <phpCallReturnTypeContributor implementation="ru.openide.openphp.laravel.PhpLaravelContainerReturnTypeContributor" />
+    <phpCallReturnTypeContributor implementation="ru.openide.openphp.symfony.container.PhpSymfonyContainerReturnTypeContributor" />
+    <phpCallReturnTypeContributor implementation="ru.openide.openphp.bitrix.PhpBitrixHighloadblockReturnTypeContributor" />
+  </extensions>
+  <!-- #954 — the contributors, in execution order. `order` in each class is what actually
+         decides the order; this block is grouped so the whole chain can be read at once, and
+         PhpStringReferenceContributorOrderTest asserts the resolved list. -->
+  <extensions defaultExtensionNs="ru.openide.openphp">
+    <!-- Language-level, never gated. -->
+    <phpStringReferenceContributor implementation="ru.openide.openphp.lang.psi.PhpIncludeReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.codeInsight.PhpUnitDataProviderReferenceContributor" />
+    <!-- Bitrix: the adapter declares the gate in isApplicable, and the provider checks the
+             same condition again inside referencesFor. The duplicate is deliberate and measured —
+             see PhpBitrixReferenceContributors. -->
+    <phpStringReferenceContributor implementation="ru.openide.openphp.bitrix.PhpBitrixComponentReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.bitrix.PhpBitrixArParamsReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.bitrix.PhpBitrixLocReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.bitrix.PhpBitrixDocRootPathReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.bitrix.PhpBitrixModuleReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.symfony.PhpSymfonyEventSubscriberReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.symfony.PhpSymfonyServiceIdReferenceContributor" />
+    <!-- Smarty is framework-agnostic — deliberately ungated (#953). -->
+    <phpStringReferenceContributor implementation="ru.openide.openphp.smarty.php.SmartyReferenceContributor" />
+    <!-- .env is shared by Laravel and Symfony, so this one runs in both. -->
+    <phpStringReferenceContributor implementation="ru.openide.openphp.laravel.PhpLaravelEnvReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.laravel.PhpLaravelViewReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.laravel.PhpLaravelRouteReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.laravel.PhpLaravelConfigReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.laravel.PhpLaravelTranslationReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.laravel.PhpLaravelControllerActionReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.yii.YiiViewReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.symfony.PhpSymfonyRouteReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.symfony.PhpSymfonyRoutePlaceholderReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.symfony.PhpSymfonyParameterReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.symfony.PhpSymfonyCommandReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.symfony.PhpSymfonyTwigReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.symfony.PhpSymfonyTranslationReferenceContributor" />
+    <!-- #985 — transition / workflow names in apply(), can(), buildTransitionBlockerList(), Registry::get() -->
+    <phpStringReferenceContributor implementation="ru.openide.openphp.symfony.PhpSymfonyWorkflowReferenceContributor" />
+    <phpStringReferenceContributor implementation="ru.openide.openphp.doctrine.PhpDoctrineQueryBuilderReferenceContributor" />
+  </extensions>
+  <extensions defaultExtensionNs="com.intellij">
+    <iconMapper mappingFile="PhpIconMappings.json" />
+    <!-- File Type -->
+    <!-- #566 — hashBangs="php" lets extensionless PHP CLI scripts that start with
+             a `#!/usr/bin/env php` / `#!/usr/bin/php` shebang be detected as PHP
+             (platform HashBangFileTypeDetector matches the first `#!` line containing
+             "php"; `#!/bin/bash` / python etc. are unaffected). -->
+    <fileType name="PHP" implementationClass="ru.openide.openphp.lang.PhpFileType" fieldName="INSTANCE" language="PHP" extensions="php;phtml" hashBangs="php" />
+    <!-- L1.4 — Blade templating (.blade.php) -->
+    <fileType name="Blade" implementationClass="ru.openide.openphp.blade.lang.BladeFileType" fieldName="INSTANCE" language="Blade" patterns="*.blade.php" />
+    <lang.parserDefinition language="Blade" implementationClass="ru.openide.openphp.blade.lang.parser.BladeParserDefinition" />
+    <!-- .blade.php as a template language: HTML chunks get a real HTML PSI tree
+             (completion, tag matching) — base=Blade, data=HTML. -->
+    <lang.fileViewProviderFactory language="Blade" implementationClass="ru.openide.openphp.blade.lang.BladeFileViewProviderFactory" />
+    <lang.syntaxHighlighterFactory language="Blade" implementationClass="ru.openide.openphp.blade.highlight.BladeSyntaxHighlighterFactory" />
+    <!-- HTML highlighting inside .blade.php (layered over Blade; mirrors HTML-in-PHP). -->
+    <editorHighlighterProvider filetype="Blade" implementationClass="ru.openide.openphp.blade.highlight.BladeEditorHighlighterProvider" />
+    <!-- S1.3 — Twig templating (.twig, .html.twig) -->
+    <fileType name="Twig" implementationClass="ru.openide.openphp.symfony.twig.lang.TwigFileType" fieldName="INSTANCE" language="Twig" patterns="*.twig;*.html.twig" />
+    <lang.parserDefinition language="Twig" implementationClass="ru.openide.openphp.symfony.twig.lang.parser.TwigParserDefinition" />
+    <!-- #846 — .twig / .html.twig as a template language: HTML (and inline CSS) chunks get a
+             real HTML PSI tree (completion, tag matching) — base=Twig, data=HTML. Mirrors Blade. -->
+    <lang.fileViewProviderFactory language="Twig" implementationClass="ru.openide.openphp.symfony.twig.lang.TwigFileViewProviderFactory" />
+    <lang.syntaxHighlighterFactory language="Twig" implementationClass="ru.openide.openphp.symfony.twig.highlight.TwigSyntaxHighlighterFactory" />
+    <!-- #846 — HTML highlighting inside .twig (layered over Twig; mirrors HTML-in-Blade). -->
+    <editorHighlighterProvider filetype="Twig" implementationClass="ru.openide.openphp.symfony.twig.highlight.TwigEditorHighlighterProvider" />
+    <annotator language="Twig" implementationClass="ru.openide.openphp.symfony.twig.highlight.TwigAnnotator" />
+    <!-- #953 — Smarty templating (.tpl). Plain *.tpl pattern, no detector/override:
+             user remap of *.tpl survives; plugin-vs-plugin conflict priority is platform-defined. -->
+    <fileType name="Smarty" implementationClass="ru.openide.openphp.smarty.lang.SmartyFileType" fieldName="INSTANCE" language="Smarty" patterns="*.tpl" />
+    <lang.parserDefinition language="Smarty" implementationClass="ru.openide.openphp.smarty.lang.parser.SmartyParserDefinition" />
+    <!-- .tpl as a template language: HTML chunks (incl. {literal} content) get a real HTML
+             PSI tree (completion, tag matching) — base=Smarty, data=HTML. Mirrors Blade/Twig. -->
+    <lang.fileViewProviderFactory language="Smarty" implementationClass="ru.openide.openphp.smarty.lang.SmartyFileViewProviderFactory" />
+    <lang.syntaxHighlighterFactory language="Smarty" implementationClass="ru.openide.openphp.smarty.highlight.SmartySyntaxHighlighterFactory" />
+    <!-- HTML highlighting inside .tpl (layered over Smarty; mirrors HTML-in-Blade). -->
+    <editorHighlighterProvider filetype="Smarty" implementationClass="ru.openide.openphp.smarty.highlight.SmartyEditorHighlighterProvider" />
+    <annotator language="Smarty" implementationClass="ru.openide.openphp.smarty.highlight.SmartyAnnotator" />
+    <colorSettingsPage implementation="ru.openide.openphp.smarty.highlight.SmartyColorSettingsPage" />
+    <!-- Paired-tag matching via codeBlockSupportHandler (semantic pairs — braceMatcher
+             can't pair by tag NAME, all names are one TAG_NAME token). -->
+    <codeBlockSupportHandler language="Smarty" implementationClass="ru.openide.openphp.smarty.editing.SmartyCodeBlockSupportHandler" />
+    <lang.foldingBuilder language="Smarty" implementationClass="ru.openide.openphp.smarty.editing.SmartyFoldingBuilder" />
+    <lang.commenter language="Smarty" implementationClass="ru.openide.openphp.smarty.editing.SmartyCommenter" />
+    <!-- #953 Phase 2 — Smarty navigation: template-dir declarations in PHP (ordered),
+             reverse usage index, gutter on included templates. -->
+    <fileBasedIndex implementation="ru.openide.openphp.smarty.navigation.SmartyTemplateDirIndex" />
+    <fileBasedIndex implementation="ru.openide.openphp.smarty.navigation.SmartyTemplateUsageIndex" />
+    <codeInsight.lineMarkerProvider language="Smarty" implementationClass="ru.openide.openphp.smarty.navigation.SmartyTemplateUsageLineMarkerProvider" />
+    <!-- #953 Phase 3 — Smarty completion: tags, modifiers, $smarty fields, variables,
+             block names from the {extends} chain (file paths come from the FileReferenceSet). -->
+    <fileBasedIndex implementation="ru.openide.openphp.smarty.completion.SmartyAssignedVarIndex" />
+    <!-- #953 Phase 4 — custom plugins of the project (registerPlugin + plugins/ convention). -->
+    <fileBasedIndex implementation="ru.openide.openphp.smarty.php.SmartyPluginIndex" />
+    <fileBasedIndex implementation="ru.openide.openphp.smarty.php.SmartyRenderCallIndex" />
+    <completion.contributor language="Smarty" implementationClass="ru.openide.openphp.smarty.completion.SmartyCompletionContributor" />
+    <!-- #953 Phase 5 — Smarty editing: formatter, Code Style page, editor helpers.
+             The formatter is a template-language one: HTML is formatted by the HTML
+             formatter, we only indent Smarty block bodies and keep {literal} verbatim. -->
+    <lang.formatter language="Smarty" implementationClass="ru.openide.openphp.smarty.formatter.SmartyFormattingModelBuilder" />
+    <langCodeStyleSettingsProvider implementation="ru.openide.openphp.smarty.formatter.SmartyLanguageCodeStyleSettingsProvider" />
+    <!-- Editor helpers: auto-close a paired tag on the right delimiter, Enter inside a
+             block, paired quotes in attribute values. -->
+    <typedHandler implementation="ru.openide.openphp.smarty.editing.SmartyTypedHandler" />
+    <enterHandlerDelegate implementation="ru.openide.openphp.smarty.editing.SmartyEnterHandler" />
+    <lang.quoteHandler language="Smarty" implementationClass="ru.openide.openphp.smarty.editing.SmartyQuoteHandler" />
+    <liveTemplateContext contextId="SMARTY" implementation="ru.openide.openphp.smarty.liveTemplates.SmartyTemplateContextType" />
+    <defaultLiveTemplates file="/liveTemplates/Smarty.xml" />
+    <!-- File Icons (class/interface/trait/enum in Project View) -->
+    <iconProvider implementation="ru.openide.openphp.lang.PhpFileIconProvider" />
+    <!-- Parser -->
+    <lang.parserDefinition language="PHP" implementationClass="ru.openide.openphp.lang.parser.PhpParserDefinition" />
+    <lang.fileViewProviderFactory language="PHP" implementationClass="ru.openide.openphp.lang.PhpFileViewProviderFactory" />
+    <!-- #205 — ElementManipulator for PHPDoc type refs (needed by rename). -->
+    <lang.elementManipulator forClass="ru.openide.openphp.lang.phpdoc.PhpDocTypeRefElement" implementationClass="ru.openide.openphp.lang.phpdoc.PhpDocTypeRefManipulator" />
+    <!-- #1025 — ElementManipulator for PHP strings: without it the platform throws
+             `No ElementManipulator instance registered` and ABORTS any rename that has to write
+             into a string literal (data providers, include paths, templates). -->
+    <lang.elementManipulator forClass="ru.openide.openphp.lang.psi.elements.impl.PhpStringExpressionElement" implementationClass="ru.openide.openphp.lang.psi.elements.impl.PhpStringManipulator" />
+    <!-- #1028 — ElementManipulators for Blade directives and Twig statements: renaming a template
+             file writes the new name into `@include('...')` / `{% include '...' %}`. -->
+    <lang.elementManipulator forClass="ru.openide.openphp.blade.psi.BladeDirectiveElement" implementationClass="ru.openide.openphp.blade.psi.BladeDirectiveManipulator" />
+    <lang.elementManipulator forClass="ru.openide.openphp.symfony.twig.psi.TwigStatementElement" implementationClass="ru.openide.openphp.symfony.twig.psi.TwigStatementManipulator" />
+    <!-- #788 — ElementManipulator for DOC_TAG inline refs (import-type `from Class`, ...). -->
+    <lang.elementManipulator forClass="ru.openide.openphp.lang.phpdoc.PhpDocTagElement" implementationClass="ru.openide.openphp.lang.phpdoc.PhpDocTagManipulator" />
+    <gotoDeclarationHandler implementation="ru.openide.openphp.lang.phpdoc.PhpDocInheritedMethodGotoDeclarationHandler" />
+    <!-- #204 — Rename class also renames the file (PSR-4 convention). -->
+    <renamePsiElementProcessor implementation="ru.openide.openphp.refactoring.PhpClassRenameProcessor" />
+    <!-- #890 — Rename a method also renames its overrides / implementations
+             across the class hierarchy (interface ↔ implementors). -->
+    <renamePsiElementProcessor implementation="ru.openide.openphp.refactoring.PhpMethodRenameProcessor" />
+    <!-- #1026 — переименование переменной, участвующей в захвате `use`, меняет обе стороны
+             и на пути диалога: он идёт через RenameProcessor мимо нашего переименователя. -->
+    <renamePsiElementProcessor implementation="ru.openide.openphp.refactoring.PhpVariableRenameProcessor" />
+    <!-- #797 — Move file updates the namespace to the destination's PSR-4 mapping. -->
+    <moveFileHandler implementation="ru.openide.openphp.refactoring.PhpMoveFileHandler" />
+    <!-- #203 follow-up — In-place rename (Shift+F6) on VARIABLE-backed
+             named elements (parameter, property) must skip the `$` sigil
+             in the edit range. Registered ahead of the default handlers. -->
+    <renameHandler implementation="ru.openide.openphp.refactoring.PhpVariableInplaceRenameHandler" order="first" />
+    <!-- Syntax Highlighting -->
+    <lang.syntaxHighlighterFactory language="PHP" implementationClass="ru.openide.openphp.highlight.PhpSyntaxHighlighterFactory" />
+    <colorSettingsPage implementation="ru.openide.openphp.highlight.PhpColorSettingsPage" />
+    <additionalTextAttributes scheme="Default" file="colorSchemes/PhpDefault.xml" />
+    <additionalTextAttributes scheme="Darcula" file="colorSchemes/PhpDarcula.xml" />
+    <bundledColorScheme id="OldIDE Darcula" path="colorSchemes/OldIdeDarcula" />
+    <!-- Semantic Annotator -->
+    <annotator language="PHP" implementationClass="ru.openide.openphp.highlight.PhpAnnotator" />
+    <!-- Brace Matching -->
+    <lang.braceMatcher language="PHP" implementationClass="ru.openide.openphp.lang.PhpBraceMatcher" />
+    <!-- Folding -->
+    <lang.foldingBuilder language="PHP" implementationClass="ru.openide.openphp.lang.PhpFoldingBuilder" />
+    <!-- Commenter -->
+    <lang.commenter language="PHP" implementationClass="ru.openide.openphp.lang.PhpCommenter" />
+    <!-- Smart Statement Completion (#187): ⇧⌘↵ / Ctrl+Shift+Enter -->
+    <lang.smartEnterProcessor language="PHP" implementationClass="ru.openide.openphp.codeInsight.PhpSmartEnterProcessor" />
+    <!-- #557 (Phase 3) — single Enter dispatch. Owns the explicit priority
+             order of the per-scenario Enter delegates (PropertyHook #347,
+             FluentChain #501, PhpDoc #188), replacing three separate EPs — two of
+             which both declared order="first" (undefined relative order).
+             order="first" so all delegates intercept BEFORE platform's
+             EnterBetweenBracesFinalHandler / generic indent finalizer. -->
+    <enterHandlerDelegate order="first" implementation="ru.openide.openphp.codeInsight.PhpEnterHandler" />
+    <!-- #220 — Enter between `[` and `]` (short array) also splits+indents,
+             not only `(` / `{` pairs. -->
+    <enterBetweenBracesDelegate language="PHP" implementationClass="com.intellij.codeInsight.editorActions.enter.EnterBetweenBracesAndBracketsDelegate" />
+    <!-- Run Configuration -->
+    <configurationType implementation="ru.openide.openphp.run.PhpRunConfigurationType" />
+    <runConfigurationProducer implementation="ru.openide.openphp.run.PhpRunConfigurationProducer" />
+    <!-- Web Server Run Configuration -->
+    <configurationType implementation="ru.openide.openphp.run.webserver.PhpWebServerRunConfigurationType" />
+    <!-- #612 — PHP-FPM Run Configuration -->
+    <configurationType implementation="ru.openide.openphp.run.fpm.PhpFpmRunConfigurationType" />
+    <!-- #610 (spec 002) — Yii Console Command (php yii <command>) -->
+    <configurationType implementation="ru.openide.openphp.run.yii.PhpYiiConsoleRunConfigurationType" />
+    <!-- #614 — clickable PHP file:line stacktraces in every console -->
+    <consoleFilterProvider implementation="ru.openide.openphp.observability.PhpConsoleFilterProvider" />
+    <runConfigurationProducer implementation="ru.openide.openphp.run.webserver.PhpWebServerRunConfigurationProducer" />
+    <!-- Open in Browser (browser icons in editor toolbar for PHP files) -->
+    <webBrowserUrlProvider implementation="ru.openide.openphp.run.webserver.PhpBrowserUrlProvider" order="last" />
+    <!-- Run Line Marker (play gutter icon) -->
+    <runLineMarkerContributor language="PHP" implementationClass="ru.openide.openphp.run.PhpRunLineMarkerProvider" />
+    <!-- #610 (spec 002) AC-28 — Run gutter on Yii console action methods -->
+    <runLineMarkerContributor language="PHP" implementationClass="ru.openide.openphp.run.yii.YiiConsoleActionLineMarkerContributor" />
+    <runConfigurationProducer implementation="ru.openide.openphp.run.yii.YiiConsoleRunConfigurationProducer" />
+    <!-- PHPUnit Run Configuration -->
+    <configurationType implementation="ru.openide.openphp.run.phpunit.PhpUnitRunConfigurationType" />
+    <!-- C-A1 — Composer Script run configuration -->
+    <configurationType implementation="ru.openide.openphp.composer.runconfig.ComposerScriptRunConfigurationType" />
+    <!-- B-D26 / #280 — Bitrix migration / agent / cron run configuration -->
+    <configurationType implementation="ru.openide.openphp.bitrix.run.BitrixScriptRunConfigurationType" />
+    <codeInsight.lineMarkerProvider language="JSON" implementationClass="ru.openide.openphp.composer.runconfig.ComposerScriptRunLineMarker" />
+    <runConfigurationProducer implementation="ru.openide.openphp.run.phpunit.PhpUnitRunConfigurationProducer" />
+    <!-- #1003 — one gutter contributor for every registered test framework -->
+    <runLineMarkerContributor language="PHP" implementationClass="ru.openide.openphp.run.testing.PhpTestRunLineMarkerContributor" />
+    <!-- #611 — PHPUnit code coverage (PCOV/Xdebug → Clover → platform coverage UI) -->
+    <coverageRunner implementation="ru.openide.openphp.run.phpunit.coverage.PhpCloverCoverageRunner" />
+    <coverageEngine implementation="ru.openide.openphp.run.phpunit.coverage.PhpCoverageEngine" />
+    <!-- #1015 — the runner the Coverage executor needs; without it «Run with Coverage» has nobody to run it -->
+    <programRunner implementation="ru.openide.openphp.run.phpunit.coverage.PhpCoverageProgramRunner" />
+    <!-- #1004 — the runner the Debug executor needs for any test-framework configuration -->
+    <programRunner implementation="ru.openide.openphp.run.testing.PhpTestDebugRunner" />
+    <projectService serviceImplementation="ru.openide.openphp.run.phpunit.coverage.PhpCoverageAnnotator" />
+    <!-- Internal File Templates -->
+    <internalFileTemplate name="PHP File" />
+    <internalFileTemplate name="PHP Class" />
+    <internalFileTemplate name="PHP Interface" />
+    <internalFileTemplate name="PHP Trait" />
+    <internalFileTemplate name="PHP Enum" />
+    <!-- #1003 — test class created by New → PHPUnit Test (PhpUnitFrameworkType.newTest). -->
+    <internalFileTemplate name="PHPUnit Test" />
+    <internalFileTemplate name="PHPUnit Test Method" />
+    <!-- spec 009 — Laravel artifact generators (File Templates; overridable in
+             Settings → Editor → File and Code Templates). -->
+    <internalFileTemplate name="Laravel Model" />
+    <internalFileTemplate name="Laravel Controller" />
+    <internalFileTemplate name="Laravel Resource Controller" />
+    <internalFileTemplate name="Laravel Invokable Controller" />
+    <internalFileTemplate name="Laravel Migration" />
+    <internalFileTemplate name="Laravel Form Request" />
+    <internalFileTemplate name="Laravel Job" />
+    <internalFileTemplate name="Laravel Event" />
+    <internalFileTemplate name="Laravel Listener" />
+    <internalFileTemplate name="Laravel Mailable" />
+    <internalFileTemplate name="Laravel Notification" />
+    <internalFileTemplate name="Laravel Seeder" />
+    <internalFileTemplate name="Laravel Factory" />
+    <internalFileTemplate name="Laravel Policy" />
+    <internalFileTemplate name="Laravel Middleware" />
+    <internalFileTemplate name="Laravel Console Command" />
+    <internalFileTemplate name="Laravel Service Provider" />
+    <internalFileTemplate name="Laravel Validation Rule" />
+    <internalFileTemplate name="Laravel Feature Test" />
+    <internalFileTemplate name="Laravel Unit Test" />
+    <!-- Module Type (New Project wizard) -->
+    <moduleType id="PHP_MODULE" implementationClass="ru.openide.openphp.module.PhpModuleType" />
+    <!-- L2.1 — Laravel project generator entry in the New Project wizard.
+             Mirrors PHP_MODULE; surfaces "Laravel" under Generators. -->
+    <moduleType id="LARAVEL_MODULE" implementationClass="ru.openide.openphp.laravel.wizard.LaravelModuleType" />
+    <!-- S2.1 — Symfony project generator entry. Surfaces "Symfony"
+             under Generators alongside PHP / Laravel. -->
+    <moduleType id="SYMFONY_MODULE" implementationClass="ru.openide.openphp.symfony.wizard.SymfonyModuleType" />
+    <!-- #600 — modern New Project wizard generator. The legacy moduleType entries
+             above drive `New Module`, but the redesigned Welcome Screen "New Project"
+             dialog builds its generator list from this EP. Surfaces PHP (with a
+             Plain / Laravel / Symfony framework choice) in the modern wizard. -->
+    <newProjectWizard.languageGenerator implementation="ru.openide.openphp.module.PhpNewProjectWizard" />
+    <!-- PhpSettings is registered as a project-level light service via @Service annotation
+             (see ru.openide.openphp.settings.PhpSettings). No XML registration needed. -->
+    <!-- Per-project analyzer settings that are not a tool's own (dedup). #1046 — the 0.9.x fields (active profile
+             pointers, common mode) stay for the import into the tool settings (PhpAnalyzerToolSettings, a light service). -->
+    <projectService serviceImplementation="ru.openide.openphp.analyzer.settings.PhpAnalyzerSettings" />
+    <!-- #918 — PHP language level of the project. Interface lives in `lang`
+             (bottom layer) so type inference / stub signature selection can query
+             it without an upward dependency; the implementation resolves
+             setting → composer.json require.php → interpreter → latest. -->
+    <projectService serviceInterface="ru.openide.openphp.lang.PhpLanguageLevelProvider" serviceImplementation="ru.openide.openphp.settings.PhpLanguageLevelService" />
+    <!-- Settings page: Settings → Languages & Frameworks → PHP.
+             Project-scoped because PhpSettings is a @Service(Level.PROJECT). -->
+    <projectConfigurable parentId="language" instance="ru.openide.openphp.settings.PhpSettingsConfigurable" id="ru.openide.openphp.settings.PhpSettingsConfigurable" key="settings.configurable.php" />
+    <projectConfigurable parentId="ru.openide.openphp.settings.PhpSettingsConfigurable" instance="ru.openide.openphp.settings.namespace.PhpNamespaceRootsConfigurable" id="ru.openide.openphp.settings.namespace.PhpNamespaceRootsConfigurable" key="settings.namespace.title" />
+    <!-- #1045 — Settings → PHP → Analysis and Formatting: the root page (formatter, fix on save, when to check,
+             dedup) and one page per external tool. A tool page's toggle is the tool's inspection; its form edits the
+             project's setting of the tool. -->
+    <projectConfigurable parentId="ru.openide.openphp.settings.PhpSettingsConfigurable" instance="ru.openide.openphp.analyzer.settings.PhpAnalysisAndFormattingConfigurable" id="ru.openide.openphp.analyzer.settings.PhpAnalysisAndFormattingConfigurable" key="settings.configurable.analysis.and.formatting" />
+    <projectConfigurable parentId="ru.openide.openphp.analyzer.settings.PhpAnalysisAndFormattingConfigurable" instance="ru.openide.openphp.analyzer.settings.PhpStanToolConfigurable" id="ru.openide.openphp.analyzer.settings.PhpStanToolConfigurable" key="settings.analyzer.page.phpstan" />
+    <projectConfigurable parentId="ru.openide.openphp.analyzer.settings.PhpAnalysisAndFormattingConfigurable" instance="ru.openide.openphp.analyzer.settings.PsalmToolConfigurable" id="ru.openide.openphp.analyzer.settings.PsalmToolConfigurable" key="settings.analyzer.page.psalm" />
+    <projectConfigurable parentId="ru.openide.openphp.analyzer.settings.PhpAnalysisAndFormattingConfigurable" instance="ru.openide.openphp.analyzer.settings.MagoToolConfigurable" id="ru.openide.openphp.analyzer.settings.MagoToolConfigurable" key="settings.analyzer.page.mago" />
+    <projectConfigurable parentId="ru.openide.openphp.analyzer.settings.PhpAnalysisAndFormattingConfigurable" instance="ru.openide.openphp.analyzer.settings.PhpcsToolConfigurable" id="ru.openide.openphp.analyzer.settings.PhpcsToolConfigurable" key="settings.analyzer.page.phpcs" />
+    <projectConfigurable parentId="ru.openide.openphp.analyzer.settings.PhpAnalysisAndFormattingConfigurable" instance="ru.openide.openphp.analyzer.settings.CsFixerToolConfigurable" id="ru.openide.openphp.analyzer.settings.CsFixerToolConfigurable" key="settings.analyzer.page.cs.fixer" />
+    <!-- #960 — Xdebug listener port, bind policy and path mappings. The page class lives in
+             the debugger package because it calls into the listener; hosting it under settings/
+             would be an upward edge in PackageDependencyRulesTest. -->
+    <projectConfigurable parentId="ru.openide.openphp.settings.PhpSettingsConfigurable" instance="ru.openide.openphp.debugger.settings.PhpDebugConfigurable" id="ru.openide.openphp.debugger.settings.PhpDebugConfigurable" key="settings.configurable.debug" />
+    <!-- #953 — Smarty delimiters / auto-literal (page class lives in the smarty package:
+             a settings->smarty import would be a new upward edge in PackageDependencyRulesTest). -->
+    <projectConfigurable parentId="ru.openide.openphp.settings.PhpSettingsConfigurable" instance="ru.openide.openphp.smarty.settings.SmartySettingsConfigurable" id="ru.openide.openphp.smarty.settings.SmartySettingsConfigurable" key="settings.configurable.smarty" />
+    <projectConfigurable parentId="ru.openide.openphp.settings.PhpSettingsConfigurable" instance="ru.openide.openphp.settings.PhpExcludedDirectoriesConfigurable" id="ru.openide.openphp.settings.PhpExcludedDirectoriesConfigurable" bundle="messages.PhpBundle" key="settings.excluded.title" />
+    <directoryIndexExcludePolicy implementation="ru.openide.openphp.settings.PhpExplicitDirectoryExcludePolicy" />
+    <directoryIndexExcludePolicy implementation="ru.openide.openphp.symfony.SymfonyGeneratedDirectoryExcludePolicy" />
+    <testFinder implementation="ru.openide.openphp.run.phpunit.PhpUnitTestFinder" />
+    <!-- #1003 — Settings → PHP → Test Frameworks: binary, version and default configuration file per
+             registered test framework; the page class lives next to its store in run/testing/settings/. -->
+    <projectConfigurable parentId="ru.openide.openphp.settings.PhpSettingsConfigurable" instance="ru.openide.openphp.run.testing.settings.PhpTestFrameworksConfigurable" id="ru.openide.openphp.run.testing.settings.PhpTestFrameworksConfigurable" key="settings.configurable.testFrameworks" />
+    <!-- Notification group -->
+    <notificationGroup id="PHP for OpenIDE" displayType="BALLOON" isLogByDefault="true" />
+    <!-- External analyzers (PHPStan/Psalm/Mago): binary-not-found and config-broken balloons -->
+    <notificationGroup id="PHP External Analyzers" displayType="BALLOON" isLogByDefault="true" />
+    <!-- Activity tracker for the external-analyzer status bar widget (Phase 7.2).
+             Project-scoped @Service; annotator's doAnnotate() publishes begin/end events,
+             widget reads snapshot on each update. -->
+    <projectService serviceImplementation="ru.openide.openphp.analyzer.status.PhpAnalyzerActivityTracker" />
+    <!-- Per-file cache of external-analyzer diagnostics (Phase 7.4). Annotator
+             consults cache before spawning subprocess; cache invalidates on file content
+             change (via contentHash), per tool on a changed run of the tool (via
+             AnalyzerRunInputsTopic, #1047), or manual Clear Cache action. -->
+    <projectService serviceImplementation="ru.openide.openphp.analyzer.cache.PhpAnalyzerResultCache" />
+    <!-- Status bar widget showing current analyzer state: "PHPStan: analyzing",
+             "PHPStan: 5 errors, 12 warnings", "PHP analyzers: off".
+             Click opens popup with Run/Clear cache/Settings actions. -->
+    <statusBarWidgetFactory id="php.analyzer.status" implementation="ru.openide.openphp.analyzer.status.PhpAnalyzerStatusBarWidgetFactory" />
+    <statusBarWidgetFactory id="OpenPhp.LanguageLevel" implementation="ru.openide.openphp.settings.PhpLanguageLevelStatusBarWidgetFactory" />
+    <!-- Phase 7.3: «Analyze whole project» coroutine owner + aggregated results. -->
+    <projectService serviceImplementation="ru.openide.openphp.analyzer.project.PhpAnalyzerProjectScopeService" />
+    <projectService serviceImplementation="ru.openide.openphp.analyzer.project.PhpAnalyzerProjectResults" />
+    <!-- spec 019: Laravel Project Model — single semantic entity-graph (Eloquent models,
+             routes, views, config/translation keys, events, commands) aggregated over the existing
+             Laravel indexes; read by the Explorer (018), completion, navigation and diagnostics. -->
+    <projectService serviceImplementation="ru.openide.openphp.laravel.model.LaravelProjectModel" />
+    <!-- Tool window with per-file diagnostics tree, on-demand stripe (opened from
+             the Analyze action / status bar widget). -->
+    <toolWindow id="PHP Analyzers" anchor="bottom" secondary="true" icon="AllIcons.Toolwindows.ToolWindowInspection" factoryClass="ru.openide.openphp.analyzer.project.PhpAnalyzerProjectResultsToolWindowFactory" />
+    <!-- #614 — Monolog log viewer (Laravel/Symfony/Monolog projects only) -->
+    <toolWindow id="PHP Logs" anchor="bottom" secondary="true" icon="AllIcons.Debugger.Console" factoryClass="ru.openide.openphp.observability.PhpLogsToolWindowFactory" />
+    <!-- #848 — Symfony Explorer: project tree (mirror of the Laravel Explorer; view over the
+             Symfony Project Model). Absorbs the old "Symfony Endpoints" window as the Routes/Endpoints
+             section (attribute + YAML routes, #847). Only in Symfony projects. -->
+    <toolWindow id="Symfony" anchor="left" secondary="true" icon="/icons/symfonyToolWindow.svg" factoryClass="ru.openide.openphp.symfony.explorer.SymfonyExplorerToolWindowFactory" />
+    <!-- spec 018 — Laravel Explorer: Amplicode-style left project tree (view over the
+             Laravel Project Model 019); only in Laravel projects. -->
+    <toolWindow id="Laravel" anchor="left" secondary="true" icon="/icons/laravelToolWindow.svg" factoryClass="ru.openide.openphp.laravel.explorer.LaravelExplorerToolWindowFactory" />
+    <!-- Startup check for PHP interpreter -->
+    <postStartupActivity implementation="ru.openide.openphp.settings.PhpInterpreterNotifier" />
+    <postStartupActivity implementation="ru.openide.openphp.settings.PhpLanguageLevelNotifier" />
+    <!-- #485 — Xdebug listener onboarding for Docker/DockerCompose projects -->
+    <postStartupActivity implementation="ru.openide.openphp.debugger.PhpXdebugListenerNotifier" />
+    <!-- PT-5 — onboarding balloon per detected project type -->
+    <postStartupActivity implementation="ru.openide.openphp.run.webserver.PhpProjectTypeNotifier" />
+    <!-- #623 — in PHP projects, unmark stray Java Sources Root dirs so New offers «Directory» (not «Package») -->
+    <postStartupActivity implementation="ru.openide.openphp.module.PhpSourceRootAdjuster" />
+    <!-- B-Z1+ — Bitrix runtime path excluder (cache, managed_cache, upload) -->
+    <postStartupActivity implementation="ru.openide.openphp.bitrix.BitrixCacheExcludeMarker" />
+    <!-- #657 — FUS: log lifecycle/project.opened once per PHP project open -->
+    <postStartupActivity implementation="ru.openide.openphp.fus.PhpFusStartupActivity" />
+    <!-- B-Z2 — Bitrix project: prompt to install community stubs via composer -->
+    <postStartupActivity implementation="ru.openide.openphp.bitrix.BitrixStubsNotifier" />
+    <!-- B-D21 — warn when multiple Bitrix-stubs packages coexist in composer.json -->
+    <postStartupActivity implementation="ru.openide.openphp.bitrix.BitrixStubsConflictNotifier" />
+    <!-- C-B5 — auto-run composer dump-autoload on composer.json autoload-section save (configurable) -->
+    <postStartupActivity implementation="ru.openide.openphp.composer.ComposerDumpAutoloadOnSaveListener" />
+    <!-- #1046 — import the former analyzer settings into the tool settings; before the auto-detect offer -->
+    <postStartupActivity implementation="ru.openide.openphp.analyzer.settings.PhpAnalyzerToolsImport" />
+    <!-- Startup: auto-detect PHPStan/Psalm/Mago configs and offer to set up the tools without a setting -->
+    <postStartupActivity implementation="ru.openide.openphp.analyzer.settings.PhpAnalyzerAutoDetectActivity" />
+    <!-- Watch analyzer config files (phpstan.neon / psalm.xml / mago.toml) for changes
+             and restart DaemonCodeAnalyzer so ExternalAnnotator re-runs with the new config. -->
+    <vfs.asyncListener implementation="ru.openide.openphp.analyzer.settings.PhpAnalyzerConfigListener" />
+    <!-- LRU hygiene: on .php file delete/move, drop matching analyzer-cache entries so
+             LRU doesn't carry around stale keys until natural eviction (Phase 7.4 R4). -->
+    <vfs.asyncListener implementation="ru.openide.openphp.analyzer.cache.CacheFileListener" />
+    <!-- Удаляет PhpStorm-овские excludeFolder для sub-каталогов vendor/ при открытии проекта -->
+    <postStartupActivity implementation="ru.openide.openphp.composer.PhpVendorExcludeRemover" />
+    <!-- Помечает сам vendor/ как root-level excludeFolder, чтобы
+             PhpComposerLibraryProvider показал его под External Libraries
+             (а не как обычную папку в дереве проекта). -->
+    <postStartupActivity implementation="ru.openide.openphp.composer.PhpVendorRootExcludeMarker" />
+    <!-- Startup: vendor missing notification -->
+    <postStartupActivity implementation="ru.openide.openphp.composer.ComposerVendorNotifier" />
+    <!-- Light services (registered via @Service annotation):
+             PhpDevServerManager, PhpWebRootDetector, ComposerConfigService, ComposerLockService -->
+    <!-- Composer vendor/ as External Library (UI: shows in External Libraries node) -->
+    <additionalLibraryRootsProvider implementation="ru.openide.openphp.composer.PhpComposerLibraryProvider" />
+    <!-- #786 — user-configured Include Path dirs as "PHP Include Path" library (UI + indexing) -->
+    <additionalLibraryRootsProvider implementation="ru.openide.openphp.settings.PhpIncludePathLibraryProvider" />
+    <!-- Vendor/ indexing (ensures vendor/ is indexed even if excluded in .iml) -->
+    <indexedRootsProvider implementation="ru.openide.openphp.composer.PhpVendorIndexableProvider" />
+    <!-- Suppress inspections in vendor/ directory -->
+    <!-- #758 — @noinspection: локальное подавление (statement/функция/класс/файл) + PhpStorm-имена -->
+    <lang.inspectionSuppressor language="PHP" implementationClass="ru.openide.openphp.inspections.suppress.PhpInspectionSuppressor" />
+    <lang.inspectionSuppressor language="PHP" implementationClass="ru.openide.openphp.composer.PhpVendorInspectionSuppressor" />
+    <!-- Stub Element Type Holder (ensures IStubElementType instances are registered) -->
+    <stubElementTypeHolder class="ru.openide.openphp.lang.parser.PhpElementTypes" />
+    <!-- Stub Indexes -->
+    <stubIndex implementation="ru.openide.openphp.lang.psi.stubs.PhpClassIndex" />
+    <stubIndex implementation="ru.openide.openphp.lang.psi.stubs.PhpFunctionIndex" />
+    <stubIndex implementation="ru.openide.openphp.lang.psi.stubs.PhpMethodIndex" />
+    <stubIndex implementation="ru.openide.openphp.lang.psi.stubs.PhpConstIndex" />
+    <!-- define() constants index -->
+    <fileBasedIndex implementation="ru.openide.openphp.lang.psi.stubs.PhpDefineIndex" />
+    <!-- L1.3 — Laravel named-route index (->name('xxx') in routes/*.php) -->
+    <fileBasedIndex implementation="ru.openide.openphp.laravel.PhpLaravelRouteNameIndex" />
+    <!-- L4.1 — Laravel config-key index (config/*.php top-level array keys) -->
+    <fileBasedIndex implementation="ru.openide.openphp.laravel.PhpLaravelConfigKeyIndex" />
+    <!-- #36 / L4.x — Laravel event listener index — maps an event class
+             short-name to files that contain a `handle(Event $e)` method. -->
+    <fileBasedIndex implementation="ru.openide.openphp.laravel.PhpLaravelEventListenerIndex" />
+    <!-- #37 / L4.x — Laravel Macroable index — `Class::macro('name', ...)`
+             registrations across the project (excluding /vendor/). -->
+    <fileBasedIndex implementation="ru.openide.openphp.laravel.PhpLaravelMacroIndex" />
+    <!-- #157 / L3.1 — Laravel migration schema index — table names
+             declared via Schema::create / Schema::table inside
+             database/migrations/. Columns are walked at lookup time. -->
+    <fileBasedIndex implementation="ru.openide.openphp.laravel.PhpLaravelMigrationSchemaIndex" />
+    <!-- #610 (spec 002) — Yii2 migration schema index ($this->createTable('{{%t}}', [...])
+             inside migrations/). Columns + column types walked at lookup time. -->
+    <fileBasedIndex implementation="ru.openide.openphp.yii.YiiMigrationSchemaIndex" />
+    <!-- L4.3 — Laravel translation-key index (lang/<locale>/*.php) -->
+    <fileBasedIndex implementation="ru.openide.openphp.laravel.PhpLaravelTranslationKeyIndex" />
+    <!-- spec 014 AC-6 — reverse index of Blade view usages (view()/@include/@extends) -->
+    <fileBasedIndex implementation="ru.openide.openphp.laravel.PhpLaravelViewUsageIndex" />
+    <!-- #1028 — Find Usages / rename of a `*.blade.php` view reach the strings that name it by
+             its logical name (`users.show`), found through the usage index above. -->
+    <referencesSearch implementation="ru.openide.openphp.laravel.PhpLaravelViewFileSearcher" />
+    <!-- S1.1 — Symfony #[Route] name index -->
+    <fileBasedIndex implementation="ru.openide.openphp.symfony.route.PhpSymfonyRouteIndex" />
+    <!-- S1.4 — Symfony #[AsCommand] name index -->
+    <fileBasedIndex implementation="ru.openide.openphp.symfony.command.PhpSymfonyCommandIndex" />
+    <!-- S1.5 — Symfony FQN reference in YAML config files -->
+    <psi.referenceContributor language="yaml" implementation="ru.openide.openphp.symfony.yaml.PhpSymfonyYamlServiceReferenceContributor" />
+    <!-- #395 — Symfony `resource:` path navigation in YAML config files -->
+    <psi.referenceContributor language="yaml" implementation="ru.openide.openphp.symfony.yaml.PhpSymfonyYamlResourceReferenceContributor" />
+    <!-- #847 — Symfony YAML route `controller:` → controller method reverse navigation -->
+    <psi.referenceContributor language="yaml" implementation="ru.openide.openphp.symfony.yaml.PhpSymfonyYamlControllerReferenceContributor" />
+    <!-- #359 — Symfony service-definition schema completion in YAML -->
+    <completion.contributor language="yaml" implementationClass="ru.openide.openphp.symfony.yaml.PhpSymfonyContainerSchemaCompletionContributor" />
+    <!-- #371 — Symfony well-known tag-name completion under tags: -->
+    <completion.contributor language="yaml" implementationClass="ru.openide.openphp.symfony.yaml.PhpSymfonyServiceTagNameCompletionContributor" />
+    <!-- #360 — Symfony arguments: type-aware completion -->
+    <completion.contributor language="yaml" implementationClass="ru.openide.openphp.symfony.yaml.PhpSymfonyArgumentsCompletionContributor" />
+    <!-- #361 — Symfony / Doctrine well-known alias completion in #[..] -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.symfony.PhpSymfonyAliasCompletionContributor" />
+    <!-- #358 — class-FQN to service-id reverse index + gutter-marker -->
+    <fileBasedIndex implementation="ru.openide.openphp.symfony.services.PhpSymfonyClassToServicesIndex" />
+    <codeInsight.lineMarkerProvider language="PHP" implementationClass="ru.openide.openphp.symfony.services.PhpSymfonyClassServiceLineMarkerProvider" />
+    <!-- #843 — controller action → YAML route reverse index + gutter-marker -->
+    <fileBasedIndex implementation="ru.openide.openphp.symfony.route.PhpSymfonyControllerRouteIndex" />
+    <codeInsight.lineMarkerProvider language="PHP" implementationClass="ru.openide.openphp.symfony.route.PhpSymfonyControllerRouteLineMarkerProvider" />
+    <!-- #475 — CodeVision "N usages" над декларациями PHP -->
+    <codeInsight.daemonBoundCodeVisionProvider implementation="ru.openide.openphp.codeInsight.codeVision.PhpReferencesCodeVisionProvider" />
+    <!-- #362 — YAML→class gutter (companion of #358) -->
+    <codeInsight.lineMarkerProvider language="yaml" implementationClass="ru.openide.openphp.symfony.services.PhpSymfonyYamlServiceMarkerProvider" />
+    <!-- S-C7 (#248) — gutter on routing-config `resource:` / imports: lines -->
+    <codeInsight.lineMarkerProvider language="yaml" implementationClass="ru.openide.openphp.symfony.yaml.PhpSymfonyRouteResourceLineMarkerProvider" />
+    <!-- #493 (S-B5) — gutter on Twig child {% block %} → parent block -->
+    <codeInsight.lineMarkerProvider language="Twig" implementationClass="ru.openide.openphp.symfony.twig.TwigBlockOverrideLineMarkerProvider" />
+    <!-- #494 (S-C2) — gutter on #[AsTwigComponent] class → template -->
+    <codeInsight.lineMarkerProvider language="PHP" implementationClass="ru.openide.openphp.symfony.ux.TwigComponentClassLineMarkerProvider" />
+    <!-- #372 — PHP-config (services.php) → class gutter -->
+    <codeInsight.lineMarkerProvider language="PHP" implementationClass="ru.openide.openphp.symfony.services.PhpSymfonyPhpConfigServiceMarkerProvider" />
+    <!-- #373 — XML-config (services.xml) → class gutter -->
+    <codeInsight.lineMarkerProvider language="XML" implementationClass="ru.openide.openphp.symfony.services.PhpSymfonyXmlServiceMarkerProvider" />
+    <!-- S4.3 — Symfony translation YAML key index -->
+    <fileBasedIndex implementation="ru.openide.openphp.symfony.translation.PhpSymfonyTranslationIndex" />
+    <!-- #985 — Symfony workflow names declared under framework.workflows -->
+    <fileBasedIndex implementation="ru.openide.openphp.symfony.workflow.PhpSymfonyWorkflowIndex" />
+    <!-- S-B8 (#248) — completion of well-known Symfony event names -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.symfony.events.PhpSymfonyEventNameCompletionContributor" />
+    <!-- #998 — typed Marking place names before the generic reference fallback -->
+    <completion.contributor language="PHP" order="first" implementationClass="ru.openide.openphp.symfony.workflow.PhpSymfonyMarkingCompletionContributor" />
+    <!-- #1024 — completion of handler names in getSubscribedEvents() values -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.symfony.events.PhpSymfonyHandlerCompletionContributor" />
+    <!-- S-B1 (#248) — completion of form option keys in $builder->add(name, Type, [opts]) -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.symfony.form.PhpSymfonyFormOptionCompletionContributor" />
+    <!-- S-C3 (#248) — completion of well-known Security attributes (ROLE_*, IS_AUTHENTICATED_*, PUBLIC_ACCESS) -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.symfony.security.PhpSymfonySecurityAttributeCompletionContributor" />
+    <!-- S-C4 partial (#248) — completion of AssetMapper logical asset paths in PHP getPublicPath/getPath -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.symfony.assetmapper.PhpSymfonyAssetPathCompletionContributor" />
+    <!-- #491 (S-A5) — Twig var-typing completion based on {# @var #} hints -->
+    <completion.contributor language="Twig" implementationClass="ru.openide.openphp.symfony.twig.TwigVarTypeCompletionContributor" />
+    <!-- Twig: keyword + builtin completion inside {% %} / {{ }} -->
+    <completion.contributor language="Twig" implementationClass="ru.openide.openphp.symfony.twig.TwigKeywordCompletionContributor" />
+    <!-- #495 (S-C4 part 2) — Twig-side AssetMapper logical-path completion -->
+    <completion.contributor language="Twig" implementationClass="ru.openide.openphp.symfony.twig.TwigAssetPathCompletionContributor" />
+    <!-- #492 (S-B2) — Doctrine QueryBuilder field completion in ->where('alias.field') -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.doctrine.PhpDoctrineQueryBuilderCompletionContributor" />
+    <!-- Text-shape fallback: $qb->&lt;caret&gt; offers QB methods when receiver has untyped Doctrine\ORM\QueryBuilder -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.doctrine.PhpDoctrineQueryBuilderMethodCompletionContributor" />
+    <!-- S-A2 — Symfony container parameter name index -->
+    <fileBasedIndex implementation="ru.openide.openphp.symfony.parameters.PhpSymfonyParameterIndex" />
+    <!-- PT-4 — bottom-right status bar widget showing detected project type -->
+    <statusBarWidgetFactory id="OpenPhp.ProjectType" implementation="ru.openide.openphp.run.webserver.PhpProjectTypeStatusBarWidgetFactory" />
+    <!-- S-A1 — Symfony service ID index (services.yaml services: keys) -->
+    <fileBasedIndex implementation="ru.openide.openphp.symfony.services.PhpSymfonyServiceIdIndex" />
+    <!-- S-A7 — FormType class completion in $builder->add(...) -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.symfony.form.PhpSymfonyFormTypeCompletion" />
+    <!-- #345 — array-shape key completion (`$x['<caret>']` → fields of `array{a: …}`) -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.completion.PhpArrayShapeKeyCompletion" />
+    <stubIndex implementation="ru.openide.openphp.lang.psi.stubs.PhpFqnIndex" />
+    <stubIndex implementation="ru.openide.openphp.lang.psi.stubs.PhpNamespacePrefixIndex" />
+    <stubIndex implementation="ru.openide.openphp.lang.psi.stubs.PhpSuperClassIndex" />
+    <stubIndex implementation="ru.openide.openphp.lang.psi.stubs.PhpPropertyIndex" />
+    <stubIndex implementation="ru.openide.openphp.lang.psi.stubs.PhpClassConstantIndex" />
+    <!-- Structure View -->
+    <lang.psiStructureViewFactory language="PHP" implementationClass="ru.openide.openphp.navigation.PhpStructureViewFactory" />
+    <!-- Go to Class (Ctrl+N) -->
+    <gotoClassContributor implementation="ru.openide.openphp.navigation.PhpGotoClassContributor" />
+    <!-- Go to Symbol (Ctrl+Alt+Shift+N) -->
+    <gotoSymbolContributor implementation="ru.openide.openphp.navigation.PhpGotoSymbolContributor" />
+    <!-- Find Usages -->
+    <lang.findUsagesProvider language="PHP" implementationClass="ru.openide.openphp.navigation.PhpFindUsagesProvider" />
+    <!-- #546 — categorize Find Usages results (Catch/Throw/instanceof/New/…) -->
+    <usageTypeProvider implementation="ru.openide.openphp.navigation.PhpUsageTypeProvider" />
+    <!-- #233 — Find Usages on a method / property / class-constant that
+             participates in a class hierarchy first asks the user: "search
+             whole hierarchy, only this element, or cancel". -->
+    <findUsagesHandlerFactory implementation="ru.openide.openphp.navigation.PhpFindUsagesHandlerFactory" order="first" />
+    <targetElementEvaluator language="PHP" implementationClass="ru.openide.openphp.navigation.PhpTargetElementEvaluator" />
+    <readWriteAccessDetector implementation="ru.openide.openphp.navigation.PhpReadWriteAccessDetector" />
+    <!-- Go to Implementation (Ctrl+Alt+B) -->
+    <definitionsScopedSearch implementation="ru.openide.openphp.navigation.PhpImplementationSearcher" />
+    <implementationViewDocumentFactory implementation="ru.openide.openphp.highlight.PhpImplementationViewDocumentFactory" />
+    <!-- #245 — Go to Super (Ctrl+U / ⌘U) on classes and members. -->
+    <codeInsight.gotoSuper language="PHP" implementationClass="ru.openide.openphp.navigation.PhpGotoSuperHandler" />
+    <!-- Go to Type Declaration (Ctrl+Shift+B) -->
+    <typeDeclarationProvider implementation="ru.openide.openphp.navigation.PhpTypeDeclarationProvider" />
+    <!-- Class hierarchy gutter icons (up/down arrows) -->
+    <codeInsight.lineMarkerProvider language="PHP" implementationClass="ru.openide.openphp.navigation.PhpImplementationLineMarkerProvider" />
+    <!-- #36 / L4.x — Laravel event-class gutter marker linking to listener
+             classes whose `handle(Event $e)` method takes the event type. -->
+    <codeInsight.lineMarkerProvider language="PHP" implementationClass="ru.openide.openphp.laravel.PhpLaravelEventLineMarkerProvider" />
+    <!-- spec 011 AC-4 — gutter on a controller method linking to the routes that target it. -->
+    <codeInsight.lineMarkerProvider language="PHP" implementationClass="ru.openide.openphp.laravel.routing.PhpLaravelRouteLineMarkerProvider" />
+    <!-- spec 017 AC-1 — run-gutter on an Artisan Command class (runs `php artisan <cmd>`). -->
+    <codeInsight.lineMarkerProvider language="PHP" implementationClass="ru.openide.openphp.laravel.artisan.PhpLaravelCommandRunLineMarkerProvider" />
+    <!-- spec 014 AC-6 — gutter on a view file listing its usages. Registered for Blade AND PHP:
+             Laravel resolves plain `.php` views under resources/views too; the provider early-exits for
+             any file outside resources/views. -->
+    <codeInsight.lineMarkerProvider language="Blade" implementationClass="ru.openide.openphp.laravel.PhpLaravelViewUsageLineMarkerProvider" />
+    <codeInsight.lineMarkerProvider language="PHP" implementationClass="ru.openide.openphp.laravel.PhpLaravelViewUsageLineMarkerProvider" />
+    <!-- #251 / #252 — Gutter icons on every framework-aware string reference
+             (Laravel config/route/view/trans/env + Symfony service/parameter/route/translation). -->
+    <codeInsight.lineMarkerProvider language="PHP" implementationClass="ru.openide.openphp.codeInsight.PhpFrameworkRefLineMarkerProvider" />
+    <!-- B-D19 — Bitrix-only: gutter ↑ on event-handler method linking to AddEventHandler registration -->
+    <codeInsight.lineMarkerProvider language="PHP" implementationClass="ru.openide.openphp.bitrix.BitrixEventHandlerLineMarkerProvider" />
+    <!-- Built-in PHP stubs (indexable roots for resolution) -->
+    <indexedRootsProvider implementation="ru.openide.openphp.lang.psi.stubs.PhpBuiltinStubsProvider" />
+    <additionalLibraryRootsProvider implementation="ru.openide.openphp.lang.psi.stubs.PhpBuiltinStubsLibraryProvider" />
+    <!-- Code Completion -->
+    <!-- #1031 — decode the whole view-name prefix before generic reference completion. -->
+    <completion.contributor language="PHP" order="first" implementationClass="ru.openide.openphp.laravel.PhpLaravelViewCompletionContributor" />
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.completion.PhpCompletionContributor" />
+    <!-- #161 / L5.7 — Laravel validation rule completion inside
+             validate(['email' => 'required|email|<caret>']) array values -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.laravel.PhpLaravelValidationRuleCompletionContributor" />
+    <!-- spec 012 — exists:/unique: table + column completion from migration schema -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.laravel.PhpLaravelExistsRuleCompletionContributor" />
+    <!-- spec 010-B — Eloquent relation-name completion in with()/whereHas()/load()/... -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.laravel.PhpLaravelRelationCompletionContributor" />
+    <!-- spec 012-B — FormRequest field completion in $request->input()/validated()/... -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.laravel.PhpLaravelRequestFieldCompletionContributor" />
+    <!-- spec 017-B — public asset path completion in asset()/mix() -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.laravel.PhpLaravelAssetCompletionContributor" />
+    <!-- spec 010-B — Eloquent column completion in where()/$fillable/$casts from migration schema -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.laravel.PhpLaravelColumnCompletionContributor" />
+    <!-- spec 011 AC-3 — middleware alias completion in ->middleware('…') -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.laravel.routing.PhpLaravelMiddlewareCompletionContributor" />
+    <!-- spec 017 — gate/policy ability completion in Gate::allows/$user->can/$this->authorize -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.laravel.PhpLaravelGateCompletionContributor" />
+    <!-- spec 014 AC-5 — Blade @section/@yield/@push/@stack name completion from the layout chain -->
+    <completion.contributor language="Blade" implementationClass="ru.openide.openphp.laravel.PhpLaravelBladeSectionCompletionContributor" />
+    <!-- Auto-popup completion after -> and :: -->
+    <typedHandler implementation="ru.openide.openphp.completion.PhpAutoPopupHandler" />
+    <typedHandler implementation="ru.openide.openphp.codeInsight.PhpDocAutoCloseHandler" />
+    <!-- #190 — `..` → `->` + member completion for Java-devs -->
+    <typedHandler implementation="ru.openide.openphp.codeInsight.PhpDoubleDotArrowHandler" />
+    <!-- #222 — auto-close of `'` / `"` (needed for positions like `$arr[|]`) -->
+    <lang.quoteHandler language="PHP" implementationClass="ru.openide.openphp.codeInsight.PhpQuoteHandler" />
+    <!-- #236 — delete the matching quote when backspacing through an
+             auto-inserted opening quote. -->
+    <backspaceHandlerDelegate implementation="ru.openide.openphp.codeInsight.PhpQuotePairBackspaceHandler" />
+    <!-- #223 — smart closing brace: typing `}` reformats enclosing block -->
+    <typedHandler implementation="ru.openide.openphp.codeInsight.PhpSmartBraceHandler" />
+    <!-- Parameter Info (Ctrl+P) -->
+    <codeInsight.parameterInfo language="PHP" implementationClass="ru.openide.openphp.codeInsight.PhpParameterInfoHandler" />
+    <!-- Parameter Name Inlay Hints -->
+    <codeInsight.parameterNameHints language="PHP" implementationClass="ru.openide.openphp.codeInsight.PhpInlayParameterHintsProvider" />
+    <!-- Type Inlay Hints -->
+    <codeInsight.declarativeInlayProvider language="PHP" implementationClass="ru.openide.openphp.codeInsight.PhpInlayTypeHintsProvider" isEnabledByDefault="true" group="TYPES_GROUP" providerId="php.type.hints" nameKey="php.type.hints.name" bundle="messages.PhpBundle" />
+    <!-- #881: Ctrl+click navigation on class short-names inside inlay type hints -->
+    <codeInsight.inlayActionHandler implementationClass="ru.openide.openphp.codeInsight.PhpInlayGotoClassHandler" handlerId="openphp.inlay.gotoClass" />
+    <!-- #715: intermediate types of multiline fluent chains (Kotlin-style) -->
+    <codeInsight.declarativeInlayProvider language="PHP" implementationClass="ru.openide.openphp.codeInsight.PhpCallChainHintsProvider" isEnabledByDefault="true" group="METHOD_CHAINS_GROUP" providerId="php.method.chains" nameKey="php.chain.hints.name" bundle="messages.PhpBundle" />
+    <!-- Expression Type Provider (Ctrl+Alt+P / get_expression_type MCP tool) -->
+    <codeInsight.typeInfo language="PHP" implementationClass="ru.openide.openphp.codeInsight.PhpExpressionTypeProvider" />
+    <!-- Import on Paste -->
+    <copyPastePostProcessor implementation="ru.openide.openphp.codeInsight.PhpImportOnPasteProcessor" />
+    <!-- Quick Documentation (Ctrl+Q / F1) -->
+    <lang.documentationProvider language="PHP" implementationClass="ru.openide.openphp.codeInsight.PhpDocumentationProvider" />
+    <!-- spec 015 AC-4 — hover/quick-doc on a translation key shows per-locale values -->
+    <lang.documentationProvider language="PHP" implementationClass="ru.openide.openphp.laravel.PhpLaravelTranslationDocumentationProvider" />
+    <!-- #953 Phase 4 — Ctrl+B from a custom tag/modifier to its PHP handler. -->
+    <gotoDeclarationHandler implementation="ru.openide.openphp.smarty.php.SmartyPluginGotoDeclarationHandler" />
+    <!-- #953 Phase 4 — Ctrl+Q on a template variable shows its type inferred from assign(). -->
+    <lang.documentationProvider language="Smarty" implementationClass="ru.openide.openphp.smarty.php.SmartyDocumentationProvider" />
+    <!-- Copy Reference (#316) -->
+    <qualifiedNameProvider implementation="ru.openide.openphp.codeInsight.PhpQualifiedNameProvider" />
+    <!-- Code Formatting -->
+    <lang.formatter language="PHP" implementationClass="ru.openide.openphp.formatter.PhpFormattingModelBuilder" />
+    <!-- #609 (Phase 4) — Reformat via PHP-CS-Fixer (active only when Code Quality = CS-Fixer) -->
+    <formattingService implementation="ru.openide.openphp.analyzer.PhpCsFixerFormattingService" />
+    <formattingService implementation="ru.openide.openphp.analyzer.PhpMagoFormattingService" />
+    <!-- #552 — token-aware line-wrap so WRAP_LONG_LINES never breaks inside a
+             string literal / heredoc / comment. -->
+    <lang.lineWrapStrategy language="PHP" implementationClass="ru.openide.openphp.formatter.PhpLineWrapPositionStrategy" />
+    <codeStyleSettingsProvider implementation="ru.openide.openphp.formatter.PhpCodeStyleSettingsProvider" />
+    <!-- #388 — Code → Rearrange Code on PHP class members. -->
+    <lang.rearranger language="PHP" implementationClass="ru.openide.openphp.formatter.arrangement.PhpRearranger" />
+    <langCodeStyleSettingsProvider implementation="ru.openide.openphp.formatter.PhpLanguageCodeStyleSettingsProvider" />
+    <!-- #384 — Special else-if treatment: rewrite `else { if(){} }` → `elseif`. -->
+    <postFormatProcessor implementation="ru.openide.openphp.formatter.PhpElseIfPostFormatProcessor" />
+    <!-- #383 — Force braces: wrap braceless if/while/for/do-while bodies. -->
+    <postFormatProcessor implementation="ru.openide.openphp.formatter.PhpForceBracesPostFormatProcessor" />
+    <!-- #386 — Align consecutive field/variable/assignment declarations. -->
+    <postFormatProcessor implementation="ru.openide.openphp.formatter.PhpAlignDeclarationsPostFormatProcessor" />
+    <!-- Live Templates -->
+    <liveTemplateContext contextId="PHP" implementation="ru.openide.openphp.liveTemplates.PhpTemplateContextType" />
+    <liveTemplateContext contextId="PHP_DECLARATION" baseContextId="PHP" implementation="ru.openide.openphp.liveTemplates.PhpDeclarationTemplateContextType" />
+    <defaultLiveTemplates file="/liveTemplates/PHP.xml" />
+    <!-- Rename Refactoring -->
+    <lang.importOptimizer language="PHP" implementationClass="ru.openide.openphp.inspections.PhpImportOptimizer" />
+    <lang.refactoringSupport language="PHP" implementationClass="ru.openide.openphp.refactoring.PhpRefactoringSupportProvider" />
+    <lang.namesValidator language="PHP" implementationClass="ru.openide.openphp.refactoring.PhpNamesValidator" />
+    <!-- External analyzers (Phase 4) — PHPStan / Psalm / Mago as ExternalAnnotator
+             + paired batch inspection. The annotator does the work (on-the-fly + batch
+             pass via ExternalAnnotatorBatchInspection.checkFile); the inspection is
+             just a UI knob in Settings → Inspections (enable/disable, severity).
+             shortName in each <localInspection> MUST match
+             `getPairedBatchInspectionShortName()` of the paired annotator — otherwise
+             the platform won't couple them.
+             NB: paired inspections do NOT visit PSI themselves, so `language`/`groupPath`
+             aren't strictly required, but we set them for consistency with other PHP
+             inspections. -->
+    <externalAnnotator language="PHP" implementationClass="ru.openide.openphp.analyzer.backend.PhpStanAnnotator" />
+    <externalAnnotator language="PHP" implementationClass="ru.openide.openphp.analyzer.backend.PsalmAnnotator" />
+    <externalAnnotator language="PHP" implementationClass="ru.openide.openphp.analyzer.backend.MagoAnnotator" />
+    <!-- #609 — PHP_CodeSniffer -->
+    <externalAnnotator language="PHP" implementationClass="ru.openide.openphp.analyzer.backend.PhpcsAnnotator" />
+    <!-- #609 (Phase 2) — PHP-CS-Fixer -->
+    <externalAnnotator language="PHP" implementationClass="ru.openide.openphp.analyzer.backend.CsFixerAnnotator" />
+    <localInspection language="PHP" shortName="PhpStanExternalAnalyzer" key="inspection.PhpStanExternalAnalyzer.display.name" groupKey="inspection.group.external.analyzers" enabledByDefault="true" level="WARNING" unfair="true" implementationClass="ru.openide.openphp.analyzer.inspection.PhpStanBatchInspection" />
+    <localInspection language="PHP" shortName="PsalmExternalAnalyzer" key="inspection.PsalmExternalAnalyzer.display.name" groupKey="inspection.group.external.analyzers" enabledByDefault="true" level="WARNING" unfair="true" implementationClass="ru.openide.openphp.analyzer.inspection.PsalmBatchInspection" />
+    <localInspection language="PHP" shortName="MagoExternalAnalyzer" key="inspection.MagoExternalAnalyzer.display.name" groupKey="inspection.group.external.analyzers" enabledByDefault="true" level="WARNING" unfair="true" implementationClass="ru.openide.openphp.analyzer.inspection.MagoBatchInspection" />
+    <localInspection language="PHP" shortName="PhpcsExternalAnalyzer" key="inspection.PhpcsExternalAnalyzer.display.name" groupKey="inspection.group.external.analyzers" enabledByDefault="true" level="WARNING" unfair="true" implementationClass="ru.openide.openphp.analyzer.inspection.PhpcsBatchInspection" />
+    <localInspection language="PHP" shortName="CsFixerExternalAnalyzer" key="inspection.CsFixerExternalAnalyzer.display.name" groupKey="inspection.group.external.analyzers" enabledByDefault="true" level="WARNING" unfair="true" implementationClass="ru.openide.openphp.analyzer.inspection.CsFixerBatchInspection" />
+    <!-- Inspections -->
+    <localInspection language="PHP" shortName="PhpUnresolvedReference" key="inspection.PhpUnresolvedReference.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnresolvedReferenceInspection" />
+    <!-- #443 — flag `var_export($v)` / `print_r($v)` whose default
+             behaviour is "print + return null/true", suggesting the user
+             wanted the string-returning variant. Quick-fix appends ", true". -->
+    <localInspection language="PHP" shortName="PhpDiscardedReturnValue" key="inspection.PhpDiscardedReturnValue.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpDiscardedReturnValueInspection" />
+    <!-- #608 (spec php-plugin/007) — hard-coded secrets in PHP string literals. No
+             external analyzer covers this; AnalyzerOverlap.AlwaysOn so it never goes silent. -->
+    <localInspection language="PHP" shortName="PhpHardcodedSecret" key="inspection.PhpHardcodedSecret.display.name" groupPath="PHP" groupKey="inspection.group.security" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpHardcodedSecretInspection" />
+    <!-- #428 — PhpPropertyHookSetParamType inspection removed.
+             PHP 8.4 RFC explicitly allows a set-hook parameter to be wider than the
+             property type (the body normalizes the input). PHPStan / Psalm don't enforce
+             a subtype relation here either; the real check ("body return-type assignable
+             to property type") is covered by return-type-mismatch inspections. Keeping
+             the check produced false positives on idiomatic widening / nullable / union
+             patterns (Stringable|string|null → ?UriInterface; T|U → T; etc.). -->
+    <localInspection language="PHP" shortName="PhpDuplicateClassDeclaration" key="inspection.PhpDuplicateClassDeclaration.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpDuplicateClassDeclarationInspection" />
+    <localInspection language="PHP" shortName="PhpNamespaceDeclaration" key="inspection.PhpNamespaceDeclaration.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpNamespaceDeclarationInspection" />
+    <localInspection language="PHP" shortName="PhpDuplicateNameInFile" key="inspection.PhpDuplicateNameInFile.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpDuplicateNameInFileInspection" />
+    <localInspection language="PHP" shortName="PhpDuplicateFieldDeclaration" key="inspection.PhpDuplicateFieldDeclaration.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpDuplicateFieldDeclarationInspection" />
+    <localInspection language="PHP" shortName="PhpUnusedParameter" key="inspection.PhpUnusedParameter.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnusedParameterInspection" />
+    <!-- #412 — concrete class missing interface/abstract method implementation -->
+    <localInspection language="PHP" shortName="PhpMissingInterfaceMemberImplementation" key="inspection.PhpMissingInterfaceMemberImplementation.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpMissingInterfaceMemberImplementationInspection" />
+    <localInspection language="PHP" shortName="PhpMethodOverrideSignatureMismatch" key="inspection.PhpMethodOverrideSignatureMismatch.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpMethodOverrideSignatureMismatchInspection" />
+    <localInspection language="PHP" shortName="PhpInvalidSelfParentStatic" key="inspection.PhpInvalidSelfParentStatic.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpInvalidSelfParentStaticInspection" />
+    <localInspection language="PHP" shortName="PhpGeneratorReturnType" key="inspection.PhpGeneratorReturnType.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpGeneratorReturnTypeInspection" />
+    <!-- #352 — `never`/`void` are return-only PHP types; using them as
+             a parameter type is a fatal runtime error. -->
+    <localInspection language="PHP" shortName="PhpInvalidParameterType" key="inspection.PhpInvalidParameterType.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpInvalidParameterTypeInspection" />
+    <localInspection language="PHP" shortName="PhpUnusedImport" key="inspection.PhpUnusedImport.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnusedImportInspection" />
+    <localInspection language="PHP" shortName="PhpUnusedPrivateMethod" key="inspection.PhpUnusedPrivateMethod.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnusedPrivateMethodInspection" />
+    <localInspection language="PHP" shortName="PhpUnreachableStatement" key="inspection.PhpUnreachableStatement.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnreachableStatementInspection" />
+    <localInspection language="PHP" shortName="PhpAssignmentInCondition" key="inspection.PhpAssignmentInCondition.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpAssignmentInConditionInspection" />
+    <localInspection language="PHP" shortName="PhpDuplicateArrayKey" key="inspection.PhpDuplicateArrayKey.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpDuplicateArrayKeyInspection" />
+    <localInspection language="PHP" shortName="PhpMissingReturnStatement" key="inspection.PhpMissingReturnStatement.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpMissingReturnStatementInspection" />
+    <localInspection language="PHP" shortName="PhpArgumentCountMismatch" key="inspection.PhpArgumentCountMismatch.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpArgumentCountMismatchInspection" />
+    <localInspection language="PHP" shortName="PhpMethodCallOnNonObject" key="inspection.PhpMethodCallOnNonObject.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpMethodCallOnNonObjectInspection" />
+    <!-- #1039 — «Шаблон не найден»: одна проверка на язык, где пишутся имена шаблонов. On by default (decision in #1039). -->
+    <localInspection language="PHP" shortName="PhpMissingTemplate" key="inspection.missing.template.php.display.name" groupPath="PHP" groupKey="inspection.group.templates" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpMissingTemplateInspection" />
+    <localInspection language="Blade" shortName="BladeMissingTemplate" key="inspection.missing.template.blade.display.name" groupPath="PHP" groupKey="inspection.group.templates" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.blade.BladeMissingTemplateInspection" />
+    <localInspection language="Twig" shortName="TwigMissingTemplate" key="inspection.missing.template.twig.display.name" groupPath="PHP" groupKey="inspection.group.templates" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.symfony.twig.TwigMissingTemplateInspection" />
+    <localInspection language="Smarty" shortName="SmartyMissingTemplate" key="inspection.missing.template.smarty.display.name" groupPath="PHP" groupKey="inspection.group.templates" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.smarty.SmartyMissingTemplateInspection" />
+    <!-- spec 015 — missing Laravel translation key. Off by default until its rollout stage (#810). -->
+    <localInspection language="PHP" shortName="PhpLaravelMissingTranslation" key="inspection.laravel.missing.translation.display.name" groupPath="PHP" groupKey="inspection.group.laravel" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpLaravelMissingTranslationInspection" />
+    <!-- spec 015 AC-5 — translation key present in some but not all locales. Off by default permanently. -->
+    <localInspection language="PHP" shortName="PhpLaravelIncompleteTranslation" key="inspection.laravel.incomplete.translation.display.name" groupPath="PHP" groupKey="inspection.group.laravel" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpLaravelIncompleteTranslationInspection" />
+    <!-- #537 — opt-in (off by default): possibly-null receiver dereference. -->
+    <localInspection language="PHP" shortName="PhpNullableMethodCall" key="inspection.PhpNullableMethodCall.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpNullableMethodCallInspection" />
+    <localInspection language="PHP" shortName="PhpForeachOverNonIterable" key="inspection.PhpForeachOverNonIterable.display.name" groupPath="PHP" groupKey="inspection.group.probable.bugs" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpForeachOverNonIterableInspection" />
+    <localInspection language="PHP" shortName="PhpReturnTypeMismatch" key="inspection.PhpReturnTypeMismatch.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpReturnTypeMismatchInspection" />
+    <localInspection language="PHP" shortName="PhpDefaultValueTypeMismatch" key="inspection.PhpDefaultValueTypeMismatch.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpDefaultValueTypeMismatchInspection" />
+    <localInspection language="PHP" shortName="PhpUndefinedVariable" key="inspection.PhpUndefinedVariable.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpUndefinedVariableInspection" />
+    <localInspection language="PHP" shortName="PhpDeprecatedUsage" key="inspection.PhpDeprecatedUsage.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpDeprecatedUsageInspection" />
+    <!-- B-D3 — Bitrix-only: missing B_PROLOG_INCLUDED guard at top of web-routable file -->
+    <localInspection language="PHP" shortName="BitrixMissingPrologGuard" key="inspection.BitrixMissingPrologGuard.display.name" groupPath="PHP" groupKey="inspection.group.bitrix" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.bitrix.BitrixMissingPrologGuardInspection" />
+    <!-- B-D5 — Bitrix-only: Loader::includeModule() result discarded -->
+    <localInspection language="PHP" shortName="BitrixLoaderResultUnchecked" key="inspection.BitrixLoaderResultUnchecked.display.name" groupPath="PHP" groupKey="inspection.group.bitrix" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.bitrix.BitrixLoaderResultUncheckedInspection" />
+    <!-- B-D11 — Bitrix-only: Loc::getMessage() without Loc::loadMessages -->
+    <localInspection language="PHP" shortName="BitrixMissingLoadMessages" key="inspection.BitrixMissingLoadMessages.display.name" groupPath="PHP" groupKey="inspection.group.bitrix" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.bitrix.BitrixMissingLoadMessagesInspection" />
+    <!-- B-D23 — Bitrix-only: deprecated procedural API CIBlockElement::GetList etc. -->
+    <localInspection language="PHP" shortName="BitrixDeprecatedApi" key="inspection.BitrixDeprecatedApi.display.name" groupPath="PHP" groupKey="inspection.group.bitrix" enabledByDefault="true" level="WEAK WARNING" implementationClass="ru.openide.openphp.bitrix.BitrixDeprecatedApiInspection" />
+    <!-- B-D25 — Bitrix-only: untrusted superglobal assigned to filter/select array -->
+    <localInspection language="PHP" shortName="BitrixUntrustedFilter" key="inspection.BitrixUntrustedFilter.display.name" groupPath="PHP" groupKey="inspection.group.bitrix" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.bitrix.BitrixUntrustedFilterInspection" />
+    <!-- B-D24 — Bitrix-only: $arParams['IBLOCK_ID'] without (int) cast -->
+    <localInspection language="PHP" shortName="BitrixIblockIdValidation" key="inspection.BitrixIblockIdValidation.display.name" groupPath="PHP" groupKey="inspection.group.bitrix" enabledByDefault="true" level="WEAK WARNING" implementationClass="ru.openide.openphp.bitrix.BitrixIblockIdValidationInspection" />
+    <localInspection language="PHP" shortName="PhpUnusedLocalVariable" key="inspection.PhpUnusedLocalVariable.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnusedLocalVariableInspection" />
+    <!-- #747 — unresolvable class names in PHPDoc type positions -->
+    <localInspection language="PHP" shortName="PhpDocUnresolvedClass" key="inspection.PhpDocUnresolvedClass.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpDocUnresolvedClassInspection" />
+    <localInspection language="PHP" shortName="PhpUndefinedMethod" key="inspection.PhpUndefinedMethod.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpUndefinedMethodInspection" />
+    <localInspection language="PHP" shortName="PhpMissingStrictTypes" key="inspection.PhpMissingStrictTypes.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpMissingStrictTypesInspection" />
+    <localInspection language="PHP" shortName="PhpNamespaceMismatch" key="inspection.PhpNamespaceMismatch.display.name" groupPath="PHP" groupKey="inspection.group.composer" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpNamespaceMismatchInspection" />
+    <localInspection language="PHP" shortName="PhpUnnecessaryCurlyBracesInString" key="inspection.PhpUnnecessaryCurlyBracesInString.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="true" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnnecessaryCurlyBracesInStringInspection" />
+    <localInspection language="PHP" shortName="PhpSwitchCanBeReplacedWithMatchExpression" key="inspection.PhpSwitchCanBeReplacedWithMatchExpression.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpSwitchCanBeReplacedWithMatchExpressionInspection" />
+    <localInspection language="PHP" shortName="PhpSillyAssignment" key="inspection.PhpSillyAssignment.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpSillyAssignmentInspection" />
+    <localInspection language="PHP" shortName="PhpDuplicateCase" key="inspection.PhpDuplicateCase.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpDuplicateCaseInspection" />
+    <localInspection language="PHP" shortName="PhpMissingBreakStatement" key="inspection.PhpMissingBreakStatement.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpMissingBreakStatementInspection" />
+    <localInspection language="PHP" shortName="PhpWrongCatchClausesOrder" key="inspection.PhpWrongCatchClausesOrder.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpWrongCatchClausesOrderInspection" />
+    <localInspection language="PHP" shortName="PhpRedundantClosingTag" key="inspection.PhpRedundantClosingTag.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpRedundantClosingTagInspection" />
+    <localInspection language="PHP" shortName="PhpExpressionResultUnused" key="inspection.PhpExpressionResultUnused.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpExpressionResultUnusedInspection" />
+    <localInspection language="PHP" shortName="PhpVoidFunctionResultUsed" key="inspection.PhpVoidFunctionResultUsed.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpVoidFunctionResultUsedInspection" />
+    <localInspection language="PHP" shortName="PhpDivisionByZero" key="inspection.PhpDivisionByZero.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpDivisionByZeroInspection" />
+    <localInspection language="PHP" shortName="PhpUsageOfSilenceOperator" key="inspection.PhpUsageOfSilenceOperator.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpUsageOfSilenceOperatorInspection" />
+    <localInspection language="PHP" shortName="PhpVariableVariable" key="inspection.PhpVariableVariable.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpVariableVariableInspection" />
+    <localInspection language="PHP" shortName="PhpTraditionalSyntaxArrayLiteral" key="inspection.PhpTraditionalSyntaxArrayLiteral.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpTraditionalSyntaxArrayLiteralInspection" />
+    <localInspection language="PHP" shortName="PhpUnusedPrivateField" key="inspection.PhpUnusedPrivateField.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnusedPrivateFieldInspection" />
+    <localInspection language="PHP" shortName="PhpMissingParentConstructor" key="inspection.PhpMissingParentConstructor.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpMissingParentConstructorInspection" />
+    <localInspection language="PHP" shortName="PhpMethodOrClassCallIsNotCaseSensitive" key="inspection.PhpMethodOrClassCallIsNotCaseSensitive.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpMethodOrClassCallIsNotCaseSensitiveInspection" />
+    <localInspection language="PHP" shortName="PhpDynamicAsStaticMethodCall" key="inspection.PhpDynamicAsStaticMethodCall.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpDynamicAsStaticMethodCallInspection" />
+    <localInspection language="PHP" shortName="PhpStaticAsDynamicMethodCall" key="inspection.PhpStaticAsDynamicMethodCall.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpStaticAsDynamicMethodCallInspection" />
+    <localInspection language="PHP" shortName="PhpMultipleClassesDeclarationsInOneFile" key="inspection.PhpMultipleClassesDeclarationsInOneFile.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpMultipleClassesDeclarationsInOneFileInspection" />
+    <localInspection language="PHP" shortName="PhpConstantReassignment" key="inspection.PhpConstantReassignment.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpConstantReassignmentInspection" />
+    <localInspection language="PHP" shortName="PhpDocSignature" key="inspection.PhpDocSignature.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpDocSignatureInspection" />
+    <localInspection language="PHP" shortName="PhpNonCompoundUse" key="inspection.PhpNonCompoundUse.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpNonCompoundUseInspection" />
+    <localInspection language="PHP" shortName="PhpToStringReturn" key="inspection.PhpToStringReturn.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpToStringReturnInspection" />
+    <localInspection language="PHP" shortName="PhpIllegalPsrClassPath" key="inspection.PhpIllegalPsrClassPath.display.name" groupPath="PHP" groupKey="inspection.group.composer" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpIllegalPsrClassPathInspection" />
+    <localInspection language="PHP" shortName="PhpStatementHasEmptyBody" key="inspection.PhpStatementHasEmptyBody.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpStatementHasEmptyBodyInspection" />
+    <localInspection language="PHP" shortName="PhpDuplicateMatchCondition" key="inspection.PhpDuplicateMatchCondition.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpDuplicateMatchConditionInspection" />
+    <localInspection language="PHP" shortName="PhpDuplicateBranchBodies" key="inspection.PhpDuplicateBranchBodies.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpDuplicateBranchBodiesInspection" />
+    <localInspection language="PHP" shortName="PhpOptionalBeforeRequiredParameters" key="inspection.PhpOptionalBeforeRequiredParameters.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpOptionalBeforeRequiredParametersInspection" />
+    <localInspection language="PHP" shortName="PhpRandArgumentsInReverseOrder" key="inspection.PhpRandArgumentsInReverseOrder.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpRandArgumentsInReverseOrderInspection" />
+    <localInspection language="PHP" shortName="PhpSwitchCaseWithoutDefaultBranch" key="inspection.PhpSwitchCaseWithoutDefaultBranch.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="INFORMATION" implementationClass="ru.openide.openphp.inspections.PhpSwitchCaseWithoutDefaultBranchInspection" />
+    <localInspection language="PHP" shortName="PhpExpressionWithSameOperands" key="inspection.PhpExpressionWithSameOperands.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpExpressionWithSameOperandsInspection" />
+    <localInspection language="PHP" shortName="PhpModuloByOne" key="inspection.PhpModuloByOne.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpModuloByOneInspection" />
+    <localInspection language="PHP" shortName="PhpContinueTargetingSwitch" key="inspection.PhpContinueTargetingSwitch.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpContinueTargetingSwitchInspection" />
+    <localInspection language="PHP" shortName="PhpUndefinedGotoLabel" key="inspection.PhpUndefinedGotoLabel.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpUndefinedGotoLabelInspection" />
+    <localInspection language="PHP" shortName="PhpExceptionImmediatelyRethrown" key="inspection.PhpExceptionImmediatelyRethrown.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpExceptionImmediatelyRethrownInspection" />
+    <localInspection language="PHP" shortName="PhpArrayPushWithOneElement" key="inspection.PhpArrayPushWithOneElement.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpArrayPushWithOneElementInspection" />
+    <localInspection language="PHP" shortName="PhpUnnecessarySemicolon" key="inspection.PhpUnnecessarySemicolon.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnnecessarySemicolonInspection" />
+    <localInspection language="PHP" shortName="PhpRedundantDefaultBreakContinueArgument" key="inspection.PhpRedundantDefaultBreakContinueArgument.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpRedundantDefaultBreakContinueArgumentInspection" />
+    <localInspection language="PHP" shortName="PhpDefineConstantNameStartsWithLeadingSlash" key="inspection.PhpDefineConstantNameStartsWithLeadingSlash.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpDefineConstantNameStartsWithLeadingSlashInspection" />
+    <localInspection language="PHP" shortName="PhpAccessingStaticMembersOnTrait" key="inspection.PhpAccessingStaticMembersOnTrait.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpAccessingStaticMembersOnTraitInspection" />
+    <localInspection language="PHP" shortName="PhpArrayAppendUsingCount" key="inspection.PhpArrayAppendUsingCount.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpArrayAppendUsingCountInspection" />
+    <localInspection language="PHP" shortName="PhpUnnecessaryBoolCast" key="inspection.PhpUnnecessaryBoolCast.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnnecessaryBoolCastInspection" />
+    <localInspection language="PHP" shortName="PhpFormatCallWithSingleArgument" key="inspection.PhpFormatCallWithSingleArgument.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpFormatCallWithSingleArgumentInspection" />
+    <localInspection language="PHP" shortName="PhpIdempotentOperation" key="inspection.PhpIdempotentOperation.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpIdempotentOperationInspection" />
+    <localInspection language="PHP" shortName="PhpPointlessBooleanExpressionInCondition" key="inspection.PhpPointlessBooleanExpressionInCondition.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpPointlessBooleanExpressionInConditionInspection" />
+    <localInspection language="PHP" shortName="PhpBooleanCanBeSimplified" key="inspection.PhpBooleanCanBeSimplified.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpBooleanCanBeSimplifiedInspection" />
+    <localInspection language="PHP" shortName="PhpNestedTernaryExpressionUsage" key="inspection.PhpNestedTernaryExpressionUsage.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpNestedTernaryExpressionUsageInspection" />
+    <localInspection language="PHP" shortName="PhpConcatenationPrecedence" key="inspection.PhpConcatenationPrecedence.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpConcatenationPrecedenceInspection" />
+    <!-- #919 — syntax not available at the project's PHP language level. -->
+    <localInspection language="PHP" shortName="PhpFeatureAvailability" key="inspection.PhpFeatureAvailability.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpFeatureAvailabilityInspection" />
+    <!-- #923 — built-in function/class unavailable at the PHP language level (@since/@removed). -->
+    <localInspection language="PHP" shortName="PhpUnavailableBuiltin" key="inspection.PhpUnavailableBuiltin.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpUnavailableBuiltinInspection" />
+    <localInspection language="PHP" shortName="PhpDeprecatedDollarBraceStringInterpolation" key="inspection.PhpDeprecatedDollarBraceStringInterpolation.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpDeprecatedDollarBraceStringInterpolationInspection" />
+    <localInspection language="PHP" shortName="PhpShortOpenTag" key="inspection.PhpShortOpenTag.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpShortOpenTagInspection" />
+    <localInspection language="PHP" shortName="PhpDefineCanBeReplacedWithConst" key="inspection.PhpDefineCanBeReplacedWithConst.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpDefineCanBeReplacedWithConstInspection" />
+    <localInspection language="PHP" shortName="PhpUnnecessaryLeadingBackslashInUseStatement" key="inspection.PhpUnnecessaryLeadingBackslashInUseStatement.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnnecessaryLeadingBackslashInUseStatementInspection" />
+    <localInspection language="PHP" shortName="PhpIssetCanBeReplacedWithCoalesce" key="inspection.PhpIssetCanBeReplacedWithCoalesce.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpIssetCanBeReplacedWithCoalesceInspection" />
+    <localInspection language="PHP" shortName="PhpImplicitOctalLiteralUsage" key="inspection.PhpImplicitOctalLiteralUsage.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="INFORMATION" implementationClass="ru.openide.openphp.inspections.PhpImplicitOctalLiteralUsageInspection" />
+    <localInspection language="PHP" shortName="PhpGetClassCanBeReplacedWithClassNameLiteral" key="inspection.PhpGetClassCanBeReplacedWithClassNameLiteral.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="INFORMATION" implementationClass="ru.openide.openphp.inspections.PhpGetClassCanBeReplacedWithClassNameLiteralInspection" />
+    <localInspection language="PHP" shortName="PhpEchoOpenTag" key="inspection.PhpEchoOpenTag.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="false" level="INFORMATION" implementationClass="ru.openide.openphp.inspections.PhpEchoOpenTagInspection" />
+    <localInspection language="PHP" shortName="PhpMissingVisibility" key="inspection.PhpMissingVisibility.display.name" groupPath="PHP" groupKey="inspection.group.psr12" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpMissingVisibilityInspection" />
+    <localInspection language="PHP" shortName="PhpVarUsage" key="inspection.PhpVarUsage.display.name" groupPath="PHP" groupKey="inspection.group.psr12" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpVarUsageInspection" />
+    <localInspection language="PHP" shortName="PhpSeparateElseIf" key="inspection.PhpSeparateElseIf.display.name" groupPath="PHP" groupKey="inspection.group.psr12" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpSeparateElseIfInspection" />
+    <localInspection language="PHP" shortName="PhpNewClassMissingParameterList" key="inspection.PhpNewClassMissingParameterList.display.name" groupPath="PHP" groupKey="inspection.group.psr12" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpNewClassMissingParameterListInspection" />
+    <localInspection language="PHP" shortName="PhpModifierOrder" key="inspection.PhpModifierOrder.display.name" groupPath="PHP" groupKey="inspection.group.psr12" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpModifierOrderInspection" />
+    <localInspection language="PHP" shortName="PhpLongTypeForm" key="inspection.PhpLongTypeForm.display.name" groupPath="PHP" groupKey="inspection.group.psr12" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpLongTypeFormInspection" />
+    <localInspection language="PHP" shortName="PhpTraitsUseList" key="inspection.PhpTraitsUseList.display.name" groupPath="PHP" groupKey="inspection.group.psr12" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpTraitsUseListInspection" />
+    <localInspection language="PHP" shortName="PhpCompoundNamespaceDepth" key="inspection.PhpCompoundNamespaceDepth.display.name" groupPath="PHP" groupKey="inspection.group.psr12" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpCompoundNamespaceDepthInspection" />
+    <localInspection language="PHP" shortName="PhpLoopNeverIterates" key="inspection.PhpLoopNeverIterates.display.name" groupPath="PHP" groupKey="inspection.group.control.flow" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpLoopNeverIteratesInspection" />
+    <localInspection language="PHP" shortName="PhpConditionAlreadyChecked" key="inspection.PhpConditionAlreadyChecked.display.name" groupPath="PHP" groupKey="inspection.group.control.flow" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpConditionAlreadyCheckedInspection" />
+    <localInspection language="PHP" shortName="PhpNeverTypedFunctionReturnViolation" key="inspection.PhpNeverTypedFunctionReturnViolation.display.name" groupPath="PHP" groupKey="inspection.group.control.flow" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpNeverTypedFunctionReturnViolationInspection" />
+    <localInspection language="PHP" shortName="PhpUnnecessaryElseBranch" key="inspection.PhpUnnecessaryElseBranch.display.name" groupPath="PHP" groupKey="inspection.group.control.flow" enabledByDefault="false" level="INFORMATION" implementationClass="ru.openide.openphp.inspections.PhpUnnecessaryElseBranchInspection" />
+    <localInspection language="PHP" shortName="PhpForeachVariableOverwritesAlreadyDefinedVariable" key="inspection.PhpForeachVariableOverwritesAlreadyDefinedVariable.display.name" groupPath="PHP" groupKey="inspection.group.control.flow" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpForeachVariableOverwritesAlreadyDefinedVariableInspection" />
+    <localInspection language="PHP" shortName="PhpIfWithCommonParts" key="inspection.PhpIfWithCommonParts.display.name" groupPath="PHP" groupKey="inspection.group.control.flow" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpIfWithCommonPartsInspection" />
+    <localInspection language="PHP" shortName="PhpDocDuplicateType" key="inspection.PhpDocDuplicateType.display.name" groupPath="PHP" groupKey="inspection.group.phpdoc" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpDocDuplicateTypeInspection" />
+    <localInspection language="PHP" shortName="PhpVarTagWithoutVariableName" key="inspection.PhpVarTagWithoutVariableName.display.name" groupPath="PHP" groupKey="inspection.group.phpdoc" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpVarTagWithoutVariableNameInspection" />
+    <localInspection language="PHP" shortName="PhpRedundantVariableDocType" key="inspection.PhpRedundantVariableDocType.display.name" groupPath="PHP" groupKey="inspection.group.phpdoc" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpRedundantVariableDocTypeInspection" />
+    <localInspection language="PHP" shortName="PhpInappropriateInheritDocUsage" key="inspection.PhpInappropriateInheritDocUsage.display.name" groupPath="PHP" groupKey="inspection.group.phpdoc" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpInappropriateInheritDocUsageInspection" />
+    <localInspection language="PHP" shortName="PhpDocSignatureIsNotComplete" key="inspection.PhpDocSignatureIsNotComplete.display.name" groupPath="PHP" groupKey="inspection.group.phpdoc" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpDocSignatureIsNotCompleteInspection" />
+    <localInspection language="PHP" shortName="PhpMissingParamType" key="inspection.PhpMissingParamType.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpMissingParamTypeInspection" />
+    <localInspection language="PHP" shortName="PhpMissingReturnType" key="inspection.PhpMissingReturnType.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpMissingReturnTypeInspection" />
+    <localInspection language="PHP" shortName="PhpMissingFieldType" key="inspection.PhpMissingFieldType.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpMissingFieldTypeInspection" />
+    <localInspection language="PHP" shortName="PhpRedundantTypeInUnionType" key="inspection.PhpRedundantTypeInUnionType.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpRedundantTypeInUnionTypeInspection" />
+    <localInspection language="PHP" shortName="PhpIllegalArrayKeyType" key="inspection.PhpIllegalArrayKeyType.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpIllegalArrayKeyTypeInspection" />
+    <localInspection language="PHP" shortName="PhpInvalidMagicMethodModifiers" key="inspection.PhpInvalidMagicMethodModifiers.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpInvalidMagicMethodModifiersInspection" />
+    <localInspection language="PHP" shortName="PhpIncorrectMagicMethodSignature" key="inspection.PhpIncorrectMagicMethodSignature.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpIncorrectMagicMethodSignatureInspection" />
+    <localInspection language="PHP" shortName="PhpAbstractStaticMethod" key="inspection.PhpAbstractStaticMethod.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpAbstractStaticMethodInspection" />
+    <localInspection language="PHP" shortName="PhpRedundantAttributeParenthesis" key="inspection.PhpRedundantAttributeParenthesis.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpRedundantAttributeParenthesisInspection" />
+    <localInspection language="PHP" shortName="PhpSecondWriteToReadonlyProperty" key="inspection.PhpSecondWriteToReadonlyProperty.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpSecondWriteToReadonlyPropertyInspection" />
+    <localInspection language="PHP" shortName="PhpRedundantReadonlyModifier" key="inspection.PhpRedundantReadonlyModifier.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpRedundantReadonlyModifierInspection" />
+    <localInspection language="PHP" shortName="PhpUnitAssertSimplification" key="inspection.PhpUnitAssertSimplification.display.name" groupPath="PHP" groupKey="inspection.group.phpunit" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnitAssertSimplificationInspection" />
+    <localInspection language="PHP" shortName="PhpUnitAssertEquals" key="inspection.PhpUnitAssertEquals.display.name" groupPath="PHP" groupKey="inspection.group.phpunit" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnitAssertEqualsInspection" />
+    <localInspection language="PHP" shortName="PhpUnitMisorderedAssertEqualsArguments" key="inspection.PhpUnitMisorderedAssertEqualsArguments.display.name" groupPath="PHP" groupKey="inspection.group.phpunit" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnitMisorderedAssertEqualsArgumentsInspection" />
+    <localInspection language="PHP" shortName="PhpUnitAssertFileEquals" key="inspection.PhpUnitAssertFileEquals.display.name" groupPath="PHP" groupKey="inspection.group.phpunit" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnitAssertFileEqualsInspection" />
+    <localInspection language="PHP" shortName="PhpUnitAssertTrueWithIncompatibleTypeArgument" key="inspection.PhpUnitAssertTrueWithIncompatibleTypeArgument.display.name" groupPath="PHP" groupKey="inspection.group.phpunit" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnitAssertTrueWithIncompatibleTypeArgumentInspection" />
+    <localInspection language="PHP" shortName="PhpUnitDeprecatedExpectException" key="inspection.PhpUnitDeprecatedExpectException.display.name" groupPath="PHP" groupKey="inspection.group.phpunit" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnitDeprecatedExpectExceptionInspection" />
+    <localInspection language="PHP" shortName="PhpUnitExpectedExceptionDocTagIsDeprecated" key="inspection.PhpUnitExpectedExceptionDocTagIsDeprecated.display.name" groupPath="PHP" groupKey="inspection.group.phpunit" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnitExpectedExceptionDocTagIsDeprecatedInspection" />
+    <localInspection language="PHP" shortName="PhpUnitCoversByAccessModifierIsDeprecated" key="inspection.PhpUnitCoversByAccessModifierIsDeprecated.display.name" groupPath="PHP" groupKey="inspection.group.phpunit" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnitCoversByAccessModifierIsDeprecatedInspection" />
+    <localInspection language="PHP" shortName="PhpUnitDeprecatedCallsIn10Version" key="inspection.PhpUnitDeprecatedCallsIn10Version.display.name" groupPath="PHP" groupKey="inspection.group.phpunit" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnitDeprecatedCallsIn10VersionInspection" />
+    <localInspection language="PHP" shortName="PhpUnitUndefinedDataProvider" key="inspection.PhpUnitUndefinedDataProvider.display.name" groupPath="PHP" groupKey="inspection.group.phpunit" enabledByDefault="false" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnitUndefinedDataProviderInspection" />
+    <localInspection language="PHP" shortName="PhpUnitInvalidMockingEntity" key="inspection.PhpUnitInvalidMockingEntity.display.name" groupPath="PHP" groupKey="inspection.group.phpunit" enabledByDefault="false" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpUnitInvalidMockingEntityInspection" />
+    <localInspection language="PHP" shortName="PhpIllegalInheritanceTarget" key="inspection.PhpIllegalInheritanceTarget.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpIllegalInheritanceTargetInspection" />
+    <localInspection language="PHP" shortName="PhpSealedInheritance" key="inspection.PhpSealedInheritance.display.name" groupPath="PHP" groupKey="inspection.group.phpdoc" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpSealedInheritanceInspection" />
+    <localInspection language="PHP" shortName="PhpPropertyOverrideTypeMismatch" key="inspection.PhpPropertyOverrideTypeMismatch.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpPropertyOverrideTypeMismatchInspection" />
+    <localInspection language="PHP" shortName="PhpReadonlyOverrideMismatch" key="inspection.PhpReadonlyOverrideMismatch.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.inspections.PhpReadonlyOverrideMismatchInspection" />
+    <localInspection language="PHP" shortName="PhpRedundantCast" key="inspection.PhpRedundantCast.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpRedundantCastInspection" />
+    <!-- #806 — redundant `?? X` when the LHS variable provably excludes null -->
+    <localInspection language="PHP" shortName="PhpRedundantNullCoalesce" key="inspection.PhpRedundantNullCoalesce.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpRedundantNullCoalesceInspection" />
+    <localInspection language="PHP" shortName="PhpFullyQualifiedNameUsage" key="inspection.PhpFullyQualifiedNameUsage.display.name" groupPath="PHP" groupKey="inspection.group.code.style" enabledByDefault="true" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpFullyQualifiedNameUsageInspection" />
+    <localInspection language="PHP" shortName="PhpUnnecessaryNullsafeOperator" key="inspection.PhpUnnecessaryNullsafeOperator.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnnecessaryNullsafeOperatorInspection" />
+    <localInspection language="PHP" shortName="PhpClassNotAnnotatedWithAttribute" key="inspection.PhpClassNotAnnotatedWithAttribute.display.name" groupPath="PHP" groupKey="inspection.group.general" enabledByDefault="true" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpClassNotAnnotatedWithAttributeInspection" />
+    <localInspection language="PHP" shortName="PhpScalarTypeInNamespace" key="inspection.PhpScalarTypeInNamespace.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="false" level="WEAK WARNING" implementationClass="ru.openide.openphp.inspections.PhpScalarTypeInNamespaceInspection" />
+    <!-- Generics (G6/G7/G8) — PHPDoc @template / type-argument checks -->
+    <localInspection language="PHP" shortName="PhpGenericArgumentCount" key="inspection.PhpGenericArgumentCount.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpGenericArgumentCountInspection" />
+    <localInspection language="PHP" shortName="PhpUnresolvedTemplateParameter" key="inspection.PhpUnresolvedTemplateParameter.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpUnresolvedTemplateParameterInspection" />
+    <localInspection language="PHP" shortName="PhpGenericArgumentUnresolvable" key="inspection.PhpGenericArgumentUnresolvable.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpGenericArgumentUnresolvableInspection" />
+    <!-- Generics (G15) — PHPDoc @template variance enforcement -->
+    <localInspection language="PHP" shortName="PhpGenericVariance" key="inspection.PhpGenericVariance.display.name" groupPath="PHP" groupKey="inspection.group.type.checking" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.inspections.PhpGenericVarianceInspection" />
+    <!-- Type Hierarchy (Ctrl+H) -->
+    <typeHierarchyProvider language="PHP" implementationClass="ru.openide.openphp.hierarchy.PhpTypeHierarchyProvider" />
+    <!-- Call Hierarchy (Ctrl+Alt+H) -->
+    <callHierarchyProvider language="PHP" implementationClass="ru.openide.openphp.hierarchy.PhpCallHierarchyProvider" />
+    <!-- Find Usages across include/require file boundaries -->
+    <referencesSearch implementation="ru.openide.openphp.navigation.PhpIncludeUsagesSearcher" />
+    <!-- #709: Class::$prop sites live in a $-sigil VARIABLE word; add the sigil word request -->
+    <referencesSearch implementation="ru.openide.openphp.navigation.PhpPropertySigilWordSearcher" />
+    <!-- #650 — string-form member usages ($obj->{'m'}(), [$this,'m']) live IN_STRINGS -->
+    <referencesSearch implementation="ru.openide.openphp.navigation.PhpStringMemberWordSearcher" />
+    <!-- #1036 — a class named by a PHP string (a Laravel controller action) -->
+    <referencesSearch implementation="ru.openide.openphp.navigation.PhpStringClassWordSearcher" />
+    <!-- Find Usages expands method/property/constant searches across the class hierarchy (#179) -->
+    <referencesSearch implementation="ru.openide.openphp.navigation.PhpMethodHierarchySearcher" />
+    <!-- `new Foo()` expressions are usages of Foo::__construct — without
+             this searcher, Find Usages on __construct always returns empty. -->
+    <referencesSearch implementation="ru.openide.openphp.navigation.PhpConstructorReferenceSearcher" />
+    <!-- #992 — `new self()` / `new static()` / `new parent()` name the class by a
+             keyword, which the word-index search can never match; these are found by
+             walking the class body and its direct subclasses instead. -->
+    <referencesSearch implementation="ru.openide.openphp.navigation.PhpKeywordClassReferenceSearcher" />
+    <!-- #1037 — strings naming templates inside a directory (`view('users.show')` for
+             resources/views/users) are usages of that directory: Find Usages, rename and move of the
+             directory reach them. The Yii searcher adds relative view names of a controller directory,
+             which do not contain the directory name. -->
+    <referencesSearch implementation="ru.openide.openphp.lang.psi.LogicalNameUsageSearcher" />
+    <referencesSearch implementation="ru.openide.openphp.yii.YiiControllerViewDirectorySearcher" />
+    <!-- Postfix templates: .var → wrap expression into `$name = expr;` -->
+    <codeInsight.template.postfixTemplateProvider language="PHP" implementationClass="ru.openide.openphp.codeInsight.PhpPostfixTemplateProvider" />
+    <!-- #543 — include/require file navigation is wired through
+             PhpStringExpressionElement.getReferences (that element overrides
+             getReferences and bypasses the reference registry). -->
+    <!-- self/static/parent navigation (Ctrl+Click → containing/parent class) -->
+    <gotoDeclarationHandler implementation="ru.openide.openphp.lang.psi.elements.impl.PhpSelfGotoDeclarationHandler" />
+    <!-- Named argument navigation (Ctrl+Click on storyId: → parameter $storyId) -->
+    <gotoDeclarationHandler implementation="ru.openide.openphp.codeInsight.PhpNamedArgumentGotoHandler" />
+    <!-- spec 014 AC-2 — Ctrl+B on a Blade component tag <x-alert> → class and/or view file -->
+    <gotoDeclarationHandler implementation="ru.openide.openphp.laravel.PhpLaravelBladeComponentGotoDeclarationHandler" />
+    <!-- HTML highlighting inside PHP files -->
+    <editorHighlighterProvider filetype="PHP" implementationClass="ru.openide.openphp.highlight.PhpEditorHighlighterProvider" />
+    <!-- Debugger -->
+    <xdebugger.breakpointType implementation="ru.openide.openphp.debugger.PhpLineBreakpointType" />
+    <!-- #64 — exception breakpoints (DBGp `breakpoint_set -t exception -x ClassName`). -->
+    <xdebugger.breakpointType implementation="ru.openide.openphp.debugger.PhpExceptionBreakpointType" />
+    <programRunner implementation="ru.openide.openphp.debugger.PhpDebugRunner" />
+    <!-- Remote Debugger (Listen for Xdebug) -->
+    <configurationType implementation="ru.openide.openphp.debugger.PhpRemoteDebugConfigurationType" />
+    <programRunner implementation="ru.openide.openphp.debugger.PhpRemoteDebugRunner" />
+    <!-- Always-on Xdebug listener (PhpStorm-style phone toggle).
+             State and port selection live in PhpSettings / PhpAppSettings;
+             user toggles via the Run menu action OpenPhp.ToggleXdebugListener. -->
+    <notificationGroup id="PHP Xdebug" displayType="BALLOON" isLogByDefault="true" />
+    <applicationService serviceImplementation="ru.openide.openphp.settings.PhpAppSettings" />
+    <!-- #657 — FUS collector (logged directly via onProjectOpened, no counterUsagesCollector EP) -->
+    <applicationService serviceImplementation="ru.openide.openphp.fus.FusCollector" />
+    <!-- #351 — declare PHP as the IDE's primary language. Drives the
+             Find-in-Files file-mask dropdown (`*.php`/`*.phtml` shown on fresh
+             install). Plugin-level override of this service is necessary
+             because no public extension-point feeds the same default. -->
+    <applicationService serviceInterface="com.intellij.lang.IdeLanguageCustomization" serviceImplementation="ru.openide.openphp.lang.PhpIdeLanguageCustomization" overrides="true" />
+    <projectService serviceImplementation="ru.openide.openphp.debugger.PhpXdebugListenerService" />
+    <intentionAction>
+      <language>PHP</language>
+      <className>ru.openide.openphp.codeInsight.PhpGeneratePhpDocIntention</className>
+      <category>PHP</category>
+    </intentionAction>
+    <intentionAction>
+      <language>PHP</language>
+      <className>ru.openide.openphp.codeInsight.PhpAddDeclaredReturnTypeIntention</className>
+      <category>PHP</category>
+    </intentionAction>
+    <!-- #610 (spec 002) AC-25 — "Create Yii view file" on $this->render('missing') -->
+    <intentionAction>
+      <language>PHP</language>
+      <className>ru.openide.openphp.yii.YiiCreateViewIntention</className>
+      <category>PHP</category>
+    </intentionAction>
+    <!-- spec 013 — "Convert 'Controller@method' to [Controller::class, 'method']" (Laravel) -->
+    <intentionAction>
+      <language>PHP</language>
+      <className>ru.openide.openphp.laravel.PhpConvertControllerStringIntention</className>
+      <category>PHP</category>
+    </intentionAction>
+    <!-- spec 010 AC-7 — "Generate Eloquent model PHPDoc (@property)" from migration columns -->
+    <intentionAction>
+      <language>PHP</language>
+      <className>ru.openide.openphp.laravel.PhpLaravelGenerateModelDocIntention</className>
+      <category>PHP</category>
+    </intentionAction>
+    <!-- spec 013 AC-2 — "Convert Laravel facade call to dependency" (constructor injection) -->
+    <intentionAction>
+      <language>PHP</language>
+      <className>ru.openide.openphp.laravel.PhpConvertFacadeToDependencyIntention</className>
+      <category>PHP</category>
+    </intentionAction>
+    <!-- spec 013 AC-3 — "Promote validate() to FormRequest" (extract inline rules) -->
+    <intentionAction>
+      <language>PHP</language>
+      <className>ru.openide.openphp.laravel.PhpPromoteValidateToFormRequestIntention</className>
+      <category>PHP</category>
+    </intentionAction>
+    <!-- spec 013 AC-4 — toggle Blade echo escaping {{ }} ↔ {!! !!} -->
+    <intentionAction>
+      <language>Blade</language>
+      <className>ru.openide.openphp.blade.BladeToggleEchoEscapingIntention</className>
+      <category>PHP</category>
+    </intentionAction>
+    <!-- S-A6 — "Create missing translation key" Alt+Enter on $translator->trans('foo') -->
+    <intentionAction>
+      <language>PHP</language>
+      <className>ru.openide.openphp.symfony.translation.CreateMissingTranslationKeyIntention</className>
+      <category>Symfony</category>
+    </intentionAction>
+    <!-- S-B3 (#248) — Doctrine shorthand 'Bundle:Entity' → Entity::class migration intention -->
+    <intentionAction>
+      <language>PHP</language>
+      <className>ru.openide.openphp.symfony.intentions.DoctrineEntityShorthandToClassIntention</className>
+      <category>Symfony</category>
+    </intentionAction>
+    <!-- S-B6 (#248) — Alt+Enter on a PHP class → insert services.yaml entry -->
+    <intentionAction>
+      <language>PHP</language>
+      <className>ru.openide.openphp.symfony.intentions.GenerateSymfonyServiceEntryIntention</className>
+      <category>Symfony</category>
+    </intentionAction>
+    <!-- S-C5 (#248) — Alt+Enter on a CompilerPassInterface class → register in Kernel -->
+    <intentionAction>
+      <language>PHP</language>
+      <className>ru.openide.openphp.symfony.intentions.RegisterCompilerPassInKernelIntention</className>
+      <category>Symfony</category>
+    </intentionAction>
+    <!-- S-B7 (#248) — flag legacy `protected static $defaultName` and offer migration to #[AsCommand] -->
+    <localInspection language="PHP" shortName="PhpSymfonyAsCommandMigration" key="inspection.PhpSymfonyAsCommandMigration.display.name" groupKey="inspection.group.symfony" enabledByDefault="true" level="WEAK WARNING" implementationClass="ru.openide.openphp.symfony.inspections.PhpSymfonyAsCommandMigrationInspection" />
+    <!-- S-C1 (#248) — flag request-scoped types injected into service constructors -->
+    <localInspection language="PHP" shortName="PhpSymfonyRequestScopedInService" key="inspection.PhpSymfonyRequestScopedInService.display.name" groupKey="inspection.group.symfony" enabledByDefault="true" level="WEAK WARNING" implementationClass="ru.openide.openphp.symfony.inspections.PhpSymfonyRequestScopedInServiceInspection" />
+    <!-- #985 — transition name that the workflow does not declare -->
+    <localInspection language="PHP" shortName="PhpSymfonyUnknownWorkflowTransition" key="inspection.PhpSymfonyUnknownWorkflowTransition.display.name" groupKey="inspection.group.symfony" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.symfony.workflow.PhpSymfonyUnknownWorkflowTransitionInspection" />
+    <localInspection language="PHP" shortName="PhpSymfonySubscriberHandler" key="inspection.PhpSymfonySubscriberHandler.display.name" groupKey="inspection.group.symfony" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.symfony.events.PhpSymfonySubscriberHandlerInspection" />
+    <!-- #986 — listener attribute that names a node but no workflow -->
+    <localInspection language="PHP" shortName="PhpSymfonyWorkflowListenerWithoutWorkflow" key="inspection.PhpSymfonyWorkflowListenerWithoutWorkflow.display.name" groupKey="inspection.group.symfony" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.symfony.workflow.PhpSymfonyWorkflowListenerWithoutWorkflowInspection" />
+    <!-- #987 - places against the cases of the enum the marking is typed by -->
+    <localInspection language="yaml" shortName="PhpSymfonyWorkflowMarkingEnum" key="inspection.PhpSymfonyWorkflowMarkingEnum.display.name" groupKey="inspection.group.symfony" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.symfony.workflow.PhpSymfonyWorkflowMarkingEnumInspection" />
+    <!-- #987 - subject class cannot hold the marking the component stores -->
+    <localInspection language="yaml" shortName="PhpSymfonyWorkflowSubject" key="inspection.PhpSymfonyWorkflowSubject.display.name" groupKey="inspection.group.symfony" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.symfony.workflow.PhpSymfonyWorkflowSubjectInspection" />
+    <!-- #987 - places Symfony accepts and a reader would not -->
+    <localInspection language="yaml" shortName="PhpSymfonyWorkflowSuspiciousPlace" key="inspection.PhpSymfonyWorkflowSuspiciousPlace.display.name" groupKey="inspection.group.symfony" enabledByDefault="true" level="WEAK WARNING" implementationClass="ru.openide.openphp.symfony.workflow.PhpSymfonyWorkflowSuspiciousPlaceInspection" />
+    <!-- #988 - from a listener in PHP to the configuration its event names -->
+    <codeInsight.lineMarkerProvider language="PHP" implementationClass="ru.openide.openphp.symfony.workflow.PhpSymfonyWorkflowListenerConfigMarkerProvider" />
+    <!-- #988 - from a workflow node in the configuration to its listeners -->
+    <codeInsight.lineMarkerProvider language="yaml" implementationClass="ru.openide.openphp.symfony.workflow.PhpSymfonyWorkflowConfigListenerMarkerProvider" />
+    <!-- #988 - which files declare a listener for a workflow event -->
+    <fileBasedIndex implementation="ru.openide.openphp.symfony.workflow.PhpSymfonyWorkflowListenerIndex" />
+    <!-- #987 - workflow configuration Symfony itself refuses to build -->
+    <localInspection language="yaml" shortName="PhpSymfonyWorkflowInvalidConfig" key="inspection.PhpSymfonyWorkflowInvalidConfig.display.name" groupKey="inspection.group.symfony" enabledByDefault="true" level="ERROR" implementationClass="ru.openide.openphp.symfony.workflow.PhpSymfonyWorkflowInvalidConfigInspection" />
+    <!-- #496 (S-C6) — Doctrine mapping inspections -->
+    <localInspection language="PHP" shortName="DoctrineMapping" key="inspection.DoctrineMapping.display.name" groupKey="inspection.group.symfony" enabledByDefault="true" level="WARNING" implementationClass="ru.openide.openphp.doctrine.inspections.DoctrineMappingInspection" />
+    <!-- B-D4 — "Create missing $MESS key" Alt+Enter on Loc::getMessage / GetMessage -->
+    <intentionAction>
+      <language>PHP</language>
+      <className>ru.openide.openphp.bitrix.BitrixCreateMissingMessageKeyIntention</className>
+      <category>Bitrix</category>
+    </intentionAction>
+    <!-- B-D22 — "Copy bitrix:component to local/components/<vendor>" Alt+Enter -->
+    <intentionAction>
+      <language>PHP</language>
+      <className>ru.openide.openphp.bitrix.BitrixPromoteToLocalIntention</className>
+      <category>Bitrix</category>
+    </intentionAction>
+    <!-- C-A4 — "Remove composer package" Alt+Enter on require/require-dev rows in composer.json -->
+    <intentionAction>
+      <language>JSON</language>
+      <className>ru.openide.openphp.composer.ComposerRemovePackageIntention</className>
+      <category>Composer</category>
+    </intentionAction>
+    <!-- C-A5 — "Update only this package" Alt+Enter on require/require-dev rows -->
+    <intentionAction>
+      <language>JSON</language>
+      <className>ru.openide.openphp.composer.ComposerUpdateOnePackageIntention</className>
+      <category>Composer</category>
+    </intentionAction>
+    <!-- P2 / #530 — "composer why" Alt+Enter on require/require-dev rows -->
+    <intentionAction>
+      <language>JSON</language>
+      <className>ru.openide.openphp.composer.ComposerWhyIntention</className>
+      <category>Composer</category>
+    </intentionAction>
+    <!-- C-C8 — "Open on Packagist" Alt+Enter on require/require-dev rows -->
+    <intentionAction>
+      <language>JSON</language>
+      <className>ru.openide.openphp.composer.ComposerOpenPackagistIntention</className>
+      <category>Composer</category>
+    </intentionAction>
+    <!-- C-B10 — flag composer.json `require.php` vs detected PHP version -->
+    <annotator language="JSON" implementationClass="ru.openide.openphp.composer.ComposerPlatformReqsAnnotator" />
+    <!-- C-B6 — flag abandoned packages on Packagist -->
+    <annotator language="JSON" implementationClass="ru.openide.openphp.composer.ComposerAbandonedAnnotator" />
+    <!-- C-B3 — flag missing autoload.psr-4 paths -->
+    <annotator language="JSON" implementationClass="ru.openide.openphp.composer.ComposerAutoloadAnnotator" />
+    <!-- C-A6 — composer audit security advisories -->
+    <projectService serviceImplementation="ru.openide.openphp.composer.ComposerAuditService" />
+    <annotator language="JSON" implementationClass="ru.openide.openphp.composer.ComposerAuditAnnotator" />
+    <!-- B-C1 — Bitrix CIBlockElement::GetList array-key completion -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.bitrix.PhpBitrixGetListCompletion" />
+    <!-- B-C3 / #529 — D7 ORM *Table::getList filter/order/select field completion from getMap() -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.bitrix.PhpBitrixD7FieldCompletion" />
+    <!-- B-D2 — Bitrix event name completion in AddEventHandler/registerEventHandler 2nd arg -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.bitrix.PhpBitrixEventNameCompletion" />
+    <!-- B-D6 — Bitrix module-name completion in 1st arg of COption/Option::get/set -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.bitrix.PhpBitrixOptionCompletion" />
+    <!-- B-D12 — $arResult/$arParams keys harvested from sibling component.php -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.bitrix.PhpBitrixArResultCompletion" />
+    <!-- B-D13 — $arComponentDescription keys (closed Bitrix kernel set) in .description.php -->
+    <completion.contributor language="PHP" implementationClass="ru.openide.openphp.bitrix.PhpBitrixComponentDescriptionCompletion" />
+    <toolWindow id="Composer" anchor="bottom" secondary="true" icon="/icons/phpComposer.svg" factoryClass="ru.openide.openphp.composer.toolwindow.ComposerToolWindowFactory" />
+    <completion.contributor language="JSON" implementationClass="ru.openide.openphp.composer.ComposerPackageCompletionContributor" />
+  </extensions>
+  <actions>
+    <!-- PhpStorm-style phone toggle: "Start / Stop Listening for PHP Debug
+             Connections". Bound to PhpXdebugListenerService; icon/text flip
+             based on the service's listening state. Placed on the Run menu
+             and on the main toolbar Debug group. -->
+    <action id="OpenPhp.ToggleXdebugListener" class="ru.openide.openphp.debugger.PhpXdebugToggleListenerAction" text="Start Listening for PHP Debug Connections" description="Open/close a DBGp listener that auto-starts a debug session on each incoming Xdebug connection">
+      <add-to-group group-id="RunMenu" anchor="last" />
+      <!-- #243 — New UI top toolbar: right-hand side, immediately
+                 before the run-config dropdown (`NewUiRunWidget`). Matches
+                 user-requested placement (next to Run/Debug, visually
+                 associated with debugging). -->
+      <add-to-group group-id="MainToolbarRight" relative-to-action="NewUiRunWidget" anchor="before" />
+      <!-- Classic UI toolbar: keep the existing placement so users who
+                 stayed on the old toolbar still see the toggle. -->
+      <add-to-group group-id="ToolbarRunGroup" anchor="last" />
+    </action>
+    <!-- New PHP File action -->
+    <action id="OpenPhp.NewPhpFile" class="ru.openide.openphp.actions.NewPhpFileAction" text="PHP File" description="Create a new PHP file">
+      <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile" />
+    </action>
+    <!-- #1003 — «New → <framework> Test»: one item per registered test framework that declares a
+             New Test variant (PhpTestFrameworkType.newTest); a foreign framework may also contribute its own
+             PhpNewTestAction subclass with <add-to-group group-id="OpenPhp.NewTestGroup"/>. -->
+    <group id="OpenPhp.NewTestGroup" class="ru.openide.openphp.run.testing.PhpNewTestGroup" popup="false">
+      <add-to-group group-id="NewGroup" anchor="after" relative-to-action="OpenPhp.NewPhpFile" />
+    </group>
+    <!-- spec 009 — "Laravel: Generate…" searchable generator popup (Ctrl+Shift+,),
+             visible only in Laravel projects. -->
+    <action id="OpenPhp.LaravelGenerate" class="ru.openide.openphp.laravel.generation.LaravelGenerateAction" text="Laravel: Generate…" description="Create a Laravel artifact from a template">
+      <add-to-group group-id="ToolsMenu" anchor="last" />
+      <keyboard-shortcut keymap="$default" first-keystroke="control shift COMMA" />
+    </action>
+    <!-- spec 009 AC-2 — "Laravel: New Eloquent Model…" field-table wizard
+             (model + optional migration/factory), visible only in Laravel projects. -->
+    <action id="OpenPhp.LaravelGenerateModel" class="ru.openide.openphp.laravel.generation.model.GenerateEloquentModelAction" text="Laravel: New Eloquent Model…" description="Scaffold an Eloquent model with fields, migration and factory">
+      <add-to-group group-id="ToolsMenu" anchor="last" />
+    </action>
+    <!-- B-A3 — File → New → Bitrix Code (visible only in Bitrix projects) -->
+    <action id="OpenPhp.NewBitrixFile" class="ru.openide.openphp.bitrix.NewBitrixFileAction" text="Bitrix Code" description="Create a new Bitrix component / entity / event handler / lang file">
+      <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile" />
+    </action>
+    <!-- Actions: Tools → Composer → Install / Update / … -->
+    <group id="OpenPhp.ComposerGroup" text="Composer" popup="true">
+      <add-to-group group-id="ToolsMenu" anchor="last" />
+      <action id="OpenPhp.ComposerInstall" class="ru.openide.openphp.composer.ComposerInstallAction" text="Install" description="Run composer install" />
+      <action id="OpenPhp.ComposerUpdate" class="ru.openide.openphp.composer.ComposerUpdateAction" text="Update" description="Run composer update" />
+      <action id="OpenPhp.ComposerDumpAutoload" class="ru.openide.openphp.composer.ComposerDumpAutoloadAction" text="Dump Autoload" description="Run composer dump-autoload" />
+      <action id="OpenPhp.ComposerValidate" class="ru.openide.openphp.composer.ComposerValidateAction" text="Validate" description="Run composer validate" />
+      <action id="OpenPhp.ComposerAudit" class="ru.openide.openphp.composer.ComposerAuditAction" text="Audit" description="Run composer audit" />
+      <action id="OpenPhp.ComposerStatus" class="ru.openide.openphp.composer.ComposerStatusAction" text="Status" description="Run composer status" />
+      <action id="OpenPhp.ComposerDiagnose" class="ru.openide.openphp.composer.ComposerDiagnoseAction" text="Diagnose" description="Run composer diagnose" />
+      <action id="OpenPhp.ComposerClearCache" class="ru.openide.openphp.composer.ComposerClearCacheAction" text="Clear Cache" description="Run composer clear-cache" />
+      <separator />
+      <!-- C-A7 — quick-action picker popup -->
+      <action id="OpenPhp.ComposerQuickAction" class="ru.openide.openphp.composer.ComposerQuickActionAction" text="Quick Action…" description="Pick a composer command from a popup" />
+    </group>
+    <!-- L2.2 — Artisan: pick a Laravel artisan command and run it. -->
+    <action id="OpenPhp.ArtisanRun" class="ru.openide.openphp.laravel.artisan.ArtisanRunAction" text="Run Artisan Command…" description="Pick and run a Laravel artisan command">
+      <add-to-group group-id="ToolsMenu" anchor="last" />
+    </action>
+    <!-- #610 (spec 002) [Ж] — Yii: run a Gii code generator (CLI). -->
+    <action id="OpenPhp.YiiGii" class="ru.openide.openphp.yii.YiiGiiAction" text="Yii Gii Generator…" description="Run a Yii Gii code generator (model, CRUD, controller, …)">
+      <add-to-group group-id="ToolsMenu" anchor="last" />
+    </action>
+    <!-- S2.2 — Symfony: pick a console command and run it. -->
+    <!-- B-A2 — Bitrix tooling group: .gitignore generator + future scaffolding -->
+    <group id="OpenPhp.BitrixGroup" text="Bitrix" popup="true">
+      <add-to-group group-id="ToolsMenu" anchor="last" />
+      <action id="OpenPhp.BitrixGitignore" class="ru.openide.openphp.bitrix.BitrixGitignoreAction" text="Generate .gitignore" description="Create a Bitrix-friendly .gitignore at the project root" />
+      <!-- B-A1 — scaffold a new component under local/components/ -->
+      <action id="OpenPhp.BitrixNewComponent" class="ru.openide.openphp.bitrix.BitrixComponentScaffoldAction" text="New Component…" description="Scaffold a new Bitrix component under local/components/" />
+      <!-- B-Z2 — composer require for community stubs -->
+      <action id="OpenPhp.BitrixInstallStubs" class="ru.openide.openphp.bitrix.BitrixInstallStubsAction" text="Install Stubs…" description="Pick a community Bitrix stubs package and install via composer" />
+      <!-- B-D16 — Tools → Bitrix → Run Agent / cron.php -->
+      <action id="OpenPhp.BitrixRunAgent" class="ru.openide.openphp.bitrix.BitrixRunAgentAction" text="Run Agent / cron.php…" description="Run bitrix/modules/main/cron.php (or project-rooted cron.php) via the active PHP interpreter" />
+      <!-- B-D17 — Tools → Bitrix → Run Migration -->
+      <action id="OpenPhp.BitrixRunMigration" class="ru.openide.openphp.bitrix.BitrixRunMigrationAction" text="Run Migration…" description="Pick a *.php under local/php_interface/include/migrations/ and run it via the active PHP interpreter" />
+      <!-- B-D29 — Tools → Bitrix → Find Component -->
+      <action id="OpenPhp.BitrixFindComponent" class="ru.openide.openphp.bitrix.BitrixFindComponentAction" text="Find Component…" description="Pick a vendor:name component (local + bitrix) and open its component.php" />
+    </group>
+    <action id="OpenPhp.SymfonyConsoleRun" class="ru.openide.openphp.symfony.console.SymfonyConsoleRunAction" text="Run Symfony Console Command…" description="Pick and run a Symfony bin/console command">
+      <add-to-group group-id="ToolsMenu" anchor="last" />
+    </action>
+    <!-- Override/Implement Methods (GenerateGroup = Alt+Insert menu) -->
+    <action id="OpenPhp.OverrideMethods" class="ru.openide.openphp.generation.PhpOverrideMethodsAction" text="Override Methods..." description="Generate override method stubs">
+      <add-to-group group-id="GenerateGroup" anchor="first" />
+    </action>
+    <action id="OpenPhp.ImplementMethods" class="ru.openide.openphp.generation.PhpImplementMethodsAction" text="Implement Methods..." description="Generate implementations for abstract/interface methods">
+      <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="OpenPhp.OverrideMethods" />
+    </action>
+    <!-- Generate Constructor / Getters / Setters -->
+    <action id="OpenPhp.GenerateTestMethod" class="ru.openide.openphp.run.testing.PhpGenerateTestMethodAction">
+      <add-to-group group-id="GenerateGroup" anchor="first" />
+    </action>
+    <action id="OpenPhp.GenerateConstructor" class="ru.openide.openphp.generation.PhpGenerateConstructorAction" text="Constructor..." description="Generate constructor">
+      <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="OpenPhp.ImplementMethods" />
+    </action>
+    <action id="OpenPhp.GenerateGetter" class="ru.openide.openphp.generation.PhpGenerateGetterAction" text="Getter..." description="Generate getter methods">
+      <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="OpenPhp.GenerateConstructor" />
+    </action>
+    <action id="OpenPhp.GenerateSetter" class="ru.openide.openphp.generation.PhpGenerateSetterAction" text="Setter..." description="Generate setter methods">
+      <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="OpenPhp.GenerateGetter" />
+    </action>
+    <action id="OpenPhp.GenerateGetterSetter" class="ru.openide.openphp.generation.PhpGenerateGetterSetterAction" text="Getter and Setter..." description="Generate getter and setter methods">
+      <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="OpenPhp.GenerateSetter" />
+    </action>
+    <!-- Extract Variable (Ctrl+Alt+V) -->
+    <action id="OpenPhp.ExtractVariable" class="ru.openide.openphp.refactoring.extractVariable.PhpExtractVariableAction" text="Extract Variable..." description="Extract selected expression into a variable">
+      <add-to-group group-id="IntroduceActionsGroup" anchor="first" />
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt V" />
+    </action>
+    <!-- Extract Method (Ctrl+Alt+M) -->
+    <action id="OpenPhp.ExtractMethod" class="ru.openide.openphp.refactoring.extractMethod.PhpExtractMethodAction" text="Extract Method..." description="Extract selected statements into a new method">
+      <add-to-group group-id="IntroduceActionsGroup" anchor="after" relative-to-action="OpenPhp.ExtractVariable" />
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt M" />
+    </action>
+    <!-- Inline Variable (Ctrl+Alt+N) -->
+    <action id="OpenPhp.InlineVariable" class="ru.openide.openphp.refactoring.inlineVariable.PhpInlineVariableAction" text="Inline Variable" description="Replace variable with its initializer expression">
+      <add-to-group group-id="RefactoringMenu" anchor="after" relative-to-action="OpenPhp.ExtractVariable" />
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt N" />
+    </action>
+    <!-- Phase 7.3: Analyze → Analyze PHP Project with External Analyzers. Status-bar
+             widget from Phase 7.2 looks up this exact action id for its "Run on project"
+             item. Sits in Code menu + Analyze actions sub-menu. -->
+    <action id="OpenPhp.AnalyzeProject" class="ru.openide.openphp.analyzer.project.AnalyzeProjectAction" text="Analyze PHP Project with External Analyzers" description="Run every enabled external analyzer on the whole project">
+      <add-to-group group-id="AnalyzeActions" anchor="last" />
+      <add-to-group group-id="CodeMenu" anchor="last" />
+    </action>
+    <!-- PHP Diagnostics group (right-click context menu) -->
+    <group id="OpenPhp.DiagnosticsGroup" text="PHP Diagnostics" popup="true">
+      <add-to-group group-id="EditorPopupMenu" anchor="last" />
+      <action id="OpenPhp.DumpPsi" class="ru.openide.openphp.actions.DumpPsiAction" text="Dump PSI Structure" description="Dump PSI tree structure of current PHP file to a text file" />
+      <action id="OpenPhp.DumpReferences" class="ru.openide.openphp.actions.DumpReferencesAction" text="Dump References" description="Resolve all references in current PHP file and dump results" />
+      <action id="OpenPhp.DumpSemanticHighlights" class="ru.openide.openphp.actions.DumpSemanticHighlightsAction" text="Dump Semantic Highlights" description="Dump all semantic highlighting annotations for current PHP file" />
+    </group>
+  </actions>
+</idea-plugin>

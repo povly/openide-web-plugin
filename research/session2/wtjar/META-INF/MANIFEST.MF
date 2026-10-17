@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Created-By: Gradle 8.13
+Version: 1.0.1
+Build-JVM: 17.0.1 (BellSoft 17.0.1+12-LTS)
+Build-OS: Linux 5.4.0-216-generic amd64
+Build-Plugin: IntelliJ Platform Gradle Plugin
+Build-Plugin-Version: 2.7.0
+Platform-Type: IC
+Platform-Version: 2026.2.1
+Platform-Build: 262.9437.185.4
+Kotlin-Available: true
+Kotlin-Stdlib-Bundled: false
+Kotlin-Version: 2.4.20
+

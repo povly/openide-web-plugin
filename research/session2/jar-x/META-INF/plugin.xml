@@ -1,0 +1,12 @@
+<idea-plugin>
+  <id>povly.webfrontendmini</id>
+  <name>Web Frontend Mini</name>
+  <version>1.1.0</version>
+  <vendor>povly</vendor>
+  <description>TextMate grammars (css/scss/less/vue + deps) for the OpenIDE web stack. No file types: extensions auto-associate via grammar fileTypes. Built per linux-fix runbook 17.10.2026.</description>
+  <depends>com.intellij.modules.platform</depends>
+  <depends>org.jetbrains.plugins.textmate</depends>
+  <extensions defaultExtensionNs="com.intellij">
+    <textmate.bundleProvider implementation="povly.wfm.MiniBundleProvider" />
+  </extensions>
+</idea-plugin>

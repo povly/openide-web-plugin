@@ -1,0 +1,37 @@
+{
+  "id": "typescript-language-server",
+  "name": "TypeScript Language Server",
+  "executeOnStartServer": false,
+  "properties": {
+    "workingDir" : "$USER_HOME$/.lsp4ij/lsp/typescript-language-server/node_modules"
+  },
+  "check": {
+    "exec": {
+      "name": "Trying current command",
+      "command": "${server.command}",
+      "timeout": 2000
+    }
+  },
+  "run": {
+    "exec": {
+      "name": "Install TypeScript Language Server",
+      "workingDir": "${workingDir}",
+      "ignoreStderr": true,
+      "command": {
+        "windows": "npm.cmd install typescript-language-server typescript --force",
+        "default": "npm install typescript-language-server typescript --force"
+      },
+      "onSuccess": {
+        "configureServer": {
+          "name": "Configure TypeScript Language Server command",
+          "command": {
+            "windows": "${workingDir}/.bin/typescript-language-server.cmd --stdio",
+            "default": "${workingDir}/.bin/typescript-language-server --stdio"
+          },
+          "update": true
+        }
+      }
+    }
+  }
+}
+

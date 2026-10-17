@@ -1,0 +1,594 @@
+<idea-plugin allow-bundled-update="true">
+  <idea-version since-build="262" until-build="262.*" />
+  <change-notes><![CDATA[<h2>Unreleased</h2>
+
+<h2>1.0.1</h2>
+
+<h3>Исправлено</h3>
+
+<ul><li>Изменеия зависимостей для совместимости с OpenIDE 262.2</li></ul>
+
+<h2>1.0.0</h2>
+
+<h3>Добавлено</h3>
+
+<ul><li>Дебаг компонетов Vue</li><li>Генераторы компонетов Vue и Nestjs в контекстном меню дерева проекта</li><li>Поддержка Tailwind</li><li>Автоматическое обновление рантайма при перезапуске OpenIDE</li></ul>
+
+<h3>Улучшено</h3>
+
+<ul><li>Форматирование, автодополнения, переходы, подсветка кода в компонентах Vue</li><li>Текст в css в ключевых блоках (root, media итд) парсится отдельными узлами и не выделяется весь при двойном клике</li><li>Поиск nodejs рантайма в системе</li></ul>
+
+<h3>Исправлено</h3>
+
+<ul><li>Ошибка с автоформатированием кода нативным форматером редактора при включенном prettier</li></ul>
+
+<h2>0.1.6</h2>
+
+<h3>Добавлено</h3>
+
+<ul><li>Опция добавления директории к проекту при открытии новой</li></ul>
+
+<h3>Улучшено</h3>
+
+<ul><li>Проектное окружения node.js обновляется если было удалено во время перезапуска сессии OpenIDE</li><li>Парсинг ссылок Vite и Webpack</li><li>Попап с предложением установить зависимости можно скрыть</li></ul>
+
+<h3>Исправлено</h3>
+
+<ul><li>Автоимпорт в вставке скопированного компонента не вставляет символы из node.js </li><li>Сообщение об ошибке поиска node.js окружения отображается только в javascript проектах</li><li>Падение при импорте настроек из vscode</li><li>Формирование PATH при запуске скриптов</li></ul>
+
+<h2>0.1.5</h2>
+
+<h3>Добавлено</h3>
+
+<ul><li>Поддержка OpenIDE 262</li></ul>
+
+<h2>0.1.4</h2>
+
+<h3>Добавлено</h3>
+
+<ul><li>Запуск программ в режиме отладки</li><li>Поддержка Playwright и Playwright Codegen &gt;= 1.6</li><li>Поддержка Testcafe &gt;= 3.5</li><li>Генератор тестов Testcafe (beta)</li><li>Поддержка Vue3(beta) с резервом на Vue2</li><li>Отображение классов из node_modules во вкладке Classes (shift+shift)</li></ul>
+
+<h3>Улучшено</h3>
+
+<ul><li>Npm ран конфигурации теперь принимают собственное окружение и не ограничиваются только скриптом run</li><li>Форматирование в редакторе при печати осуществляется согласно prettier, если он выбран в качестве основного источника (по-умолчанию)</li></ul>
+
+<h3>Исправлено</h3>
+
+<ul><li>Обработали несовместимые с предыдущими версиями методы в typescript</li><li>Если сохраненный рантайм был удален при перезапуске OpenIDE инициализируется новый поиск</li></ul>
+
+<h2>0.1.3</h2>
+
+<h3>Исправлено</h3>
+
+<ul><li>Инфраструктукрные изменения</li></ul>
+
+<h2>0.1.2</h2>
+
+<h3>Исправлено</h3>
+
+<ul><li>Блокирующая интерфейс инициализация тайпскрипт при старте проекта</li></ul>
+
+<h2>0.1.1</h2>
+
+<h3>Исправлено</h3>
+
+<ul><li>Небольшой фикс автообновлений</li></ul>
+
+<h2>0.1.0</h2>
+
+<h3>Добавлено</h3>
+
+<ul><li>Вывод типов в inlay hints</li><li>Fix on save для Eslint/Stylelint</li><li>Format on save для Prettier</li><li>Поиск по классам и символам проекта в окне Search Everywhere</li><li>Выбор версии Angular в проекте</li><li>Индикация запущеных задач в Run Panel</li><li>Автоимпорт в React комопонете после вставки</li><li>Вывод пользовательского лога в тест репортере</li></ul>
+
+<h3>Улучшено</h3>
+
+<ul><li>Автоматическое форматирование кода в ts и vue</li><li>Настройки Eslint/Stylelint/Prettier</li></ul>
+
+<h3>Исправлено</h3>
+
+<ul><li>Отображение инспекций Stylelint при открытии файла полсе перехода от имени класса</li><li>Angular: определение кастомных тэгов, подсветка шаблонов</li><li>Автодополнения в js файлах не перезатирвют лишнего</li><li>Удалены ненужные комплишены при вводе числового значения в js/ts</li><li>Поиск форматируемых файлов по паттерну для Eslint/Stylelint/Prettier</li></ul>
+
+<h2>0.0.14-BETA</h2>
+
+<h3>Добавлено</h3>
+
+<ul><li>Предложение установки типов пакета</li></ul>
+
+<h3>Улучшено</h3>
+
+<ul><li>Форматирование кода при вводе в css</li><li>Переход к css классам из реакт компонента</li></ul>
+
+<h2>0.0.12-BETA</h2>
+
+<h3>Добавлено</h3>
+
+<ul><li>Отображение и выбор цвета для css переменных</li></ul>
+
+<h3>Улучшено</h3>
+
+<ul><li>Форматирование кода при вводе</li><li>Подсветка js синтаксиса</li></ul>
+
+<h3>Исправлено</h3>
+
+<ul><li>Дополнения при многострочном форматировании</li></ul>
+
+<h2>0.0.11-BETA</h2>
+
+<h3>Добавлено</h3>
+
+<ul><li>Запуск тестов из тестовых файлов для Vitest &gt;= 3 версии и Jest &gt;= 20 версии</li><li>Создание ран-конфигураций для Vitest &gt;= 3 версии и Jest &gt;= 20 версии</li><li>Вывод результата тестов в репортер Idea для Vitest &gt;= 3 версии и Jest &gt;= 20 версии</li><li>Переход от имени класса к стилям для styled components в React</li><li>Подсветка синтаксиса значений атрибутов в шаблонах Angular</li></ul>
+
+<h3>Исправлено</h3>
+
+<ul><li>Удалены предупреждения об использовании невалидных тэгов/аттрибутов в шаблонах Angular</li></ul>
+
+<h2>0.0.10-BETA</h2>
+
+<h3>Исправлено</h3>
+
+<ul><li>Определение диалекта для StyleLint</li></ul>
+
+<h2>0.0.9-BETA</h2>
+
+<h3>Исправлено</h3>
+
+<ul><li>Выбор окружения nodejs в генераторе проекта</li></ul>
+
+<h2>0.0.8-BETA</h2>
+
+<h3>Добавлено</h3>
+
+<ul><li>Поддержка ESLint в монорепозиториях</li><li>Поддержка StyleLint</li><li>Поддержка Prettier</li></ul>
+
+<h3>Улучшено</h3>
+
+<ul><li>Автодополнения свойств, переменных, правил для CSS, LESS и SCSS</li></ul>
+
+<h2>0.0.7-BETA</h2>
+
+<h3>Добавлено</h3>
+
+<ul><li>Поддержана работа в IDEA 2025.3</li></ul>
+
+<h2>0.0.6-BETA</h2>
+
+<h3>Добавлено</h3>
+
+<ul><li>Возможность установить окружение nodejs из настроек и экрана создания нового проекта</li><li>Поддержка выбора пакетного менеджера (npm/pnpm/yarn)</li></ul>
+
+<h3>Улучшено</h3>
+
+<ul><li>Терминал вывода ран конфигураций теперь интерактивный</li></ul>
+
+<h3>Исправлено</h3>
+
+<ul><li>Поддержка @typescript/native-preview. Также обновлен до последней версии</li></ul>
+
+<h2>0.0.5-BETA</h2>
+
+<h3>Исправлено</h3>
+
+<ul><li>Изменение ломающее языковой сервер css на windows</li></ul>
+
+<h2>0.0.4-BETA</h2>
+
+<h3>Добавлено</h3>
+
+<ul><li>Исполнение и добавление ран конфигураций для js файлов</li><li>Ран конфигурации для npm скриптов</li><li>Автодополнение и переход к css переменным всего проекта</li></ul>
+
+<h3>Улучшено</h3>
+
+<ul><li>Подсветка синтаксиса css</li><li>Более релевантные дополнения js кода</li></ul>
+
+<h3>Исправлено</h3>
+
+<ul><li>Подсветка синтаксиса вынесена в отдельные цветовые схемы (Webtools Dark/Light)</li></ul>
+
+<h2>0.0.3-BETA</h2>
+
+<h3>Добавлено</h3>
+
+<ul><li>Поддержка Eslint &lt; 8</li><li>Установка зависимостей из package.json</li><li>Генерация кода с использованием схем для Angular</li><li>Автоматическое определение установленного Node.js</li><li>Поддержка семантики Typescript</li><li>Эксперементальный режим Typescript Native</li></ul>
+
+<h2>0.0.2-BETA</h2>
+
+<h3>Добавлено</h3>
+
+<ul><li>Базовая поддержка Angular &gt; 18 и Vue 3 (автодополнения, подсказки, переход к определениям и референсам)</li><li>Поддержка Eslint &gt;= 8</li><li>Генерация проекта в Project Wizard</li><li>Запуск скриптов из package.json</li></ul>
+
+<h2>0.0.1-BETA</h2>
+
+<h3>Добавлено</h3>
+
+<ul><li>Поддержка основыных возможностей typescript language server (автодополнения, подсказки, переход к определениям и референсам)</li><li>Подсветка синтаксиса javascript/typescript, html, css</li><li>Поддержка React</li></ul>]]></change-notes>
+  <version>1.0.1</version>
+  <id>com.haulmont.webtools</id>
+  <name>Frontend/Web</name>
+  <vendor email="openide@openide.ru" url="https://openide.ru">OpenIDE</vendor>
+  <description><![CDATA[<p>
+  Плагин OpenIDE Frontend/Web предоставляет расширенную поддержку фронтенд-разработки на TypeScript/JavaScript и современных фреймворках (React, Angular, Vue, Next.js).
+  А также поддержку ESLint и CSS.
+</p>
+
+
+<p><h3>TypeScript и JavaScript</h3></p>
+<ul>
+  <li>Поддержка JSX</li>
+  <li>Показ и обновление ошибок TypeScript в реальном времени</li>
+  <li>Переход к определению (Go to)</li>
+  <li>Поиск всех упоминаний (Find References)</li>
+  <li>Поддержка типов и автодополнение</li>
+  <li>Hover-информация</li>
+  <li>Рефакторинги:
+    <ul>
+      <li>Add braces to arrow function</li>
+      <li>Convert to named/anonymous/async function</li>
+      <li>Remove unused declaration</li>
+      <li>Add missing attributes</li>
+      <li>Extract to type alias</li>
+      <li>Move to new file</li>
+      <li>Extract to new function</li>
+      <li>Surround with…</li>
+      <li>Convert require → import</li>
+      <li>Infer function return type</li>
+      <li>Rename file/component</li>
+    </ul>
+  </li>
+</ul>
+
+
+<p><h3>Фреймворки</h3>
+<h3>Vue</h3></p>
+<ul>
+  <li>Предложения тэгов</li>
+  <li>Автодополнения аттрибутов</li>
+  <li>Проверка импортов (существование путей, использование комопонета)</li>
+  <li>Автокомплит текстовых интерполяций</li>
+  <li>Диагностика типов в интерполяции</li>
+  <li>Автокомплит обработчиков событий и динамических свойств</li>
+  <li>Автокомплит селекторов стилей</li>
+  <li>Переход к селектору стилей из шаблона</li>
+  <li>Поддержка Emmet в шаблоне</li>
+</ul>
+<h3>React</h3>
+<ul>
+  <li>Автозакрытие тэгов</li>
+  <li>Автоимпорты и автодополнения</li>
+</ul>
+<h3>Angular</h3>
+<ul>
+  <li>Подсветка синтаксиса шаблонов</li>
+  <li>Подсказки типов в шаблонах</li>
+  <li>Переход к комопонету и переменным из шаблона</li>
+  <li>Поддержка аннотаций и декораторов</li>
+  <li>Генерация кода с использованием схем из контекстного меню струкутры проекта</li>
+</ul>
+
+
+<p><h3>ESLint</h3></p>
+<ul>
+  <li>Поддержка всех распространённых конфигураций ESLint</li>
+  <li>Диагностика и предложения исправлений</li>
+</ul>
+
+
+<p><h3>CSS и препроцессоры</h3></p>
+<ul>
+  <li>Поддержка CSS, SCSS и Less</li>
+  <li>Подсветка переменных</li>
+  <li>Автодополнение классов и стилей</li>
+  <li>Поддержка цветовых палитр и inline preview</li>
+</ul>
+
+
+<p><h3>Общее</h3></p>
+<ul>
+  <li>Генератор приоржений React/Vue/Nextjs/Angular</li>
+  <li>Запуск скриптов и установка зависимостей из package.json</li>
+  <li>Подсветка синтаксиса</li>
+  <li>Подсветка ошибок</li>
+  <li>Предложение автодополнений</li>
+  <li>Документация по ховеру</li>
+</ul>
+
+
+<p><h3>Окружение и настройка</h3></p>
+<p>Для работы Frontend/Web требуется плагин <a href="https://plugins.jetbrains.com/plugin/23257-lsp4ij">LSP4IJ</a> версии 0.19.4.4 и <a href="https://nodejs.org/en">Node.js</a> версии 20.19.0 и выше. Если путь до исполняемого файла Node.js не определился автоматически, его нужно указать в настройках Settings -> Languages & Frameworks -> Frontend/Web -> Path to Node.js. После применения настроек может быть необходимо перезапустить IDE.
+</p>
+
+
+<p><h3>Контакты</h3></p>
+<p>Есть вопросы или предложения? Мы всегда готовы помочь! Присоединяйтесь к нашему <a href="https://t.me/openide_chat">Telegram-чату</a>. Ждём вашу обратную связь и готовы ответить на все вопросы!</p>]]></description>
+  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.lang</depends>
+  <depends>com.intellij.modules.json</depends>
+  <depends>com.redhat.devtools.lsp4ij</depends>
+  <depends>org.jetbrains.plugins.textmate</depends>
+  <depends>org.jetbrains.plugins.terminal</depends>
+  <depends>tanvd.grazi</depends>
+  <depends optional="true" config-file="web-tools-licensing.xml">ru.openide.pro.updater</depends>
+  <!-- Content modules of the platform test-runner plugin. Up to 253 these classes
+         (SMTestRunnerConnectionUtil, SMTRunnerConsoleProperties, SMTestLocator, …) lived in
+         lib/app.jar and were visible to every plugin; since 262 they ship as
+         plugins/platform-testRunner-plugin/lib/modules/intellij.platform.smRunner.jar and must be
+         requested explicitly. Module dependencies are not transitive, so nothing we <depends> on
+         brings them in. Without this block the test run configurations (Jest / Vitest / Playwright /
+         TestCafe) and the DAP test console fail with NoClassDefFoundError the first time a test is
+         launched — and compiling against a 253 platform does not reveal it. -->
+  <dependencies>
+    <module name="intellij.platform.smRunner" />
+    <module name="intellij.platform.testRunner" />
+    <module name="intellij.xml.emmet" />
+  </dependencies>
+  <extensionPoints>
+    <extensionPoint qualifiedName="com.haulmont.webtools.licenseProvider" interface="com.haulmont.webtools.licensing.WebToolsLicenseProvider" dynamic="true" />
+  </extensionPoints>
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Enables the "Attach" option in the Open Project dialog, exactly as WebStorm does
+             (see webstorm-customization.xml). Attached directory is loaded as an extra module. -->
+    <projectAttachProcessor implementation="com.intellij.platform.ModuleAttachProcessor" />
+    <actionOnSave id="EslintActionOnSave" implementation="com.haulmont.webtools.langservers.eslintls.EslintSaveListener" order="after FormatOnSaveAction" />
+    <actionOnSave id="StylelintActionOnSave" implementation="com.haulmont.webtools.langservers.stylelintls.StylelintSaveListener" order="after FormatOnSaveAction" />
+    <actionOnSave id="PrettierActionOnSave" implementation="com.haulmont.webtools.langservers.prettierls.PrettierSaveListener" order="after FormatOnSaveAction" />
+    <copyPastePostProcessor implementation="com.haulmont.webtools.langservers.prettierls.PrettierCopyPasteProcessor" />
+    <copyPastePostProcessor implementation="com.haulmont.webtools.langservers.tls.TSPasteCopyPasteProcessor" />
+    <copyPastePostProcessor implementation="com.haulmont.webtools.langservers.angls.AngularPasteCopyPasteProcessor" />
+    <!--        <projectService serviceImplementation="com.haulmont.webtools.settings.WebToolsSettings"/>-->
+    <projectService serviceImplementation="com.haulmont.webtools.langservers.angls.AngularProjectContext" />
+    <projectService serviceImplementation="com.haulmont.webtools.nestjs.NestProjectContext" />
+    <projectService serviceImplementation="com.haulmont.webtools.nestjs.NestSchematicsService" />
+    <projectService serviceImplementation="com.haulmont.webtools.langservers.angls.AngularSelectorsCache" />
+    <projectService serviceImplementation="com.haulmont.webtools.langservers.angls.AngularCopyPasteService" />
+    <projectService serviceImplementation="com.haulmont.webtools.langservers.angls.annotations.templates.AngularInlineTemplatesCache" />
+    <projectService serviceImplementation="com.haulmont.webtools.testing.TestResultsCache" />
+    <projectService serviceImplementation="com.haulmont.webtools.run.debug.JsDebugDapServerService" />
+    <projectService serviceImplementation="com.haulmont.webtools.testing.TestBlocksStore" />
+    <applicationService serviceImplementation="com.haulmont.webtools.settings.editor.inlayHints.types.typescript.TSInlayPrefsCache" />
+    <applicationService serviceImplementation="com.haulmont.webtools.settings.angular.AngularLsVersionService" />
+    <applicationService serviceImplementation="com.haulmont.webtools.settings.highlighting.EditorHighlightingPromoService" />
+    <applicationService serviceImplementation="com.haulmont.webtools.settings.vue.VueLsVersionService" />
+    <projectService serviceImplementation="com.haulmont.webtools.langservers.cssls.CssColorVariablesCache" />
+    <projectService serviceImplementation="com.haulmont.webtools.langservers.cssls.CssDocumentColorsCache" />
+    <projectService serviceImplementation="com.haulmont.webtools.langservers.cssls.CssColorVariablesUsagesCache" />
+    <projectService serviceImplementation="com.haulmont.webtools.langservers.prettierls.codestyle.PrettierConfigCache" />
+    <toolWindow id="Playwright" anchor="right" secondary="true" icon="com.haulmont.webtools.WebToolsIcons.PLAYWRIGHT" factoryClass="com.haulmont.webtools.testing.codegen.PlaywrightToolWindowFactory" />
+    <toolWindow id="TestCafe" anchor="right" secondary="true" icon="com.haulmont.webtools.WebToolsIcons.TESTCAFE" factoryClass="com.haulmont.webtools.testing.testcafe.TestcafeToolWindowFactory" />
+    <highlightingPassFactory implementation="com.haulmont.webtools.langservers.cssls.CSSColorHighlightingPassFactory" />
+    <gotoDeclarationHandler implementation="com.haulmont.webtools.langservers.cssmodule.GotoDeclarationHandler" />
+    <gotoDeclarationHandler implementation="com.haulmont.webtools.langservers.angls.actions.AngularSelectorGotoDeclarationHandler" />
+    <gotoDeclarationHandler implementation="com.haulmont.webtools.langservers.cssls.CssVariableGotoDeclarationHandler" order="first" />
+    <typedHandler implementation="com.haulmont.webtools.langservers.cssls.CssTypedHandler" />
+    <!-- Enter inside an empty tag in .vue. No XML PSI there, so the platform's XML handler never
+             applies; LSP4IJ's handler claims Enter in every TextMate file but only knows brace pairs,
+             so it must run after ours. -->
+    <enterHandlerDelegate id="VueEnterBetweenTagsHandler" implementation="com.haulmont.webtools.langservers.vuels.VueEnterBetweenTagsHandler" order="first, before LSPEditorImprovementsEnterBetweenBracesHandler" />
+    <!-- Puts the plain word back among the selection candidates: LSP4IJ turns the platform word
+             selectioner off whenever a server advertises selectionRange, and a server is free to expose
+             no range as small as a word — Tailwind's @theme block and Vue interpolations both did. -->
+    <extendWordSelectionHandler id="WebFileWordSelectionHandler" implementation="com.haulmont.webtools.langservers.WebFileWordSelectionHandler" order="first" />
+    <registryKey defaultValue="true" description="Enable run line marker for package.json" key="com.haulmont.webtools.runLineMarkers" />
+    <registryKey defaultValue="false" description="Has license" key="has.license" />
+    <registryKey defaultValue="true" description="Enable CSS module goto declaration via custom textDocument/definition/v2" key="com.haulmont.webtools.cssModuleGotoDeclaration" />
+    <registryKey defaultValue="true" description="Run/create test configurations from specs" key="com.haulmont.webtools.testing.main" />
+    <registryKey defaultValue="true" description="Use SM test runner UI for Jest/Vitest (disable to fall back to terminal console)" key="com.haulmont.webtools.testing.useReporter" />
+    <registryKey defaultValue="true" description="Auto-import missing symbols after pasting code in TypeScript/JavaScript files" key="com.haulmont.webtools.ts.pasteAutoImport" />
+    <registryKey defaultValue="true" description="Auto-import missing components/directives after pasting into Angular templates" key="com.haulmont.webtools.angular.pasteAutoImport" />
+    <registryKey defaultValue="true" description="Enable LSP message logging to files in IDE log directory (lspLogs/)" key="com.haulmont.webtools.lspLog" />
+    <registryKey defaultValue="false" description="Offer not-yet-imported SFC components in Vue templates. Costs a project-wide auto-import fetch from tsserver on every tag completion (~36 MB, measured 2-4s); already-imported and globally registered components are unaffected" key="com.haulmont.webtools.vue.templateComponentAutoImport" />
+    <codeInsight.codeVisionProvider implementation="com.haulmont.webtools.langservers.vuels.usages.VueComponentUsagesCodeVisionProvider" />
+    <highlightingPassFactory implementation="com.haulmont.webtools.testing.SpecTestHighlightingPassFactory" />
+    <spellchecker.support implementationClass="com.haulmont.webtools.spellcheck.WebToolsTextmateSpellcheckingStrategy" language="textmate" order="first" />
+    <configurationType implementation="com.haulmont.webtools.run.configurations.npm.NpmRunConfigurationType" />
+    <configurationType implementation="com.haulmont.webtools.run.configurations.vitest.VitestRunConfigurationType" />
+    <configurationType implementation="com.haulmont.webtools.run.configurations.jest.JestRunConfigurationType" />
+    <configurationType implementation="com.haulmont.webtools.run.configurations.playwright.PlaywrightRunConfigurationType" />
+    <configurationType implementation="com.haulmont.webtools.run.configurations.testcafe.TestcafeRunConfigurationType" />
+    <runConfigurationProducer implementation="com.haulmont.webtools.run.configurations.npm.NpmRunConfigurationProducer" />
+    <configurationType implementation="com.haulmont.webtools.run.configurations.node.NodeRunConfigurationType" />
+    <runConfigurationProducer implementation="com.haulmont.webtools.run.configurations.node.NodeRunConfigurationProducer" />
+    <configurationType implementation="com.haulmont.webtools.run.configurations.node.NodeAttachRunConfigurationType" />
+    <programRunner implementation="com.haulmont.webtools.run.debug.WebToolsDapDebugRunner" />
+    <newProjectWizard.generator implementation="com.haulmont.webtools.generator.angular.AngularProjectWizard" />
+    <newProjectWizard.generator implementation="com.haulmont.webtools.generator.react.ReactProjectWizard" />
+    <newProjectWizard.generator implementation="com.haulmont.webtools.generator.vue.VueProjectWizard" />
+    <newProjectWizard.generator implementation="com.haulmont.webtools.generator.nextjs.NextJSProjectWizard" />
+    <newProjectWizard.generator implementation="com.haulmont.webtools.generator.vite.ViteProjectWizard" />
+    <postStartupActivity implementation="com.haulmont.webtools.generator.ProjectWizardStartupActivity" />
+    <postStartupActivity implementation="com.haulmont.webtools.settings.importSettings.ImportSettingsActivity" />
+    <postStartupActivity implementation="com.haulmont.webtools.langservers.tls.TSServerEagerStartActivity" />
+    <!-- Reads the schematics of the project's own Nest CLI once per open project; no-op elsewhere. -->
+    <postStartupActivity implementation="com.haulmont.webtools.nestjs.NestSchematicsWarmupActivity" />
+    <postStartupActivity implementation="com.haulmont.webtools.run.configurations.runtime.RunConfigurationRuntimeValidationActivity" />
+    <editorNotificationProvider implementation="com.haulmont.webtools.langservers.angls.AngularVersionMismatchNotificationProvider" />
+    <editorNotificationProvider implementation="com.haulmont.webtools.settings.highlighting.EditorHighlightingPromoNotificationProvider" />
+    <codeStyleSettingsModifier implementation="com.haulmont.webtools.langservers.prettierls.codestyle.PrettierCodeStyleSettingsModifier" order="first" />
+    <notificationGroup id="Project Generator" displayType="BALLOON" isLogByDefault="true" toolWindowId="Event Log" />
+    <notificationGroup id="Scripts Runner" displayType="BALLOON" isLogByDefault="true" toolWindowId="Event Log" />
+    <notificationGroup id="Frontend/Web Notifications" displayType="BALLOON" isLogByDefault="true" toolWindowId="Event Log" />
+    <projectConfigurable instance="com.haulmont.webtools.settings.WebToolsSettingsConfigurable" displayName="Frontend/Web" parentId="language" groupId="language" id="com.generator.settings.node" />
+    <projectConfigurable instance="com.haulmont.webtools.settings.runtime.RuntimeSettingsConfigurable" parentId="com.generator.settings.node" displayName="JavaScript Runtime" />
+    <projectConfigurable instance="com.haulmont.webtools.settings.eslint.EslintSettingsConfigurable" parentId="com.generator.settings.node" displayName="ESLint" />
+    <projectConfigurable instance="com.haulmont.webtools.settings.prettier.PrettierSettingsConfigurable" parentId="com.generator.settings.node" displayName="Prettier" />
+    <projectConfigurable instance="com.haulmont.webtools.settings.stylelint.StylelintSettingsConfigurable" parentId="com.generator.settings.node" displayName="Stylelint" />
+    <projectConfigurable provider="com.haulmont.webtools.settings.angular.AngularSettingsConfigurableProvider" parentId="com.generator.settings.node" displayName="Angular" />
+    <projectConfigurable provider="com.haulmont.webtools.settings.vue.VueSettingsConfigurableProvider" parentId="com.generator.settings.node" displayName="Vue" />
+    <internalFileTemplate name="JavaScript File" />
+    <internalFileTemplate name="JavaScript JSX File" />
+    <internalFileTemplate name="TypeScript File" />
+    <internalFileTemplate name="TypeScript JSX File" />
+    <!-- Two component styles × two script languages; CreateVueComponentAction offers the styles and
+             picks the language from the target directory, so the user only ever sees two choices. -->
+    <internalFileTemplate name="Vue Composition API Component" />
+    <internalFileTemplate name="Vue Composition API Component TypeScript" />
+    <internalFileTemplate name="Vue Options API Component" />
+    <internalFileTemplate name="Vue Options API Component TypeScript" />
+    <iconProvider implementation="com.haulmont.webtools.SourceTreeFileIconProvider" />
+    <codeInsight.lineMarkerProvider language="JSON" implementationClass="com.haulmont.webtools.linemarker.PackageJsonLineMarkerProvider" />
+    <!-- Claims *.css from the bundled "CSS (syntax highlighting only)" AbstractFileType, which
+             would otherwise win the extension and keep TextMate away from the file. Highlighting,
+             parsing and the rest then come from the platform's TextMate support — see CSSFileType,
+             which is why no providers of our own are registered here. -->
+    <fileType id="CSSFile" name="CSSFile" implementationClass="com.haulmont.webtools.css.CSSFileType" fieldName="INSTANCE" extensions="css" />
+    <fileType id="JSTSFile" name="JavaScript" implementationClass="com.haulmont.webtools.js.JSFileType" fieldName="INSTANCE" extensions="js;mjs;cjs;ts;tsx;jsx" />
+    <!-- Extension-less JS tooling configs, which the IDE would otherwise leave as plain text.
+             Neither bean declares a file type: a <fileType> whose name is already registered only
+             contributes its matchers to it (FileTypeManagerImpl.mergeOrInstantiateFileTypeBean), so
+             both types keep belonging to the JSON plugin, which <depends> guarantees is present.
+
+             .babelrc is JSON5 because Babel reads it with the json5 package (@babel/core
+             config/files/configuration.js, readConfigJSON5) — comments and trailing commas are legal
+             in it and plain JSON would flag both.
+
+             .prettierrc and .stylelintrc are mapped to JSON because that is what they contain in
+             practice, and it buys the SchemaStore option schemas. Note that the tools themselves read
+             them with a YAML loader (Prettier's loaders table maps the empty extension to loadYaml;
+             Stylelint inherits noExt: loadYaml from cosmiconfig), so a config written in YAML block
+             style is valid for the tool while the editor reports it as broken JSON. -->
+    <fileType name="JSON5" fileNames=".babelrc" />
+    <fileType name="JSON" fileNames=".prettierrc;.stylelintrc" />
+    <editorHighlighterProvider filetype="JavaScript" implementationClass="com.haulmont.webtools.js.JsEditorHighlighterProvider" />
+    <!-- "Phantom" file type for the JS/TS language. It is used ONLY to host the JS/TS
+             inlay-hints settings entry (group label + preview.js). Real .js/.ts/.tsx files are
+             handled by the TextMate-backed JavaScript file type above. The dummy extension avoids
+             a "no file name matchers" registration error; no real file uses it. -->
+    <fileType id="JSTSInlayFile" name="JS/TS" language="JS/TS" implementationClass="com.haulmont.webtools.js.JSTSFileType" fieldName="INSTANCE" extensions="webtoolsjsts" />
+    <editorHighlighterProvider filetype="JS/TS" implementationClass="com.haulmont.webtools.js.JsEditorHighlighterProvider" />
+    <codeInsight.declarativeInlayProvider language="JS/TS" implementationClass="com.haulmont.webtools.settings.editor.inlayHints.types.typescript.TSInlayHintsProvider" isEnabledByDefault="true" group="TYPES_GROUP" providerId="com.haulmont.webtools.tsInlayHints" bundle="messages.TSInlayHints" nameKey="provider.name" descriptionKey="provider.description">
+      <option optionId="ts.parameterNames" nameKey="option.parameterNames" bundle="messages.TSInlayHints" descriptionKey="option.parameterNames.description" enabledByDefault="false" />
+      <option optionId="ts.parameterTypes" nameKey="option.parameterTypes" bundle="messages.TSInlayHints" descriptionKey="option.parameterTypes.description" enabledByDefault="false" />
+      <option optionId="ts.variableTypes" nameKey="option.variableTypes" bundle="messages.TSInlayHints" descriptionKey="option.variableTypes.description" enabledByDefault="false" />
+      <option optionId="ts.propertyTypes" nameKey="option.propertyTypes" bundle="messages.TSInlayHints" descriptionKey="option.propertyTypes.description" enabledByDefault="false" />
+      <option optionId="ts.returnTypes" nameKey="option.returnTypes" bundle="messages.TSInlayHints" descriptionKey="option.returnTypes.description" enabledByDefault="false" />
+      <option optionId="ts.enumValues" nameKey="option.enumValues" bundle="messages.TSInlayHints" descriptionKey="option.enumValues.description" enabledByDefault="false" />
+    </codeInsight.declarativeInlayProvider>
+    <codeInsight.declarativeInlayProviderCustomSettingsProvider providerId="com.haulmont.webtools.tsInlayHints" language="JS/TS" implementationClass="com.haulmont.webtools.settings.editor.inlayHints.types.typescript.TSInlayHintsCustomSettingsProvider" />
+    <textmate.bundleProvider implementation="com.haulmont.webtools.textmate.WebToolsTextMateBundleProvider" />
+    <consoleFilterProvider implementation="com.haulmont.webtools.run.console.FilePathConsoleFilterProvider" />
+    <consoleFilterProvider implementation="com.haulmont.webtools.run.console.AngularCliConsoleFilterProvider" />
+    <consoleFilterProvider implementation="com.haulmont.webtools.run.console.PlaywrightInstallFilterProvider" />
+    <directoryIndexExcludePolicy implementation="com.haulmont.webtools.indexing.NodeModulesExcludePolicy" />
+    <xml.zenCodingGenerator implementation="com.haulmont.webtools.emmet.JsxEmmetGenerator" />
+    <xml.zenCodingGenerator implementation="com.haulmont.webtools.emmet.VueEmmetGenerator" />
+    <postStartupActivity implementation="com.haulmont.webtools.langservers.tls.custom.JsxCommentInterceptorInstaller" />
+    <annotator language="HTML" implementationClass="com.haulmont.webtools.langservers.angls.annotations.templates.AngularTemplateExpressionAnnotator" />
+    <annotator language="textmate" implementationClass="com.haulmont.webtools.langservers.angls.annotations.templates.AngularInlineTemplateAnnotator" />
+    <typedHandler implementation="com.haulmont.webtools.langservers.angls.annotations.templates.AngularInlineTemplateTypedHandler" />
+    <!-- Closes a tag when its `>` is typed in .vue: no markup PSI there, and the Vue server only
+             offers the closing tag through the completion popup. -->
+    <typedHandler implementation="com.haulmont.webtools.langservers.vuels.VueTagAutoCloseTypedHandler" />
+    <completion.contributor language="textmate" implementationClass="com.haulmont.webtools.langservers.angls.annotations.templates.AngularInlineTemplateCompletionContributor" />
+    <completion.confidence language="textmate" implementationClass="com.haulmont.webtools.langservers.tls.TSCompletionConfidence" />
+    <!-- JS REPL completions for the browser debug console; no-ops outside a WebToolsReplConsole. -->
+    <completion.contributor language="any" implementationClass="com.haulmont.webtools.run.debug.repl.WebToolsReplCompletionContributor" />
+    <!-- TS/JS completions for a breakpoint Condition / "Evaluate and log" field when no session is
+             suspended; no-ops outside a DAPExpressionCodeFragment. -->
+    <completion.contributor language="any" implementationClass="com.haulmont.webtools.run.debug.breakpoints.WebToolsBreakpointConditionCompletionContributor" />
+    <applicationService serviceImplementation="com.haulmont.webtools.fus.FusCollector" />
+    <postStartupActivity implementation="com.haulmont.webtools.fus.WebStartupActivity" />
+    <postStartupActivity implementation="com.haulmont.webtools.lsplog.LspLogStartupActivity" />
+  </extensions>
+  <projectListeners>
+    <listener class="com.haulmont.webtools.testing.TestGutterRootsListener" topic="com.intellij.openapi.roots.ModuleRootListener" />
+  </projectListeners>
+  <actions>
+    <action id="WebTools.Playwright.RecordNew" class="com.haulmont.webtools.testing.codegen.RecordNewPlaywrightTestAction">
+      <add-to-group group-id="EditorPopupMenu" anchor="last" />
+      <add-to-group group-id="ProjectViewPopupMenu" anchor="last" />
+    </action>
+    <action id="WebTools.Playwright.RecordAtCursor" class="com.haulmont.webtools.testing.codegen.RecordPlaywrightAtCursorAction">
+      <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="WebTools.Playwright.RecordNew" />
+    </action>
+    <action id="WebTools.Testcafe.RecordNew" class="com.haulmont.webtools.testing.testcafe.TestcafeRecordAction">
+      <add-to-group group-id="ToolsMenu" anchor="last" />
+    </action>
+    <action id="WebTools.Testcafe.RecordAtCursor" class="com.haulmont.webtools.testing.testcafe.TestcafeRecordAtCursorAction">
+      <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="WebTools.Playwright.RecordAtCursor" />
+    </action>
+    <action id="WebTools.NewJavaScriptFile" class="com.haulmont.webtools.newfile.CreateJavaScriptFileAction" text="JavaScript File" icon="/com/haulmont/webtools/icons/js.svg">
+      <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile" />
+    </action>
+    <action id="WebTools.NewTypeScriptFile" class="com.haulmont.webtools.newfile.CreateTypeScriptFileAction" text="TypeScript File" icon="/com/haulmont/webtools/icons/ts.svg">
+      <add-to-group group-id="NewGroup" anchor="after" relative-to-action="WebTools.NewJavaScriptFile" />
+    </action>
+    <action id="WebTools.NewVueComponent" class="com.haulmont.webtools.newfile.CreateVueComponentAction" text="Vue Component" description="Create a Vue single-file component" icon="/com/haulmont/webtools/icons/vue.svg">
+      <add-to-group group-id="NewGroup" anchor="after" relative-to-action="WebTools.NewTypeScriptFile" />
+    </action>
+    <action id="angular.goToComponentWithTemplateFile" class="com.haulmont.webtools.langservers.angls.actions.AngularGoToComponentWithTemplateFileAction" />
+    <action id="angular.applyCompletionCodeAction" class="com.haulmont.webtools.langservers.angls.actions.AngularApplyCompletionCodeAction" />
+    <action id="com.haulmont.webtools.nestjs.NewNestSchematic" class="com.haulmont.webtools.nestjs.NestGenerateAction" text="Nest Schematic" description="Generate a Nest element via the project's Nest CLI" icon="/com/haulmont/webtools/icons/nodejs.svg">
+      <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile" />
+    </action>
+    <action id="com.haulmont.webtools.angular.NewAngularComponent" class="com.haulmont.webtools.langservers.angls.actions.AngularGenerateComponentAction" text="Angular Component" description="Generate Angular component via Angular CLI" icon="/com/haulmont/webtools/icons/angular.svg">
+      <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile" />
+    </action>
+  </actions>
+  <extensions defaultExtensionNs="com.intellij">
+    <xml.elementDescriptorProvider implementation="com.haulmont.webtools.langservers.angls.inspections.AngularCustomElementDescriptorProvider" order="first" />
+    <lang.inspectionSuppressor language="HTML" implementationClass="com.haulmont.webtools.langservers.angls.inspections.AngularAttributeInspectionSuppressor" />
+    <!--        <polySymbols.webTypes source="web-types/angular-bindings.web-types.json" enableByDefault="true"/>-->
+    <!--        <polySymbols.queryScopeContributor implementation="com.haulmont.webtools.langservers.angls.AngularWebTypesQueryScopeContributor"/>-->
+    <editorNotificationProvider implementation="com.haulmont.webtools.langservers.InvalidNodePathNotificationProvider" />
+    <editorNotificationProvider implementation="com.haulmont.webtools.langservers.vuels.VueProNotificationProvider" />
+    <editorNotificationProvider implementation="com.haulmont.webtools.langservers.vuels.VueLsInstallNotificationProvider" />
+    <editorNotificationProvider implementation="com.haulmont.webtools.langservers.angls.AngularProNotificationProvider" />
+    <editorNotificationProvider implementation="com.haulmont.webtools.langservers.cssmodule.CssModuleNavigationNotificationProvider" />
+    <colorSettingsPage implementation="com.haulmont.webtools.WebToolsLspColorSettingsPage" />
+    <bundledColorScheme path="/colorScheme/WebToolsDefaultDark" />
+    <bundledColorScheme path="/colorScheme/WebToolsDefaultLight" />
+    <!-- JS/TS DAP breakpoint type; order="first" so new JS/TS breakpoints use it (own editors
+             provider for scope-aware condition completion). Its own id avoids clashing with the stock
+             or another plugin's DAP breakpoint type. -->
+    <xdebugger.breakpointType implementation="com.haulmont.webtools.run.debug.breakpoints.WebToolsDAPBreakpointType" order="first" />
+  </extensions>
+  <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">
+    <debugAdapterServer id="haulmont.webtools.jsdebug" name="Node.js (Web Tools)" factoryClass="com.haulmont.webtools.run.debug.JsDebugAdapterDescriptorFactory" />
+    <server id="com.haulmont.webtools.langservers.vuels.VueLanguageServer" name="Vue Language Server" factoryClass="com.haulmont.webtools.langservers.vuels.VueLanguageServerFactory" />
+    <server id="com.haulmont.webtools.langservers.tls.TSLanguageServer" name="TS Language Server" factoryClass="com.haulmont.webtools.langservers.tls.TSLanguageServerFactory" />
+    <server id="com.haulmont.webtools.langservers.tgls.TSLanguageServer" name="TSGO Language Server" factoryClass="com.haulmont.webtools.langservers.tgls.TSLanguageServerFactory" />
+    <server id="com.haulmont.webtools.langservers.cssls.CSSLanguageServer" name="CSS Language Server" factoryClass="com.haulmont.webtools.langservers.cssls.CSSLanguageServerFactory" />
+    <server id="com.haulmont.webtools.langservers.angls.AngularLanguageServer" name="Angular Language Server" factoryClass="com.haulmont.webtools.langservers.angls.AngularLanguageServerFactory" />
+    <server id="com.haulmont.webtools.langservers.eslintls.ESLintLanguageServer" name="ESLint Language Server" factoryClass="com.haulmont.webtools.langservers.eslintls.ESLintLanguageServerFactory" />
+    <server id="com.haulmont.webtools.langservers.stylelintls.StyleLintLanguageServer" name="StyleLint Language Server" factoryClass="com.haulmont.webtools.langservers.stylelintls.StyleLintLanguageServerFactory" />
+    <server id="com.haulmont.webtools.langservers.prettierls.PrettierLanguageServer" name="Prettier" factoryClass="com.haulmont.webtools.langservers.prettierls.PrettierLanguageServerFactory" />
+    <server id="com.haulmont.webtools.langservers.tailwindls.TailwindLanguageServer" name="Tailwind CSS Language Server" factoryClass="com.haulmont.webtools.langservers.tailwindls.TailwindLanguageServerFactory" />
+    <fileNamePatternMapping patterns="*.vue" serverId="com.haulmont.webtools.langservers.vuels.VueLanguageServer" languageId="vue" />
+    <!-- Vue LS v3 (hybrid) needs tsserver+@vue/typescript-plugin to see .vue files. tls attaches to
+             .vue only as a silent backend (gated by TsLSPClientFeatures.isEnabled → v3 only); all its
+             user-facing features are suppressed for .vue (see TSLSPClientFeatures). -->
+    <fileNamePatternMapping patterns="*.vue" serverId="com.haulmont.webtools.langservers.tls.TSLanguageServer" languageId="vue" />
+    <fileNamePatternMapping patterns="*.js" serverId="com.haulmont.webtools.langservers.tls.TSLanguageServer" languageId="javascript" />
+    <fileNamePatternMapping patterns="*.cjs" serverId="com.haulmont.webtools.langservers.tls.TSLanguageServer" languageId="javascript" />
+    <fileNamePatternMapping patterns="*.mjs" serverId="com.haulmont.webtools.langservers.tls.TSLanguageServer" languageId="javascript" />
+    <fileNamePatternMapping patterns="*.jsx" serverId="com.haulmont.webtools.langservers.tls.TSLanguageServer" languageId="javascriptreact" />
+    <fileNamePatternMapping patterns="*.ts" serverId="com.haulmont.webtools.langservers.tls.TSLanguageServer" languageId="typescript" />
+    <fileNamePatternMapping patterns="*.tsx" serverId="com.haulmont.webtools.langservers.tls.TSLanguageServer" languageId="typescriptreact" />
+    <fileNamePatternMapping patterns="*.ts" serverId="com.haulmont.webtools.langservers.tgls.TSLanguageServer" languageId="typescript" />
+    <fileNamePatternMapping patterns="*.tsx" serverId="com.haulmont.webtools.langservers.tgls.TSLanguageServer" languageId="typescriptreact" />
+    <fileNamePatternMapping patterns="*.css" serverId="com.haulmont.webtools.langservers.cssls.CSSLanguageServer" languageId="css" />
+    <fileNamePatternMapping patterns="*.scss" serverId="com.haulmont.webtools.langservers.cssls.CSSLanguageServer" languageId="scss" />
+    <fileNamePatternMapping patterns="*.less" serverId="com.haulmont.webtools.langservers.cssls.CSSLanguageServer" languageId="less" />
+    <fileNamePatternMapping patterns="*.ts" serverId="com.haulmont.webtools.langservers.angls.AngularLanguageServer" languageId="typescript" />
+    <fileNamePatternMapping patterns="*.js" serverId="com.haulmont.webtools.langservers.eslintls.ESLintLanguageServer" languageId="javascript" />
+    <fileNamePatternMapping patterns="*.jsx" serverId="com.haulmont.webtools.langservers.eslintls.ESLintLanguageServer" languageId="javascriptreact" />
+    <fileNamePatternMapping patterns="*.ts" serverId="com.haulmont.webtools.langservers.eslintls.ESLintLanguageServer" languageId="typescript" />
+    <fileNamePatternMapping patterns="*.tsx" serverId="com.haulmont.webtools.langservers.eslintls.ESLintLanguageServer" languageId="typescriptreact" />
+    <fileNamePatternMapping patterns="*.css" serverId="com.haulmont.webtools.langservers.stylelintls.StyleLintLanguageServer" languageId="css" />
+    <fileNamePatternMapping patterns="*.scss" serverId="com.haulmont.webtools.langservers.stylelintls.StyleLintLanguageServer" languageId="scss" />
+    <fileNamePatternMapping patterns="*.less" serverId="com.haulmont.webtools.langservers.stylelintls.StyleLintLanguageServer" languageId="less" />
+    <!-- notice for reviewers -->
+    <fileNamePatternMapping patterns="*.*" serverId="com.haulmont.webtools.langservers.prettierls.PrettierLanguageServer" languageId="javascript" documentMatcher="com.haulmont.webtools.langservers.prettierls.PrettierDocumentMatcher" />
+    <fileNamePatternMapping patterns="*.html" serverId="com.haulmont.webtools.langservers.angls.AngularLanguageServer" languageId="html" />
+    <!-- Tailwind serves class names wherever they are written: markup, components and CSS
+             (@apply/@theme). The languageId values below are the ones its own language list
+             expects (see @tailwindcss/language-service util/languages.ts). -->
+    <fileNamePatternMapping patterns="*.html" serverId="com.haulmont.webtools.langservers.tailwindls.TailwindLanguageServer" languageId="html" />
+    <fileNamePatternMapping patterns="*.vue" serverId="com.haulmont.webtools.langservers.tailwindls.TailwindLanguageServer" languageId="vue" />
+    <fileNamePatternMapping patterns="*.js" serverId="com.haulmont.webtools.langservers.tailwindls.TailwindLanguageServer" languageId="javascript" />
+    <fileNamePatternMapping patterns="*.jsx" serverId="com.haulmont.webtools.langservers.tailwindls.TailwindLanguageServer" languageId="javascriptreact" />
+    <fileNamePatternMapping patterns="*.ts" serverId="com.haulmont.webtools.langservers.tailwindls.TailwindLanguageServer" languageId="typescript" />
+    <fileNamePatternMapping patterns="*.tsx" serverId="com.haulmont.webtools.langservers.tailwindls.TailwindLanguageServer" languageId="typescriptreact" />
+    <fileNamePatternMapping patterns="*.css" serverId="com.haulmont.webtools.langservers.tailwindls.TailwindLanguageServer" languageId="css" />
+    <fileNamePatternMapping patterns="*.scss" serverId="com.haulmont.webtools.langservers.tailwindls.TailwindLanguageServer" languageId="scss" />
+    <fileNamePatternMapping patterns="*.less" serverId="com.haulmont.webtools.langservers.tailwindls.TailwindLanguageServer" languageId="less" />
+  </extensions>
+</idea-plugin>

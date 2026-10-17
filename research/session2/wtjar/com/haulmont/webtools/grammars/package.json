@@ -1,0 +1,23 @@
+{
+  "name": "vue-grammar",
+  "contributes": {
+    "languages": [
+      {
+        "id": "vue",
+        "aliases": [
+          "vue"
+        ],
+        "extensions": [
+          ".vue"
+        ]
+      }
+    ],
+    "grammars": [
+      {
+        "language": "vue",
+        "scopeName": "source.vue",
+        "path": "./syntaxes/vue.tmLanguage.json"
+      }
+    ]
+  }
+}

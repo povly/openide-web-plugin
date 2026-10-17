@@ -1,0 +1,13 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin allow-bundled-update="true">
+  <idea-version since-build="241" until-build="263.*" />
+  <description><![CDATA[Плагин для поддержки русского языка в OpenIDE]]></description>
+  <version>0.0.9</version>
+  <id>com.haulmont.intellij.rupack</id>
+  <name>OpenIDE RU Pack</name>
+  <vendor email="openide@openide.ru" url="https://openide.ru">OpenIDE</vendor>
+  <depends>com.intellij.modules.platform</depends>
+  <extensions defaultExtensionNs="com.intellij">
+    <languageBundle locale="ru-RU" />
+  </extensions>
+</idea-plugin>

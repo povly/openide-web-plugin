@@ -1,0 +1,37 @@
+{
+  "id": "vscode-css-language-server",
+  "name": "CSS Language Server",
+  "programArgs": {
+    "default": "node $USER_HOME$/.lsp4ij/lsp/vscode-css-language-server/node_modules/vscode-langservers-extracted/lib/css-language-server/node/cssServerMain.js --stdio"
+  },
+  "expandConfiguration": true,
+  "fileTypeMappings": [
+    {
+      "fileType": {
+        "name": "CSS",
+        "patterns": [
+          "*.css"
+        ]
+      },
+      "languageId": "css"
+    },
+    {
+      "fileType": {
+        "name": "LESS",
+        "patterns": [
+          "*.less"
+        ]
+      },
+      "languageId": "less"
+    },
+    {
+      "fileType": {
+        "name": "SCSS",
+        "patterns": [
+          "*.scss"
+        ]
+      },
+      "languageId": "scss"
+    }
+  ]
+}

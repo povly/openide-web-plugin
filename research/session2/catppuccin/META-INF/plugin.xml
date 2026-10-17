@@ -1,0 +1,93 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+  <idea-version since-build="231" until-build="262.*" />
+  <change-notes><![CDATA[<h2>3.6.1 - 2026-07-18</h2>
+
+<h3>Added</h3>
+
+<ul><li>Support 2026.2</li></ul>
+
+<h3>Changed</h3>
+
+<ul><li>(Editor): Selected indent guides on matching braces are more visible by default.</li><li>(Editor): Matching tags (i.e. <code>()</code>, <code>&lt;&gt;</code>) have their background highlighted.</li></ul>
+
+<h3>Fixed</h3>
+
+<ul><li>(Editor): Overrides to &quot;Matched Brace Guide Color&quot; weren't being respected, now they are.</li></ul>]]></change-notes>
+  <version>3.6.1</version>
+  <id>com.github.catppuccin.jetbrains</id>
+  <name>Catppuccin Theme</name>
+  <vendor url="https://github.com/catppuccin">Catppuccin</vendor>
+  <description><![CDATA[<h2>Soothing pastel theme for JetBrains IDEs</h2>
+
+<p>
+Catppuccin is a community-driven pastel theme that aims to be the middle ground between low and high contrast themes.
+It consists of <strong>4 soothing warm palettes</strong> with 26 eye-candy colors each,
+perfect for coding, designing, and much more!
+</p>
+
+<h3>Design Philosophy</h3>
+
+<ul>
+  <li><strong>Colorful is better than colorless</strong>: the colorfulness of something contributes to the distinction amongst the parts of that <em>something</em>, making it marginally easier to understand how things are structured.</li>
+  <li><strong>There should be balance</strong>: not too dull, not too bright. Suitability under various light conditions is a must.</li>
+  <li><strong>Harmony is superior to dissonance</strong>: vivacious colors must complement each other.</li>
+</ul>
+
+<h3>Usage</h3>
+
+<p>There are 4 lovely flavours for you to choose from: <strong>Latte</strong>, <strong>Frappé</strong>, <strong>Macchiato</strong> and <strong>Mocha</strong>.</p>
+
+<h4>User Interface</h4>
+
+<ul>
+  <li>Head to <strong>Settings</strong> → <strong>Appearance & Behaviour</strong> → <strong>Appearance</strong></li>
+  <li>Pick your favourite flavour</li>
+  <li><strong>(Optional)</strong> Restart your IDE</li>
+</ul>
+
+<h4>Code Editor</h4>
+
+<ul>
+  <li>Head to <strong>Settings</strong> → <strong>Editor</strong> → <strong>Color Scheme</strong></li>
+  <li>Pick your favourite flavour</li>
+  <li><strong>(Optional)</strong> Restart your IDE</li>
+</ul>
+
+<h4>Icon Pack</h4>
+
+<p>
+We have created an icon pack to compliment this theme! Search the marketplace for "**Catppuccin Icons**" to install it.
+</p>
+
+<h3>Help</h3>
+
+For further help, see also:
+
+<ul>
+  <li><a href="https://github.com/catppuccin/jetbrains" target="_blank">GitHub Repository</a></li>
+  <li><a href="https://github.com/catppuccin/jetbrains/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc" target="_blank">Issue Tracker</a></li>
+</ul>
+
+<p>Copyright &copy; 2021-present <a href="https://github.com/catppuccin" target="_blank">Catppuccin Org</a>
+<p>LICENSE: <a href="https://github.com/catppuccin/jetbrains/blob/main/LICENSE">MIT</a></p>]]></description>
+  <depends>com.intellij.modules.platform</depends>
+  <extensions defaultExtensionNs="com.intellij">
+    <themeProvider id="com.github.catppuccin.latte.jetbrains" path="/themes/latte.theme.json" />
+    <themeProvider id="com.github.catppuccin.frappe.jetbrains" path="/themes/frappe.theme.json" />
+    <themeProvider id="com.github.catppuccin.macchiato.jetbrains" path="/themes/macchiato.theme.json" />
+    <themeProvider id="com.github.catppuccin.mocha.jetbrains" path="/themes/mocha.theme.json" />
+    <themeProvider id="com.github.catppuccin.latte.islands.jetbrains" path="/themes/latte-islands.theme.json" targetUi="islands" />
+    <themeProvider id="com.github.catppuccin.frappe.islands.jetbrains" path="/themes/frappe-islands.theme.json" targetUi="islands" />
+    <themeProvider id="com.github.catppuccin.macchiato.islands.jetbrains" path="/themes/macchiato-islands.theme.json" targetUi="islands" />
+    <themeProvider id="com.github.catppuccin.mocha.islands.jetbrains" path="/themes/mocha-islands.theme.json" targetUi="islands" />
+    <bundledColorScheme id="com.github.catppuccin.latte.italics.jetbrains" path="/themes/latte" />
+    <bundledColorScheme id="com.github.catppuccin.frappe.italics.jetbrains" path="/themes/frappe" />
+    <bundledColorScheme id="com.github.catppuccin.macchiato.italics.jetbrains" path="/themes/macchiato" />
+    <bundledColorScheme id="com.github.catppuccin.mocha.italics.jetbrains" path="/themes/mocha" />
+    <bundledColorScheme id="com.github.catppuccin.latte.no.italics.jetbrains" path="/themes/latte-no-italics" />
+    <bundledColorScheme id="com.github.catppuccin.frappe.no.italics.jetbrains" path="/themes/frappe-no-italics" />
+    <bundledColorScheme id="com.github.catppuccin.macchiato.no.italics.jetbrains" path="/themes/macchiato-no-italics" />
+    <bundledColorScheme id="com.github.catppuccin.mocha.no.italics.jetbrains" path="/themes/mocha-no-italics" />
+  </extensions>
+</idea-plugin>

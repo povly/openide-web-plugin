@@ -1,0 +1,15 @@
+==== javascript.tmLanguage.json $/repository/docblock/patterns[13]/end
+(\3)|(?=$|\*/)
+
+==== javascript.tmLanguage.json $/repository/var-expr/patterns[2]/end
+(?!(?<![$_[:alnum:]])(?:(?<=\.\.\.)|(?<!\.))(?:\b(export)\s+)?(?:\b(declare)\s+)?\b\b(using(?=\s+(?!in\b|of\b(?!\s*(?:of\b|=)))[$_[:alpha:]])|await\s+\busing(?=\s+(?!in\b|of\b(?!\s*(?:of\b|=)))[$_[:alpha:]])\b)\b(?![$_[:alnum:]])(?:(?=\.\.\.)|(?!\.)))((?=[;}]|((?<![$_[:alnum:]])(?:(?<=\.\.\.)|(?<!\.))(of|in)\s+)|;|^\s*$|^\s*(?:abstract|async|\bawait\s+\busing(?=\s+(?!in\b|of\b(?!\s*(?:of\b|=)))[$_
+
+==== javascript.tmLanguage.json $/repository/var-expr/patterns[1]/end
+(?!(?<![$_[:alnum:]])(?:(?<=\.\.\.)|(?<!\.))(?:\b(export)\s+)?(?:\b(declare)\s+)?\b(const(?!\s+enum\b))(?![$_[:alnum:]])(?:(?=\.\.\.)|(?!\.)))((?=^|[;}]|((?<![$_[:alnum:]])(?:(?<=\.\.\.)|(?<!\.))(of|in)\s+)|;|^\s*$|^\s*(?:abstract|async|\bawait\s+\busing(?=\s+(?!in\b|of\b(?!\s*(?:of\b|=)))[$_[:alpha:]])\b\b|break|case|catch|class|const|continue|declare|do|else|enum|export|finally|function|for|goto
+
+==== vue.tmLanguage.json $/repository/vue-directives-expression/patterns[0]/patterns[0]/end
+(?=\1)
+
+==== vue.tmLanguage.json $/repository/vue-directives-expression/patterns[0]/end
+(\2)
+

@@ -1,0 +1,7 @@
+<idea-plugin>
+    <depends>ru.openide.pro.updater</depends>
+
+    <extensions defaultExtensionNs="com.haulmont.webtools">
+        <licenseProvider implementation="com.haulmont.webtools.licensing.OpenIdeLicenseProvider"/>
+    </extensions>
+</idea-plugin>
