@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>povly.webfrontendmini</id>
   <name>Web Frontend Mini</name>
-  <version>1.4.1</version>
+  <version>1.5.0</version>
   <vendor>povly</vendor>
   <description>TextMate grammars (css/scss/less/vue + html/js/ts) for the OpenIDE web stack. v1.2: proper TextMate bundle layout (info.plist + Syntaxes/) fixes "unknown format" registration. v1.3: explicit TextMateBackedFileType beans claim css and js/mjs/cjs/ts/tsx/jsx (platform's "syntax highlighting only" AbstractFileTypes otherwise keep TextMate away), js/ts grammars patched with fileTypes.</description>
   <idea-version since-build="262"/>
@@ -20,6 +20,7 @@
     <editorHighlighterProvider filetype="WFM Vue" implementationClass="povly.wfm.WfmEditorHighlighterProvider" />
     <editorHighlighterProvider filetype="WFM JavaScript" implementationClass="povly.wfm.WfmEditorHighlighterProvider" />
     <editorHighlighterProvider filetype="WFM CSS" implementationClass="povly.wfm.WfmEditorHighlighterProvider" />
+    <postStartupActivity implementation="povly.wfm.WfmDiagStartup" />
     <textmate.bundleProvider implementation="povly.wfm.WebFrontendBundleProvider" />
   </extensions>
 </idea-plugin>
