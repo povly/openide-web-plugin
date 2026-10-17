@@ -1,17 +1,12 @@
 <idea-plugin>
   <id>povly.webfrontendmini</id>
   <name>Web Frontend Mini</name>
-  <version>1.4.0</version>
+  <version>1.4.1</version>
   <vendor>povly</vendor>
   <description>TextMate grammars (css/scss/less/vue + html/js/ts) for the OpenIDE web stack. v1.2: proper TextMate bundle layout (info.plist + Syntaxes/) fixes "unknown format" registration. v1.3: explicit TextMateBackedFileType beans claim css and js/mjs/cjs/ts/tsx/jsx (platform's "syntax highlighting only" AbstractFileTypes otherwise keep TextMate away), js/ts grammars patched with fileTypes.</description>
   <idea-version since-build="262"/>
   <depends>com.intellij.modules.platform</depends>
   <depends>org.jetbrains.plugins.textmate</depends>
-  <dependencies>
-    <!-- textmate internals used by the editor highlighter: lexer data storage, matcher/regex stack -->
-    <module name="intellij.textmate.core" />
-    <module name="intellij.textmate.joni" />
-  </dependencies>
   <extensions defaultExtensionNs="com.intellij">
     <!-- Claims css from the platform's bundled CSS AbstractFileType; language is resolved
          in the implementation class (textmate with PlainText fallback) — see WfmCssFileType. -->
