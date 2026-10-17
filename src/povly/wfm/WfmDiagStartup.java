@@ -100,6 +100,78 @@ public final class WfmDiagStartup implements StartupActivity {
                     + " distinctScopes=" + distinct);
             log("sample " + vf.getName() + ": " + sample);
         }
+
+        // 4) scope -> color resolution under the CURRENT scheme
+        try {
+            Language textMateLang = Language.findLanguageByID("textmate");
+            com.intellij.openapi.fileTypes.SyntaxHighlighter sh = textMateLang != null
+                    ? com.intellij.openapi.fileTypes.SyntaxHighlighterFactory.getSyntaxHighlighter(textMateLang, project, null)
+                    : null;
+            log("syntaxHighlighter for textmate = " + (sh == null ? "NULL" : sh.getClass().getName()));
+            if (sh != null) {
+                VirtualFile vf = LocalFileSystem.getInstance().refreshAndFindFileByPath(PROBES[0]);
+                String text = new String(Files.readAllBytes(java.nio.file.Path.of(vf.getPath())));
+                EditorHighlighter eh2 = EditorHighlighterFactory.getInstance().createEditorHighlighter(project, vf);
+                eh2.setText(text);
+                var it2 = eh2.createIterator(0);
+                java.util.Set<String> reported = new java.util.HashSet<>();
+                int attrNull = 0, attrTotal = 0;
+                while (!it2.atEnd() && reported.size() < 14) {
+                    Object t = it2.getTokenType();
+                    String scope = String.valueOf(t);
+                    String short5 = scope.contains(" ") ? scope.substring(scope.lastIndexOf(' ') + 1) : scope;
+                    if (short5.startsWith("source.ts") || short5.startsWith("source.js")
+                            || short5.contains("keyword") || short5.contains("string")
+                            || short5.contains("storage") || short5.contains("variable")
+                            || short5.contains("constant") || short5.contains("entity")) {
+                        if (reported.add(short5)) {
+                            attrTotal++;
+                            try {
+                                var keys = sh.getTokenHighlights((com.intellij.psi.tree.IElementType) t);
+                                StringBuilder sb2 = new StringBuilder();
+                                for (var k : keys) {
+                                    var attrs = scheme.getAttributes(k);
+                                    sb2.append(k.getExternalName()).append("=>")
+                                      .append(attrs == null || attrs.getForegroundColor() == null ? "null" :
+                                              String.format("#%06x", attrs.getForegroundColor().getRGB() & 0xFFFFFF))
+                                      .append(" ");
+                                }
+                                if (keys.length == 0) attrNull++;
+                                log("color [" + scheme.getName() + "] " + short5 + " :: " + sb2);
+                            } catch (Throwable e) {
+                                log("color fail " + short5 + ": " + e);
+                            }
+                        }
+                    }
+                    it2.advance();
+                }
+                log("color stats: reported=" + reported.size() + " noKey=" + attrNull);
+            }
+        } catch (Throwable t) {
+            log("colors block failed: " + t);
+        }
+
+        // 5) lsp4ij associations for probe names
+        try {
+            Object registry = Class.forName("com.redhat.devtools.lsp4ij.LanguageServersRegistry")
+                    .getMethod("getInstance").invoke(null);
+            var findMethod = registry.getClass().getMethod("findLanguageServerDefinitionFor", String.class);
+            for (String name : new String[]{"Login.vue", "app.ts", "app.js", "app.css"}) {
+                Object assocs = findMethod.invoke(registry, name);
+                int n = 0;
+                if (assocs instanceof java.util.List<?> list && !list.isEmpty()) {
+                    for (Object a : list) {
+                        Object def = a.getClass().getMethod("getServerDefinition").invoke(a);
+                        Object lsId = def.getClass().getMethod("getId").invoke(def);
+                        log("lsp4ij " + name + " -> server " + lsId + " (" + a.getClass().getName() + ")");
+                        n++;
+                    }
+                }
+                if (n == 0) log("lsp4ij " + name + " -> NO SERVER ASSOCIATION");
+            }
+        } catch (Throwable t) {
+            log("lsp4ij block failed: " + t);
+        }
         log("diag complete");
     }
 
