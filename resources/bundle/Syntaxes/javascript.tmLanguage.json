@@ -1,6 +1,12 @@
 {
   "displayName": "JavaScript",
   "name": "javascript",
+  "fileTypes": [
+    "js",
+    "mjs",
+    "cjs",
+    "jsx"
+  ],
   "patterns": [
     {
       "include": "#directives"

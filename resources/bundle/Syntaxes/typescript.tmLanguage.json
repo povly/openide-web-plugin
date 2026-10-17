@@ -1,6 +1,10 @@
 {
   "displayName": "TypeScript",
   "name": "typescript",
+  "fileTypes": [
+    "ts",
+    "tsx"
+  ],
   "patterns": [
     {
       "include": "#directives"
