@@ -2216,7 +2216,7 @@
           "name": "keyword.control.type.js"
         }
       },
-      "end": "(?<!(?:^|[^$._[:alnum:]])import)(?=;|$|^)",
+      "end": "(?<!\\bimport)(?=;|$)",
       "name": "meta.import.js",
       "patterns": [
         {
@@ -2229,7 +2229,7 @@
           "include": "#string"
         },
         {
-          "begin": "(?<=(?:^|[^$._[:alnum:]])import)(?!\\s*[\"'])",
+          "begin": "(?<=\\bimport)(?!\\s*[\"'])",
           "end": "\\bfrom\\b",
           "endCaptures": {
             "0": {
@@ -5729,7 +5729,7 @@
               "name": "storage.type.js"
             }
           },
-          "end": "(?!(?<![$_[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(?:\\b(export)\\s+)?(?:\\b(declare)\\s+)?\\b(const(?!\\s+enum\\b))(?![$_[:alnum:]])(?:(?=\\.\\.\\.)|(?!\\.)))((?=^|[;}]|((?<![$_[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(of|in)\\s+)|;|^\\s*$|^\\s*(?:abstract|async|\\bawait\\s+\\busing(?=\\s+(?!in\\b|of\\b(?!\\s*(?:of\\b|=)))[$_[:alpha:]])\\b\\b|break|case|catch|class|const|continue|declare|do|else|enum|export|finally|function|for|goto|if|import|interface|let|module|namespace|switch|return|throw|try|type|\\busing(?=\\s+(?!in\\b|of\\b(?!\\s*(?:of\\b|=)))[$_[:alpha:]])\\b|var|while)\\b)|((?<!(?:^|[^$._[:alnum:]])const)(?=\\s*$)))",
+          "end": "(?!(?<![$_[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(?:\\b(export)\\s+)?(?:\\b(declare)\\s+)?\\b(const(?!\\s+enum\\b))(?![$_[:alnum:]])(?:(?=\\.\\.\\.)|(?!\\.)))((?=^|[;}]|((?<![$_[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(of|in)\\s+)|;|^\\s*$|^\\s*(?:abstract|async|\\bawait\\s+\\busing(?=\\s+(?!in\\b|of\\b(?!\\s*(?:of\\b|=)))[$_[:alpha:]])\\b\\b|break|case|catch|class|const|continue|declare|do|else|enum|export|finally|function|for|goto|if|import|interface|let|module|namespace|switch|return|throw|try|type|\\busing(?=\\s+(?!in\\b|of\\b(?!\\s*(?:of\\b|=)))[$_[:alpha:]])\\b|var|while)\\b)|((?<!\\bconst)(?=\\s*$)))",
           "name": "meta.var.expr.js",
           "patterns": [
             {
@@ -5803,7 +5803,7 @@
               "name": "storage.type.js"
             }
           },
-          "end": "(?!(?<![$_[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(?:\\b(export)\\s+)?(?:\\b(declare)\\s+)?\\b\\b(using(?=\\s+(?!in\\b|of\\b(?!\\s*(?:of\\b|=)))[$_[:alpha:]])|await\\s+\\busing(?=\\s+(?!in\\b|of\\b(?!\\s*(?:of\\b|=)))[$_[:alpha:]])\\b)\\b(?![$_[:alnum:]])(?:(?=\\.\\.\\.)|(?!\\.)))((?=[;}]|((?<![$_[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(of|in)\\s+)|;|^\\s*$|^\\s*(?:abstract|async|\\bawait\\s+\\busing(?=\\s+(?!in\\b|of\\b(?!\\s*(?:of\\b|=)))[$_[:alpha:]])\\b\\b|break|case|catch|class|const|continue|declare|do|else|enum|export|finally|function|for|goto|if|import|interface|let|module|namespace|switch|return|throw|try|type|\\busing(?=\\s+(?!in\\b|of\\b(?!\\s*(?:of\\b|=)))[$_[:alpha:]])\\b|var|while)\\b)|((?<!(?:^|[^$._[:alnum:]]|^await\\s+|[^$._[:alnum:]]await\\s+)using)(?=\\s*$)))",
+          "end": "(?!(?<![$_[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(?:\\b(export)\\s+)?(?:\\b(declare)\\s+)?\\b\\b(using(?=\\s+(?!in\\b|of\\b(?!\\s*(?:of\\b|=)))[$_[:alpha:]])|await\\s+\\busing(?=\\s+(?!in\\b|of\\b(?!\\s*(?:of\\b|=)))[$_[:alpha:]])\\b)\\b(?![$_[:alnum:]])(?:(?=\\.\\.\\.)|(?!\\.)))((?=[;}]|((?<![$_[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(of|in)\\s+)|;|^\\s*$|^\\s*(?:abstract|async|\\bawait\\s+\\busing(?=\\s+(?!in\\b|of\\b(?!\\s*(?:of\\b|=)))[$_[:alpha:]])\\b\\b|break|case|catch|class|const|continue|declare|do|else|enum|export|finally|function|for|goto|if|import|interface|let|module|namespace|switch|return|throw|try|type|\\busing(?=\\s+(?!in\\b|of\\b(?!\\s*(?:of\\b|=)))[$_[:alpha:]])\\b|var|while)\\b)|((?<!\\busing)(?=\\s*$)))",
           "name": "meta.var.expr.js",
           "patterns": [
             {
