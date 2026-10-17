@@ -1,0 +1,9 @@
+# build artifacts
+out/
+dist/
+manifest.mf
+
+# editors/OS
+.idea/
+*.iml
+.DS_Store
