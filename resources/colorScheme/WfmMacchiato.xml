@@ -1,0 +1,192 @@
+<scheme name="Catppuccin Macchiato + Web" version="142" parent_scheme="Catppuccin Macchiato">
+    <!-- Child scheme of the Catppuccin Macchiato theme (MIT, https://github.com/catppuccin/jetbrains).
+         Re-adds the DEFAULT_* editor attribute keys that the .theme.json variant of the theme does not define;
+         TextMate-based highlighting (web-frontend-mini) falls back to exactly these keys, without them the
+         whole TextMate token stream renders monochrome. Attribute values are copied verbatim from the
+         theme's own macchiato.xml (MIT license). -->
+    <attributes>
+        <option name="DEFAULT_ATTRIBUTE">
+            <value>
+<value>
+        <option name="FOREGROUND" value="eed49f"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_BLOCK_COMMENT">
+            <value>
+<value>
+        <option name="FOREGROUND" value="939ab7"/>
+        <option name="FONT_TYPE" value="2"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_BRACES">
+            <value>
+<value>
+        <option name="FOREGROUND" value="939ab7"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_BRACKETS">
+            <value>
+<value>
+        <option name="FOREGROUND" value="939ab7"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_COMMA">
+            <value>
+<value>
+        <option name="FOREGROUND" value="939ab7"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_CONSTANT">
+            <value>
+<value>
+        <option name="FOREGROUND" value="f5a97f"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_DOC_COMMENT">
+            <value>
+<value>
+        <option name="FOREGROUND" value="939ab7"/>
+        <option name="FONT_TYPE" value="2"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_DOT">
+            <value>
+<value>
+        <option name="FOREGROUND" value="939ab7"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_ENTITY">
+            <value>
+<value>
+        <option name="FOREGROUND" value="ee99a0"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_FUNCTION_DECLARATION">
+            <value>
+<value>
+        <option name="FOREGROUND" value="8aadf4"/>
+        <option name="FONT_TYPE" value="2"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_GLOBAL_VARIABLE">
+            <value>
+<value>
+        <option name="FOREGROUND" value="ee99a0"/>
+        <option name="FONT_TYPE" value="2"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_IDENTIFIER">
+            <value>
+<value>
+        <option name="FOREGROUND" value="f5a97f"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_INSTANCE_FIELD">
+            <value>
+<value>
+        <option name="FOREGROUND" value="cad3f5"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_INVALID_STRING_ESCAPE">
+            <value>
+<value>
+        <option name="FOREGROUND" value="a6da95"/>
+        <option name="EFFECT_COLOR" value="ed8796"/>
+        <option name="EFFECT_TYPE" value="2"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_KEYWORD">
+            <value>
+<value>
+        <option name="FOREGROUND" value="c6a0f6"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_LINE_COMMENT">
+            <value>
+<value>
+        <option name="FOREGROUND" value="939ab7"/>
+        <option name="FONT_TYPE" value="2"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_LOCAL_VARIABLE">
+            <value>
+<value>
+        <option name="FOREGROUND" value="cad3f5"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_NUMBER">
+            <value>
+<value>
+        <option name="FOREGROUND" value="f5a97f"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_OPERATION_SIGN">
+            <value>
+<value>
+        <option name="FOREGROUND" value="91d7e3"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_PARAMETER">
+            <value>
+<value>
+        <option name="FOREGROUND" value="ee99a0"/>
+        <option name="FONT_TYPE" value="2"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_SEMICOLON">
+            <value>
+<value>
+        <option name="FOREGROUND" value="939ab7"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_STATIC_FIELD">
+            <value>
+<value>
+        <option name="FOREGROUND" value="8bd5ca"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_STRING">
+            <value>
+<value>
+        <option name="FOREGROUND" value="a6da95"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_TAG">
+            <value>
+<value>
+        <option name="FOREGROUND" value="8bd5ca"/>
+      </value>
+            </value>
+        </option>
+        <option name="DEFAULT_VALID_STRING_ESCAPE">
+            <value>
+<value>
+        <option name="FOREGROUND" value="f5bde6"/>
+      </value>
+            </value>
+        </option>
+    </attributes>
+</scheme>
