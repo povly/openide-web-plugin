@@ -12,7 +12,7 @@ VERSION="$(grep -o '<version>[^<]*' resources/META-INF/plugin.xml | head -1 | cu
 OUT="out"
 DIST="dist/web-frontend-mini"
 
-CP="$OPENIDE_HOME/plugins/textmate-plugin/lib/modules/intellij.textmate.jar:$OPENIDE_HOME/lib/*"
+CP="$OPENIDE_HOME/plugins/textmate-plugin/lib/modules/*:$OPENIDE_HOME/lib/*"
 
 rm -rf "$OUT" "$DIST" dist/web-frontend-mini.zip
 mkdir -p "$OUT" "$DIST/lib"
