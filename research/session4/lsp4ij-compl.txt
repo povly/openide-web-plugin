@@ -1,0 +1,631 @@
+Compiled from "LSPCompletionContributor.java"
+public class com.redhat.devtools.lsp4ij.features.completion.LSPCompletionContributor extends com.intellij.codeInsight.completion.CompletionContributor {
+  private static final org.slf4j.Logger LOGGER;
+
+  public com.redhat.devtools.lsp4ij.features.completion.LSPCompletionContributor();
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method com/intellij/codeInsight/completion/CompletionContributor."<init>":()V
+         4: return
+
+  public void fillCompletionVariants(com.intellij.codeInsight.completion.CompletionParameters, com.intellij.codeInsight.completion.CompletionResultSet);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_0
+         5: invokestatic  #622                // Method $$$reportNull$$$0:(I)V
+         8: aload_2
+         9: ifnonnull     16
+        12: iconst_1
+        13: invokestatic  #622                // Method $$$reportNull$$$0:(I)V
+        16: aload_1
+        17: invokevirtual #7                  // Method com/intellij/codeInsight/completion/CompletionParameters.getOriginalFile:()Lcom/intellij/psi/PsiFile;
+        20: astore_3
+        21: aload_3
+        22: invokeinterface #13,  1           // InterfaceMethod com/intellij/psi/PsiFile.getVirtualFile:()Lcom/intellij/openapi/vfs/VirtualFile;
+        27: astore        4
+        29: aload         4
+        31: ifnonnull     35
+        34: return
+        35: aload_3
+        36: invokestatic  #19                 // Method com/redhat/devtools/lsp4ij/client/indexing/ProjectIndexingManager.canExecuteLSPFeature:(Lcom/intellij/psi/PsiFile;)Lcom/redhat/devtools/lsp4ij/client/ExecuteLSPFeatureStatus;
+        39: getstatic     #25                 // Field com/redhat/devtools/lsp4ij/client/ExecuteLSPFeatureStatus.NOW:Lcom/redhat/devtools/lsp4ij/client/ExecuteLSPFeatureStatus;
+        42: if_acmpeq     46
+        45: return
+        46: aload_1
+        47: invokevirtual #31                 // Method com/intellij/codeInsight/completion/CompletionParameters.getEditor:()Lcom/intellij/openapi/editor/Editor;
+        50: astore        5
+        52: aload         5
+        54: invokeinterface #35,  1           // InterfaceMethod com/intellij/openapi/editor/Editor.getDocument:()Lcom/intellij/openapi/editor/Document;
+        59: astore        6
+        61: aload_1
+        62: invokevirtual #41                 // Method com/intellij/codeInsight/completion/CompletionParameters.getOffset:()I
+        65: istore        7
+        67: aload_1
+        68: invokevirtual #45                 // Method com/intellij/codeInsight/completion/CompletionParameters.isAutoPopup:()Z
+        71: istore        8
+        73: new           #49                 // class com/redhat/devtools/lsp4ij/features/completion/LSPCompletionParams
+        76: dup
+        77: new           #51                 // class org/eclipse/lsp4j/TextDocumentIdentifier
+        80: dup
+        81: invokespecial #53                 // Method org/eclipse/lsp4j/TextDocumentIdentifier."<init>":()V
+        84: iload         7
+        86: aload         6
+        88: invokestatic  #54                 // Method com/redhat/devtools/lsp4ij/LSPIJUtils.toPosition:(ILcom/intellij/openapi/editor/Document;)Lorg/eclipse/lsp4j/Position;
+        91: iload         7
+        93: iload         8
+        95: ifeq          108
+        98: iload         7
+       100: aload         6
+       102: invokestatic  #60                 // Method getCompletionChar:(ILcom/intellij/openapi/editor/Document;)Ljava/lang/String;
+       105: goto          109
+       108: aconst_null
+       109: iload         8
+       111: invokespecial #66                 // Method com/redhat/devtools/lsp4ij/features/completion/LSPCompletionParams."<init>":(Lorg/eclipse/lsp4j/TextDocumentIdentifier;Lorg/eclipse/lsp4j/Position;ILjava/lang/String;Z)V
+       114: astore        9
+       116: aload_3
+       117: invokestatic  #69                 // Method com/redhat/devtools/lsp4ij/LSPFileSupport.getSupport:(Lcom/intellij/psi/PsiFile;)Lcom/redhat/devtools/lsp4ij/LSPFileSupport;
+       120: invokevirtual #75                 // Method com/redhat/devtools/lsp4ij/LSPFileSupport.getCompletionSupport:()Lcom/redhat/devtools/lsp4ij/features/completion/LSPCompletionSupport;
+       123: aload         9
+       125: invokevirtual #79                 // Method com/redhat/devtools/lsp4ij/features/completion/LSPCompletionSupport.getCompletions:(Lcom/redhat/devtools/lsp4ij/features/completion/LSPCompletionParams;)Ljava/util/concurrent/CompletableFuture;
+       128: astore        10
+       130: aload         10
+       132: aload_3
+       133: invokestatic  #85                 // Method com/redhat/devtools/lsp4ij/internal/CompletableFutures.waitUntilDone:(Ljava/util/concurrent/CompletableFuture;Lcom/intellij/psi/PsiFile;)V
+       136: goto          160
+       139: astore        11
+       141: return
+       142: astore        11
+       144: return
+       145: astore        11
+       147: getstatic     #97                 // Field LOGGER:Lorg/slf4j/Logger;
+       150: ldc           #101                // String Error while consuming LSP \'textDocument/completion\' request
+       152: aload         11
+       154: invokeinterface #103,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+       159: return
+       160: invokestatic  #109                // Method com/intellij/openapi/progress/ProgressManager.checkCanceled:()V
+       163: aload         10
+       165: invokestatic  #114                // Method com/redhat/devtools/lsp4ij/internal/CompletableFutures.isDoneNormally:(Ljava/util/concurrent/CompletableFuture;)Z
+       168: ifeq          262
+       171: aload         10
+       173: invokestatic  #118                // Method java/util/Collections.emptyList:()Ljava/util/List;
+       176: invokevirtual #124                // Method java/util/concurrent/CompletableFuture.getNow:(Ljava/lang/Object;)Ljava/lang/Object;
+       179: checkcast     #130                // class java/util/List
+       182: astore        11
+       184: aload         11
+       186: invokeinterface #132,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+       191: ifne          262
+       194: new           #135                // class com/redhat/devtools/lsp4ij/features/completion/CompletionPrefix
+       197: dup
+       198: iload         7
+       200: aload         6
+       202: invokespecial #137                // Method com/redhat/devtools/lsp4ij/features/completion/CompletionPrefix."<init>":(ILcom/intellij/openapi/editor/Document;)V
+       205: astore        12
+       207: aload         11
+       209: invokeinterface #140,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       214: astore        13
+       216: aload         13
+       218: invokeinterface #144,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       223: ifeq          262
+       226: aload         13
+       228: invokeinterface #149,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       233: checkcast     #153                // class com/redhat/devtools/lsp4ij/features/completion/CompletionData
+       236: astore        14
+       238: invokestatic  #109                // Method com/intellij/openapi/progress/ProgressManager.checkCanceled:()V
+       241: aload_0
+       242: aload_1
+       243: aload         12
+       245: aload         14
+       247: invokevirtual #155                // Method com/redhat/devtools/lsp4ij/features/completion/CompletionData.completion:()Lorg/eclipse/lsp4j/jsonrpc/messages/Either;
+       250: aload         14
+       252: invokevirtual #159                // Method com/redhat/devtools/lsp4ij/features/completion/CompletionData.languageServer:()Lcom/redhat/devtools/lsp4ij/LanguageServerItem;
+       255: aload_2
+       256: invokevirtual #163                // Method addCompletionItems:(Lcom/intellij/codeInsight/completion/CompletionParameters;Lcom/redhat/devtools/lsp4ij/features/completion/CompletionPrefix;Lorg/eclipse/lsp4j/jsonrpc/messages/Either;Lcom/redhat/devtools/lsp4ij/LanguageServerItem;Lcom/intellij/codeInsight/completion/CompletionResultSet;)V
+       259: goto          216
+       262: return
+      Exception table:
+         from    to  target type
+           130   136   139   Class com/intellij/openapi/progress/ProcessCanceledException
+           130   136   142   Class java/util/concurrent/CancellationException
+           130   136   145   Class java/util/concurrent/ExecutionException
+
+  private void addCompletionItems(com.intellij.codeInsight.completion.CompletionParameters, com.redhat.devtools.lsp4ij.features.completion.CompletionPrefix, org.eclipse.lsp4j.jsonrpc.messages.Either<java.util.List<org.eclipse.lsp4j.CompletionItem>, org.eclipse.lsp4j.CompletionList>, com.redhat.devtools.lsp4ij.LanguageServerItem, com.intellij.codeInsight.completion.CompletionResultSet);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_2
+         5: invokestatic  #622                // Method $$$reportNull$$$0:(I)V
+         8: aload_2
+         9: ifnonnull     16
+        12: iconst_3
+        13: invokestatic  #622                // Method $$$reportNull$$$0:(I)V
+        16: aload_3
+        17: ifnonnull     24
+        20: iconst_4
+        21: invokestatic  #622                // Method $$$reportNull$$$0:(I)V
+        24: aload         4
+        26: ifnonnull     33
+        29: iconst_5
+        30: invokestatic  #622                // Method $$$reportNull$$$0:(I)V
+        33: aload         5
+        35: ifnonnull     43
+        38: bipush        6
+        40: invokestatic  #622                // Method $$$reportNull$$$0:(I)V
+        43: aconst_null
+        44: astore        6
+        46: new           #167                // class java/util/ArrayList
+        49: dup
+        50: invokespecial #169                // Method java/util/ArrayList."<init>":()V
+        53: astore        7
+        55: aload_3
+        56: invokevirtual #170                // Method org/eclipse/lsp4j/jsonrpc/messages/Either.isLeft:()Z
+        59: ifeq          80
+        62: aload         7
+        64: aload_3
+        65: invokevirtual #175                // Method org/eclipse/lsp4j/jsonrpc/messages/Either.getLeft:()Ljava/lang/Object;
+        68: checkcast     #178                // class java/util/Collection
+        71: invokeinterface #180,  2          // InterfaceMethod java/util/List.addAll:(Ljava/util/Collection;)Z
+        76: pop
+        77: goto          109
+        80: aload_3
+        81: invokevirtual #184                // Method org/eclipse/lsp4j/jsonrpc/messages/Either.getRight:()Ljava/lang/Object;
+        84: checkcast     #187                // class org/eclipse/lsp4j/CompletionList
+        87: astore        8
+        89: aload         8
+        91: invokevirtual #189                // Method org/eclipse/lsp4j/CompletionList.getItemDefaults:()Lorg/eclipse/lsp4j/CompletionItemDefaults;
+        94: astore        6
+        96: aload         7
+        98: aload         8
+       100: invokevirtual #193                // Method org/eclipse/lsp4j/CompletionList.getItems:()Ljava/util/List;
+       103: invokeinterface #180,  2          // InterfaceMethod java/util/List.addAll:(Ljava/util/Collection;)Z
+       108: pop
+       109: aload_1
+       110: invokevirtual #7                  // Method com/intellij/codeInsight/completion/CompletionParameters.getOriginalFile:()Lcom/intellij/psi/PsiFile;
+       113: astore        8
+       115: aload         4
+       117: invokevirtual #196                // Method com/redhat/devtools/lsp4ij/LanguageServerItem.getClientFeatures:()Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;
+       120: astore        9
+       122: aload         9
+       124: invokevirtual #202                // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getCompletionFeature:()Lcom/redhat/devtools/lsp4ij/client/features/LSPCompletionFeature;
+       127: aload         8
+       129: invokevirtual #208                // Method com/redhat/devtools/lsp4ij/client/features/LSPCompletionFeature.useContextAwareSorting:(Lcom/intellij/psi/PsiFile;)Z
+       132: istore        10
+       134: iload         10
+       136: ifeq          151
+       139: aload         5
+       141: invokestatic  #214                // Method com/intellij/patterns/StandardPatterns.string:()Lcom/intellij/patterns/StringPattern;
+       144: iconst_0
+       145: invokevirtual #220                // Method com/intellij/patterns/StringPattern.longerThan:(I)Lcom/intellij/patterns/StringPattern;
+       148: invokevirtual #226                // Method com/intellij/codeInsight/completion/CompletionResultSet.restartCompletionOnPrefixChange:(Lcom/intellij/patterns/ElementPattern;)V
+       151: iload         10
+       153: ifeq          164
+       156: aload         5
+       158: invokevirtual #232                // Method com/intellij/codeInsight/completion/CompletionResultSet.getPrefixMatcher:()Lcom/intellij/codeInsight/completion/PrefixMatcher;
+       161: goto          165
+       164: aconst_null
+       165: astore        11
+       167: iload         10
+       169: ifeq          179
+       172: aload_1
+       173: invokestatic  #236                // Method getCurrentWord:(Lcom/intellij/codeInsight/completion/CompletionParameters;)Ljava/lang/String;
+       176: goto          180
+       179: aconst_null
+       180: astore        12
+       182: aload         9
+       184: aload         8
+       186: invokevirtual #240                // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.isCaseSensitive:(Lcom/intellij/psi/PsiFile;)Z
+       189: istore        13
+       191: aload         7
+       193: new           #243                // class com/redhat/devtools/lsp4ij/features/completion/LSPCompletionItemComparator
+       196: dup
+       197: aload         11
+       199: aload         12
+       201: iload         13
+       203: invokespecial #245                // Method com/redhat/devtools/lsp4ij/features/completion/LSPCompletionItemComparator."<init>":(Lcom/intellij/codeInsight/completion/PrefixMatcher;Ljava/lang/String;Z)V
+       206: invokeinterface #248,  2          // InterfaceMethod java/util/List.sort:(Ljava/util/Comparator;)V
+       211: aload         7
+       213: invokeinterface #252,  1          // InterfaceMethod java/util/List.size:()I
+       218: istore        14
+       220: new           #255                // class java/util/HashSet
+       223: dup
+       224: invokespecial #257                // Method java/util/HashSet."<init>":()V
+       227: astore        15
+       229: aload         9
+       231: invokevirtual #202                // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getCompletionFeature:()Lcom/redhat/devtools/lsp4ij/client/features/LSPCompletionFeature;
+       234: astore        16
+       236: new           #258                // class com/redhat/devtools/lsp4ij/client/features/LSPCompletionFeature$LSPCompletionContext
+       239: dup
+       240: aload_1
+       241: aload         4
+       243: invokespecial #260                // Method com/redhat/devtools/lsp4ij/client/features/LSPCompletionFeature$LSPCompletionContext."<init>":(Lcom/intellij/codeInsight/completion/CompletionParameters;Lcom/redhat/devtools/lsp4ij/LanguageServerItem;)V
+       246: astore        17
+       248: iconst_0
+       249: istore        18
+       251: iload         18
+       253: iload         14
+       255: if_icmpge     334
+       258: aload         7
+       260: iload         18
+       262: invokeinterface #263,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+       267: checkcast     #267                // class org/eclipse/lsp4j/CompletionItem
+       270: astore        19
+       272: invokestatic  #109                // Method com/intellij/openapi/progress/ProgressManager.checkCanceled:()V
+       275: aload_0
+       276: aload         19
+       278: aload         6
+       280: invokevirtual #269                // Method updateWithItemDefaults:(Lorg/eclipse/lsp4j/CompletionItem;Lorg/eclipse/lsp4j/CompletionItemDefaults;)V
+       283: aload         16
+       285: aload         19
+       287: aload         17
+       289: invokevirtual #273                // Method com/redhat/devtools/lsp4ij/client/features/LSPCompletionFeature.createLookupElement:(Lorg/eclipse/lsp4j/CompletionItem;Lcom/redhat/devtools/lsp4ij/client/features/LSPCompletionFeature$LSPCompletionContext;)Lcom/intellij/codeInsight/lookup/LookupElement;
+       292: astore        20
+       294: aload         20
+       296: ifnull        328
+       299: aload         16
+       301: aload         17
+       303: aload_2
+       304: aload         5
+       306: aload         20
+       308: iload         14
+       310: iload         18
+       312: isub
+       313: aload         19
+       315: invokevirtual #277                // Method com/redhat/devtools/lsp4ij/client/features/LSPCompletionFeature.addLookupItem:(Lcom/redhat/devtools/lsp4ij/client/features/LSPCompletionFeature$LSPCompletionContext;Lcom/redhat/devtools/lsp4ij/features/completion/CompletionPrefix;Lcom/intellij/codeInsight/completion/CompletionResultSet;Lcom/intellij/codeInsight/lookup/LookupElement;ILorg/eclipse/lsp4j/CompletionItem;)V
+       318: aload         15
+       320: aload         20
+       322: invokevirtual #281                // Method com/intellij/codeInsight/lookup/LookupElement.getLookupString:()Ljava/lang/String;
+       325: invokestatic  #287                // Method com/intellij/util/containers/ContainerUtil.addIfNotNull:(Ljava/util/Collection;Ljava/lang/Object;)V
+       328: iinc          18, 1
+       331: goto          251
+       334: iload         14
+       336: ifle          509
+       339: aload_1
+       340: invokevirtual #293                // Method com/intellij/codeInsight/completion/CompletionParameters.getInvocationCount:()I
+       343: ifeq          355
+       346: aload_1
+       347: invokevirtual #293                // Method com/intellij/codeInsight/completion/CompletionParameters.getInvocationCount:()I
+       350: iconst_2
+       351: irem
+       352: ifle          509
+       355: aload         5
+       357: invokevirtual #296                // Method com/intellij/codeInsight/completion/CompletionResultSet.stopHere:()V
+       360: aload_1
+       361: invokevirtual #299                // Method com/intellij/codeInsight/completion/CompletionParameters.getProcess:()Lcom/intellij/codeInsight/completion/CompletionProcess;
+       364: astore        18
+       366: aload         18
+       368: instanceof    #303                // class com/intellij/openapi/util/UserDataHolder
+       371: ifeq          382
+       374: aload         18
+       376: checkcast     #303                // class com/intellij/openapi/util/UserDataHolder
+       379: goto          383
+       382: aconst_null
+       383: astore        19
+       385: iconst_0
+       386: istore        20
+       388: aload         19
+       390: ifnull        430
+       393: aload         19
+       395: getstatic     #305                // Field com/intellij/codeInsight/completion/BaseCompletionService.FORBID_WORD_COMPLETION:Lcom/intellij/openapi/util/Key;
+       398: invokeinterface #311,  2          // InterfaceMethod com/intellij/openapi/util/UserDataHolder.getUserData:(Lcom/intellij/openapi/util/Key;)Ljava/lang/Object;
+       403: getstatic     #315                // Field java/lang/Boolean.TRUE:Ljava/lang/Boolean;
+       406: if_acmpne     413
+       409: iconst_1
+       410: goto          414
+       413: iconst_0
+       414: istore        20
+       416: aload         19
+       418: getstatic     #305                // Field com/intellij/codeInsight/completion/BaseCompletionService.FORBID_WORD_COMPLETION:Lcom/intellij/openapi/util/Key;
+       421: iconst_1
+       422: invokestatic  #321                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       425: invokeinterface #325,  3          // InterfaceMethod com/intellij/openapi/util/UserDataHolder.putUserData:(Lcom/intellij/openapi/util/Key;Ljava/lang/Object;)V
+       430: aload         19
+       432: ifnull        446
+       435: aload         5
+       437: aload_1
+       438: iconst_1
+       439: invokevirtual #329                // Method com/intellij/codeInsight/completion/CompletionResultSet.runRemainingContributors:(Lcom/intellij/codeInsight/completion/CompletionParameters;Z)Ljava/util/LinkedHashSet;
+       442: pop
+       443: goto          461
+       446: aload         5
+       448: aload_1
+       449: aload         15
+       451: aload         5
+       453: invokedynamic #333,  0            // InvokeDynamic #0:consume:(Ljava/util/Set;Lcom/intellij/codeInsight/completion/CompletionResultSet;)Lcom/intellij/util/Consumer;
+       458: invokevirtual #337                // Method com/intellij/codeInsight/completion/CompletionResultSet.runRemainingContributors:(Lcom/intellij/codeInsight/completion/CompletionParameters;Lcom/intellij/util/Consumer;)V
+       461: aload         19
+       463: ifnull        509
+       466: aload         19
+       468: getstatic     #305                // Field com/intellij/codeInsight/completion/BaseCompletionService.FORBID_WORD_COMPLETION:Lcom/intellij/openapi/util/Key;
+       471: iload         20
+       473: invokestatic  #321                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       476: invokeinterface #325,  3          // InterfaceMethod com/intellij/openapi/util/UserDataHolder.putUserData:(Lcom/intellij/openapi/util/Key;Ljava/lang/Object;)V
+       481: goto          509
+       484: astore        21
+       486: aload         19
+       488: ifnull        506
+       491: aload         19
+       493: getstatic     #305                // Field com/intellij/codeInsight/completion/BaseCompletionService.FORBID_WORD_COMPLETION:Lcom/intellij/openapi/util/Key;
+       496: iload         20
+       498: invokestatic  #321                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       501: invokeinterface #325,  3          // InterfaceMethod com/intellij/openapi/util/UserDataHolder.putUserData:(Lcom/intellij/openapi/util/Key;Ljava/lang/Object;)V
+       506: aload         21
+       508: athrow
+       509: return
+      Exception table:
+         from    to  target type
+           430   461   484   any
+           484   486   484   any
+
+  public static java.lang.String getCurrentWord(com.intellij.codeInsight.completion.CompletionParameters);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        7
+         6: invokestatic  #622                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: invokevirtual #7                  // Method com/intellij/codeInsight/completion/CompletionParameters.getOriginalFile:()Lcom/intellij/psi/PsiFile;
+        13: astore_1
+        14: aload_1
+        15: invokeinterface #13,  1           // InterfaceMethod com/intellij/psi/PsiFile.getVirtualFile:()Lcom/intellij/openapi/vfs/VirtualFile;
+        20: astore_2
+        21: aload_2
+        22: ifnull        32
+        25: aload_2
+        26: invokestatic  #340                // Method com/redhat/devtools/lsp4ij/LSPIJUtils.getDocument:(Lcom/intellij/openapi/vfs/VirtualFile;)Lcom/intellij/openapi/editor/Document;
+        29: goto          33
+        32: aconst_null
+        33: astore_3
+        34: aload_3
+        35: ifnull        93
+        38: aload_0
+        39: invokevirtual #41                 // Method com/intellij/codeInsight/completion/CompletionParameters.getOffset:()I
+        42: istore        4
+        44: aload_3
+        45: aload_1
+        46: iload         4
+        48: invokestatic  #343                // Method com/redhat/devtools/lsp4ij/LSPIJUtils.getWordRangeAt:(Lcom/intellij/openapi/editor/Document;Lcom/intellij/psi/PsiFile;I)Lcom/intellij/openapi/util/TextRange;
+        51: astore        5
+        53: aload         5
+        55: ifnull        93
+        58: aload_3
+        59: invokeinterface #347,  1          // InterfaceMethod com/intellij/openapi/editor/Document.getCharsSequence:()Ljava/lang/CharSequence;
+        64: astore        6
+        66: aload         6
+        68: aload         5
+        70: invokevirtual #353                // Method com/intellij/openapi/util/TextRange.getStartOffset:()I
+        73: aload         5
+        75: invokevirtual #358                // Method com/intellij/openapi/util/TextRange.getEndOffset:()I
+        78: invokeinterface #361,  3          // InterfaceMethod java/lang/CharSequence.subSequence:(II)Ljava/lang/CharSequence;
+        83: astore        7
+        85: aload         7
+        87: invokeinterface #367,  1          // InterfaceMethod java/lang/CharSequence.toString:()Ljava/lang/String;
+        92: areturn
+        93: aconst_null
+        94: areturn
+
+  protected void updateWithItemDefaults(org.eclipse.lsp4j.CompletionItem, org.eclipse.lsp4j.CompletionItemDefaults);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        8
+         6: invokestatic  #622                // Method $$$reportNull$$$0:(I)V
+         9: aload_2
+        10: ifnonnull     14
+        13: return
+        14: aload_1
+        15: invokevirtual #370                // Method org/eclipse/lsp4j/CompletionItem.getTextEditText:()Ljava/lang/String;
+        18: astore_3
+        19: aload_2
+        20: invokevirtual #373                // Method org/eclipse/lsp4j/CompletionItemDefaults.getEditRange:()Lorg/eclipse/lsp4j/jsonrpc/messages/Either;
+        23: ifnull        119
+        26: aload_3
+        27: ifnull        119
+        30: aload_2
+        31: invokevirtual #373                // Method org/eclipse/lsp4j/CompletionItemDefaults.getEditRange:()Lorg/eclipse/lsp4j/jsonrpc/messages/Either;
+        34: invokevirtual #170                // Method org/eclipse/lsp4j/jsonrpc/messages/Either.isLeft:()Z
+        37: ifeq          77
+        40: aload_2
+        41: invokevirtual #373                // Method org/eclipse/lsp4j/CompletionItemDefaults.getEditRange:()Lorg/eclipse/lsp4j/jsonrpc/messages/Either;
+        44: invokevirtual #175                // Method org/eclipse/lsp4j/jsonrpc/messages/Either.getLeft:()Ljava/lang/Object;
+        47: checkcast     #378                // class org/eclipse/lsp4j/Range
+        50: astore        4
+        52: aload         4
+        54: ifnull        74
+        57: aload_1
+        58: new           #380                // class org/eclipse/lsp4j/TextEdit
+        61: dup
+        62: aload         4
+        64: aload_3
+        65: invokespecial #382                // Method org/eclipse/lsp4j/TextEdit."<init>":(Lorg/eclipse/lsp4j/Range;Ljava/lang/String;)V
+        68: invokestatic  #385                // Method org/eclipse/lsp4j/jsonrpc/messages/Either.forLeft:(Ljava/lang/Object;)Lorg/eclipse/lsp4j/jsonrpc/messages/Either;
+        71: invokevirtual #389                // Method org/eclipse/lsp4j/CompletionItem.setTextEdit:(Lorg/eclipse/lsp4j/jsonrpc/messages/Either;)V
+        74: goto          119
+        77: aload_2
+        78: invokevirtual #373                // Method org/eclipse/lsp4j/CompletionItemDefaults.getEditRange:()Lorg/eclipse/lsp4j/jsonrpc/messages/Either;
+        81: invokevirtual #184                // Method org/eclipse/lsp4j/jsonrpc/messages/Either.getRight:()Ljava/lang/Object;
+        84: checkcast     #393                // class org/eclipse/lsp4j/InsertReplaceRange
+        87: astore        4
+        89: aload         4
+        91: ifnull        119
+        94: aload_1
+        95: new           #395                // class org/eclipse/lsp4j/InsertReplaceEdit
+        98: dup
+        99: aload_3
+       100: aload         4
+       102: invokevirtual #397                // Method org/eclipse/lsp4j/InsertReplaceRange.getInsert:()Lorg/eclipse/lsp4j/Range;
+       105: aload         4
+       107: invokevirtual #401                // Method org/eclipse/lsp4j/InsertReplaceRange.getReplace:()Lorg/eclipse/lsp4j/Range;
+       110: invokespecial #404                // Method org/eclipse/lsp4j/InsertReplaceEdit."<init>":(Ljava/lang/String;Lorg/eclipse/lsp4j/Range;Lorg/eclipse/lsp4j/Range;)V
+       113: invokestatic  #407                // Method org/eclipse/lsp4j/jsonrpc/messages/Either.forRight:(Ljava/lang/Object;)Lorg/eclipse/lsp4j/jsonrpc/messages/Either;
+       116: invokevirtual #389                // Method org/eclipse/lsp4j/CompletionItem.setTextEdit:(Lorg/eclipse/lsp4j/jsonrpc/messages/Either;)V
+       119: aload_1
+       120: invokevirtual #410                // Method org/eclipse/lsp4j/CompletionItem.getData:()Ljava/lang/Object;
+       123: ifnonnull     134
+       126: aload_1
+       127: aload_2
+       128: invokevirtual #413                // Method org/eclipse/lsp4j/CompletionItemDefaults.getData:()Ljava/lang/Object;
+       131: invokevirtual #414                // Method org/eclipse/lsp4j/CompletionItem.setData:(Ljava/lang/Object;)V
+       134: aload_1
+       135: invokevirtual #418                // Method org/eclipse/lsp4j/CompletionItem.getInsertTextFormat:()Lorg/eclipse/lsp4j/InsertTextFormat;
+       138: ifnonnull     149
+       141: aload_1
+       142: aload_2
+       143: invokevirtual #422                // Method org/eclipse/lsp4j/CompletionItemDefaults.getInsertTextFormat:()Lorg/eclipse/lsp4j/InsertTextFormat;
+       146: invokevirtual #423                // Method org/eclipse/lsp4j/CompletionItem.setInsertTextFormat:(Lorg/eclipse/lsp4j/InsertTextFormat;)V
+       149: aload_1
+       150: invokevirtual #427                // Method org/eclipse/lsp4j/CompletionItem.getInsertTextMode:()Lorg/eclipse/lsp4j/InsertTextMode;
+       153: ifnonnull     164
+       156: aload_1
+       157: aload_2
+       158: invokevirtual #431                // Method org/eclipse/lsp4j/CompletionItemDefaults.getInsertTextMode:()Lorg/eclipse/lsp4j/InsertTextMode;
+       161: invokevirtual #432                // Method org/eclipse/lsp4j/CompletionItem.setInsertTextMode:(Lorg/eclipse/lsp4j/InsertTextMode;)V
+       164: aload_1
+       165: invokevirtual #436                // Method org/eclipse/lsp4j/CompletionItem.getCommitCharacters:()Ljava/util/List;
+       168: ifnonnull     179
+       171: aload_1
+       172: aload_2
+       173: invokevirtual #439                // Method org/eclipse/lsp4j/CompletionItemDefaults.getCommitCharacters:()Ljava/util/List;
+       176: invokevirtual #440                // Method org/eclipse/lsp4j/CompletionItem.setCommitCharacters:(Ljava/util/List;)V
+       179: return
+
+  private static java.lang.String getCompletionChar(int, com.intellij.openapi.editor.Document);
+    Code:
+         0: iload_0
+         1: ifle          32
+         4: iload_0
+         5: aload_1
+         6: invokeinterface #444,  1          // InterfaceMethod com/intellij/openapi/editor/Document.getTextLength:()I
+        11: if_icmpgt     32
+        14: aload_1
+        15: invokeinterface #347,  1          // InterfaceMethod com/intellij/openapi/editor/Document.getCharsSequence:()Ljava/lang/CharSequence;
+        20: iload_0
+        21: iconst_1
+        22: isub
+        23: invokeinterface #447,  2          // InterfaceMethod java/lang/CharSequence.charAt:(I)C
+        28: invokestatic  #451                // Method java/lang/String.valueOf:(C)Ljava/lang/String;
+        31: areturn
+        32: aconst_null
+        33: areturn
+
+  private static void lambda$addCompletionItems$0(java.util.Set, com.intellij.codeInsight.completion.CompletionResultSet, com.intellij.codeInsight.completion.CompletionResult);
+    Code:
+         0: aload_2
+         1: invokevirtual #456                // Method com/intellij/codeInsight/completion/CompletionResult.getLookupElement:()Lcom/intellij/codeInsight/lookup/LookupElement;
+         4: astore_3
+         5: aload_3
+         6: ifnull        40
+         9: aload_3
+        10: invokevirtual #281                // Method com/intellij/codeInsight/lookup/LookupElement.getLookupString:()Ljava/lang/String;
+        13: astore        4
+        15: aload_0
+        16: aload         4
+        18: invokeinterface #462,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+        23: ifne          40
+        26: aload_1
+        27: aload_3
+        28: invokevirtual #468                // Method com/intellij/codeInsight/completion/CompletionResultSet.consume:(Lcom/intellij/codeInsight/lookup/LookupElement;)V
+        31: aload_0
+        32: aload         4
+        34: invokeinterface #471,  2          // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+        39: pop
+        40: return
+
+  static {};
+    Code:
+         0: ldc           #61                 // class com/redhat/devtools/lsp4ij/features/completion/LSPCompletionContributor
+         2: invokestatic  #474                // Method org/slf4j/LoggerFactory.getLogger:(Ljava/lang/Class;)Lorg/slf4j/Logger;
+         5: putstatic     #97                 // Field LOGGER:Lorg/slf4j/Logger;
+         8: return
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: ldc_w         #624                // String Argument for @NotNull parameter \'%s\' of %s.%s must not be null
+         3: iconst_3
+         4: anewarray     #626                // class java/lang/Object
+         7: iload_0
+         8: tableswitch   { // 0 to 8
+                       0: 60
+                       1: 69
+                       2: 60
+                       3: 78
+                       4: 87
+                       5: 96
+                       6: 69
+                       7: 60
+                       8: 105
+                 default: 60
+            }
+        60: dup
+        61: iconst_0
+        62: ldc_w         #627                // String parameters
+        65: aastore
+        66: goto          114
+        69: dup
+        70: iconst_0
+        71: ldc_w         #628                // String result
+        74: aastore
+        75: goto          114
+        78: dup
+        79: iconst_0
+        80: ldc_w         #629                // String completionPrefix
+        83: aastore
+        84: goto          114
+        87: dup
+        88: iconst_0
+        89: ldc_w         #630                // String completion
+        92: aastore
+        93: goto          114
+        96: dup
+        97: iconst_0
+        98: ldc_w         #631                // String languageServer
+       101: aastore
+       102: goto          114
+       105: dup
+       106: iconst_0
+       107: ldc_w         #632                // String item
+       110: aastore
+       111: goto          114
+       114: dup
+       115: iconst_1
+       116: ldc_w         #633                // String com/redhat/devtools/lsp4ij/features/completion/LSPCompletionContributor
+       119: aastore
+       120: iload_0
+       121: tableswitch   { // 0 to 8
+                       0: 172
+                       1: 172
+                       2: 181
+                       3: 181
+                       4: 181
+                       5: 181
+                       6: 181
+                       7: 190
+                       8: 199
+                 default: 172
+            }
+       172: dup
+       173: iconst_2
+       174: ldc_w         #634                // String fillCompletionVariants
+       177: aastore
+       178: goto          208
+       181: dup
+       182: iconst_2
+       183: ldc_w         #635                // String addCompletionItems
+       186: aastore
+       187: goto          208
+       190: dup
+       191: iconst_2
+       192: ldc_w         #636                // String getCurrentWord
+       195: aastore
+       196: goto          208
+       199: dup
+       200: iconst_2
+       201: ldc_w         #637                // String updateWithItemDefaults
+       204: aastore
+       205: goto          208
+       208: invokestatic  #641                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+       211: new           #643                // class java/lang/IllegalArgumentException
+       214: dup_x1
+       215: swap
+       216: invokespecial #646                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+       219: athrow
+}
