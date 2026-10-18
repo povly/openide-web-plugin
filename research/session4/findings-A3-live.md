@@ -41,13 +41,24 @@
   см. статус в README/плане: окраска подтверждена юзером; регресс .ts/.css/.js фиксом
   невозможен по механике (F2 меняет только vue-цепочки, F1 — только Wfm-схемы) и не наблюдался.
 
-## Открытый follow-up (вне scope плана окраски, зафиксирован)
+## Открытый follow-up — ЗАКРЫТ в ту же сессию (RC11, ~20:40; юзер: «все заработало»)
 
-**GUI-LSP-фичи в .vue молчат** (completion/переходы; юзер сообщил сразу после подтверждения
-окраски): vue-language-server запущен (19:20:20), конфиг цел (hybridMode:false, маппинг
-*.vue), свежий экземпляр с тем же конфигом отвечает hover/definition/completion идеально
-(probes/vue_probe7_lsp.py), но IDE не отправляет запросы живому серверу (idle, 0:01 CPU;
-baseline /proc/io: rchar≈17.5МБ / wchar≈135КБ — рукопожатие и didOpen прошли). НЕ является
-регрессом v1.9.0 (подсказки в vue отсутствовали и до фикса — сообщение юзера на v1.8.4).
-Диагностика продолжается (3 наблюдения юзера запрошены: диагностика в редакторе, статус
-сервера в LSP-виджете, контраст .ts).
+Полная цепь (все звенья доказаны):
+
+- **Симптомы**: в .vue completion/переходы не работают (word-completion только, «рандомные
+  русские символы» = слова из комментариев файла); LSP-консоль vue молчит, процесс жив;
+  параллельно css-lint `validProperties null` при живом конфиге на диске.
+- **Диагноз**: работающая IDE не держала per-project lsp4ij-конфиг — Initialization Options
+  (Vue) и Configuration (CSS) на диске есть, UUID совпадают, но сессия шла без опций / отвечала
+  null на workspace/configuration.
+- **Механика vue** (воспроизведено мини-зондом): initialize БЕЗ `initializationOptions.typescript`
+  → Volar отвечает `ResponseError: Cannot read properties of undefined (reading 'typescript')`
+  (17.10 21:26 — ×10 в логе, SEVERE «Plugin to blame: LSP4IJ») → wrapper помечает старт
+  проваленным → ВСЕ фичи (completion/hover/definition/semantic) молча не диспатчатся; процесс
+  остаётся живым зомби («запускается, но тишина»). Контраст: свежий экземпляр С конфигом
+  отвечает идеально (vue_probe7_lsp.py).
+- **Фикс**: Settings → Tools → Language Servers → Vue → Initialization Options — JSON вставлен
+  заново в GUI; CSS → Configuration аналогично; рестарт IDE → vue hover/completion/definition
+  работают, css-lint без ошибки (подтверждение юзера).
+- **Урок (= RC6-паттерн)**: для РАБОТАЮЩЕЙ сессии истина — GUI, не XML на диске. После любых
+  файловых правок lsp4ij-конфигов — проверить поля в GUI и перезапустить IDE.
