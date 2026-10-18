@@ -1,9 +1,9 @@
 <idea-plugin>
   <id>povly.webfrontendmini</id>
   <name>Web Frontend Mini</name>
-  <version>1.7.0</version>
+  <version>1.8.0</version>
   <vendor>povly</vendor>
-  <description>TextMate grammars (css/scss/less/vue + html/js/ts) for the OpenIDE web stack. v1.2: proper TextMate bundle layout (info.plist + Syntaxes/) fixes "unknown format" registration. v1.3: explicit TextMateBackedFileType beans claim css and js/mjs/cjs/ts/tsx/jsx (platform's "syntax highlighting only" AbstractFileTypes otherwise keep TextMate away), js/ts grammars patched with fileTypes.</description>
+  <description>TextMate grammars (css/scss/less/vue + html/js/ts) for the OpenIDE web stack. v1.2: proper TextMate bundle layout (info.plist + Syntaxes/) fixes "unknown format" registration. v1.3: explicit TextMateBackedFileType beans claim css and js/mjs/cjs/ts/tsx/jsx (platform's "syntax highlighting only" AbstractFileTypes otherwise keep TextMate away), js/ts grammars patched with fileTypes. v1.8: bundled "+ Web" color schemes regenerated with a valid attribute structure (v1.7 had a duplicated value-wrapper that prevented the schemes from loading) and extended with LSP_* keys so lsp4ij semantic tokens get colors; spell checking for TextMate web files.</description>
   <idea-version since-build="262"/>
   <depends>com.intellij.modules.platform</depends>
   <depends>org.jetbrains.plugins.textmate</depends>
@@ -22,11 +22,14 @@
     <editorHighlighterProvider filetype="WFM CSS" implementationClass="povly.wfm.WfmEditorHighlighterProvider" />
     <!-- Child schemes of every Catppuccin flavor: re-add the DEFAULT_* keys that the .theme.json
          variant of Catppuccin does not define; TextMate highlighting falls back to these keys and
-         renders monochrome without them. Select "Catppuccin &lt;Flavor&gt; + Web" in Color Scheme. -->
-    <bundledColorScheme path="/colorScheme/WfmMocha" />
-    <bundledColorScheme path="/colorScheme/WfmMacchiato" />
-    <bundledColorScheme path="/colorScheme/WfmFrappe" />
-    <bundledColorScheme path="/colorScheme/WfmLatte" />
+         renders monochrome without them. LSP_* keys color lsp4ij semantic tokens. Explicit ids
+         keep the scheme keys stable (a path-derived key is used otherwise, with a startup WARN).
+         Select "Catppuccin &lt;Flavor&gt; + Web" in Color Scheme. -->
+    <bundledColorScheme id="povly.wfm.mocha.web" path="/colorScheme/WfmMocha" />
+    <bundledColorScheme id="povly.wfm.macchiato.web" path="/colorScheme/WfmMacchiato" />
+    <bundledColorScheme id="povly.wfm.frappe.web" path="/colorScheme/WfmFrappe" />
+    <bundledColorScheme id="povly.wfm.latte.web" path="/colorScheme/WfmLatte" />
+    <spellchecker.support language="textmate" implementationClass="povly.wfm.WfmSpellcheckingStrategy" />
     <textmate.bundleProvider implementation="povly.wfm.WebFrontendBundleProvider" />
   </extensions>
 </idea-plugin>
