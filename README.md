@@ -8,7 +8,7 @@ TextMate-грамматики для css / scss / less / js / ts / jsx / tsx / v
 достигается грамматиками и LSP-серверами пользователя; вся LicenseService/Pro-обвязка не воспроизводится.
 Полная история разработки и разбор web-tools — в runbook `linux-fix/docs/openide-web-plugin.md`.
 
-## Что делает (v1.8.3)
+## Что делает (v1.9.0)
 
 - **Языки/подсветка**: TextMate-бандл через EP `com.intellij.textmate.bundleProvider`
   (`WebFrontendBundleProvider`): 9 грамматик открытых источников, распаковка в
@@ -64,6 +64,9 @@ resources/
 research/session2/                  # материалы изучения web-tools 1.0.1 (см. README там):
                                    # wtjar, декомпиляции lsp4ij/платформы, харнессы
                                    # Repro/LinesRepro/RegexAudit, findings C1–C4, матрица D1
+research/session4/                  # сессия 4 (окраска vue-script): findings-A1-rules/
+                                   # A2-pipeline/C1-semantic/C2-lsp4ij-semantic, decision-D1,
+                                   # харнесс PipelineRepro.java (+ джавап-дампы), probes/
 ```
 
 ## Атрибуция
@@ -95,13 +98,33 @@ research/session2/                  # материалы изучения web-to
   (`source.ts.vuehtml.html.vue` и др.) — upstream `TextMateHighlighter.getTokenHighlights`
   обрезает scope-цепочку на первом embedded-скопе. Механизм доказан, токены в живом
   редакторе подтверждены (WFM-DIAG2: 1499/1510 source-scoped), но script визуально
-  остался монохромным — остаётся нераскрытый слой scope→TextAttributes (сессия 4:
-  изучение API подсветки, пакета и сервера)
+  остался монохромным — раскрыто в сессии 4: настоящий корень RC10 (см. v1.9.0)
+- v1.8.4/v1.8.5-diag — WFM-DIAG3: per-token продакшн-ключи + merged RGB в живом редакторе
+  (highlighter = upstream TextMateLexerEditorHighlighter; фикс 1.8.5 — innermost-скоп это
+  ПОСЛЕДНИЙ сегмент parent-first toString)
+- v1.9.0 — **RC10 закрыт: vue-script окрашен.** Рут-коз: generic-селектор `text source`
+  (из 36 generic-правил TextMateDefaultColorsProvider) матчит цепочку `source.* ← text.html.vue`
+  → ключ DEFAULT_TEMPLATE_LANGUAGE_COLOR ПОСЛЕДНИМ слоем, LayeredTextAttributes.merge кладёт его
+  fg поверх семантики; Catppuccin-темы (и наши Wfm, унаследовав) дают ему бледный fg
+  (macchiato f0c6c6) → весь script одним цветом. Почему v1.8.3 НЕ помог: trimEmbeddedScope
+  никогда не срабатывал — в грамматике не было `.embedded.`-имён. Фикс = F2 (контейнеры
+  script/style в vue.tmLanguage.json → `source.ts.embedded.vue` и др., 10 замен, include-строки
+  не тронуты — ШТАТНАЯ обрезка отрезает text-предков, работает с любой темой) + F1 (Wfm*.xml:
+  DEFAULT_TEMPLATE_LANGUAGE_COLOR → baseAttributes="TEXT", как Darcula). Доказано харнессом
+  research/session4/PipelineRepro на real components (keys [DEFAULT_KEYWORD] без template-слоя,
+  −110 монохром-токенов); архитектура: textmate основной + semantic-добавка Volar (включена
+  без кода: гейт lsp4ij только semanticTokensProvider≠null, флаг full не проверяется)
 
 Известные ограничения:
 
-- **vue `<script>` монохромен** — открытый вопрос (см. выше); .ts/.css/.js красятся корректно
-- WFM-DIAG2 (WfmLiveDiagStartup) — временная диагностика, удалить после подтверждения фикса
+- ~~vue `<script>` монохромен~~ — закрыт в v1.9.0 (RC10, F1+F2); подтверждено юзером визуально
+- WFM-DIAG-активности удалены из релиза v1.9.0 (in-vivo подтверждение получено; урок v1.5→v1.6)
+- **GUI-LSP-фичи в .vue (completion/переходы) не работают** — стоящая проблема lsp4ij-обвязки,
+  НЕ регресс v1.9.0 (отсутствовали и до фикса): сервер запущен и здоров (зонд
+  `research/session4/probes/vue_probe7_lsp.py`: hover/definition/completion отвечают мгновенно),
+  но IDE не отправляет ему запросы фич (процесс idle, ошибок в логе нет) — follow-up, см.
+  `research/session4/findings-A3-live.md`
 - jsx/tsx-вставки в js/ts-грамматиках всё ещё содержат `.embedded.`-скопы (та же обрезка
   upstream; при воспроизведении лечится аналогично — пока вне жалоб)
-- Живой эталон web-tools (замеры B1/B2 плана сессии 3) отложен — статический анализ в `research/session2/`
+- Живой эталон web-tools (B1/B2) скипнут решением юзера (сессия 4) — статический анализ в
+  `research/session2/`, semantic-механика в `research/session4/findings-C2-lsp4ij-semantic.md`
