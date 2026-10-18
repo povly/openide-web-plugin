@@ -35,8 +35,8 @@ are owned by the built-in plugins — the IDE will ask about the extension confl
 
 ## Installation
 
-1. OpenIDE → **Settings → Plugins → ⚙ → Install Plugin from Disk…**
-2. Pick `dist/web-frontend-mini.zip` → restart the IDE
+1. Download `web-frontend-mini.zip` from [Releases](https://github.com/povly/openide-web-plugin/releases)
+2. OpenIDE → **Settings → Plugins → ⚙ → Install Plugin from Disk…** → pick the zip → restart the IDE
 3. Select the scheme: **Settings → Editor → Color Scheme → «Catppuccin \<Flavor\> + Web»**
 4. Quick check: open any `.vue` — script and template are colored; in the log:
 

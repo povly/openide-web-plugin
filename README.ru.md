@@ -33,8 +33,8 @@ OpenIDE (форк IntelliJ IDEA CE) из коробки не подсвечив�
 
 ## Установка
 
-1. OpenIDE → **Settings → Plugins → ⚙ → Install Plugin from Disk…**
-2. Выбрать `dist/web-frontend-mini.zip` → перезапустить IDE
+1. Скачать `web-frontend-mini.zip` из [Releases](https://github.com/povly/openide-web-plugin/releases)
+2. OpenIDE → **Settings → Plugins → ⚙ → Install Plugin from Disk…** → выбрать zip → перезапустить IDE
 3. Выбрать схему: **Settings → Editor → Color Scheme → «Catppuccin \<Flavor\> + Web»**
 4. Быстрая проверка: открыть любой `.vue` — script и template разноцветные; в логе
 
