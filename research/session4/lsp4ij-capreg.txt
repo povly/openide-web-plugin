@@ -1,0 +1,140 @@
+Compiled from "SemanticTokensCapabilityRegistry.java"
+public class com.redhat.devtools.lsp4ij.server.capabilities.SemanticTokensCapabilityRegistry extends com.redhat.devtools.lsp4ij.server.capabilities.TextDocumentServerCapabilityRegistry<org.eclipse.lsp4j.SemanticTokensWithRegistrationOptions> {
+  private static final java.util.function.Predicate<org.eclipse.lsp4j.ServerCapabilities> SERVER_CAPABILITIES_PREDICATE;
+
+  public com.redhat.devtools.lsp4ij.server.capabilities.SemanticTokensCapabilityRegistry(com.redhat.devtools.lsp4ij.client.features.LSPClientFeatures);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_0
+         5: invokestatic  #126                // Method $$$reportNull$$$0:(I)V
+         8: aload_0
+         9: aload_1
+        10: invokespecial #1                  // Method com/redhat/devtools/lsp4ij/server/capabilities/TextDocumentServerCapabilityRegistry."<init>":(Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;)V
+        13: return
+
+  protected org.eclipse.lsp4j.SemanticTokensWithRegistrationOptions create(com.google.gson.JsonObject);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_1
+         5: invokestatic  #126                // Method $$$reportNull$$$0:(I)V
+         8: invokestatic  #7                  // Method com/redhat/devtools/lsp4ij/JSONUtils.getLsp4jGson:()Lcom/google/gson/Gson;
+        11: aload_1
+        12: ldc           #13                 // class com/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry$ExtendedSemanticTokensRegistrationOptions
+        14: invokevirtual #15                 // Method com/google/gson/Gson.fromJson:(Lcom/google/gson/JsonElement;Ljava/lang/Class;)Ljava/lang/Object;
+        17: checkcast     #21                 // class org/eclipse/lsp4j/SemanticTokensWithRegistrationOptions
+        20: areturn
+
+  public boolean isSemanticTokensSupported(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_2
+         5: invokestatic  #126                // Method $$$reportNull$$$0:(I)V
+         8: aload_0
+         9: aload_1
+        10: getstatic     #23                 // Field SERVER_CAPABILITIES_PREDICATE:Ljava/util/function/Predicate;
+        13: invokespecial #29                 // Method com/redhat/devtools/lsp4ij/server/capabilities/TextDocumentServerCapabilityRegistry.isSupported:(Lcom/intellij/psi/PsiFile;Ljava/util/function/Predicate;)Z
+        16: ireturn
+
+  public org.eclipse.lsp4j.SemanticTokensLegend getLegend();
+    Code:
+         0: aload_0
+         1: invokespecial #33                 // Method com/redhat/devtools/lsp4ij/server/capabilities/TextDocumentServerCapabilityRegistry.getOptions:()Ljava/util/List;
+         4: astore_1
+         5: aload_1
+         6: invokeinterface #37,  1           // InterfaceMethod java/util/List.isEmpty:()Z
+        11: ifeq          16
+        14: aconst_null
+        15: areturn
+        16: aload_1
+        17: iconst_0
+        18: invokeinterface #43,  2           // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+        23: checkcast     #21                 // class org/eclipse/lsp4j/SemanticTokensWithRegistrationOptions
+        26: invokevirtual #47                 // Method org/eclipse/lsp4j/SemanticTokensWithRegistrationOptions.getLegend:()Lorg/eclipse/lsp4j/SemanticTokensLegend;
+        29: areturn
+
+  protected org.eclipse.lsp4j.TextDocumentRegistrationOptions create(com.google.gson.JsonObject);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #51                 // Method create:(Lcom/google/gson/JsonObject;)Lorg/eclipse/lsp4j/SemanticTokensWithRegistrationOptions;
+         5: areturn
+
+  private static boolean lambda$static$0(org.eclipse.lsp4j.ServerCapabilities);
+    Code:
+         0: aload_0
+         1: invokevirtual #55                 // Method org/eclipse/lsp4j/ServerCapabilities.getSemanticTokensProvider:()Lorg/eclipse/lsp4j/SemanticTokensWithRegistrationOptions;
+         4: ifnull        11
+         7: iconst_1
+         8: goto          12
+        11: iconst_0
+        12: ireturn
+
+  static {};
+    Code:
+         0: invokedynamic #61,  0             // InvokeDynamic #0:test:()Ljava/util/function/Predicate;
+         5: putstatic     #23                 // Field SERVER_CAPABILITIES_PREDICATE:Ljava/util/function/Predicate;
+         8: return
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: ldc           #128                // String Argument for @NotNull parameter \'%s\' of %s.%s must not be null
+         2: iconst_3
+         3: anewarray     #130                // class java/lang/Object
+         6: iload_0
+         7: tableswitch   { // 0 to 2
+                       0: 32
+                       1: 40
+                       2: 48
+                 default: 32
+            }
+        32: dup
+        33: iconst_0
+        34: ldc           #131                // String clientFeatures
+        36: aastore
+        37: goto          56
+        40: dup
+        41: iconst_0
+        42: ldc           #132                // String registerOptions
+        44: aastore
+        45: goto          56
+        48: dup
+        49: iconst_0
+        50: ldc           #133                // String file
+        52: aastore
+        53: goto          56
+        56: dup
+        57: iconst_1
+        58: ldc           #134                // String com/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry
+        60: aastore
+        61: iload_0
+        62: tableswitch   { // 0 to 2
+                       0: 88
+                       1: 96
+                       2: 104
+                 default: 88
+            }
+        88: dup
+        89: iconst_2
+        90: ldc           #135                // String <init>
+        92: aastore
+        93: goto          112
+        96: dup
+        97: iconst_2
+        98: ldc           #136                // String create
+       100: aastore
+       101: goto          112
+       104: dup
+       105: iconst_2
+       106: ldc           #137                // String isSemanticTokensSupported
+       108: aastore
+       109: goto          112
+       112: invokestatic  #143                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+       115: new           #145                // class java/lang/IllegalArgumentException
+       118: dup_x1
+       119: swap
+       120: invokespecial #148                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+       123: athrow
+}

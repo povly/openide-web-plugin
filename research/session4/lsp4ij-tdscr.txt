@@ -1,0 +1,639 @@
+Compiled from "TextDocumentServerCapabilityRegistry.java"
+public abstract class com.redhat.devtools.lsp4ij.server.capabilities.TextDocumentServerCapabilityRegistry<T extends org.eclipse.lsp4j.TextDocumentRegistrationOptions> {
+  private final com.redhat.devtools.lsp4ij.client.features.LSPClientFeatures clientFeatures;
+
+  private final com.redhat.devtools.lsp4ij.internal.editor.EditorFeatureType editorFeatureType;
+
+  private org.eclipse.lsp4j.ServerCapabilities serverCapabilities;
+
+  private final java.util.List<T> dynamicCapabilities;
+
+  public com.redhat.devtools.lsp4ij.server.capabilities.TextDocumentServerCapabilityRegistry(com.redhat.devtools.lsp4ij.client.features.LSPClientFeatures);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_0
+         5: invokestatic  #303                // Method $$$reportNull$$$0:(I)V
+         8: aload_0
+         9: aload_1
+        10: aconst_null
+        11: invokespecial #1                  // Method "<init>":(Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;Lcom/redhat/devtools/lsp4ij/internal/editor/EditorFeatureType;)V
+        14: return
+
+  public com.redhat.devtools.lsp4ij.server.capabilities.TextDocumentServerCapabilityRegistry(com.redhat.devtools.lsp4ij.client.features.LSPClientFeatures, com.redhat.devtools.lsp4ij.internal.editor.EditorFeatureType);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_1
+         5: invokestatic  #303                // Method $$$reportNull$$$0:(I)V
+         8: aload_0
+         9: invokespecial #7                  // Method java/lang/Object."<init>":()V
+        12: aload_0
+        13: aload_1
+        14: putfield      #12                 // Field clientFeatures:Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;
+        17: aload_0
+        18: new           #16                 // class java/util/ArrayList
+        21: dup
+        22: invokespecial #18                 // Method java/util/ArrayList."<init>":()V
+        25: putfield      #19                 // Field dynamicCapabilities:Ljava/util/List;
+        28: aload_0
+        29: aload_2
+        30: putfield      #23                 // Field editorFeatureType:Lcom/redhat/devtools/lsp4ij/internal/editor/EditorFeatureType;
+        33: return
+
+  public void setServerCapabilities(org.eclipse.lsp4j.ServerCapabilities);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: putfield      #27                 // Field serverCapabilities:Lorg/eclipse/lsp4j/ServerCapabilities;
+         5: aload_0
+         6: getfield      #19                 // Field dynamicCapabilities:Ljava/util/List;
+         9: invokeinterface #31,  1           // InterfaceMethod java/util/List.clear:()V
+        14: return
+
+  public org.eclipse.lsp4j.ServerCapabilities getServerCapabilities();
+    Code:
+         0: aload_0
+         1: getfield      #27                 // Field serverCapabilities:Lorg/eclipse/lsp4j/ServerCapabilities;
+         4: areturn
+
+  public T registerCapability(com.google.gson.JsonObject);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_2
+         5: invokestatic  #303                // Method $$$reportNull$$$0:(I)V
+         8: aload_0
+         9: aload_1
+        10: invokevirtual #36                 // Method create:(Lcom/google/gson/JsonObject;)Lorg/eclipse/lsp4j/TextDocumentRegistrationOptions;
+        13: astore_2
+        14: aload_2
+        15: ifnull        48
+        18: aload_0
+        19: getfield      #19                 // Field dynamicCapabilities:Ljava/util/List;
+        22: dup
+        23: astore_3
+        24: monitorenter
+        25: aload_0
+        26: getfield      #19                 // Field dynamicCapabilities:Ljava/util/List;
+        29: aload_2
+        30: invokeinterface #40,  2           // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+        35: pop
+        36: aload_3
+        37: monitorexit
+        38: goto          48
+        41: astore        4
+        43: aload_3
+        44: monitorexit
+        45: aload         4
+        47: athrow
+        48: aload_0
+        49: getfield      #23                 // Field editorFeatureType:Lcom/redhat/devtools/lsp4ij/internal/editor/EditorFeatureType;
+        52: ifnull        130
+        55: aload_0
+        56: getfield      #12                 // Field clientFeatures:Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;
+        59: invokevirtual #44                 // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getServerWrapper:()Lcom/redhat/devtools/lsp4ij/LanguageServerWrapper;
+        62: invokevirtual #50                 // Method com/redhat/devtools/lsp4ij/LanguageServerWrapper.getOpenedDocuments:()Ljava/util/Collection;
+        65: invokeinterface #56,  1           // InterfaceMethod java/util/Collection.iterator:()Ljava/util/Iterator;
+        70: astore_3
+        71: aload_3
+        72: invokeinterface #62,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+        77: ifeq          130
+        80: aload_3
+        81: invokeinterface #68,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        86: checkcast     #72                 // class com/redhat/devtools/lsp4ij/OpenedDocument
+        89: astore        4
+        91: aload         4
+        93: invokevirtual #74                 // Method com/redhat/devtools/lsp4ij/OpenedDocument.getFile:()Lcom/intellij/openapi/vfs/VirtualFile;
+        96: astore        5
+        98: aload_0
+        99: getfield      #12                 // Field clientFeatures:Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;
+       102: invokevirtual #78                 // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getProject:()Lcom/intellij/openapi/project/Project;
+       105: invokestatic  #82                 // Method com/redhat/devtools/lsp4ij/internal/editor/EditorFeatureManager.getInstance:(Lcom/intellij/openapi/project/Project;)Lcom/redhat/devtools/lsp4ij/internal/editor/EditorFeatureManager;
+       108: aload         5
+       110: aload_0
+       111: getfield      #23                 // Field editorFeatureType:Lcom/redhat/devtools/lsp4ij/internal/editor/EditorFeatureType;
+       114: iconst_1
+       115: new           #88                 // class com/redhat/devtools/lsp4ij/internal/VirtualFileCancelChecker
+       118: dup
+       119: aload         5
+       121: invokespecial #90                 // Method com/redhat/devtools/lsp4ij/internal/VirtualFileCancelChecker."<init>":(Lcom/intellij/openapi/vfs/VirtualFile;)V
+       124: invokevirtual #93                 // Method com/redhat/devtools/lsp4ij/internal/editor/EditorFeatureManager.refreshEditorFeature:(Lcom/intellij/openapi/vfs/VirtualFile;Lcom/redhat/devtools/lsp4ij/internal/editor/EditorFeatureType;ZLorg/eclipse/lsp4j/jsonrpc/CancelChecker;)V
+       127: goto          71
+       130: aload_2
+       131: areturn
+      Exception table:
+         from    to  target type
+            25    38    41   any
+            41    45    41   any
+
+  protected abstract T create(com.google.gson.JsonObject);
+
+  public void unregisterCapability(java.lang.Object);
+    Code:
+         0: aload_0
+         1: getfield      #19                 // Field dynamicCapabilities:Ljava/util/List;
+         4: aload_1
+         5: invokeinterface #97,  2           // InterfaceMethod java/util/List.remove:(Ljava/lang/Object;)Z
+        10: pop
+        11: return
+
+  protected boolean isSupported(com.intellij.psi.PsiFile, java.util.function.Predicate<org.eclipse.lsp4j.ServerCapabilities>);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_3
+         5: invokestatic  #303                // Method $$$reportNull$$$0:(I)V
+         8: aload_2
+         9: ifnonnull     16
+        12: iconst_4
+        13: invokestatic  #303                // Method $$$reportNull$$$0:(I)V
+        16: aload_0
+        17: aload_1
+        18: aload_2
+        19: aconst_null
+        20: invokevirtual #100                // Method isSupported:(Lcom/intellij/psi/PsiFile;Ljava/util/function/Predicate;Ljava/util/function/Predicate;)Z
+        23: ireturn
+
+  protected boolean isSupported(com.intellij.openapi.vfs.VirtualFile, java.util.function.Predicate<org.eclipse.lsp4j.ServerCapabilities>);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_5
+         5: invokestatic  #303                // Method $$$reportNull$$$0:(I)V
+         8: aload_2
+         9: ifnonnull     17
+        12: bipush        6
+        14: invokestatic  #303                // Method $$$reportNull$$$0:(I)V
+        17: aload_0
+        18: aload_1
+        19: aload_2
+        20: aconst_null
+        21: invokevirtual #104                // Method isSupported:(Lcom/intellij/openapi/vfs/VirtualFile;Ljava/util/function/Predicate;Ljava/util/function/Predicate;)Z
+        24: ireturn
+
+  protected boolean isSupported(com.intellij.psi.PsiFile, java.util.function.Predicate<org.eclipse.lsp4j.ServerCapabilities>, java.util.function.Predicate<T>);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        7
+         6: invokestatic  #303                // Method $$$reportNull$$$0:(I)V
+         9: aload_2
+        10: ifnonnull     18
+        13: bipush        8
+        15: invokestatic  #303                // Method $$$reportNull$$$0:(I)V
+        18: aload_0
+        19: aload_1
+        20: aconst_null
+        21: aload_2
+        22: aload_3
+        23: invokevirtual #107                // Method isSupported:(Lcom/intellij/psi/PsiFile;Lcom/intellij/openapi/vfs/VirtualFile;Ljava/util/function/Predicate;Ljava/util/function/Predicate;)Z
+        26: ireturn
+
+  protected boolean isSupported(com.intellij.openapi.vfs.VirtualFile, java.util.function.Predicate<org.eclipse.lsp4j.ServerCapabilities>, java.util.function.Predicate<T>);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        9
+         6: invokestatic  #303                // Method $$$reportNull$$$0:(I)V
+         9: aload_2
+        10: ifnonnull     18
+        13: bipush        10
+        15: invokestatic  #303                // Method $$$reportNull$$$0:(I)V
+        18: aload_0
+        19: aconst_null
+        20: aload_1
+        21: aload_2
+        22: aload_3
+        23: invokevirtual #107                // Method isSupported:(Lcom/intellij/psi/PsiFile;Lcom/intellij/openapi/vfs/VirtualFile;Ljava/util/function/Predicate;Ljava/util/function/Predicate;)Z
+        26: ireturn
+
+  private boolean isSupported(com.intellij.psi.PsiFile, com.intellij.openapi.vfs.VirtualFile, java.util.function.Predicate<org.eclipse.lsp4j.ServerCapabilities>, java.util.function.Predicate<T>);
+    Code:
+         0: aload_3
+         1: ifnonnull     9
+         4: bipush        11
+         6: invokestatic  #303                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: invokevirtual #110                // Method getServerCapabilities:()Lorg/eclipse/lsp4j/ServerCapabilities;
+        13: astore        5
+        15: aload         5
+        17: ifnull        33
+        20: aload_3
+        21: aload         5
+        23: invokeinterface #114,  2          // InterfaceMethod java/util/function/Predicate.test:(Ljava/lang/Object;)Z
+        28: ifeq          33
+        31: iconst_1
+        32: ireturn
+        33: aload_0
+        34: getfield      #19                 // Field dynamicCapabilities:Ljava/util/List;
+        37: invokeinterface #119,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+        42: ifeq          47
+        45: iconst_0
+        46: ireturn
+        47: iconst_0
+        48: istore        6
+        50: aconst_null
+        51: astore        7
+        53: aconst_null
+        54: astore        8
+        56: aconst_null
+        57: astore        9
+        59: aload_0
+        60: getfield      #19                 // Field dynamicCapabilities:Ljava/util/List;
+        63: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+        68: astore        10
+        70: aload         10
+        72: invokeinterface #62,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+        77: ifeq          456
+        80: aload         10
+        82: invokeinterface #68,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        87: checkcast     #123                // class org/eclipse/lsp4j/TextDocumentRegistrationOptions
+        90: astore        11
+        92: aload         11
+        94: checkcast     #125                // class com/redhat/devtools/lsp4ij/server/capabilities/ExtendedDocumentSelector$DocumentFilersProvider
+        97: invokeinterface #127,  1          // InterfaceMethod com/redhat/devtools/lsp4ij/server/capabilities/ExtendedDocumentSelector$DocumentFilersProvider.getFilters:()Ljava/util/List;
+       102: astore        12
+       104: aload         12
+       106: invokeinterface #119,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+       111: ifeq          133
+       114: aload         4
+       116: ifnull        131
+       119: aload         4
+       121: aload         11
+       123: invokeinterface #114,  2          // InterfaceMethod java/util/function/Predicate.test:(Ljava/lang/Object;)Z
+       128: goto          132
+       131: iconst_1
+       132: ireturn
+       133: aload         12
+       135: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       140: astore        13
+       142: aload         13
+       144: invokeinterface #62,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+       149: ifeq          453
+       152: aload         13
+       154: invokeinterface #68,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       159: checkcast     #131                // class com/redhat/devtools/lsp4ij/server/capabilities/ExtendedDocumentSelector$ExtendedDocumentFilter
+       162: astore        14
+       164: aload         14
+       166: invokevirtual #133                // Method com/redhat/devtools/lsp4ij/server/capabilities/ExtendedDocumentSelector$ExtendedDocumentFilter.getLanguage:()Ljava/lang/String;
+       169: invokestatic  #137                // Method com/redhat/devtools/lsp4ij/internal/StringUtils.isEmpty:(Ljava/lang/CharSequence;)Z
+       172: ifne          179
+       175: iconst_1
+       176: goto          180
+       179: iconst_0
+       180: istore        15
+       182: aload         14
+       184: invokevirtual #142                // Method com/redhat/devtools/lsp4ij/server/capabilities/ExtendedDocumentSelector$ExtendedDocumentFilter.getScheme:()Ljava/lang/String;
+       187: invokestatic  #137                // Method com/redhat/devtools/lsp4ij/internal/StringUtils.isEmpty:(Ljava/lang/CharSequence;)Z
+       190: ifne          197
+       193: iconst_1
+       194: goto          198
+       197: iconst_0
+       198: istore        16
+       200: aload         14
+       202: invokevirtual #145                // Method com/redhat/devtools/lsp4ij/server/capabilities/ExtendedDocumentSelector$ExtendedDocumentFilter.getPattern:()Ljava/lang/String;
+       205: invokestatic  #137                // Method com/redhat/devtools/lsp4ij/internal/StringUtils.isEmpty:(Ljava/lang/CharSequence;)Z
+       208: ifne          215
+       211: iconst_1
+       212: goto          216
+       215: iconst_0
+       216: istore        17
+       218: iconst_0
+       219: istore        18
+       221: iload         15
+       223: ifeq          298
+       226: iload         6
+       228: ifne          263
+       231: aload_1
+       232: ifnonnull     247
+       235: aload_2
+       236: aload_0
+       237: getfield      #12                 // Field clientFeatures:Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;
+       240: invokevirtual #78                 // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getProject:()Lcom/intellij/openapi/project/Project;
+       243: invokestatic  #148                // Method com/redhat/devtools/lsp4ij/LSPIJUtils.getPsiFile:(Lcom/intellij/openapi/vfs/VirtualFile;Lcom/intellij/openapi/project/Project;)Lcom/intellij/psi/PsiFile;
+       246: astore_1
+       247: aload_0
+       248: getfield      #12                 // Field clientFeatures:Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;
+       251: invokevirtual #154                // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getServerDefinition:()Lcom/redhat/devtools/lsp4ij/server/definition/LanguageServerDefinition;
+       254: aload_1
+       255: invokevirtual #158                // Method com/redhat/devtools/lsp4ij/server/definition/LanguageServerDefinition.getLanguageIdOrNull:(Lcom/intellij/psi/PsiFile;)Ljava/lang/String;
+       258: astore        7
+       260: iconst_1
+       261: istore        6
+       263: aload         7
+       265: ifnonnull     278
+       268: iload         16
+       270: ifne          278
+       273: iload         17
+       275: ifeq          291
+       278: aload         14
+       280: invokevirtual #133                // Method com/redhat/devtools/lsp4ij/server/capabilities/ExtendedDocumentSelector$ExtendedDocumentFilter.getLanguage:()Ljava/lang/String;
+       283: aload         7
+       285: invokevirtual #164                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       288: ifeq          295
+       291: iconst_1
+       292: goto          296
+       295: iconst_0
+       296: istore        18
+       298: iload         18
+       300: ifne          424
+       303: iload         16
+       305: ifeq          365
+       308: aload         8
+       310: ifnonnull     341
+       313: aload_2
+       314: ifnull        328
+       317: aload_0
+       318: getfield      #12                 // Field clientFeatures:Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;
+       321: aload_2
+       322: invokevirtual #169                // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getFileUri:(Lcom/intellij/openapi/vfs/VirtualFile;)Ljava/net/URI;
+       325: goto          339
+       328: aload_0
+       329: getfield      #12                 // Field clientFeatures:Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;
+       332: aload_1
+       333: invokestatic  #173                // Method com/redhat/devtools/lsp4ij/LSPIJUtils.getFile:(Lcom/intellij/psi/PsiFile;)Lcom/intellij/openapi/vfs/VirtualFile;
+       336: invokevirtual #169                // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getFileUri:(Lcom/intellij/openapi/vfs/VirtualFile;)Ljava/net/URI;
+       339: astore        8
+       341: aload         9
+       343: ifnonnull     353
+       346: aload         8
+       348: invokevirtual #176                // Method java/net/URI.getScheme:()Ljava/lang/String;
+       351: astore        9
+       353: aload         14
+       355: invokevirtual #142                // Method com/redhat/devtools/lsp4ij/server/capabilities/ExtendedDocumentSelector$ExtendedDocumentFilter.getScheme:()Ljava/lang/String;
+       358: aload         9
+       360: invokevirtual #164                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       363: istore        18
+       365: iload         18
+       367: ifne          424
+       370: iload         17
+       372: ifeq          424
+       375: aload         14
+       377: invokevirtual #179                // Method com/redhat/devtools/lsp4ij/server/capabilities/ExtendedDocumentSelector$ExtendedDocumentFilter.getPathPattern:()Lcom/redhat/devtools/lsp4ij/features/files/PathPatternMatcher;
+       380: astore        19
+       382: aload         8
+       384: ifnonnull     415
+       387: aload_2
+       388: ifnull        402
+       391: aload_0
+       392: getfield      #12                 // Field clientFeatures:Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;
+       395: aload_2
+       396: invokevirtual #169                // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getFileUri:(Lcom/intellij/openapi/vfs/VirtualFile;)Ljava/net/URI;
+       399: goto          413
+       402: aload_0
+       403: getfield      #12                 // Field clientFeatures:Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;
+       406: aload_1
+       407: invokestatic  #173                // Method com/redhat/devtools/lsp4ij/LSPIJUtils.getFile:(Lcom/intellij/psi/PsiFile;)Lcom/intellij/openapi/vfs/VirtualFile;
+       410: invokevirtual #169                // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getFileUri:(Lcom/intellij/openapi/vfs/VirtualFile;)Ljava/net/URI;
+       413: astore        8
+       415: aload         19
+       417: aload         8
+       419: invokevirtual #183                // Method com/redhat/devtools/lsp4ij/features/files/PathPatternMatcher.matches:(Ljava/net/URI;)Z
+       422: istore        18
+       424: iload         18
+       426: ifeq          450
+       429: aload         4
+       431: ifnonnull     436
+       434: iconst_1
+       435: ireturn
+       436: aload         4
+       438: aload         11
+       440: invokeinterface #114,  2          // InterfaceMethod java/util/function/Predicate.test:(Ljava/lang/Object;)Z
+       445: ifeq          450
+       448: iconst_1
+       449: ireturn
+       450: goto          142
+       453: goto          70
+       456: iconst_0
+       457: ireturn
+
+  public static boolean hasCapability(org.eclipse.lsp4j.jsonrpc.messages.Either<java.lang.Boolean, ?>);
+    Code:
+         0: aload_0
+         1: ifnonnull     6
+         4: iconst_0
+         5: ireturn
+         6: aload_0
+         7: invokevirtual #189                // Method org/eclipse/lsp4j/jsonrpc/messages/Either.isRight:()Z
+        10: ifne          26
+        13: aload_0
+        14: invokevirtual #194                // Method org/eclipse/lsp4j/jsonrpc/messages/Either.getLeft:()Ljava/lang/Object;
+        17: checkcast     #197                // class java/lang/Boolean
+        20: invokestatic  #199                // Method hasCapability:(Ljava/lang/Boolean;)Z
+        23: ifeq          30
+        26: iconst_1
+        27: goto          31
+        30: iconst_0
+        31: ireturn
+
+  public static boolean hasCapability(java.lang.Boolean);
+    Code:
+         0: aload_0
+         1: ifnull        15
+         4: aload_0
+         5: invokevirtual #203                // Method java/lang/Boolean.booleanValue:()Z
+         8: ifeq          15
+        11: iconst_1
+        12: goto          16
+        15: iconst_0
+        16: ireturn
+
+  public java.util.List<T> getOptions();
+    Code:
+         0: aload_0
+         1: getfield      #19                 // Field dynamicCapabilities:Ljava/util/List;
+         4: areturn
+
+  protected com.redhat.devtools.lsp4ij.client.features.LSPClientFeatures getClientFeatures();
+    Code:
+         0: aload_0
+         1: getfield      #12                 // Field clientFeatures:Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;
+         4: dup
+         5: ifnonnull     13
+         8: bipush        12
+        10: invokestatic  #303                // Method $$$reportNull$$$0:(I)V
+        13: areturn
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: iload_0
+         1: tableswitch   { // 0 to 12
+                       0: 68
+                       1: 68
+                       2: 68
+                       3: 68
+                       4: 68
+                       5: 68
+                       6: 68
+                       7: 68
+                       8: 68
+                       9: 68
+                      10: 68
+                      11: 68
+                      12: 74
+                 default: 68
+            }
+        68: ldc_w         #305                // String Argument for @NotNull parameter \'%s\' of %s.%s must not be null
+        71: goto          80
+        74: ldc_w         #307                // String @NotNull method %s.%s must not return null
+        77: goto          80
+        80: iload_0
+        81: tableswitch   { // 0 to 12
+                       0: 148
+                       1: 148
+                       2: 148
+                       3: 148
+                       4: 148
+                       5: 148
+                       6: 148
+                       7: 148
+                       8: 148
+                       9: 148
+                      10: 148
+                      11: 148
+                      12: 152
+                 default: 148
+            }
+       148: iconst_3
+       149: goto          156
+       152: iconst_2
+       153: goto          156
+       156: anewarray     #8                  // class java/lang/Object
+       159: iload_0
+       160: tableswitch   { // 0 to 12
+                       0: 228
+                       1: 228
+                       2: 237
+                       3: 246
+                       4: 255
+                       5: 246
+                       6: 255
+                       7: 264
+                       8: 255
+                       9: 246
+                      10: 255
+                      11: 255
+                      12: 273
+                 default: 228
+            }
+       228: dup
+       229: iconst_0
+       230: ldc_w         #308                // String clientFeatures
+       233: aastore
+       234: goto          282
+       237: dup
+       238: iconst_0
+       239: ldc_w         #309                // String registerOptions
+       242: aastore
+       243: goto          282
+       246: dup
+       247: iconst_0
+       248: ldc_w         #310                // String file
+       251: aastore
+       252: goto          282
+       255: dup
+       256: iconst_0
+       257: ldc_w         #311                // String matchServerCapabilities
+       260: aastore
+       261: goto          282
+       264: dup
+       265: iconst_0
+       266: ldc_w         #312                // String psiFile
+       269: aastore
+       270: goto          282
+       273: dup
+       274: iconst_0
+       275: ldc_w         #313                // String com/redhat/devtools/lsp4ij/server/capabilities/TextDocumentServerCapabilityRegistry
+       278: aastore
+       279: goto          282
+       282: iload_0
+       283: tableswitch   { // 0 to 12
+                       0: 348
+                       1: 348
+                       2: 348
+                       3: 348
+                       4: 348
+                       5: 348
+                       6: 348
+                       7: 348
+                       8: 348
+                       9: 348
+                      10: 348
+                      11: 348
+                      12: 357
+                 default: 348
+            }
+       348: dup
+       349: iconst_1
+       350: ldc_w         #313                // String com/redhat/devtools/lsp4ij/server/capabilities/TextDocumentServerCapabilityRegistry
+       353: aastore
+       354: goto          366
+       357: dup
+       358: iconst_1
+       359: ldc_w         #314                // String getClientFeatures
+       362: aastore
+       363: goto          366
+       366: iload_0
+       367: tableswitch   { // 0 to 12
+                       0: 432
+                       1: 432
+                       2: 441
+                       3: 450
+                       4: 450
+                       5: 450
+                       6: 450
+                       7: 450
+                       8: 450
+                       9: 450
+                      10: 450
+                      11: 450
+                      12: 459
+                 default: 432
+            }
+       432: dup
+       433: iconst_2
+       434: ldc_w         #315                // String <init>
+       437: aastore
+       438: goto          462
+       441: dup
+       442: iconst_2
+       443: ldc_w         #316                // String registerCapability
+       446: aastore
+       447: goto          462
+       450: dup
+       451: iconst_2
+       452: ldc_w         #317                // String isSupported
+       455: aastore
+       456: goto          462
+       459: goto          462
+       462: invokestatic  #321                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+       465: iload_0
+       466: tableswitch   { // 0 to 12
+                       0: 532
+                       1: 532
+                       2: 532
+                       3: 532
+                       4: 532
+                       5: 532
+                       6: 532
+                       7: 532
+                       8: 532
+                       9: 532
+                      10: 532
+                      11: 532
+                      12: 543
+                 default: 532
+            }
+       532: new           #323                // class java/lang/IllegalArgumentException
+       535: dup_x1
+       536: swap
+       537: invokespecial #326                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+       540: goto          554
+       543: new           #328                // class java/lang/IllegalStateException
+       546: dup_x1
+       547: swap
+       548: invokespecial #329                // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+       551: goto          554
+       554: athrow
+}

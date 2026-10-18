@@ -1,0 +1,557 @@
+Compiled from "SemanticTokensData.java"
+public class com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensData {
+  private final org.eclipse.lsp4j.SemanticTokens semanticTokens;
+
+  private final org.eclipse.lsp4j.SemanticTokensLegend semanticTokensLegend;
+
+  private final com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensColorsProvider semanticTokensColorsProvider;
+
+  private final com.redhat.devtools.lsp4ij.client.features.LSPSemanticTokensFeature semanticTokensFeature;
+
+  public com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensData(org.eclipse.lsp4j.SemanticTokens, org.eclipse.lsp4j.SemanticTokensLegend, com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensColorsProvider, com.redhat.devtools.lsp4ij.client.features.LSPSemanticTokensFeature);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_0
+         5: invokestatic  #264                // Method $$$reportNull$$$0:(I)V
+         8: aload_2
+         9: ifnonnull     16
+        12: iconst_1
+        13: invokestatic  #264                // Method $$$reportNull$$$0:(I)V
+        16: aload_3
+        17: ifnonnull     24
+        20: iconst_2
+        21: invokestatic  #264                // Method $$$reportNull$$$0:(I)V
+        24: aload         4
+        26: ifnonnull     33
+        29: iconst_3
+        30: invokestatic  #264                // Method $$$reportNull$$$0:(I)V
+        33: aload_0
+        34: invokespecial #1                  // Method java/lang/Object."<init>":()V
+        37: aload_0
+        38: aload_1
+        39: putfield      #7                  // Field semanticTokens:Lorg/eclipse/lsp4j/SemanticTokens;
+        42: aload_0
+        43: aload_2
+        44: putfield      #13                 // Field semanticTokensLegend:Lorg/eclipse/lsp4j/SemanticTokensLegend;
+        47: aload_0
+        48: aload_3
+        49: putfield      #17                 // Field semanticTokensColorsProvider:Lcom/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensColorsProvider;
+        52: aload_0
+        53: aload         4
+        55: putfield      #21                 // Field semanticTokensFeature:Lcom/redhat/devtools/lsp4ij/client/features/LSPSemanticTokensFeature;
+        58: return
+
+  public org.eclipse.lsp4j.SemanticTokens getSemanticTokens();
+    Code:
+         0: aload_0
+         1: getfield      #7                  // Field semanticTokens:Lorg/eclipse/lsp4j/SemanticTokens;
+         4: dup
+         5: ifnonnull     12
+         8: iconst_4
+         9: invokestatic  #264                // Method $$$reportNull$$$0:(I)V
+        12: areturn
+
+  public void highlight(com.intellij.psi.PsiFile, com.intellij.openapi.editor.Document, com.redhat.devtools.lsp4ij.features.semanticTokens.LazyHighlightInfo$Consumer);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_5
+         5: invokestatic  #264                // Method $$$reportNull$$$0:(I)V
+         8: aload_2
+         9: ifnonnull     17
+        12: bipush        6
+        14: invokestatic  #264                // Method $$$reportNull$$$0:(I)V
+        17: aload_3
+        18: ifnonnull     26
+        21: bipush        7
+        23: invokestatic  #264                // Method $$$reportNull$$$0:(I)V
+        26: aload_1
+        27: invokestatic  #25                 // InterfaceMethod com/redhat/devtools/lsp4ij/features/semanticTokens/viewProvider/LSPSemanticTokensFileViewProvider.getInstance:(Lcom/intellij/psi/PsiElement;)Lcom/redhat/devtools/lsp4ij/features/semanticTokens/viewProvider/LSPSemanticTokensFileViewProvider;
+        30: astore        4
+        32: aload_1
+        33: invokeinterface #31,  1           // InterfaceMethod com/intellij/psi/PsiFile.getProject:()Lcom/intellij/openapi/project/Project;
+        38: invokestatic  #37                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensInspectorManager.getInstance:(Lcom/intellij/openapi/project/Project;)Lcom/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensInspectorManager;
+        41: astore        5
+        43: aload         5
+        45: invokevirtual #42                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensInspectorManager.hasSemanticTokensInspectorListener:()Z
+        48: istore        6
+        50: iload         6
+        52: ifeq          65
+        55: new           #46                 // class java/util/ArrayList
+        58: dup
+        59: invokespecial #48                 // Method java/util/ArrayList."<init>":()V
+        62: goto          66
+        65: aconst_null
+        66: astore        7
+        68: aload_0
+        69: getfield      #7                  // Field semanticTokens:Lorg/eclipse/lsp4j/SemanticTokens;
+        72: invokevirtual #49                 // Method org/eclipse/lsp4j/SemanticTokens.getData:()Ljava/util/List;
+        75: astore        8
+        77: aload         8
+        79: ifnull        92
+        82: aload         8
+        84: invokeinterface #55,  1           // InterfaceMethod java/util/List.isEmpty:()Z
+        89: ifeq          114
+        92: iload         6
+        94: ifeq          113
+        97: aload         5
+        99: new           #60                 // class com/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensInspectorData
+       102: dup
+       103: aload_2
+       104: aload_1
+       105: aload         7
+       107: invokespecial #62                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensInspectorData."<init>":(Lcom/intellij/openapi/editor/Document;Lcom/intellij/psi/PsiFile;Ljava/util/List;)V
+       110: invokevirtual #65                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensInspectorManager.notify:(Lcom/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensInspectorData;)V
+       113: return
+       114: aload_2
+       115: invokeinterface #69,  1           // InterfaceMethod com/intellij/openapi/editor/Document.getTextLength:()I
+       120: istore        9
+       122: iconst_0
+       123: istore        10
+       125: iconst_0
+       126: istore        11
+       128: iconst_0
+       129: istore        12
+       131: iconst_0
+       132: istore        13
+       134: iconst_0
+       135: istore        14
+       137: aconst_null
+       138: astore        15
+       140: iconst_0
+       141: istore        16
+       143: aload         8
+       145: invokeinterface #75,  1           // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       150: astore        17
+       152: aload         17
+       154: invokeinterface #79,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+       159: ifeq          458
+       162: aload         17
+       164: invokeinterface #84,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       169: checkcast     #88                 // class java/lang/Integer
+       172: astore        18
+       174: iinc          16, 1
+       177: iload         16
+       179: bipush        100
+       181: if_icmplt     190
+       184: iconst_0
+       185: istore        16
+       187: invokestatic  #90                 // Method com/intellij/openapi/progress/ProgressManager.checkCanceled:()V
+       190: iload         10
+       192: iconst_5
+       193: irem
+       194: tableswitch   { // 0 to 4
+                       0: 228
+                       1: 241
+                       2: 277
+                       3: 287
+                       4: 305
+                 default: 452
+            }
+       228: iload         12
+       230: aload         18
+       232: invokevirtual #95                 // Method java/lang/Integer.intValue:()I
+       235: iadd
+       236: istore        12
+       238: goto          452
+       241: iload         12
+       243: iload         11
+       245: if_icmpne     261
+       248: iload         13
+       250: aload         18
+       252: invokevirtual #95                 // Method java/lang/Integer.intValue:()I
+       255: iadd
+       256: istore        13
+       258: goto          452
+       261: iload         12
+       263: aload         18
+       265: invokevirtual #95                 // Method java/lang/Integer.intValue:()I
+       268: aload_2
+       269: invokestatic  #98                 // Method com/redhat/devtools/lsp4ij/LSPIJUtils.toOffset:(IILcom/intellij/openapi/editor/Document;)I
+       272: istore        13
+       274: goto          452
+       277: aload         18
+       279: invokevirtual #95                 // Method java/lang/Integer.intValue:()I
+       282: istore        14
+       284: goto          452
+       287: aload_0
+       288: aload         18
+       290: aload_0
+       291: getfield      #13                 // Field semanticTokensLegend:Lorg/eclipse/lsp4j/SemanticTokensLegend;
+       294: invokevirtual #104                // Method org/eclipse/lsp4j/SemanticTokensLegend.getTokenTypes:()Ljava/util/List;
+       297: invokevirtual #109                // Method tokenType:(Ljava/lang/Integer;Ljava/util/List;)Ljava/lang/String;
+       300: astore        15
+       302: goto          452
+       305: iload         12
+       307: istore        11
+       309: aload_0
+       310: aload         18
+       312: aload_0
+       313: getfield      #13                 // Field semanticTokensLegend:Lorg/eclipse/lsp4j/SemanticTokensLegend;
+       316: invokevirtual #113                // Method org/eclipse/lsp4j/SemanticTokensLegend.getTokenModifiers:()Ljava/util/List;
+       319: invokevirtual #116                // Method tokenModifiers:(Ljava/lang/Integer;Ljava/util/List;)Ljava/util/List;
+       322: astore        19
+       324: iload         13
+       326: istore        20
+       328: iload         13
+       330: iload         14
+       332: iadd
+       333: istore        21
+       335: iload         20
+       337: iflt          452
+       340: iload         20
+       342: iload         21
+       344: if_icmpge     452
+       347: iload         21
+       349: iload         9
+       351: if_icmple     357
+       354: goto          452
+       357: aload         15
+       359: ifnull        379
+       362: aload_0
+       363: getfield      #17                 // Field semanticTokensColorsProvider:Lcom/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensColorsProvider;
+       366: aload         15
+       368: aload         19
+       370: aload_1
+       371: invokeinterface #120,  4          // InterfaceMethod com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensColorsProvider.getTextAttributesKey:(Ljava/lang/String;Ljava/util/List;Lcom/intellij/psi/PsiFile;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       376: goto          380
+       379: aconst_null
+       380: astore        22
+       382: aload         22
+       384: ifnull        399
+       387: aload_3
+       388: iload         20
+       390: iload         21
+       392: aload         22
+       394: invokeinterface #126,  4          // InterfaceMethod com/redhat/devtools/lsp4ij/features/semanticTokens/LazyHighlightInfo$Consumer.accept:(IILcom/intellij/openapi/editor/colors/TextAttributesKey;)V
+       399: aload         4
+       401: ifnull        422
+       404: aload         4
+       406: iload         20
+       408: iload         21
+       410: invokestatic  #132                // Method com/intellij/openapi/util/TextRange.create:(II)Lcom/intellij/openapi/util/TextRange;
+       413: aload         15
+       415: aload         19
+       417: invokeinterface #138,  4          // InterfaceMethod com/redhat/devtools/lsp4ij/features/semanticTokens/viewProvider/LSPSemanticTokensFileViewProvider.addSemanticToken:(Lcom/intellij/openapi/util/TextRange;Ljava/lang/String;Ljava/util/List;)V
+       422: iload         6
+       424: ifeq          452
+       427: aload         7
+       429: new           #142                // class com/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensHighlightInfo
+       432: dup
+       433: aload         15
+       435: aload         19
+       437: iload         20
+       439: iload         21
+       441: aload         22
+       443: invokespecial #144                // Method com/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensHighlightInfo."<init>":(Ljava/lang/String;Ljava/util/List;IILcom/intellij/openapi/editor/colors/TextAttributesKey;)V
+       446: invokeinterface #147,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+       451: pop
+       452: iinc          10, 1
+       455: goto          152
+       458: iload         6
+       460: ifeq          508
+       463: aload         5
+       465: new           #60                 // class com/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensInspectorData
+       468: dup
+       469: aload_2
+       470: aload_1
+       471: aload         7
+       473: invokespecial #62                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensInspectorData."<init>":(Lcom/intellij/openapi/editor/Document;Lcom/intellij/psi/PsiFile;Ljava/util/List;)V
+       476: invokevirtual #65                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensInspectorManager.notify:(Lcom/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensInspectorData;)V
+       479: goto          508
+       482: astore        23
+       484: iload         6
+       486: ifeq          505
+       489: aload         5
+       491: new           #60                 // class com/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensInspectorData
+       494: dup
+       495: aload_2
+       496: aload_1
+       497: aload         7
+       499: invokespecial #62                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensInspectorData."<init>":(Lcom/intellij/openapi/editor/Document;Lcom/intellij/psi/PsiFile;Ljava/util/List;)V
+       502: invokevirtual #65                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensInspectorManager.notify:(Lcom/redhat/devtools/lsp4ij/features/semanticTokens/inspector/SemanticTokensInspectorData;)V
+       505: aload         23
+       507: athrow
+       508: return
+      Exception table:
+         from    to  target type
+            68    92   482   any
+           114   458   482   any
+           482   484   482   any
+
+  private java.util.List<java.lang.String> tokenModifiers(java.lang.Integer, java.util.List<java.lang.String>);
+    Code:
+         0: aload_1
+         1: invokevirtual #95                 // Method java/lang/Integer.intValue:()I
+         4: ifne          11
+         7: invokestatic  #151                // Method java/util/Collections.emptyList:()Ljava/util/List;
+        10: areturn
+        11: iconst_1
+        12: newarray       long
+        14: dup
+        15: iconst_0
+        16: aload_1
+        17: invokevirtual #95                 // Method java/lang/Integer.intValue:()I
+        20: i2l
+        21: lastore
+        22: invokestatic  #156                // Method java/util/BitSet.valueOf:([J)Ljava/util/BitSet;
+        25: astore_3
+        26: new           #46                 // class java/util/ArrayList
+        29: dup
+        30: invokespecial #48                 // Method java/util/ArrayList."<init>":()V
+        33: astore        4
+        35: aload_3
+        36: iconst_0
+        37: invokevirtual #162                // Method java/util/BitSet.nextSetBit:(I)I
+        40: istore        5
+        42: iload         5
+        44: iflt          82
+        47: aload         4
+        49: aload_2
+        50: iload         5
+        52: invokeinterface #166,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+        57: checkcast     #170                // class java/lang/String
+        60: invokevirtual #172                // Method java/util/ArrayList.add:(Ljava/lang/Object;)Z
+        63: pop
+        64: goto          69
+        67: astore        6
+        69: aload_3
+        70: iload         5
+        72: iconst_1
+        73: iadd
+        74: invokevirtual #162                // Method java/util/BitSet.nextSetBit:(I)I
+        77: istore        5
+        79: goto          42
+        82: aload         4
+        84: areturn
+      Exception table:
+         from    to  target type
+            47    64    67   Class java/lang/IndexOutOfBoundsException
+
+  private java.lang.String tokenType(java.lang.Integer, java.util.List<java.lang.String>);
+    Code:
+         0: aload_1
+         1: ifnull        17
+         4: aload_1
+         5: invokevirtual #95                 // Method java/lang/Integer.intValue:()I
+         8: aload_2
+         9: invokeinterface #175,  1          // InterfaceMethod java/util/List.size:()I
+        14: if_icmplt     19
+        17: aconst_null
+        18: areturn
+        19: aload_2
+        20: aload_1
+        21: invokevirtual #95                 // Method java/lang/Integer.intValue:()I
+        24: invokeinterface #166,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+        29: checkcast     #170                // class java/lang/String
+        32: areturn
+
+  public boolean shouldVisitPsiElement(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        8
+         6: invokestatic  #264                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: getfield      #21                 // Field semanticTokensFeature:Lcom/redhat/devtools/lsp4ij/client/features/LSPSemanticTokensFeature;
+        13: aload_1
+        14: invokevirtual #178                // Method com/redhat/devtools/lsp4ij/client/features/LSPSemanticTokensFeature.shouldVisitPsiElement:(Lcom/intellij/psi/PsiFile;)Z
+        17: ireturn
+
+  public boolean isEligibleForSemanticHighlighting(com.intellij.psi.PsiElement);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        9
+         6: invokestatic  #264                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: getfield      #21                 // Field semanticTokensFeature:Lcom/redhat/devtools/lsp4ij/client/features/LSPSemanticTokensFeature;
+        13: aload_1
+        14: invokevirtual #184                // Method com/redhat/devtools/lsp4ij/client/features/LSPSemanticTokensFeature.isEligibleForSemanticHighlighting:(Lcom/intellij/psi/PsiElement;)Z
+        17: ireturn
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: iload_0
+         1: tableswitch   { // 0 to 9
+                       0: 56
+                       1: 56
+                       2: 56
+                       3: 56
+                       4: 62
+                       5: 56
+                       6: 56
+                       7: 56
+                       8: 56
+                       9: 56
+                 default: 56
+            }
+        56: ldc_w         #266                // String Argument for @NotNull parameter \'%s\' of %s.%s must not be null
+        59: goto          68
+        62: ldc_w         #268                // String @NotNull method %s.%s must not return null
+        65: goto          68
+        68: iload_0
+        69: tableswitch   { // 0 to 9
+                       0: 124
+                       1: 124
+                       2: 124
+                       3: 124
+                       4: 128
+                       5: 124
+                       6: 124
+                       7: 124
+                       8: 124
+                       9: 124
+                 default: 124
+            }
+       124: iconst_3
+       125: goto          132
+       128: iconst_2
+       129: goto          132
+       132: anewarray     #2                  // class java/lang/Object
+       135: iload_0
+       136: tableswitch   { // 0 to 9
+                       0: 192
+                       1: 201
+                       2: 210
+                       3: 219
+                       4: 228
+                       5: 237
+                       6: 246
+                       7: 255
+                       8: 237
+                       9: 264
+                 default: 192
+            }
+       192: dup
+       193: iconst_0
+       194: ldc_w         #269                // String semanticTokens
+       197: aastore
+       198: goto          273
+       201: dup
+       202: iconst_0
+       203: ldc_w         #270                // String semanticTokensLegend
+       206: aastore
+       207: goto          273
+       210: dup
+       211: iconst_0
+       212: ldc_w         #271                // String semanticTokensColorsProvider
+       215: aastore
+       216: goto          273
+       219: dup
+       220: iconst_0
+       221: ldc_w         #272                // String semanticTokensFeature
+       224: aastore
+       225: goto          273
+       228: dup
+       229: iconst_0
+       230: ldc_w         #273                // String com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensData
+       233: aastore
+       234: goto          273
+       237: dup
+       238: iconst_0
+       239: ldc_w         #274                // String file
+       242: aastore
+       243: goto          273
+       246: dup
+       247: iconst_0
+       248: ldc_w         #275                // String document
+       251: aastore
+       252: goto          273
+       255: dup
+       256: iconst_0
+       257: ldc_w         #276                // String addInfo
+       260: aastore
+       261: goto          273
+       264: dup
+       265: iconst_0
+       266: ldc_w         #277                // String element
+       269: aastore
+       270: goto          273
+       273: iload_0
+       274: tableswitch   { // 0 to 9
+                       0: 328
+                       1: 328
+                       2: 328
+                       3: 328
+                       4: 337
+                       5: 328
+                       6: 328
+                       7: 328
+                       8: 328
+                       9: 328
+                 default: 328
+            }
+       328: dup
+       329: iconst_1
+       330: ldc_w         #273                // String com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensData
+       333: aastore
+       334: goto          346
+       337: dup
+       338: iconst_1
+       339: ldc_w         #278                // String getSemanticTokens
+       342: aastore
+       343: goto          346
+       346: iload_0
+       347: tableswitch   { // 0 to 9
+                       0: 400
+                       1: 400
+                       2: 400
+                       3: 400
+                       4: 409
+                       5: 412
+                       6: 412
+                       7: 412
+                       8: 421
+                       9: 430
+                 default: 400
+            }
+       400: dup
+       401: iconst_2
+       402: ldc_w         #279                // String <init>
+       405: aastore
+       406: goto          439
+       409: goto          439
+       412: dup
+       413: iconst_2
+       414: ldc_w         #280                // String highlight
+       417: aastore
+       418: goto          439
+       421: dup
+       422: iconst_2
+       423: ldc_w         #281                // String shouldVisitPsiElement
+       426: aastore
+       427: goto          439
+       430: dup
+       431: iconst_2
+       432: ldc_w         #282                // String isEligibleForSemanticHighlighting
+       435: aastore
+       436: goto          439
+       439: invokestatic  #286                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+       442: iload_0
+       443: tableswitch   { // 0 to 9
+                       0: 496
+                       1: 496
+                       2: 496
+                       3: 496
+                       4: 507
+                       5: 496
+                       6: 496
+                       7: 496
+                       8: 496
+                       9: 496
+                 default: 496
+            }
+       496: new           #288                // class java/lang/IllegalArgumentException
+       499: dup_x1
+       500: swap
+       501: invokespecial #291                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+       504: goto          518
+       507: new           #293                // class java/lang/IllegalStateException
+       510: dup_x1
+       511: swap
+       512: invokespecial #294                // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+       515: goto          518
+       518: athrow
+}

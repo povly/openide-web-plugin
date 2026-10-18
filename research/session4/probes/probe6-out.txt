@@ -1,0 +1,66 @@
+== registered semanticTokensProvider (verbatim):
+{
+ "range": true,
+ "full": false,
+ "legend": {
+  "tokenTypes": [
+   "namespace",
+   "class",
+   "enum",
+   "interface",
+   "typeParameter",
+   "type",
+   "parameter",
+   "variable",
+   "property",
+   "enumMember",
+   "function",
+   "method"
+  ],
+  "tokenModifiers": [
+   "declaration",
+   "readonly",
+   "static",
+   "async",
+   "defaultLibrary",
+   "local"
+  ]
+ }
+}
+== legend: 12 tokenTypes, 6 tokenModifiers
+tokenTypes: ['namespace', 'class', 'enum', 'interface', 'typeParameter', 'type', 'parameter', 'variable', 'property', 'enumMember', 'function', 'method']
+tokenModifiers: ['declaration', 'readonly', 'static', 'async', 'defaultLibrary', 'local']
+
+## Echarts.vue: 44 tokens, latency(full)=0.01s, resultId=yes
+    property: 20
+    variable: 12
+    class: 9
+    function: 3
+  by region: {'script/function': 3, 'script/class': 1, 'script/variable': 8, 'script/property': 14, 'template/class': 8, 'template/variable': 4, 'template/property': 6}
+  L11 'defineOptions' function ['readonly']
+  L11 'layout' class ['declaration']
+  L13 'page' variable ['declaration', 'readonly']
+  L13 'usePage' function []
+  L14 'appShell' variable ['declaration', 'readonly']
+  L14 'computed' function ['readonly']
+  L14 'page' variable ['readonly']
+  L14 'props' property []
+  delta unsupported/other: no response (latency=0.00s)
+
+## Login.vue: 79 tokens, latency(full)=0.01s, resultId=yes
+    property: 60
+    variable: 6
+    method: 5
+    function: 4
+    class: 3
+    type: 1
+  by region: {'script/variable': 6, 'script/function': 4, 'script/type': 1, 'script/property': 18, 'script/method': 2, 'template/class': 3, 'template/property': 42, 'template/method': 3}
+  L4 'props' variable ['declaration', 'readonly']
+  L4 'defineProps' function ['readonly']
+  L4 '' type []
+  L5 'texts' property ['declaration']
+  L6 'title' property ['declaration']
+  L7 'email_label' property ['declaration']
+  L8 'email_placeholder' property ['declaration']
+  L9 'password_label' property ['declaration']
+  delta unsupported/other: no response (latency=0.00s)

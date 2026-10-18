@@ -1,0 +1,543 @@
+Compiled from "DefaultSemanticTokensColorsProvider.java"
+public class com.redhat.devtools.lsp4ij.features.semanticTokens.DefaultSemanticTokensColorsProvider implements com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensColorsProvider {
+  public com.redhat.devtools.lsp4ij.features.semanticTokens.DefaultSemanticTokensColorsProvider();
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+
+  public com.intellij.openapi.editor.colors.TextAttributesKey getTextAttributesKey(java.lang.String, java.util.List<java.lang.String>, com.intellij.psi.PsiFile);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_0
+         5: invokestatic  #254                // Method $$$reportNull$$$0:(I)V
+         8: aload_2
+         9: ifnonnull     16
+        12: iconst_1
+        13: invokestatic  #254                // Method $$$reportNull$$$0:(I)V
+        16: aload_3
+        17: ifnonnull     24
+        20: iconst_2
+        21: invokestatic  #254                // Method $$$reportNull$$$0:(I)V
+        24: aload_1
+        25: invokestatic  #7                  // Method com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenTypes.valueOf:(Ljava/lang/String;)Lcom/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType;
+        28: astore        4
+        30: aload         4
+        32: ifnull        69
+        35: aload         4
+        37: invokevirtual #13                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType.getInheritFrom:()Ljava/lang/String;
+        40: ifnull        52
+        43: aload         4
+        45: invokevirtual #13                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType.getInheritFrom:()Ljava/lang/String;
+        48: astore_1
+        49: goto          69
+        52: aload         4
+        54: invokevirtual #19                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType.getTextAttributesKey:()Ljava/lang/String;
+        57: ifnull        69
+        60: aload         4
+        62: invokevirtual #19                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType.getTextAttributesKey:()Ljava/lang/String;
+        65: invokestatic  #22                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.find:(Ljava/lang/String;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        68: areturn
+        69: aload_1
+        70: astore        5
+        72: iconst_m1
+        73: istore        6
+        75: aload         5
+        77: invokevirtual #28                 // Method java/lang/String.hashCode:()I
+        80: lookupswitch  { // 23
+             -1619425541: 440
+             -1249586564: 406
+             -1077554975: 508
+             -1034364087: 593
+              -993141291: 423
+              -934799095: 610
+              -891985903: 559
+              -891974699: 340
+              -814408215: 576
+              -615513385: 627
+              -500553564: 644
+                 3118337: 308
+                 3575610: 372
+                94742904: 292
+                96891546: 474
+               103652300: 525
+               502623545: 324
+               528037947: 457
+               659473807: 356
+               950398559: 542
+              1252218203: 276
+              1380938712: 491
+              1954460585: 389
+                 default: 658
+            }
+       276: aload         5
+       278: ldc           #34                 // String namespace
+       280: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       283: ifeq          658
+       286: iconst_0
+       287: istore        6
+       289: goto          658
+       292: aload         5
+       294: ldc           #40                 // String class
+       296: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       299: ifeq          658
+       302: iconst_1
+       303: istore        6
+       305: goto          658
+       308: aload         5
+       310: ldc           #42                 // String enum
+       312: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       315: ifeq          658
+       318: iconst_2
+       319: istore        6
+       321: goto          658
+       324: aload         5
+       326: ldc           #44                 // String interface
+       328: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       331: ifeq          658
+       334: iconst_3
+       335: istore        6
+       337: goto          658
+       340: aload         5
+       342: ldc           #46                 // String struct
+       344: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       347: ifeq          658
+       350: iconst_4
+       351: istore        6
+       353: goto          658
+       356: aload         5
+       358: ldc           #48                 // String typeParameter
+       360: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       363: ifeq          658
+       366: iconst_5
+       367: istore        6
+       369: goto          658
+       372: aload         5
+       374: ldc           #50                 // String type
+       376: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       379: ifeq          658
+       382: bipush        6
+       384: istore        6
+       386: goto          658
+       389: aload         5
+       391: ldc           #52                 // String parameter
+       393: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       396: ifeq          658
+       399: bipush        7
+       401: istore        6
+       403: goto          658
+       406: aload         5
+       408: ldc           #54                 // String variable
+       410: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       413: ifeq          658
+       416: bipush        8
+       418: istore        6
+       420: goto          658
+       423: aload         5
+       425: ldc           #56                 // String property
+       427: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       430: ifeq          658
+       433: bipush        9
+       435: istore        6
+       437: goto          658
+       440: aload         5
+       442: ldc           #58                 // String enumMember
+       444: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       447: ifeq          658
+       450: bipush        10
+       452: istore        6
+       454: goto          658
+       457: aload         5
+       459: ldc           #60                 // String decorator
+       461: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       464: ifeq          658
+       467: bipush        11
+       469: istore        6
+       471: goto          658
+       474: aload         5
+       476: ldc           #62                 // String event
+       478: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       481: ifeq          658
+       484: bipush        12
+       486: istore        6
+       488: goto          658
+       491: aload         5
+       493: ldc           #64                 // String function
+       495: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       498: ifeq          658
+       501: bipush        13
+       503: istore        6
+       505: goto          658
+       508: aload         5
+       510: ldc           #66                 // String method
+       512: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       515: ifeq          658
+       518: bipush        14
+       520: istore        6
+       522: goto          658
+       525: aload         5
+       527: ldc           #68                 // String macro
+       529: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       532: ifeq          658
+       535: bipush        15
+       537: istore        6
+       539: goto          658
+       542: aload         5
+       544: ldc           #70                 // String comment
+       546: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       549: ifeq          658
+       552: bipush        16
+       554: istore        6
+       556: goto          658
+       559: aload         5
+       561: ldc           #72                 // String string
+       563: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       566: ifeq          658
+       569: bipush        17
+       571: istore        6
+       573: goto          658
+       576: aload         5
+       578: ldc           #74                 // String keyword
+       580: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       583: ifeq          658
+       586: bipush        18
+       588: istore        6
+       590: goto          658
+       593: aload         5
+       595: ldc           #76                 // String number
+       597: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       600: ifeq          658
+       603: bipush        19
+       605: istore        6
+       607: goto          658
+       610: aload         5
+       612: ldc           #78                 // String regexp
+       614: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       617: ifeq          658
+       620: bipush        20
+       622: istore        6
+       624: goto          658
+       627: aload         5
+       629: ldc           #80                 // String modifier
+       631: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       634: ifeq          658
+       637: bipush        21
+       639: istore        6
+       641: goto          658
+       644: aload         5
+       646: ldc           #82                 // String operator
+       648: invokevirtual #36                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       651: ifeq          658
+       654: bipush        22
+       656: istore        6
+       658: iload         6
+       660: tableswitch   { // 0 to 22
+                       0: 768
+                       1: 798
+                       2: 828
+                       3: 832
+                       4: 836
+                       5: 840
+                       6: 844
+                       7: 848
+                       8: 852
+                       9: 919
+                      10: 986
+                      11: 990
+                      12: 994
+                      13: 998
+                      14: 1049
+                      15: 1100
+                      16: 1104
+                      17: 1108
+                      18: 1112
+                      19: 1116
+                      20: 1120
+                      21: 1124
+                      22: 1128
+                 default: 1132
+            }
+       768: aload_0
+       769: aload_2
+       770: iconst_2
+       771: anewarray     #29                 // class java/lang/String
+       774: dup
+       775: iconst_0
+       776: ldc           #86                 // String declaration
+       778: aastore
+       779: dup
+       780: iconst_1
+       781: ldc           #88                 // String definition
+       783: aastore
+       784: invokevirtual #90                 // Method hasTokenModifiers:(Ljava/util/List;[Ljava/lang/String;)Z
+       787: ifeq          794
+       790: getstatic     #96                 // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.NAMESPACE_DECLARATION:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       793: areturn
+       794: getstatic     #102                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.NAMESPACE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       797: areturn
+       798: aload_0
+       799: aload_2
+       800: iconst_2
+       801: anewarray     #29                 // class java/lang/String
+       804: dup
+       805: iconst_0
+       806: ldc           #86                 // String declaration
+       808: aastore
+       809: dup
+       810: iconst_1
+       811: ldc           #88                 // String definition
+       813: aastore
+       814: invokevirtual #90                 // Method hasTokenModifiers:(Ljava/util/List;[Ljava/lang/String;)Z
+       817: ifeq          824
+       820: getstatic     #105                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.CLASS_DECLARATION:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       823: areturn
+       824: getstatic     #108                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.CLASS:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       827: areturn
+       828: getstatic     #111                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.ENUM:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       831: areturn
+       832: getstatic     #114                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.INTERFACE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       835: areturn
+       836: getstatic     #117                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.STRUCT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       839: areturn
+       840: getstatic     #120                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.TYPE_PARAMETER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       843: areturn
+       844: getstatic     #123                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.TYPE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       847: areturn
+       848: getstatic     #126                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.PARAMETER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       851: areturn
+       852: aload_0
+       853: aload_2
+       854: iconst_1
+       855: anewarray     #29                 // class java/lang/String
+       858: dup
+       859: iconst_0
+       860: ldc           #129                // String static
+       862: aastore
+       863: invokevirtual #90                 // Method hasTokenModifiers:(Ljava/util/List;[Ljava/lang/String;)Z
+       866: ifeq          894
+       869: aload_0
+       870: aload_2
+       871: iconst_1
+       872: anewarray     #29                 // class java/lang/String
+       875: dup
+       876: iconst_0
+       877: ldc           #131                // String readonly
+       879: aastore
+       880: invokevirtual #90                 // Method hasTokenModifiers:(Ljava/util/List;[Ljava/lang/String;)Z
+       883: ifeq          890
+       886: getstatic     #133                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.STATIC_READONLY_VARIABLE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       889: areturn
+       890: getstatic     #136                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.STATIC_VARIABLE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       893: areturn
+       894: aload_0
+       895: aload_2
+       896: iconst_1
+       897: anewarray     #29                 // class java/lang/String
+       900: dup
+       901: iconst_0
+       902: ldc           #131                // String readonly
+       904: aastore
+       905: invokevirtual #90                 // Method hasTokenModifiers:(Ljava/util/List;[Ljava/lang/String;)Z
+       908: ifeq          915
+       911: getstatic     #139                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.READONLY_VARIABLE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       914: areturn
+       915: getstatic     #142                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.VARIABLE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       918: areturn
+       919: aload_0
+       920: aload_2
+       921: iconst_1
+       922: anewarray     #29                 // class java/lang/String
+       925: dup
+       926: iconst_0
+       927: ldc           #129                // String static
+       929: aastore
+       930: invokevirtual #90                 // Method hasTokenModifiers:(Ljava/util/List;[Ljava/lang/String;)Z
+       933: ifeq          961
+       936: aload_0
+       937: aload_2
+       938: iconst_1
+       939: anewarray     #29                 // class java/lang/String
+       942: dup
+       943: iconst_0
+       944: ldc           #131                // String readonly
+       946: aastore
+       947: invokevirtual #90                 // Method hasTokenModifiers:(Ljava/util/List;[Ljava/lang/String;)Z
+       950: ifeq          957
+       953: getstatic     #145                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.STATIC_READONLY_PROPERTY:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       956: areturn
+       957: getstatic     #148                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.STATIC_PROPERTY:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       960: areturn
+       961: aload_0
+       962: aload_2
+       963: iconst_1
+       964: anewarray     #29                 // class java/lang/String
+       967: dup
+       968: iconst_0
+       969: ldc           #131                // String readonly
+       971: aastore
+       972: invokevirtual #90                 // Method hasTokenModifiers:(Ljava/util/List;[Ljava/lang/String;)Z
+       975: ifeq          982
+       978: getstatic     #151                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.READONLY_PROPERTY:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       981: areturn
+       982: getstatic     #154                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.PROPERTY:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       985: areturn
+       986: getstatic     #157                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.ENUM_MEMBER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       989: areturn
+       990: getstatic     #160                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.DECORATOR:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       993: areturn
+       994: getstatic     #163                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.EVENT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       997: areturn
+       998: aload_0
+       999: aload_2
+      1000: iconst_1
+      1001: anewarray     #29                 // class java/lang/String
+      1004: dup
+      1005: iconst_0
+      1006: ldc           #166                // String defaultLibrary
+      1008: aastore
+      1009: invokevirtual #90                 // Method hasTokenModifiers:(Ljava/util/List;[Ljava/lang/String;)Z
+      1012: ifeq          1019
+      1015: getstatic     #168                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.DEFAULT_LIBRARY_FUNCTION:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+      1018: areturn
+      1019: aload_0
+      1020: aload_2
+      1021: iconst_2
+      1022: anewarray     #29                 // class java/lang/String
+      1025: dup
+      1026: iconst_0
+      1027: ldc           #86                 // String declaration
+      1029: aastore
+      1030: dup
+      1031: iconst_1
+      1032: ldc           #88                 // String definition
+      1034: aastore
+      1035: invokevirtual #90                 // Method hasTokenModifiers:(Ljava/util/List;[Ljava/lang/String;)Z
+      1038: ifeq          1045
+      1041: getstatic     #171                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.FUNCTION_DECLARATION:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+      1044: areturn
+      1045: getstatic     #174                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.FUNCTION:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+      1048: areturn
+      1049: aload_0
+      1050: aload_2
+      1051: iconst_2
+      1052: anewarray     #29                 // class java/lang/String
+      1055: dup
+      1056: iconst_0
+      1057: ldc           #86                 // String declaration
+      1059: aastore
+      1060: dup
+      1061: iconst_1
+      1062: ldc           #88                 // String definition
+      1064: aastore
+      1065: invokevirtual #90                 // Method hasTokenModifiers:(Ljava/util/List;[Ljava/lang/String;)Z
+      1068: ifeq          1075
+      1071: getstatic     #177                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.METHOD_DECLARATION:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+      1074: areturn
+      1075: aload_0
+      1076: aload_2
+      1077: iconst_1
+      1078: anewarray     #29                 // class java/lang/String
+      1081: dup
+      1082: iconst_0
+      1083: ldc           #129                // String static
+      1085: aastore
+      1086: invokevirtual #90                 // Method hasTokenModifiers:(Ljava/util/List;[Ljava/lang/String;)Z
+      1089: ifeq          1096
+      1092: getstatic     #180                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.STATIC_METHOD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+      1095: areturn
+      1096: getstatic     #183                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.METHOD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+      1099: areturn
+      1100: getstatic     #186                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.MACRO:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+      1103: areturn
+      1104: getstatic     #189                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.COMMENT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+      1107: areturn
+      1108: getstatic     #192                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.STRING:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+      1111: areturn
+      1112: getstatic     #195                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.KEYWORD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+      1115: areturn
+      1116: getstatic     #198                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.NUMBER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+      1119: areturn
+      1120: getstatic     #201                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.REGEXP:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+      1123: areturn
+      1124: getstatic     #204                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.MODIFIER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+      1127: areturn
+      1128: getstatic     #207                // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.OPERATOR:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+      1131: areturn
+      1132: aconst_null
+      1133: areturn
+
+  protected boolean hasTokenModifiers(java.util.List<java.lang.String>, java.lang.String...);
+    Code:
+         0: aload_1
+         1: invokeinterface #210,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+         6: ifeq          11
+         9: iconst_0
+        10: ireturn
+        11: aload_2
+        12: astore_3
+        13: aload_3
+        14: arraylength
+        15: istore        4
+        17: iconst_0
+        18: istore        5
+        20: iload         5
+        22: iload         4
+        24: if_icmpge     52
+        27: aload_3
+        28: iload         5
+        30: aaload
+        31: astore        6
+        33: aload_1
+        34: aload         6
+        36: invokeinterface #216,  2          // InterfaceMethod java/util/List.contains:(Ljava/lang/Object;)Z
+        41: ifeq          46
+        44: iconst_1
+        45: ireturn
+        46: iinc          5, 1
+        49: goto          20
+        52: iconst_0
+        53: ireturn
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: ldc_w         #256                // String Argument for @NotNull parameter \'%s\' of %s.%s must not be null
+         3: iconst_3
+         4: anewarray     #2                  // class java/lang/Object
+         7: iload_0
+         8: tableswitch   { // 0 to 2
+                       0: 36
+                       1: 45
+                       2: 54
+                 default: 36
+            }
+        36: dup
+        37: iconst_0
+        38: ldc_w         #257                // String tokenType
+        41: aastore
+        42: goto          63
+        45: dup
+        46: iconst_0
+        47: ldc_w         #258                // String tokenModifiers
+        50: aastore
+        51: goto          63
+        54: dup
+        55: iconst_0
+        56: ldc_w         #259                // String file
+        59: aastore
+        60: goto          63
+        63: dup
+        64: iconst_1
+        65: ldc_w         #260                // String com/redhat/devtools/lsp4ij/features/semanticTokens/DefaultSemanticTokensColorsProvider
+        68: aastore
+        69: dup
+        70: iconst_2
+        71: ldc_w         #261                // String getTextAttributesKey
+        74: aastore
+        75: invokestatic  #265                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+        78: new           #267                // class java/lang/IllegalArgumentException
+        81: dup_x1
+        82: swap
+        83: invokespecial #270                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+        86: athrow
+}

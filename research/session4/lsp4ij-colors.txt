@@ -1,0 +1,228 @@
+Compiled from "SemanticTokensHighlightingColors.java"
+public class com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensHighlightingColors {
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey NAMESPACE_DECLARATION;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey NAMESPACE;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey CLASS_DECLARATION;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey CLASS;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey ENUM;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey INTERFACE;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey STRUCT;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey TYPE_PARAMETER;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey TYPE;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey PARAMETER;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey STATIC_VARIABLE;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey STATIC_READONLY_VARIABLE;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey READONLY_VARIABLE;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey VARIABLE;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey STATIC_PROPERTY;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey STATIC_READONLY_PROPERTY;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey PROPERTY;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey READONLY_PROPERTY;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey ENUM_MEMBER;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey DECORATOR;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey EVENT;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey FUNCTION;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey FUNCTION_DECLARATION;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey DEFAULT_LIBRARY_FUNCTION;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey METHOD;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey METHOD_DECLARATION;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey STATIC_METHOD;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey MACRO;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey LABEL;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey COMMENT;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey STRING;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey KEYWORD;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey NUMBER;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey REGEXP;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey MODIFIER;
+
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey OPERATOR;
+
+  public com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensHighlightingColors();
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+
+  static {};
+    Code:
+         0: ldc           #7                  // String LSP_NAMESPACE_DECLARATION
+         2: getstatic     #9                  // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.CLASS_NAME:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+         5: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+         8: putstatic     #21                 // Field NAMESPACE_DECLARATION:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        11: ldc           #26                 // String LSP_NAMESPACE
+        13: getstatic     #28                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.CLASS_REFERENCE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        16: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        19: putstatic     #31                 // Field NAMESPACE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        22: ldc           #34                 // String LSP_CLASS_DECLARATION
+        24: getstatic     #9                  // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.CLASS_NAME:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        27: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        30: putstatic     #36                 // Field CLASS_DECLARATION:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        33: ldc           #39                 // String LSP_CLASS
+        35: getstatic     #28                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.CLASS_REFERENCE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        38: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        41: putstatic     #41                 // Field CLASS:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        44: ldc           #44                 // String LSP_ENUM
+        46: getstatic     #9                  // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.CLASS_NAME:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        49: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        52: putstatic     #46                 // Field ENUM:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        55: ldc           #49                 // String LSP_INTERFACE
+        57: getstatic     #51                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.INTERFACE_NAME:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        60: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        63: putstatic     #54                 // Field INTERFACE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        66: ldc           #57                 // String LSP_STRUCT
+        68: getstatic     #9                  // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.CLASS_NAME:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        71: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        74: putstatic     #59                 // Field STRUCT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        77: ldc           #62                 // String LSP_TYPE_PARAMETER
+        79: getstatic     #64                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.PARAMETER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        82: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        85: putstatic     #67                 // Field TYPE_PARAMETER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        88: ldc           #70                 // String LSP_TYPE
+        90: getstatic     #9                  // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.CLASS_NAME:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        93: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        96: putstatic     #72                 // Field TYPE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        99: ldc           #75                 // String LSP_PARAMETER
+       101: getstatic     #64                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.PARAMETER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       104: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       107: putstatic     #77                 // Field PARAMETER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       110: ldc           #78                 // String LSP_STATIC_VARIABLE
+       112: getstatic     #80                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.STATIC_FIELD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       115: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       118: putstatic     #83                 // Field STATIC_VARIABLE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       121: ldc           #86                 // String LSP_STATIC_READONLY_VARIABLE
+       123: getstatic     #88                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.CONSTANT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       126: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       129: putstatic     #91                 // Field STATIC_READONLY_VARIABLE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       132: ldc           #94                 // String LSP_READONLY_VARIABLE
+       134: getstatic     #96                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.LOCAL_VARIABLE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       137: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       140: putstatic     #99                 // Field READONLY_VARIABLE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       143: ldc           #102                // String LSP_VARIABLE
+       145: getstatic     #104                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.REASSIGNED_LOCAL_VARIABLE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       148: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       151: putstatic     #107                // Field VARIABLE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       154: ldc           #110                // String LSP_STATIC_PROPERTY
+       156: getstatic     #80                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.STATIC_FIELD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       159: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       162: putstatic     #112                // Field STATIC_PROPERTY:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       165: ldc           #115                // String LSP_STATIC_READONLY_PROPERTY
+       167: getstatic     #88                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.CONSTANT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       170: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       173: putstatic     #117                // Field STATIC_READONLY_PROPERTY:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       176: ldc           #120                // String LSP_PROPERTY
+       178: getstatic     #122                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.INSTANCE_FIELD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       181: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       184: putstatic     #125                // Field PROPERTY:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       187: ldc           #128                // String LSP_READONLY_PROPERTY
+       189: getstatic     #122                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.INSTANCE_FIELD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       192: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       195: putstatic     #130                // Field READONLY_PROPERTY:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       198: ldc           #133                // String LSP_ENUM_MEMBER
+       200: getstatic     #80                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.STATIC_FIELD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       203: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       206: putstatic     #135                // Field ENUM_MEMBER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       209: ldc           #138                // String LSP_DECORATOR
+       211: getstatic     #140                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.METADATA:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       214: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       217: putstatic     #143                // Field DECORATOR:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       220: ldc           #146                // String LSP_EVENT
+       222: getstatic     #148                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       225: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       228: putstatic     #151                // Field EVENT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       231: ldc           #154                // String LSP_FUNCTION
+       233: getstatic     #156                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.FUNCTION_CALL:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       236: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       239: putstatic     #159                // Field FUNCTION:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       242: ldc           #162                // String LSP_FUNCTION_DECLARATION
+       244: getstatic     #164                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.FUNCTION_DECLARATION:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       247: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       250: putstatic     #167                // Field FUNCTION_DECLARATION:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       253: ldc           #168                // String LSP_DEFAULT_LIBRARY_FUNCTION
+       255: getstatic     #170                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.STATIC_METHOD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       258: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       261: putstatic     #173                // Field DEFAULT_LIBRARY_FUNCTION:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       264: ldc           #176                // String LSP_METHOD
+       266: getstatic     #156                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.FUNCTION_CALL:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       269: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       272: putstatic     #178                // Field METHOD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       275: ldc           #181                // String LSP_METHOD_DECLARATION
+       277: getstatic     #164                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.FUNCTION_DECLARATION:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       280: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       283: putstatic     #183                // Field METHOD_DECLARATION:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       286: ldc           #186                // String LSP_STATIC_METHOD
+       288: getstatic     #170                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.STATIC_METHOD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       291: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       294: putstatic     #188                // Field STATIC_METHOD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       297: ldc           #189                // String LSP_MACRO
+       299: getstatic     #191                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.KEYWORD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       302: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       305: putstatic     #194                // Field MACRO:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       308: ldc           #197                // String LSP_LABEL
+       310: getstatic     #199                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.LABEL:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       313: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       316: putstatic     #202                // Field LABEL:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       319: ldc           #203                // String LSP_COMMENT
+       321: getstatic     #205                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.LINE_COMMENT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       324: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       327: putstatic     #208                // Field COMMENT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       330: ldc           #211                // String LSP_STRING
+       332: getstatic     #213                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.STRING:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       335: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       338: putstatic     #216                // Field STRING:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       341: ldc           #217                // String LSP_KEYWORD
+       343: getstatic     #191                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.KEYWORD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       346: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       349: putstatic     #219                // Field KEYWORD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       352: ldc           #220                // String LSP_NUMBER
+       354: getstatic     #222                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.NUMBER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       357: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       360: putstatic     #225                // Field NUMBER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       363: ldc           #226                // String LSP_REGEXP
+       365: getstatic     #228                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       368: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       371: putstatic     #231                // Field REGEXP:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       374: ldc           #234                // String LSP_MODIFIER
+       376: getstatic     #191                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.KEYWORD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       379: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       382: putstatic     #236                // Field MODIFIER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       385: ldc           #239                // String LSP_OPERATOR
+       387: getstatic     #241                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.OPERATION_SIGN:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       390: invokestatic  #15                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       393: putstatic     #244                // Field OPERATOR:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       396: return
+}

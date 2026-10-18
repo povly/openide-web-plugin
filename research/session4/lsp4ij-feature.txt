@@ -1,0 +1,245 @@
+Compiled from "LSPSemanticTokensFeature.java"
+public class com.redhat.devtools.lsp4ij.client.features.LSPSemanticTokensFeature extends com.redhat.devtools.lsp4ij.client.features.AbstractLSPDocumentFeature implements com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensColorsProvider {
+  private com.redhat.devtools.lsp4ij.server.capabilities.SemanticTokensCapabilityRegistry semanticTokensCapabilityRegistry;
+
+  private org.eclipse.lsp4j.ServerCapabilities serverCapabilities;
+
+  public com.redhat.devtools.lsp4ij.client.features.LSPSemanticTokensFeature();
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method com/redhat/devtools/lsp4ij/client/features/AbstractLSPDocumentFeature."<init>":()V
+         4: return
+
+  public boolean isSupported(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_0
+         5: invokestatic  #137                // Method $$$reportNull$$$0:(I)V
+         8: aload_0
+         9: aload_1
+        10: invokevirtual #7                  // Method isSemanticTokensSupported:(Lcom/intellij/psi/PsiFile;)Z
+        13: ireturn
+
+  public boolean isSemanticTokensSupported(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_1
+         5: invokestatic  #137                // Method $$$reportNull$$$0:(I)V
+         8: aload_0
+         9: invokevirtual #13                 // Method getSemanticTokensCapabilityRegistry:()Lcom/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry;
+        12: aload_1
+        13: invokevirtual #17                 // Method com/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry.isSemanticTokensSupported:(Lcom/intellij/psi/PsiFile;)Z
+        16: ireturn
+
+  public com.redhat.devtools.lsp4ij.server.capabilities.SemanticTokensCapabilityRegistry getSemanticTokensCapabilityRegistry();
+    Code:
+         0: aload_0
+         1: getfield      #20                 // Field semanticTokensCapabilityRegistry:Lcom/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry;
+         4: ifnonnull     11
+         7: aload_0
+         8: invokevirtual #24                 // Method initSemanticTokensCapabilityRegistry:()V
+        11: aload_0
+        12: getfield      #20                 // Field semanticTokensCapabilityRegistry:Lcom/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry;
+        15: areturn
+
+  private synchronized void initSemanticTokensCapabilityRegistry();
+    Code:
+         0: aload_0
+         1: getfield      #20                 // Field semanticTokensCapabilityRegistry:Lcom/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry;
+         4: ifnull        8
+         7: return
+         8: aload_0
+         9: invokevirtual #27                 // Method getClientFeatures:()Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;
+        12: astore_1
+        13: aload_0
+        14: new           #18                 // class com/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry
+        17: dup
+        18: aload_1
+        19: invokespecial #31                 // Method com/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry."<init>":(Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;)V
+        22: putfield      #20                 // Field semanticTokensCapabilityRegistry:Lcom/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry;
+        25: aload_0
+        26: getfield      #20                 // Field semanticTokensCapabilityRegistry:Lcom/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry;
+        29: aload_1
+        30: invokevirtual #34                 // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getServerWrapper:()Lcom/redhat/devtools/lsp4ij/LanguageServerWrapper;
+        33: invokevirtual #40                 // Method com/redhat/devtools/lsp4ij/LanguageServerWrapper.getServerCapabilitiesSync:()Lorg/eclipse/lsp4j/ServerCapabilities;
+        36: invokevirtual #46                 // Method com/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry.setServerCapabilities:(Lorg/eclipse/lsp4j/ServerCapabilities;)V
+        39: return
+
+  public void setServerCapabilities(org.eclipse.lsp4j.ServerCapabilities);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: putfield      #50                 // Field serverCapabilities:Lorg/eclipse/lsp4j/ServerCapabilities;
+         5: aload_0
+         6: getfield      #20                 // Field semanticTokensCapabilityRegistry:Lcom/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry;
+         9: ifnull        20
+        12: aload_0
+        13: getfield      #20                 // Field semanticTokensCapabilityRegistry:Lcom/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry;
+        16: aload_1
+        17: invokevirtual #46                 // Method com/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry.setServerCapabilities:(Lorg/eclipse/lsp4j/ServerCapabilities;)V
+        20: return
+
+  public com.intellij.openapi.editor.colors.TextAttributesKey getTextAttributesKey(java.lang.String, java.util.List<java.lang.String>, com.intellij.psi.PsiFile);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_2
+         5: invokestatic  #137                // Method $$$reportNull$$$0:(I)V
+         8: aload_2
+         9: ifnonnull     16
+        12: iconst_3
+        13: invokestatic  #137                // Method $$$reportNull$$$0:(I)V
+        16: aload_3
+        17: ifnonnull     24
+        20: iconst_4
+        21: invokestatic  #137                // Method $$$reportNull$$$0:(I)V
+        24: aload_0
+        25: invokevirtual #27                 // Method getClientFeatures:()Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;
+        28: invokevirtual #34                 // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getServerWrapper:()Lcom/redhat/devtools/lsp4ij/LanguageServerWrapper;
+        31: invokevirtual #54                 // Method com/redhat/devtools/lsp4ij/LanguageServerWrapper.getServerDefinition:()Lcom/redhat/devtools/lsp4ij/server/definition/LanguageServerDefinition;
+        34: invokevirtual #58                 // Method com/redhat/devtools/lsp4ij/server/definition/LanguageServerDefinition.getSemanticTokensColorsProvider:()Lcom/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensColorsProvider;
+        37: aload_1
+        38: aload_2
+        39: aload_3
+        40: invokeinterface #64,  4           // InterfaceMethod com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensColorsProvider.getTextAttributesKey:(Ljava/lang/String;Ljava/util/List;Lcom/intellij/psi/PsiFile;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        45: areturn
+
+  public org.eclipse.lsp4j.SemanticTokensLegend getLegend();
+    Code:
+         0: aload_0
+         1: getfield      #50                 // Field serverCapabilities:Lorg/eclipse/lsp4j/ServerCapabilities;
+         4: ifnull        41
+         7: aload_0
+         8: getfield      #50                 // Field serverCapabilities:Lorg/eclipse/lsp4j/ServerCapabilities;
+        11: invokevirtual #70                 // Method org/eclipse/lsp4j/ServerCapabilities.getSemanticTokensProvider:()Lorg/eclipse/lsp4j/SemanticTokensWithRegistrationOptions;
+        14: ifnull        41
+        17: aload_0
+        18: getfield      #50                 // Field serverCapabilities:Lorg/eclipse/lsp4j/ServerCapabilities;
+        21: invokevirtual #70                 // Method org/eclipse/lsp4j/ServerCapabilities.getSemanticTokensProvider:()Lorg/eclipse/lsp4j/SemanticTokensWithRegistrationOptions;
+        24: invokevirtual #76                 // Method org/eclipse/lsp4j/SemanticTokensWithRegistrationOptions.getLegend:()Lorg/eclipse/lsp4j/SemanticTokensLegend;
+        27: ifnull        41
+        30: aload_0
+        31: getfield      #50                 // Field serverCapabilities:Lorg/eclipse/lsp4j/ServerCapabilities;
+        34: invokevirtual #70                 // Method org/eclipse/lsp4j/ServerCapabilities.getSemanticTokensProvider:()Lorg/eclipse/lsp4j/SemanticTokensWithRegistrationOptions;
+        37: invokevirtual #76                 // Method org/eclipse/lsp4j/SemanticTokensWithRegistrationOptions.getLegend:()Lorg/eclipse/lsp4j/SemanticTokensLegend;
+        40: areturn
+        41: aload_0
+        42: getfield      #20                 // Field semanticTokensCapabilityRegistry:Lcom/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry;
+        45: ifnull        56
+        48: aload_0
+        49: getfield      #20                 // Field semanticTokensCapabilityRegistry:Lcom/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry;
+        52: invokevirtual #82                 // Method com/redhat/devtools/lsp4ij/server/capabilities/SemanticTokensCapabilityRegistry.getLegend:()Lorg/eclipse/lsp4j/SemanticTokensLegend;
+        55: areturn
+        56: aconst_null
+        57: areturn
+
+  public boolean shouldVisitPsiElement(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_5
+         5: invokestatic  #137                // Method $$$reportNull$$$0:(I)V
+         8: aload_1
+         9: invokeinterface #83,  1           // InterfaceMethod com/intellij/psi/PsiFile.getLanguage:()Lcom/intellij/lang/Language;
+        14: invokestatic  #89                 // Method com/redhat/devtools/lsp4ij/internal/SimpleLanguageUtils.isSupported:(Lcom/intellij/lang/Language;)Z
+        17: ifne          24
+        20: iconst_1
+        21: goto          25
+        24: iconst_0
+        25: ireturn
+
+  public boolean isEligibleForSemanticHighlighting(com.intellij.psi.PsiElement);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        6
+         6: invokestatic  #137                // Method $$$reportNull$$$0:(I)V
+         9: aload_1
+        10: instanceof    #95                 // class com/intellij/psi/impl/source/tree/LeafElement
+        13: ireturn
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: ldc           #139                // String Argument for @NotNull parameter \'%s\' of %s.%s must not be null
+         2: iconst_3
+         3: anewarray     #141                // class java/lang/Object
+         6: iload_0
+         7: tableswitch   { // 0 to 6
+                       0: 48
+                       1: 48
+                       2: 56
+                       3: 64
+                       4: 48
+                       5: 48
+                       6: 72
+                 default: 48
+            }
+        48: dup
+        49: iconst_0
+        50: ldc           #142                // String file
+        52: aastore
+        53: goto          80
+        56: dup
+        57: iconst_0
+        58: ldc           #143                // String tokenType
+        60: aastore
+        61: goto          80
+        64: dup
+        65: iconst_0
+        66: ldc           #144                // String tokenModifiers
+        68: aastore
+        69: goto          80
+        72: dup
+        73: iconst_0
+        74: ldc           #145                // String element
+        76: aastore
+        77: goto          80
+        80: dup
+        81: iconst_1
+        82: ldc           #146                // String com/redhat/devtools/lsp4ij/client/features/LSPSemanticTokensFeature
+        84: aastore
+        85: iload_0
+        86: tableswitch   { // 0 to 6
+                       0: 128
+                       1: 136
+                       2: 144
+                       3: 144
+                       4: 144
+                       5: 152
+                       6: 160
+                 default: 128
+            }
+       128: dup
+       129: iconst_2
+       130: ldc           #147                // String isSupported
+       132: aastore
+       133: goto          168
+       136: dup
+       137: iconst_2
+       138: ldc           #148                // String isSemanticTokensSupported
+       140: aastore
+       141: goto          168
+       144: dup
+       145: iconst_2
+       146: ldc           #149                // String getTextAttributesKey
+       148: aastore
+       149: goto          168
+       152: dup
+       153: iconst_2
+       154: ldc           #150                // String shouldVisitPsiElement
+       156: aastore
+       157: goto          168
+       160: dup
+       161: iconst_2
+       162: ldc           #151                // String isEligibleForSemanticHighlighting
+       164: aastore
+       165: goto          168
+       168: invokestatic  #157                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+       171: new           #159                // class java/lang/IllegalArgumentException
+       174: dup_x1
+       175: swap
+       176: invokespecial #162                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+       179: athrow
+}

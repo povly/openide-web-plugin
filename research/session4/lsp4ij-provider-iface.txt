@@ -1,0 +1,45 @@
+Compiled from "SemanticTokensColorsProvider.java"
+public interface com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensColorsProvider {
+  public abstract com.intellij.openapi.editor.colors.TextAttributesKey getTextAttributesKey(java.lang.String, java.util.List<java.lang.String>, com.intellij.psi.PsiFile);
+}
+Compiled from "SemanticTokensHighlightingColors.java"
+public class com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensHighlightingColors {
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey NAMESPACE_DECLARATION;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey NAMESPACE;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey CLASS_DECLARATION;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey CLASS;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey ENUM;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey INTERFACE;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey STRUCT;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey TYPE_PARAMETER;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey TYPE;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey PARAMETER;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey STATIC_VARIABLE;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey STATIC_READONLY_VARIABLE;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey READONLY_VARIABLE;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey VARIABLE;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey STATIC_PROPERTY;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey STATIC_READONLY_PROPERTY;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey PROPERTY;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey READONLY_PROPERTY;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey ENUM_MEMBER;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey DECORATOR;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey EVENT;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey FUNCTION;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey FUNCTION_DECLARATION;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey DEFAULT_LIBRARY_FUNCTION;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey METHOD;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey METHOD_DECLARATION;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey STATIC_METHOD;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey MACRO;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey LABEL;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey COMMENT;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey STRING;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey KEYWORD;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey NUMBER;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey REGEXP;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey MODIFIER;
+  public static final com.intellij.openapi.editor.colors.TextAttributesKey OPERATOR;
+  public com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensHighlightingColors();
+  static {};
+}

@@ -1,0 +1,204 @@
+Compiled from "LSPSemanticTokenTypes.java"
+public class com.redhat.devtools.lsp4ij.features.semanticTokens.LSPSemanticTokenTypes {
+  private static final com.redhat.devtools.lsp4ij.features.semanticTokens.LSPSemanticTokenType Label;
+
+  private static final com.redhat.devtools.lsp4ij.features.semanticTokens.LSPSemanticTokenType Member;
+
+  private static final com.redhat.devtools.lsp4ij.features.semanticTokens.LSPSemanticTokenType Identifier;
+
+  private static final com.redhat.devtools.lsp4ij.features.semanticTokens.LSPSemanticTokenType[] values;
+
+  private static final java.util.Map<java.lang.String, com.redhat.devtools.lsp4ij.features.semanticTokens.LSPSemanticTokenType> nameIndex;
+
+  public com.redhat.devtools.lsp4ij.features.semanticTokens.LSPSemanticTokenTypes();
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+
+  public static com.redhat.devtools.lsp4ij.features.semanticTokens.LSPSemanticTokenType[] values();
+    Code:
+         0: getstatic     #7                  // Field values:[Lcom/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType;
+         3: dup
+         4: ifnonnull     11
+         7: iconst_0
+         8: invokestatic  #105                // Method $$$reportNull$$$0:(I)V
+        11: areturn
+
+  public static com.redhat.devtools.lsp4ij.features.semanticTokens.LSPSemanticTokenType valueOf(java.lang.String);
+    Code:
+         0: aload_0
+         1: ifnonnull     8
+         4: iconst_1
+         5: invokestatic  #105                // Method $$$reportNull$$$0:(I)V
+         8: getstatic     #13                 // Field nameIndex:Ljava/util/Map;
+        11: aload_0
+        12: invokeinterface #17,  2           // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+        17: checkcast     #23                 // class com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType
+        20: areturn
+
+  static {};
+    Code:
+         0: new           #23                 // class com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType
+         3: dup
+         4: ldc           #25                 // String label
+         6: iconst_1
+         7: iconst_0
+         8: iconst_0
+         9: iconst_0
+        10: aconst_null
+        11: getstatic     #27                 // Field com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensHighlightingColors.LABEL:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        14: invokevirtual #33                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.getExternalName:()Ljava/lang/String;
+        17: invokespecial #39                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType."<init>":(Ljava/lang/String;ZZZZLjava/lang/String;Ljava/lang/String;)V
+        20: putstatic     #42                 // Field Label:Lcom/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType;
+        23: new           #23                 // class com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType
+        26: dup
+        27: ldc           #46                 // String member
+        29: iconst_1
+        30: iconst_0
+        31: iconst_0
+        32: iconst_0
+        33: ldc           #50                 // String method
+        35: aconst_null
+        36: invokespecial #39                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType."<init>":(Ljava/lang/String;ZZZZLjava/lang/String;Ljava/lang/String;)V
+        39: putstatic     #52                 // Field Member:Lcom/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType;
+        42: new           #23                 // class com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType
+        45: dup
+        46: ldc           #55                 // String identifier
+        48: iconst_1
+        49: iconst_1
+        50: iconst_0
+        51: iconst_0
+        52: ldc           #57                 // String variable
+        54: aconst_null
+        55: invokespecial #39                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType."<init>":(Ljava/lang/String;ZZZZLjava/lang/String;Ljava/lang/String;)V
+        58: putstatic     #59                 // Field Identifier:Lcom/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType;
+        61: iconst_3
+        62: anewarray     #23                 // class com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType
+        65: dup
+        66: iconst_0
+        67: getstatic     #42                 // Field Label:Lcom/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType;
+        70: aastore
+        71: dup
+        72: iconst_1
+        73: getstatic     #52                 // Field Member:Lcom/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType;
+        76: aastore
+        77: dup
+        78: iconst_2
+        79: getstatic     #59                 // Field Identifier:Lcom/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType;
+        82: aastore
+        83: putstatic     #7                  // Field values:[Lcom/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType;
+        86: new           #62                 // class java/util/LinkedHashMap
+        89: dup
+        90: invokespecial #64                 // Method java/util/LinkedHashMap."<init>":()V
+        93: putstatic     #13                 // Field nameIndex:Ljava/util/Map;
+        96: getstatic     #7                  // Field values:[Lcom/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType;
+        99: astore_0
+       100: aload_0
+       101: arraylength
+       102: istore_1
+       103: iconst_0
+       104: istore_2
+       105: iload_2
+       106: iload_1
+       107: if_icmpge     134
+       110: aload_0
+       111: iload_2
+       112: aaload
+       113: astore_3
+       114: getstatic     #13                 // Field nameIndex:Ljava/util/Map;
+       117: aload_3
+       118: invokevirtual #65                 // Method com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenType.getName:()Ljava/lang/String;
+       121: aload_3
+       122: invokeinterface #68,  3           // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       127: pop
+       128: iinc          2, 1
+       131: goto          105
+       134: return
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: iload_0
+         1: tableswitch   { // 0 to 1
+                       0: 24
+                       1: 29
+                 default: 24
+            }
+        24: ldc           #107                // String @NotNull method %s.%s must not return null
+        26: goto          34
+        29: ldc           #109                // String Argument for @NotNull parameter \'%s\' of %s.%s must not be null
+        31: goto          34
+        34: iload_0
+        35: tableswitch   { // 0 to 1
+                       0: 56
+                       1: 60
+                 default: 56
+            }
+        56: iconst_2
+        57: goto          64
+        60: iconst_3
+        61: goto          64
+        64: anewarray     #2                  // class java/lang/Object
+        67: iload_0
+        68: tableswitch   { // 0 to 1
+                       0: 92
+                       1: 100
+                 default: 92
+            }
+        92: dup
+        93: iconst_0
+        94: ldc           #110                // String com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenTypes
+        96: aastore
+        97: goto          108
+       100: dup
+       101: iconst_0
+       102: ldc           #111                // String name
+       104: aastore
+       105: goto          108
+       108: iload_0
+       109: tableswitch   { // 0 to 1
+                       0: 132
+                       1: 140
+                 default: 132
+            }
+       132: dup
+       133: iconst_1
+       134: ldc           #112                // String values
+       136: aastore
+       137: goto          148
+       140: dup
+       141: iconst_1
+       142: ldc           #110                // String com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokenTypes
+       144: aastore
+       145: goto          148
+       148: iload_0
+       149: tableswitch   { // 0 to 1
+                       0: 172
+                       1: 175
+                 default: 172
+            }
+       172: goto          183
+       175: dup
+       176: iconst_2
+       177: ldc           #113                // String valueOf
+       179: aastore
+       180: goto          183
+       183: invokestatic  #119                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+       186: iload_0
+       187: tableswitch   { // 0 to 1
+                       0: 208
+                       1: 219
+                 default: 208
+            }
+       208: new           #121                // class java/lang/IllegalStateException
+       211: dup_x1
+       212: swap
+       213: invokespecial #124                // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+       216: goto          230
+       219: new           #126                // class java/lang/IllegalArgumentException
+       222: dup_x1
+       223: swap
+       224: invokespecial #127                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+       227: goto          230
+       230: athrow
+}

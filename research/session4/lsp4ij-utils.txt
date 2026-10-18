@@ -1,0 +1,931 @@
+Compiled from "LSPIJEditorUtils.java"
+public final class com.redhat.devtools.lsp4ij.LSPIJEditorUtils {
+  private static final java.lang.String TEXT_MATE_LANGUAGE_ID;
+
+  private static final java.lang.String PLAIN_TEXT_LANGUAGE_ID;
+
+  private static final java.util.Set<java.lang.Character> DEFAULT_QUOTE_CHARACTERS;
+
+  private static final java.util.Map$Entry<java.lang.Character, java.lang.Character> BRACES_ENTRY;
+
+  private static final java.util.Map$Entry<java.lang.Character, java.lang.Character> BRACKETS_ENTRY;
+
+  private static final java.util.Map$Entry<java.lang.Character, java.lang.Character> PARENTHESES_ENTRY;
+
+  private static final java.util.Map$Entry<java.lang.Character, java.lang.Character> TRE_ENTRY;
+
+  public static final java.util.Map<java.lang.Character, java.lang.Character> DEFAULT_BRACE_PAIRS;
+
+  private com.redhat.devtools.lsp4ij.LSPIJEditorUtils();
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+
+  public static boolean isSupportedAbstractFileTypeFile(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: ifnonnull     8
+         4: iconst_0
+         5: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         8: aload_0
+         9: invokestatic  #7                  // Method isAbstractFileTypeFile:(Lcom/intellij/psi/PsiFile;)Z
+        12: ifeq          29
+        15: invokestatic  #13                 // Method com/redhat/devtools/lsp4ij/LanguageServersRegistry.getInstance:()Lcom/redhat/devtools/lsp4ij/LanguageServersRegistry;
+        18: aload_0
+        19: invokevirtual #19                 // Method com/redhat/devtools/lsp4ij/LanguageServersRegistry.isFileSupported:(Lcom/intellij/psi/PsiFile;)Z
+        22: ifeq          29
+        25: iconst_1
+        26: goto          30
+        29: iconst_0
+        30: ireturn
+
+  public static boolean isSupportedTextMateFile(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: ifnonnull     8
+         4: iconst_1
+         5: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         8: aload_0
+         9: invokestatic  #22                 // Method isTextMateFile:(Lcom/intellij/psi/PsiFile;)Z
+        12: ifeq          29
+        15: invokestatic  #13                 // Method com/redhat/devtools/lsp4ij/LanguageServersRegistry.getInstance:()Lcom/redhat/devtools/lsp4ij/LanguageServersRegistry;
+        18: aload_0
+        19: invokevirtual #19                 // Method com/redhat/devtools/lsp4ij/LanguageServersRegistry.isFileSupported:(Lcom/intellij/psi/PsiFile;)Z
+        22: ifeq          29
+        25: iconst_1
+        26: goto          30
+        29: iconst_0
+        30: ireturn
+
+  public static boolean isSupportedAbstractFileTypeOrTextMateFile(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: ifnonnull     8
+         4: iconst_2
+         5: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         8: aload_0
+         9: invokestatic  #25                 // Method isSupportedAbstractFileTypeFile:(Lcom/intellij/psi/PsiFile;)Z
+        12: ifne          22
+        15: aload_0
+        16: invokestatic  #28                 // Method isSupportedTextMateFile:(Lcom/intellij/psi/PsiFile;)Z
+        19: ifeq          26
+        22: iconst_1
+        23: goto          27
+        26: iconst_0
+        27: ireturn
+
+  public static boolean isAbstractFileTypeFile(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: ifnonnull     8
+         4: iconst_3
+         5: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         8: aload_0
+         9: invokeinterface #31,  1           // InterfaceMethod com/intellij/psi/PsiFile.getFileType:()Lcom/intellij/openapi/fileTypes/FileType;
+        14: instanceof    #37                 // class com/intellij/openapi/fileTypes/impl/AbstractFileType
+        17: ireturn
+
+  public static boolean isTextMateFile(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: ifnonnull     8
+         4: iconst_4
+         5: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         8: ldc           #39                 // String textmate
+        10: aload_0
+        11: invokeinterface #41,  1           // InterfaceMethod com/intellij/psi/PsiFile.getLanguage:()Lcom/intellij/lang/Language;
+        16: invokevirtual #45                 // Method com/intellij/lang/Language.getID:()Ljava/lang/String;
+        19: invokevirtual #51                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        22: ireturn
+
+  public static boolean isPlainTextFile(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: ifnonnull     8
+         4: iconst_5
+         5: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         8: ldc           #57                 // String TEXT
+        10: aload_0
+        11: invokeinterface #41,  1           // InterfaceMethod com/intellij/psi/PsiFile.getLanguage:()Lcom/intellij/lang/Language;
+        16: invokevirtual #45                 // Method com/intellij/lang/Language.getID:()Ljava/lang/String;
+        19: invokevirtual #51                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        22: ireturn
+
+  public static com.intellij.lang.Language getTextMateLanguage();
+    Code:
+         0: ldc           #39                 // String textmate
+         2: invokestatic  #59                 // Method com/intellij/lang/Language.findLanguageByID:(Ljava/lang/String;)Lcom/intellij/lang/Language;
+         5: areturn
+
+  public static java.util.Set<java.lang.Character> getQuoteCharacters(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        6
+         6: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: invokestatic  #7                  // Method isAbstractFileTypeFile:(Lcom/intellij/psi/PsiFile;)Z
+        13: ifeq          23
+        16: aload_0
+        17: invokestatic  #63                 // Method getAbstractFileTypeQuoteCharacters:(Lcom/intellij/psi/PsiFile;)Ljava/util/Set;
+        20: goto          38
+        23: aload_0
+        24: invokestatic  #22                 // Method isTextMateFile:(Lcom/intellij/psi/PsiFile;)Z
+        27: ifeq          37
+        30: aload_0
+        31: invokestatic  #67                 // Method getTextMateQuoteCharacters:(Lcom/intellij/psi/PsiFile;)Ljava/util/Set;
+        34: goto          38
+        37: aconst_null
+        38: astore_1
+        39: aload_1
+        40: ifnonnull     47
+        43: getstatic     #70                 // Field DEFAULT_QUOTE_CHARACTERS:Ljava/util/Set;
+        46: astore_1
+        47: aload_1
+        48: dup
+        49: ifnonnull     57
+        52: bipush        7
+        54: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+        57: areturn
+
+  private static java.util.Set<java.lang.Character> getAbstractFileTypeQuoteCharacters(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        8
+         6: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: invokestatic  #7                  // Method isAbstractFileTypeFile:(Lcom/intellij/psi/PsiFile;)Z
+        13: ifeq          22
+        16: getstatic     #70                 // Field DEFAULT_QUOTE_CHARACTERS:Ljava/util/Set;
+        19: goto          23
+        22: aconst_null
+        23: areturn
+
+  private static java.util.Set<java.lang.Character> getTextMateQuoteCharacters(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        9
+         6: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: invokestatic  #22                 // Method isTextMateFile:(Lcom/intellij/psi/PsiFile;)Z
+        13: ifeq          222
+        16: aload_0
+        17: invokestatic  #74                 // Method com/redhat/devtools/lsp4ij/LSPIJUtils.editorForElement:(Lcom/intellij/psi/PsiElement;)Lcom/intellij/openapi/editor/Editor;
+        20: astore_1
+        21: aload_1
+        22: instanceof    #80                 // class com/intellij/openapi/editor/ex/EditorEx
+        25: ifeq          40
+        28: aload_1
+        29: checkcast     #80                 // class com/intellij/openapi/editor/ex/EditorEx
+        32: astore_3
+        33: aload_3
+        34: invokestatic  #82                 // Method org/jetbrains/plugins/textmate/editor/TextMateEditorUtils.getCurrentScopeSelector:(Lcom/intellij/openapi/editor/ex/EditorEx;)Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;
+        37: goto          41
+        40: aconst_null
+        41: astore_2
+        42: aload_2
+        43: ifnull        61
+        46: invokestatic  #88                 // Method org/jetbrains/plugins/textmate/TextMateService.getInstance:()Lorg/jetbrains/plugins/textmate/TextMateService;
+        49: invokevirtual #93                 // Method org/jetbrains/plugins/textmate/TextMateService.getPreferenceRegistry:()Lorg/jetbrains/plugins/textmate/language/preferences/PreferencesRegistry;
+        52: aload_2
+        53: invokeinterface #97,  2           // InterfaceMethod org/jetbrains/plugins/textmate/language/preferences/PreferencesRegistry.getPreferences:(Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;)Ljava/util/List;
+        58: goto          64
+        61: invokestatic  #103                // Method java/util/Collections.emptyList:()Ljava/util/List;
+        64: astore_3
+        65: aload_3
+        66: invokestatic  #109                // Method com/intellij/util/containers/ContainerUtil.getFirstItem:(Ljava/util/List;)Ljava/lang/Object;
+        69: checkcast     #115                // class org/jetbrains/plugins/textmate/language/preferences/Preferences
+        72: astore        4
+        74: aload         4
+        76: ifnull        87
+        79: aload         4
+        81: invokevirtual #117                // Method org/jetbrains/plugins/textmate/language/preferences/Preferences.getSmartTypingPairs:()Ljava/util/Set;
+        84: goto          90
+        87: invokestatic  #121                // Method java/util/Collections.emptySet:()Ljava/util/Set;
+        90: astore        5
+        92: aload         5
+        94: invokestatic  #124                // Method com/intellij/util/containers/ContainerUtil.isEmpty:(Ljava/util/Collection;)Z
+        97: ifne          222
+       100: new           #128                // class java/util/LinkedHashSet
+       103: dup
+       104: invokespecial #130                // Method java/util/LinkedHashSet."<init>":()V
+       107: astore        6
+       109: aload         5
+       111: invokeinterface #131,  1          // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+       116: astore        7
+       118: aload         7
+       120: invokeinterface #137,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       125: ifeq          219
+       128: aload         7
+       130: invokeinterface #143,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       135: checkcast     #147                // class org/jetbrains/plugins/textmate/language/preferences/TextMateAutoClosingPair
+       138: astore        8
+       140: aload         8
+       142: invokevirtual #149                // Method org/jetbrains/plugins/textmate/language/preferences/TextMateAutoClosingPair.getLeft:()Ljava/lang/CharSequence;
+       145: astore        9
+       147: aload         8
+       149: invokevirtual #153                // Method org/jetbrains/plugins/textmate/language/preferences/TextMateAutoClosingPair.getRight:()Ljava/lang/CharSequence;
+       152: astore        10
+       154: aload         9
+       156: invokeinterface #156,  1          // InterfaceMethod java/lang/CharSequence.length:()I
+       161: iconst_1
+       162: if_icmpne     216
+       165: aload         9
+       167: aload         10
+       169: invokeinterface #162,  2          // InterfaceMethod java/lang/CharSequence.equals:(Ljava/lang/Object;)Z
+       174: ifeq          216
+       177: aload         9
+       179: iconst_0
+       180: invokeinterface #163,  2          // InterfaceMethod java/lang/CharSequence.charAt:(I)C
+       185: istore        11
+       187: getstatic     #70                 // Field DEFAULT_QUOTE_CHARACTERS:Ljava/util/Set;
+       190: iload         11
+       192: invokestatic  #167                // Method java/lang/Character.valueOf:(C)Ljava/lang/Character;
+       195: invokeinterface #173,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+       200: ifeq          216
+       203: aload         6
+       205: iload         11
+       207: invokestatic  #167                // Method java/lang/Character.valueOf:(C)Ljava/lang/Character;
+       210: invokeinterface #176,  2          // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+       215: pop
+       216: goto          118
+       219: aload         6
+       221: areturn
+       222: aconst_null
+       223: areturn
+
+  public static boolean isQuoteCharacter(com.intellij.psi.PsiFile, char);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        10
+         6: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: invokestatic  #179                // Method getQuoteCharacters:(Lcom/intellij/psi/PsiFile;)Ljava/util/Set;
+        13: iload_1
+        14: invokestatic  #167                // Method java/lang/Character.valueOf:(C)Ljava/lang/Character;
+        17: invokeinterface #173,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+        22: ireturn
+
+  public static java.util.Map<java.lang.Character, java.lang.Character> getBracePairs(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        11
+         6: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: invokestatic  #7                  // Method isAbstractFileTypeFile:(Lcom/intellij/psi/PsiFile;)Z
+        13: ifeq          23
+        16: aload_0
+        17: invokestatic  #182                // Method getAbstractFileTypeBracePairs:(Lcom/intellij/psi/PsiFile;)Ljava/util/Map;
+        20: goto          38
+        23: aload_0
+        24: invokestatic  #22                 // Method isTextMateFile:(Lcom/intellij/psi/PsiFile;)Z
+        27: ifeq          37
+        30: aload_0
+        31: invokestatic  #186                // Method getTextMateBracePairs:(Lcom/intellij/psi/PsiFile;)Ljava/util/Map;
+        34: goto          38
+        37: aconst_null
+        38: astore_1
+        39: aload_1
+        40: ifnonnull     47
+        43: getstatic     #189                // Field DEFAULT_BRACE_PAIRS:Ljava/util/Map;
+        46: astore_1
+        47: aload_1
+        48: dup
+        49: ifnonnull     57
+        52: bipush        12
+        54: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+        57: areturn
+
+  private static java.util.Map<java.lang.Character, java.lang.Character> getAbstractFileTypeBracePairs(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        13
+         6: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: invokestatic  #7                  // Method isAbstractFileTypeFile:(Lcom/intellij/psi/PsiFile;)Z
+        13: ifne          18
+        16: aconst_null
+        17: areturn
+        18: aload_0
+        19: invokeinterface #31,  1           // InterfaceMethod com/intellij/psi/PsiFile.getFileType:()Lcom/intellij/openapi/fileTypes/FileType;
+        24: checkcast     #37                 // class com/intellij/openapi/fileTypes/impl/AbstractFileType
+        27: astore_1
+        28: new           #193                // class java/util/HashMap
+        31: dup
+        32: invokespecial #195                // Method java/util/HashMap."<init>":()V
+        35: astore_2
+        36: aload_1
+        37: invokevirtual #196                // Method com/intellij/openapi/fileTypes/impl/AbstractFileType.getSyntaxTable:()Lcom/intellij/ide/highlighter/custom/SyntaxTable;
+        40: astore_3
+        41: aload_3
+        42: invokevirtual #200                // Method com/intellij/ide/highlighter/custom/SyntaxTable.isHasBraces:()Z
+        45: ifeq          77
+        48: aload_2
+        49: getstatic     #205                // Field BRACES_ENTRY:Ljava/util/Map$Entry;
+        52: invokeinterface #209,  1          // InterfaceMethod java/util/Map$Entry.getKey:()Ljava/lang/Object;
+        57: checkcast     #168                // class java/lang/Character
+        60: getstatic     #205                // Field BRACES_ENTRY:Ljava/util/Map$Entry;
+        63: invokeinterface #214,  1          // InterfaceMethod java/util/Map$Entry.getValue:()Ljava/lang/Object;
+        68: checkcast     #168                // class java/lang/Character
+        71: invokeinterface #217,  3          // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        76: pop
+        77: aload_3
+        78: invokevirtual #223                // Method com/intellij/ide/highlighter/custom/SyntaxTable.isHasBrackets:()Z
+        81: ifeq          113
+        84: aload_2
+        85: getstatic     #226                // Field BRACKETS_ENTRY:Ljava/util/Map$Entry;
+        88: invokeinterface #209,  1          // InterfaceMethod java/util/Map$Entry.getKey:()Ljava/lang/Object;
+        93: checkcast     #168                // class java/lang/Character
+        96: getstatic     #226                // Field BRACKETS_ENTRY:Ljava/util/Map$Entry;
+        99: invokeinterface #214,  1          // InterfaceMethod java/util/Map$Entry.getValue:()Ljava/lang/Object;
+       104: checkcast     #168                // class java/lang/Character
+       107: invokeinterface #217,  3          // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       112: pop
+       113: aload_3
+       114: invokevirtual #229                // Method com/intellij/ide/highlighter/custom/SyntaxTable.isHasParens:()Z
+       117: ifeq          149
+       120: aload_2
+       121: getstatic     #232                // Field PARENTHESES_ENTRY:Ljava/util/Map$Entry;
+       124: invokeinterface #209,  1          // InterfaceMethod java/util/Map$Entry.getKey:()Ljava/lang/Object;
+       129: checkcast     #168                // class java/lang/Character
+       132: getstatic     #232                // Field PARENTHESES_ENTRY:Ljava/util/Map$Entry;
+       135: invokeinterface #214,  1          // InterfaceMethod java/util/Map$Entry.getValue:()Ljava/lang/Object;
+       140: checkcast     #168                // class java/lang/Character
+       143: invokeinterface #217,  3          // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       148: pop
+       149: aload_2
+       150: areturn
+
+  private static java.util.Map<java.lang.Character, java.lang.Character> getTextMateBracePairs(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        14
+         6: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         9: aconst_null
+        10: areturn
+
+  public static boolean isOpenBraceCharacter(com.intellij.psi.PsiFile, java.lang.Character);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        15
+         6: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         9: aload_1
+        10: ifnull        30
+        13: aload_0
+        14: invokestatic  #235                // Method getBracePairsFwd:(Lcom/intellij/psi/PsiFile;)Ljava/util/Map;
+        17: aload_1
+        18: invokeinterface #238,  2          // InterfaceMethod java/util/Map.containsKey:(Ljava/lang/Object;)Z
+        23: ifeq          30
+        26: iconst_1
+        27: goto          31
+        30: iconst_0
+        31: ireturn
+
+  public static boolean isCloseBraceCharacter(com.intellij.psi.PsiFile, java.lang.Character);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        16
+         6: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         9: aload_1
+        10: ifnull        30
+        13: aload_0
+        14: invokestatic  #241                // Method getBracePairsBwd:(Lcom/intellij/psi/PsiFile;)Ljava/util/Map;
+        17: aload_1
+        18: invokeinterface #238,  2          // InterfaceMethod java/util/Map.containsKey:(Ljava/lang/Object;)Z
+        23: ifeq          30
+        26: iconst_1
+        27: goto          31
+        30: iconst_0
+        31: ireturn
+
+  public static java.lang.Character getOpenBraceCharacter(com.intellij.psi.PsiFile, java.lang.Character);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        17
+         6: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         9: aload_1
+        10: ifnull        29
+        13: aload_0
+        14: invokestatic  #241                // Method getBracePairsBwd:(Lcom/intellij/psi/PsiFile;)Ljava/util/Map;
+        17: aload_1
+        18: invokeinterface #244,  2          // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+        23: checkcast     #168                // class java/lang/Character
+        26: goto          30
+        29: aconst_null
+        30: areturn
+
+  public static java.lang.Character getCloseBraceCharacter(com.intellij.psi.PsiFile, java.lang.Character);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        18
+         6: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         9: aload_1
+        10: ifnull        29
+        13: aload_0
+        14: invokestatic  #235                // Method getBracePairsFwd:(Lcom/intellij/psi/PsiFile;)Ljava/util/Map;
+        17: aload_1
+        18: invokeinterface #244,  2          // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+        23: checkcast     #168                // class java/lang/Character
+        26: goto          30
+        29: aconst_null
+        30: areturn
+
+  private static java.util.Map<java.lang.Character, java.lang.Character> getBracePairsFwd(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        19
+         6: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: aload_0
+        11: invokedynamic #248,  0            // InvokeDynamic #0:compute:(Lcom/intellij/psi/PsiFile;)Lcom/intellij/psi/util/CachedValueProvider;
+        16: invokestatic  #252                // Method com/intellij/psi/util/CachedValuesManager.getCachedValue:(Lcom/intellij/psi/PsiElement;Lcom/intellij/psi/util/CachedValueProvider;)Ljava/lang/Object;
+        19: checkcast     #218                // class java/util/Map
+        22: dup
+        23: ifnonnull     31
+        26: bipush        20
+        28: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+        31: areturn
+
+  private static java.util.Map<java.lang.Character, java.lang.Character> getBracePairsBwd(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        21
+         6: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: aload_0
+        11: invokedynamic #258,  0            // InvokeDynamic #1:compute:(Lcom/intellij/psi/PsiFile;)Lcom/intellij/psi/util/CachedValueProvider;
+        16: invokestatic  #252                // Method com/intellij/psi/util/CachedValuesManager.getCachedValue:(Lcom/intellij/psi/PsiElement;Lcom/intellij/psi/util/CachedValueProvider;)Ljava/lang/Object;
+        19: checkcast     #218                // class java/util/Map
+        22: dup
+        23: ifnonnull     31
+        26: bipush        22
+        28: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+        31: areturn
+
+  public static com.intellij.lang.Commenter getCommenter(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        23
+         6: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+         9: aconst_null
+        10: astore_1
+        11: aload_0
+        12: invokestatic  #7                  // Method isAbstractFileTypeFile:(Lcom/intellij/psi/PsiFile;)Z
+        15: ifeq          33
+        18: aload_0
+        19: invokeinterface #31,  1           // InterfaceMethod com/intellij/psi/PsiFile.getFileType:()Lcom/intellij/openapi/fileTypes/FileType;
+        24: checkcast     #37                 // class com/intellij/openapi/fileTypes/impl/AbstractFileType
+        27: astore_2
+        28: aload_2
+        29: invokevirtual #259                // Method com/intellij/openapi/fileTypes/impl/AbstractFileType.getCommenter:()Lcom/intellij/lang/Commenter;
+        32: astore_1
+        33: aload_1
+        34: ifnonnull     46
+        37: new           #263                // class com/redhat/devtools/lsp4ij/LSPIJEditorUtils$ClientFeaturesBasedCommenter
+        40: dup
+        41: aload_0
+        42: invokespecial #265                // Method com/redhat/devtools/lsp4ij/LSPIJEditorUtils$ClientFeaturesBasedCommenter."<init>":(Lcom/intellij/psi/PsiFile;)V
+        45: astore_1
+        46: aload_1
+        47: dup
+        48: ifnonnull     56
+        51: bipush        24
+        53: invokestatic  #415                // Method $$$reportNull$$$0:(I)V
+        56: areturn
+
+  private static com.intellij.psi.util.CachedValueProvider$Result lambda$getBracePairsBwd$1(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: invokestatic  #235                // Method getBracePairsFwd:(Lcom/intellij/psi/PsiFile;)Ljava/util/Map;
+         4: invokestatic  #268                // Method com/intellij/util/containers/ContainerUtil.reverseMap:(Ljava/util/Map;)Ljava/util/Map;
+         7: iconst_1
+         8: anewarray     #2                  // class java/lang/Object
+        11: dup
+        12: iconst_0
+        13: aload_0
+        14: aastore
+        15: invokestatic  #272                // Method com/intellij/psi/util/CachedValueProvider$Result.create:(Ljava/lang/Object;[Ljava/lang/Object;)Lcom/intellij/psi/util/CachedValueProvider$Result;
+        18: areturn
+
+  private static com.intellij.psi.util.CachedValueProvider$Result lambda$getBracePairsFwd$0(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_0
+         1: invokestatic  #278                // Method getBracePairs:(Lcom/intellij/psi/PsiFile;)Ljava/util/Map;
+         4: iconst_1
+         5: anewarray     #2                  // class java/lang/Object
+         8: dup
+         9: iconst_0
+        10: aload_0
+        11: aastore
+        12: invokestatic  #272                // Method com/intellij/psi/util/CachedValueProvider$Result.create:(Ljava/lang/Object;[Ljava/lang/Object;)Lcom/intellij/psi/util/CachedValueProvider$Result;
+        15: areturn
+
+  static {};
+    Code:
+         0: bipush        39
+         2: invokestatic  #167                // Method java/lang/Character.valueOf:(C)Ljava/lang/Character;
+         5: bipush        34
+         7: invokestatic  #167                // Method java/lang/Character.valueOf:(C)Ljava/lang/Character;
+        10: bipush        96
+        12: invokestatic  #167                // Method java/lang/Character.valueOf:(C)Ljava/lang/Character;
+        15: invokestatic  #281                // InterfaceMethod java/util/Set.of:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Set;
+        18: putstatic     #70                 // Field DEFAULT_QUOTE_CHARACTERS:Ljava/util/Set;
+        21: bipush        123
+        23: invokestatic  #167                // Method java/lang/Character.valueOf:(C)Ljava/lang/Character;
+        26: bipush        125
+        28: invokestatic  #167                // Method java/lang/Character.valueOf:(C)Ljava/lang/Character;
+        31: invokestatic  #285                // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+        34: putstatic     #205                // Field BRACES_ENTRY:Ljava/util/Map$Entry;
+        37: bipush        91
+        39: invokestatic  #167                // Method java/lang/Character.valueOf:(C)Ljava/lang/Character;
+        42: bipush        93
+        44: invokestatic  #167                // Method java/lang/Character.valueOf:(C)Ljava/lang/Character;
+        47: invokestatic  #285                // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+        50: putstatic     #226                // Field BRACKETS_ENTRY:Ljava/util/Map$Entry;
+        53: bipush        40
+        55: invokestatic  #167                // Method java/lang/Character.valueOf:(C)Ljava/lang/Character;
+        58: bipush        41
+        60: invokestatic  #167                // Method java/lang/Character.valueOf:(C)Ljava/lang/Character;
+        63: invokestatic  #285                // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+        66: putstatic     #232                // Field PARENTHESES_ENTRY:Ljava/util/Map$Entry;
+        69: bipush        60
+        71: invokestatic  #167                // Method java/lang/Character.valueOf:(C)Ljava/lang/Character;
+        74: bipush        62
+        76: invokestatic  #167                // Method java/lang/Character.valueOf:(C)Ljava/lang/Character;
+        79: invokestatic  #285                // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+        82: putstatic     #289                // Field TRE_ENTRY:Ljava/util/Map$Entry;
+        85: iconst_4
+        86: anewarray     #210                // class java/util/Map$Entry
+        89: dup
+        90: iconst_0
+        91: getstatic     #205                // Field BRACES_ENTRY:Ljava/util/Map$Entry;
+        94: aastore
+        95: dup
+        96: iconst_1
+        97: getstatic     #226                // Field BRACKETS_ENTRY:Ljava/util/Map$Entry;
+       100: aastore
+       101: dup
+       102: iconst_2
+       103: getstatic     #232                // Field PARENTHESES_ENTRY:Ljava/util/Map$Entry;
+       106: aastore
+       107: dup
+       108: iconst_3
+       109: getstatic     #289                // Field TRE_ENTRY:Ljava/util/Map$Entry;
+       112: aastore
+       113: invokestatic  #292                // InterfaceMethod java/util/Map.ofEntries:([Ljava/util/Map$Entry;)Ljava/util/Map;
+       116: putstatic     #189                // Field DEFAULT_BRACE_PAIRS:Ljava/util/Map;
+       119: return
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: iload_0
+         1: tableswitch   { // 0 to 24
+                       0: 116
+                       1: 116
+                       2: 116
+                       3: 116
+                       4: 116
+                       5: 116
+                       6: 116
+                       7: 122
+                       8: 116
+                       9: 116
+                      10: 116
+                      11: 116
+                      12: 122
+                      13: 116
+                      14: 116
+                      15: 116
+                      16: 116
+                      17: 116
+                      18: 116
+                      19: 116
+                      20: 122
+                      21: 116
+                      22: 122
+                      23: 116
+                      24: 122
+                 default: 116
+            }
+       116: ldc_w         #417                // String Argument for @NotNull parameter \'%s\' of %s.%s must not be null
+       119: goto          128
+       122: ldc_w         #419                // String @NotNull method %s.%s must not return null
+       125: goto          128
+       128: iload_0
+       129: tableswitch   { // 0 to 24
+                       0: 244
+                       1: 244
+                       2: 244
+                       3: 244
+                       4: 244
+                       5: 244
+                       6: 244
+                       7: 248
+                       8: 244
+                       9: 244
+                      10: 244
+                      11: 244
+                      12: 248
+                      13: 244
+                      14: 244
+                      15: 244
+                      16: 244
+                      17: 244
+                      18: 244
+                      19: 244
+                      20: 248
+                      21: 244
+                      22: 248
+                      23: 244
+                      24: 248
+                 default: 244
+            }
+       244: iconst_3
+       245: goto          252
+       248: iconst_2
+       249: goto          252
+       252: anewarray     #2                  // class java/lang/Object
+       255: iload_0
+       256: tableswitch   { // 0 to 24
+                       0: 372
+                       1: 372
+                       2: 372
+                       3: 372
+                       4: 372
+                       5: 372
+                       6: 372
+                       7: 381
+                       8: 372
+                       9: 372
+                      10: 372
+                      11: 372
+                      12: 381
+                      13: 372
+                      14: 372
+                      15: 372
+                      16: 372
+                      17: 372
+                      18: 372
+                      19: 372
+                      20: 381
+                      21: 372
+                      22: 381
+                      23: 372
+                      24: 381
+                 default: 372
+            }
+       372: dup
+       373: iconst_0
+       374: ldc_w         #420                // String file
+       377: aastore
+       378: goto          390
+       381: dup
+       382: iconst_0
+       383: ldc_w         #421                // String com/redhat/devtools/lsp4ij/LSPIJEditorUtils
+       386: aastore
+       387: goto          390
+       390: iload_0
+       391: tableswitch   { // 0 to 24
+                       0: 504
+                       1: 504
+                       2: 504
+                       3: 504
+                       4: 504
+                       5: 504
+                       6: 504
+                       7: 513
+                       8: 504
+                       9: 504
+                      10: 504
+                      11: 504
+                      12: 522
+                      13: 504
+                      14: 504
+                      15: 504
+                      16: 504
+                      17: 504
+                      18: 504
+                      19: 504
+                      20: 531
+                      21: 504
+                      22: 540
+                      23: 504
+                      24: 549
+                 default: 504
+            }
+       504: dup
+       505: iconst_1
+       506: ldc_w         #421                // String com/redhat/devtools/lsp4ij/LSPIJEditorUtils
+       509: aastore
+       510: goto          558
+       513: dup
+       514: iconst_1
+       515: ldc_w         #422                // String getQuoteCharacters
+       518: aastore
+       519: goto          558
+       522: dup
+       523: iconst_1
+       524: ldc_w         #423                // String getBracePairs
+       527: aastore
+       528: goto          558
+       531: dup
+       532: iconst_1
+       533: ldc_w         #424                // String getBracePairsFwd
+       536: aastore
+       537: goto          558
+       540: dup
+       541: iconst_1
+       542: ldc_w         #425                // String getBracePairsBwd
+       545: aastore
+       546: goto          558
+       549: dup
+       550: iconst_1
+       551: ldc_w         #426                // String getCommenter
+       554: aastore
+       555: goto          558
+       558: iload_0
+       559: tableswitch   { // 0 to 24
+                       0: 672
+                       1: 681
+                       2: 690
+                       3: 699
+                       4: 708
+                       5: 717
+                       6: 726
+                       7: 735
+                       8: 738
+                       9: 747
+                      10: 756
+                      11: 765
+                      12: 735
+                      13: 774
+                      14: 783
+                      15: 792
+                      16: 801
+                      17: 810
+                      18: 819
+                      19: 828
+                      20: 735
+                      21: 837
+                      22: 735
+                      23: 846
+                      24: 735
+                 default: 672
+            }
+       672: dup
+       673: iconst_2
+       674: ldc_w         #427                // String isSupportedAbstractFileTypeFile
+       677: aastore
+       678: goto          855
+       681: dup
+       682: iconst_2
+       683: ldc_w         #428                // String isSupportedTextMateFile
+       686: aastore
+       687: goto          855
+       690: dup
+       691: iconst_2
+       692: ldc_w         #429                // String isSupportedAbstractFileTypeOrTextMateFile
+       695: aastore
+       696: goto          855
+       699: dup
+       700: iconst_2
+       701: ldc_w         #430                // String isAbstractFileTypeFile
+       704: aastore
+       705: goto          855
+       708: dup
+       709: iconst_2
+       710: ldc_w         #431                // String isTextMateFile
+       713: aastore
+       714: goto          855
+       717: dup
+       718: iconst_2
+       719: ldc_w         #432                // String isPlainTextFile
+       722: aastore
+       723: goto          855
+       726: dup
+       727: iconst_2
+       728: ldc_w         #422                // String getQuoteCharacters
+       731: aastore
+       732: goto          855
+       735: goto          855
+       738: dup
+       739: iconst_2
+       740: ldc_w         #433                // String getAbstractFileTypeQuoteCharacters
+       743: aastore
+       744: goto          855
+       747: dup
+       748: iconst_2
+       749: ldc_w         #434                // String getTextMateQuoteCharacters
+       752: aastore
+       753: goto          855
+       756: dup
+       757: iconst_2
+       758: ldc_w         #435                // String isQuoteCharacter
+       761: aastore
+       762: goto          855
+       765: dup
+       766: iconst_2
+       767: ldc_w         #423                // String getBracePairs
+       770: aastore
+       771: goto          855
+       774: dup
+       775: iconst_2
+       776: ldc_w         #436                // String getAbstractFileTypeBracePairs
+       779: aastore
+       780: goto          855
+       783: dup
+       784: iconst_2
+       785: ldc_w         #437                // String getTextMateBracePairs
+       788: aastore
+       789: goto          855
+       792: dup
+       793: iconst_2
+       794: ldc_w         #438                // String isOpenBraceCharacter
+       797: aastore
+       798: goto          855
+       801: dup
+       802: iconst_2
+       803: ldc_w         #439                // String isCloseBraceCharacter
+       806: aastore
+       807: goto          855
+       810: dup
+       811: iconst_2
+       812: ldc_w         #440                // String getOpenBraceCharacter
+       815: aastore
+       816: goto          855
+       819: dup
+       820: iconst_2
+       821: ldc_w         #441                // String getCloseBraceCharacter
+       824: aastore
+       825: goto          855
+       828: dup
+       829: iconst_2
+       830: ldc_w         #424                // String getBracePairsFwd
+       833: aastore
+       834: goto          855
+       837: dup
+       838: iconst_2
+       839: ldc_w         #425                // String getBracePairsBwd
+       842: aastore
+       843: goto          855
+       846: dup
+       847: iconst_2
+       848: ldc_w         #426                // String getCommenter
+       851: aastore
+       852: goto          855
+       855: invokestatic  #445                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+       858: iload_0
+       859: tableswitch   { // 0 to 24
+                       0: 972
+                       1: 972
+                       2: 972
+                       3: 972
+                       4: 972
+                       5: 972
+                       6: 972
+                       7: 983
+                       8: 972
+                       9: 972
+                      10: 972
+                      11: 972
+                      12: 983
+                      13: 972
+                      14: 972
+                      15: 972
+                      16: 972
+                      17: 972
+                      18: 972
+                      19: 972
+                      20: 983
+                      21: 972
+                      22: 983
+                      23: 972
+                      24: 983
+                 default: 972
+            }
+       972: new           #447                // class java/lang/IllegalArgumentException
+       975: dup_x1
+       976: swap
+       977: invokespecial #450                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+       980: goto          994
+       983: new           #452                // class java/lang/IllegalStateException
+       986: dup_x1
+       987: swap
+       988: invokespecial #453                // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+       991: goto          994
+       994: athrow
+}

@@ -1,0 +1,412 @@
+Compiled from "LSPSemanticTokensSupport.java"
+public class com.redhat.devtools.lsp4ij.features.semanticTokens.LSPSemanticTokensSupport extends com.redhat.devtools.lsp4ij.features.AbstractLSPDocumentFeatureSupport<org.eclipse.lsp4j.SemanticTokensParams, com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensData> {
+  private static final org.eclipse.lsp4j.SemanticTokensLegend DEFAULT_LEGEND;
+
+  public com.redhat.devtools.lsp4ij.features.semanticTokens.LSPSemanticTokensSupport(com.intellij.psi.PsiFile);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_0
+         5: invokestatic  #296                // Method $$$reportNull$$$0:(I)V
+         8: aload_0
+         9: aload_1
+        10: invokespecial #1                  // Method com/redhat/devtools/lsp4ij/features/AbstractLSPDocumentFeatureSupport."<init>":(Lcom/intellij/psi/PsiFile;)V
+        13: return
+
+  public java.util.concurrent.CompletableFuture<com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensData> getSemanticTokens(org.eclipse.lsp4j.SemanticTokensParams);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokespecial #7                  // Method com/redhat/devtools/lsp4ij/features/AbstractLSPDocumentFeatureSupport.getFeatureData:(Ljava/lang/Object;)Ljava/util/concurrent/CompletableFuture;
+         5: areturn
+
+  protected java.util.concurrent.CompletableFuture<com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensData> doLoad(org.eclipse.lsp4j.SemanticTokensParams, com.redhat.devtools.lsp4ij.internal.CancellationSupport);
+    Code:
+         0: aload_0
+         1: invokespecial #11                 // Method com/redhat/devtools/lsp4ij/features/AbstractLSPDocumentFeatureSupport.getFile:()Lcom/intellij/psi/PsiFile;
+         4: astore_3
+         5: aload_3
+         6: aload_1
+         7: aload_2
+         8: invokestatic  #15                 // Method getSemanticTokens:(Lcom/intellij/psi/PsiFile;Lorg/eclipse/lsp4j/SemanticTokensParams;Lcom/redhat/devtools/lsp4ij/internal/CancellationSupport;)Ljava/util/concurrent/CompletableFuture;
+        11: areturn
+
+  private static java.util.concurrent.CompletableFuture<com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensData> getSemanticTokens(com.intellij.psi.PsiFile, org.eclipse.lsp4j.SemanticTokensParams, com.redhat.devtools.lsp4ij.internal.CancellationSupport);
+    Code:
+         0: aload_0
+         1: ifnonnull     8
+         4: iconst_1
+         5: invokestatic  #296                // Method $$$reportNull$$$0:(I)V
+         8: aload_1
+         9: ifnonnull     16
+        12: iconst_2
+        13: invokestatic  #296                // Method $$$reportNull$$$0:(I)V
+        16: aload_2
+        17: ifnonnull     24
+        20: iconst_3
+        21: invokestatic  #296                // Method $$$reportNull$$$0:(I)V
+        24: aload_0
+        25: aload_0
+        26: invokedynamic #21,  0             // InvokeDynamic #0:test:(Lcom/intellij/psi/PsiFile;)Ljava/util/function/Predicate;
+        31: aload_0
+        32: invokedynamic #25,  0             // InvokeDynamic #1:test:(Lcom/intellij/psi/PsiFile;)Ljava/util/function/Predicate;
+        37: invokestatic  #26                 // Method getLanguageServers:(Lcom/intellij/psi/PsiFile;Ljava/util/function/Predicate;Ljava/util/function/Predicate;)Ljava/util/concurrent/CompletableFuture;
+        40: aload_1
+        41: aload_0
+        42: aload_2
+        43: invokedynamic #30,  0             // InvokeDynamic #2:apply:(Lorg/eclipse/lsp4j/SemanticTokensParams;Lcom/intellij/psi/PsiFile;Lcom/redhat/devtools/lsp4ij/internal/CancellationSupport;)Ljava/util/function/Function;
+        48: invokevirtual #34                 // Method java/util/concurrent/CompletableFuture.thenComposeAsync:(Ljava/util/function/Function;)Ljava/util/concurrent/CompletableFuture;
+        51: dup
+        52: ifnonnull     59
+        55: iconst_4
+        56: invokestatic  #296                // Method $$$reportNull$$$0:(I)V
+        59: areturn
+
+  private static java.util.concurrent.CompletableFuture<com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensData> getSemanticTokensFor(org.eclipse.lsp4j.SemanticTokensParams, com.intellij.psi.PsiFile, com.redhat.devtools.lsp4ij.LanguageServerItem, com.redhat.devtools.lsp4ij.internal.CancellationSupport);
+    Code:
+         0: aload_0
+         1: ifnonnull     8
+         4: iconst_5
+         5: invokestatic  #296                // Method $$$reportNull$$$0:(I)V
+         8: aload_1
+         9: ifnonnull     17
+        12: bipush        6
+        14: invokestatic  #296                // Method $$$reportNull$$$0:(I)V
+        17: aload_2
+        18: ifnonnull     26
+        21: bipush        7
+        23: invokestatic  #296                // Method $$$reportNull$$$0:(I)V
+        26: aload_3
+        27: ifnonnull     35
+        30: bipush        8
+        32: invokestatic  #296                // Method $$$reportNull$$$0:(I)V
+        35: aload_0
+        36: invokevirtual #40                 // Method org/eclipse/lsp4j/SemanticTokensParams.getTextDocument:()Lorg/eclipse/lsp4j/TextDocumentIdentifier;
+        39: aload_1
+        40: aload_2
+        41: invokestatic  #46                 // Method updateTextDocumentUri:(Lorg/eclipse/lsp4j/TextDocumentIdentifier;Lcom/intellij/psi/PsiFile;Lcom/redhat/devtools/lsp4ij/LanguageServerItem;)V
+        44: aload_3
+        45: aload_2
+        46: invokevirtual #50                 // Method com/redhat/devtools/lsp4ij/LanguageServerItem.getTextDocumentService:()Lorg/eclipse/lsp4j/services/TextDocumentService;
+        49: aload_0
+        50: invokeinterface #56,  2           // InterfaceMethod org/eclipse/lsp4j/services/TextDocumentService.semanticTokensFull:(Lorg/eclipse/lsp4j/SemanticTokensParams;)Ljava/util/concurrent/CompletableFuture;
+        55: aload_2
+        56: ldc           #64                 // String textDocument/semanticTokens/full
+        58: invokevirtual #66                 // Method com/redhat/devtools/lsp4ij/internal/CancellationSupport.execute:(Ljava/util/concurrent/CompletableFuture;Lcom/redhat/devtools/lsp4ij/LanguageServerItem;Ljava/lang/String;)Ljava/util/concurrent/CompletableFuture;
+        61: aload_2
+        62: invokedynamic #72,  0             // InvokeDynamic #3:apply:(Lcom/redhat/devtools/lsp4ij/LanguageServerItem;)Ljava/util/function/Function;
+        67: invokevirtual #75                 // Method java/util/concurrent/CompletableFuture.thenApplyAsync:(Ljava/util/function/Function;)Ljava/util/concurrent/CompletableFuture;
+        70: areturn
+
+  private static org.eclipse.lsp4j.SemanticTokensLegend getLegend(com.redhat.devtools.lsp4ij.LanguageServerItem);
+    Code:
+         0: aload_0
+         1: invokevirtual #78                 // Method com/redhat/devtools/lsp4ij/LanguageServerItem.getClientFeatures:()Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;
+         4: invokevirtual #82                 // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getSemanticTokensFeature:()Lcom/redhat/devtools/lsp4ij/client/features/LSPSemanticTokensFeature;
+         7: astore_1
+         8: aload_1
+         9: invokevirtual #88                 // Method com/redhat/devtools/lsp4ij/client/features/LSPSemanticTokensFeature.getLegend:()Lorg/eclipse/lsp4j/SemanticTokensLegend;
+        12: astore_2
+        13: aload_2
+        14: ifnull        28
+        17: aload_2
+        18: dup
+        19: ifnonnull     27
+        22: bipush        9
+        24: invokestatic  #296                // Method $$$reportNull$$$0:(I)V
+        27: areturn
+        28: aload_0
+        29: invokevirtual #94                 // Method com/redhat/devtools/lsp4ij/LanguageServerItem.getServerCapabilities:()Lorg/eclipse/lsp4j/ServerCapabilities;
+        32: astore_3
+        33: aload_3
+        34: ifnull        71
+        37: aload_3
+        38: invokevirtual #98                 // Method org/eclipse/lsp4j/ServerCapabilities.getSemanticTokensProvider:()Lorg/eclipse/lsp4j/SemanticTokensWithRegistrationOptions;
+        41: ifnull        71
+        44: aload_3
+        45: invokevirtual #98                 // Method org/eclipse/lsp4j/ServerCapabilities.getSemanticTokensProvider:()Lorg/eclipse/lsp4j/SemanticTokensWithRegistrationOptions;
+        48: invokevirtual #104                // Method org/eclipse/lsp4j/SemanticTokensWithRegistrationOptions.getLegend:()Lorg/eclipse/lsp4j/SemanticTokensLegend;
+        51: ifnull        71
+        54: aload_3
+        55: invokevirtual #98                 // Method org/eclipse/lsp4j/ServerCapabilities.getSemanticTokensProvider:()Lorg/eclipse/lsp4j/SemanticTokensWithRegistrationOptions;
+        58: invokevirtual #104                // Method org/eclipse/lsp4j/SemanticTokensWithRegistrationOptions.getLegend:()Lorg/eclipse/lsp4j/SemanticTokensLegend;
+        61: dup
+        62: ifnonnull     70
+        65: bipush        10
+        67: invokestatic  #296                // Method $$$reportNull$$$0:(I)V
+        70: areturn
+        71: getstatic     #107                // Field DEFAULT_LEGEND:Lorg/eclipse/lsp4j/SemanticTokensLegend;
+        74: dup
+        75: ifnonnull     83
+        78: bipush        11
+        80: invokestatic  #296                // Method $$$reportNull$$$0:(I)V
+        83: areturn
+
+  protected java.util.concurrent.CompletableFuture doLoad(java.lang.Object, com.redhat.devtools.lsp4ij.internal.CancellationSupport);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: checkcast     #41                 // class org/eclipse/lsp4j/SemanticTokensParams
+         5: aload_2
+         6: invokevirtual #111                // Method doLoad:(Lorg/eclipse/lsp4j/SemanticTokensParams;Lcom/redhat/devtools/lsp4ij/internal/CancellationSupport;)Ljava/util/concurrent/CompletableFuture;
+         9: areturn
+
+  private static com.redhat.devtools.lsp4ij.features.semanticTokens.SemanticTokensData lambda$getSemanticTokensFor$4(com.redhat.devtools.lsp4ij.LanguageServerItem, org.eclipse.lsp4j.SemanticTokens);
+    Code:
+         0: aload_1
+         1: ifnonnull     6
+         4: aconst_null
+         5: areturn
+         6: new           #115                // class com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensData
+         9: dup
+        10: aload_1
+        11: aload_0
+        12: invokestatic  #117                // Method getLegend:(Lcom/redhat/devtools/lsp4ij/LanguageServerItem;)Lorg/eclipse/lsp4j/SemanticTokensLegend;
+        15: aload_0
+        16: invokevirtual #120                // Method com/redhat/devtools/lsp4ij/LanguageServerItem.getSemanticTokensColorsProvider:()Lcom/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensColorsProvider;
+        19: aload_0
+        20: invokevirtual #78                 // Method com/redhat/devtools/lsp4ij/LanguageServerItem.getClientFeatures:()Lcom/redhat/devtools/lsp4ij/client/features/LSPClientFeatures;
+        23: invokevirtual #82                 // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getSemanticTokensFeature:()Lcom/redhat/devtools/lsp4ij/client/features/LSPSemanticTokensFeature;
+        26: invokespecial #124                // Method com/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensData."<init>":(Lorg/eclipse/lsp4j/SemanticTokens;Lorg/eclipse/lsp4j/SemanticTokensLegend;Lcom/redhat/devtools/lsp4ij/features/semanticTokens/SemanticTokensColorsProvider;Lcom/redhat/devtools/lsp4ij/client/features/LSPSemanticTokensFeature;)V
+        29: areturn
+
+  private static java.util.concurrent.CompletionStage lambda$getSemanticTokens$3(org.eclipse.lsp4j.SemanticTokensParams, com.intellij.psi.PsiFile, com.redhat.devtools.lsp4ij.internal.CancellationSupport, java.util.List);
+    Code:
+         0: aload_3
+         1: invokeinterface #127,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+         6: ifeq          14
+         9: aconst_null
+        10: invokestatic  #133                // Method java/util/concurrent/CompletableFuture.completedFuture:(Ljava/lang/Object;)Ljava/util/concurrent/CompletableFuture;
+        13: areturn
+        14: aload_3
+        15: invokeinterface #136,  1          // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+        20: aload_0
+        21: aload_1
+        22: aload_2
+        23: invokedynamic #140,  0            // InvokeDynamic #4:apply:(Lorg/eclipse/lsp4j/SemanticTokensParams;Lcom/intellij/psi/PsiFile;Lcom/redhat/devtools/lsp4ij/internal/CancellationSupport;)Ljava/util/function/Function;
+        28: invokeinterface #141,  2          // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+        33: invokedynamic #147,  0            // InvokeDynamic #5:test:()Ljava/util/function/Predicate;
+        38: invokeinterface #150,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+        43: invokeinterface #154,  1          // InterfaceMethod java/util/stream/Stream.toList:()Ljava/util/List;
+        48: astore        4
+        50: aload         4
+        52: iconst_0
+        53: invokeinterface #158,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+        58: checkcast     #162                // class java/util/concurrent/CompletionStage
+        61: areturn
+
+  private static java.util.concurrent.CompletableFuture lambda$getSemanticTokens$2(org.eclipse.lsp4j.SemanticTokensParams, com.intellij.psi.PsiFile, com.redhat.devtools.lsp4ij.internal.CancellationSupport, com.redhat.devtools.lsp4ij.LanguageServerItem);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: aload_3
+         3: aload_2
+         4: invokestatic  #164                // Method getSemanticTokensFor:(Lorg/eclipse/lsp4j/SemanticTokensParams;Lcom/intellij/psi/PsiFile;Lcom/redhat/devtools/lsp4ij/LanguageServerItem;Lcom/redhat/devtools/lsp4ij/internal/CancellationSupport;)Ljava/util/concurrent/CompletableFuture;
+         7: areturn
+
+  private static boolean lambda$getSemanticTokens$1(com.intellij.psi.PsiFile, com.redhat.devtools.lsp4ij.client.features.LSPClientFeatures);
+    Code:
+         0: aload_1
+         1: invokevirtual #82                 // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getSemanticTokensFeature:()Lcom/redhat/devtools/lsp4ij/client/features/LSPSemanticTokensFeature;
+         4: aload_0
+         5: invokevirtual #168                // Method com/redhat/devtools/lsp4ij/client/features/LSPSemanticTokensFeature.isSupported:(Lcom/intellij/psi/PsiFile;)Z
+         8: ireturn
+
+  private static boolean lambda$getSemanticTokens$0(com.intellij.psi.PsiFile, com.redhat.devtools.lsp4ij.client.features.LSPClientFeatures);
+    Code:
+         0: aload_1
+         1: invokevirtual #82                 // Method com/redhat/devtools/lsp4ij/client/features/LSPClientFeatures.getSemanticTokensFeature:()Lcom/redhat/devtools/lsp4ij/client/features/LSPSemanticTokensFeature;
+         4: aload_0
+         5: invokevirtual #172                // Method com/redhat/devtools/lsp4ij/client/features/LSPSemanticTokensFeature.isEnabled:(Lcom/intellij/psi/PsiFile;)Z
+         8: ireturn
+
+  static {};
+    Code:
+         0: new           #175                // class org/eclipse/lsp4j/SemanticTokensLegend
+         3: dup
+         4: invokespecial #177                // Method org/eclipse/lsp4j/SemanticTokensLegend."<init>":()V
+         7: putstatic     #107                // Field DEFAULT_LEGEND:Lorg/eclipse/lsp4j/SemanticTokensLegend;
+        10: getstatic     #107                // Field DEFAULT_LEGEND:Lorg/eclipse/lsp4j/SemanticTokensLegend;
+        13: invokestatic  #180                // Method java/util/Collections.emptyList:()Ljava/util/List;
+        16: invokevirtual #185                // Method org/eclipse/lsp4j/SemanticTokensLegend.setTokenModifiers:(Ljava/util/List;)V
+        19: getstatic     #107                // Field DEFAULT_LEGEND:Lorg/eclipse/lsp4j/SemanticTokensLegend;
+        22: invokestatic  #180                // Method java/util/Collections.emptyList:()Ljava/util/List;
+        25: invokevirtual #189                // Method org/eclipse/lsp4j/SemanticTokensLegend.setTokenTypes:(Ljava/util/List;)V
+        28: return
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: iload_0
+         1: tableswitch   { // 0 to 11
+                       0: 64
+                       1: 64
+                       2: 64
+                       3: 64
+                       4: 70
+                       5: 64
+                       6: 64
+                       7: 64
+                       8: 64
+                       9: 70
+                      10: 70
+                      11: 70
+                 default: 64
+            }
+        64: ldc_w         #298                // String Argument for @NotNull parameter \'%s\' of %s.%s must not be null
+        67: goto          76
+        70: ldc_w         #300                // String @NotNull method %s.%s must not return null
+        73: goto          76
+        76: iload_0
+        77: tableswitch   { // 0 to 11
+                       0: 140
+                       1: 140
+                       2: 140
+                       3: 140
+                       4: 144
+                       5: 140
+                       6: 140
+                       7: 140
+                       8: 140
+                       9: 144
+                      10: 144
+                      11: 144
+                 default: 140
+            }
+       140: iconst_3
+       141: goto          148
+       144: iconst_2
+       145: goto          148
+       148: anewarray     #302                // class java/lang/Object
+       151: iload_0
+       152: tableswitch   { // 0 to 11
+                       0: 216
+                       1: 216
+                       2: 225
+                       3: 234
+                       4: 243
+                       5: 225
+                       6: 216
+                       7: 252
+                       8: 234
+                       9: 243
+                      10: 243
+                      11: 243
+                 default: 216
+            }
+       216: dup
+       217: iconst_0
+       218: ldc_w         #303                // String file
+       221: aastore
+       222: goto          261
+       225: dup
+       226: iconst_0
+       227: ldc_w         #304                // String params
+       230: aastore
+       231: goto          261
+       234: dup
+       235: iconst_0
+       236: ldc_w         #305                // String cancellationSupport
+       239: aastore
+       240: goto          261
+       243: dup
+       244: iconst_0
+       245: ldc_w         #306                // String com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokensSupport
+       248: aastore
+       249: goto          261
+       252: dup
+       253: iconst_0
+       254: ldc_w         #307                // String languageServer
+       257: aastore
+       258: goto          261
+       261: iload_0
+       262: tableswitch   { // 0 to 11
+                       0: 324
+                       1: 324
+                       2: 324
+                       3: 324
+                       4: 333
+                       5: 324
+                       6: 324
+                       7: 324
+                       8: 324
+                       9: 342
+                      10: 342
+                      11: 342
+                 default: 324
+            }
+       324: dup
+       325: iconst_1
+       326: ldc_w         #306                // String com/redhat/devtools/lsp4ij/features/semanticTokens/LSPSemanticTokensSupport
+       329: aastore
+       330: goto          351
+       333: dup
+       334: iconst_1
+       335: ldc_w         #308                // String getSemanticTokens
+       338: aastore
+       339: goto          351
+       342: dup
+       343: iconst_1
+       344: ldc_w         #309                // String getLegend
+       347: aastore
+       348: goto          351
+       351: iload_0
+       352: tableswitch   { // 0 to 11
+                       0: 416
+                       1: 425
+                       2: 425
+                       3: 425
+                       4: 434
+                       5: 437
+                       6: 437
+                       7: 437
+                       8: 437
+                       9: 434
+                      10: 434
+                      11: 434
+                 default: 416
+            }
+       416: dup
+       417: iconst_2
+       418: ldc_w         #310                // String <init>
+       421: aastore
+       422: goto          446
+       425: dup
+       426: iconst_2
+       427: ldc_w         #308                // String getSemanticTokens
+       430: aastore
+       431: goto          446
+       434: goto          446
+       437: dup
+       438: iconst_2
+       439: ldc_w         #311                // String getSemanticTokensFor
+       442: aastore
+       443: goto          446
+       446: invokestatic  #317                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+       449: iload_0
+       450: tableswitch   { // 0 to 11
+                       0: 512
+                       1: 512
+                       2: 512
+                       3: 512
+                       4: 523
+                       5: 512
+                       6: 512
+                       7: 512
+                       8: 512
+                       9: 523
+                      10: 523
+                      11: 523
+                 default: 512
+            }
+       512: new           #319                // class java/lang/IllegalArgumentException
+       515: dup_x1
+       516: swap
+       517: invokespecial #322                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+       520: goto          534
+       523: new           #324                // class java/lang/IllegalStateException
+       526: dup_x1
+       527: swap
+       528: invokespecial #325                // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+       531: goto          534
+       534: athrow
+}
