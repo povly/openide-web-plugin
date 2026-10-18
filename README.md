@@ -1,101 +1,102 @@
-# web-frontend-mini — веб-подсветка для OpenIDE
+# web-frontend-mini — веб-стек для OpenIDE
 
-**OpenIDE** (форк IntelliJ IDEA CE) после удаления плагина web-tools не умеет подсвечивать
-веб-файлы: `.css`, `.js`, `.ts`, `.vue` открывались как plain text. Этот плагин возвращает
-веб-стек: полноценную подсветку, цветовые схемы Catppuccin и проверку орфографии —
-без лицензионной механики web-tools (AGPL, LicenseService/Pro-обвязка).
+OpenIDE (форк IntelliJ IDEA CE) из коробки не подсвечивает веб-файлы: `.css`, `.js`, `.ts`,
+`.vue` открываются как plain text. Этот плагин закрывает пробел: подсветка синтаксиса,
+цветовые схемы Catppuccin, спелчек — всё в одном zip, без лицензионной механики web-tools.
 
-Подсказки и переходы даёт не плагин, а твои LSP-серверы через lsp4ij — плагин лишь
-гарантирует, что файлы правильно распознаются (см. раздел «Подсказки»).
+Подсказки и переходы даёт не плагин, а LSP-серверы — как их подключить, см. «Настройка».
 
-> Полная история разработки с разбором всех найденных корней — в runbook
-> `linux-fix/docs/openide-web-plugin.md` (RC1–RC11). Здесь — только суть.
+## Возможности
 
-## Что получается после установки
-
-| Возможность | Что видишь |
+| Функционал | Что получаешь |
 |---|---|
-| Подсветка синтаксиса | `.css .scss .less .js .mjs .cjs .ts .tsx .jsx .vue` — ключевые слова, строки, комментарии, теги; в `.vue` красятся и template, и `<script>`, и `<style>` |
-| Цветовые схемы | «Catppuccin Mocha/Macchiato/Frappe/Latte **+ Web**» — привычная палитра + все ключи веб-стека (выбор в Settings → Editor → Color Scheme) |
-| Semantic-подсветка | Идентификаторы (типы, функции, пропсы) в `.ts`/`.vue` докрашивает LSP-сервер — цвета уже зашиты в схемы |
-| Спелчек | Работает в веб-файлах, не спотыкается о содержимое тегов `<...>` |
+| Подсветка синтаксиса | `.css .scss .less .js .mjs .cjs .ts .tsx .jsx .vue` — ключевые слова, строки, комментарии, теги; в `.vue` красятся template, `<script>` и `<style>` |
+| Цветовые схемы | «Catppuccin Mocha / Macchiato / Frappe / Latte + Web» — привычная палитра + все ключи веб-стека |
+| Semantic-подсветка | Идентификаторы (типы, функции, пропы) в `.ts`/`.vue` докрашивает LSP-сервер, цвета уже в схемах |
+| Спелчек | Работает в веб-файлах, не спотыкается о содержимое тегов |
 | Сворачивание кода | Стандартное, по грамматике |
+
+## Требования
+
+| Что | Статус |
+|---|---|
+| ОС | **Любая** — Linux / Windows / macOS (чистая Java, нативного кода нет) |
+| IDE | OpenIDE / IntelliJ-платформа **2026.2+** (`since-build 262`) |
+| Зависимости плагина | Одна — **TextMate Bundles**: предустановлен в IDEA и OpenIDE, доустановится сам |
+| Для подсказок (опционально) | Плагин **LSP4IJ** (Red Hat) + **Node.js** + LSP-серверы — см. ниже |
+
+После установки окраска, схемы, спелчек и сворачивание работают сразу — грамматики и схемы
+едут внутри zip. На ванильном IntelliJ IDEA не тестировалось (там `.css`/`.js` заняты
+штатными плагинами — IDE спросит про конфликт расширений).
 
 ## Установка
 
 1. OpenIDE → **Settings → Plugins → ⚙ → Install Plugin from Disk…**
-2. Выбрать `dist/web-frontend-mini.zip` → перезапуск IDE
-3. Проверка:
+2. Выбрать `dist/web-frontend-mini.zip` → перезапустить IDE
+3. Выбрать схему: **Settings → Editor → Color Scheme → «Catppuccin \<Flavor\> + Web»**
+4. Быстрая проверка: открыть любой `.vue` — script и template разноцветные; в логе
 
 ```bash
-grep -a 'Web Frontend Mini' ~/.cache/OpenIDE/OpenIDE2026.2/log/idea.log | grep -a version
-# ожидаем версию установленной сборки; грамматика: "wfm: bundle ready ... (10 files)"
+grep -a 'Web Frontend Mini' ~/.cache/OpenIDE/OpenIDE2026.2/log/idea.log | tail -1
 ```
 
-Схемы: Settings → Editor → Color Scheme → «Catppuccin <Flavor> + Web».
+## Настройка подсказок и переходов (LSP)
 
-## Требования и переносимость
+Плагин не ставит свои серверы — подключаем user-defined серверы через LSP4IJ.
+Всё настраивается **в GUI** (Settings → Tools → Language Servers → ⚙ → Add),
+поля: Command line, Mapping (паттерны файлов + languageId), вкладки Configuration /
+Initialization Options.
 
-| Вопрос | Ответ |
-|---|---|
-| Какие ОС? | **Любые** (Linux / Windows / macOS) — плагин на чистой Java, нативного кода нет |
-| Какая IDE? | Платформа **262+** (`since-build 262`). Единственная зависимость — плагин **TextMate Bundles**: он предустановлен в IntelliJ IDEA и OpenIDE, при необходимости доустановится сам |
-| Что работает сразу после установки? | Окраска, цветовые схемы, спелчек, сворачивание — грамматики и схемы едут внутри zip, ничего донастраивать не нужно. Кэш бандла (`~/.cache/OpenIDE/OpenIDE2026.2/wfm-bundle-v2/`) создаётся автоматически (путь фиксированный — на другой IDE это просто папка в `user.home`) |
-| А подсказки/переходы? | **С плагином не переносятся** — LSP-серверы и их настройки живут на каждой машине (см. раздел ниже): плагин LSP4IJ + Node.js + серверы + JSON-опции с машинозависимыми путями |
-| Ванильный IntelliJ IDEA? | Технически установится (262 + TextMate bundled), но `.css`/`.js` там уже заняты штатными CSS/JavaScript-плагинами — IDE спросит про конфликт расширений (штатная подсветка там и так есть), `.ts`/`.vue` свободны и достанутся нашему. **Не тестировалось** |
+### 1. Поставить Node.js и серверы
 
-## Подсказки и переходы (LSP) — настроить один раз
+```bash
+npm i -g typescript-language-server vscode-langservers-extracted @vue/language-server
+```
 
-Плагин не ставит свои серверы. Нужны user-defined серверы в **Settings → Tools → Language Servers**
-(всё настраивается в GUI, поле Mapping — паттерны файлов + languageId):
+### 2. Добавить серверы (по одному на каждый)
 
-| Сервер | Файлы / languageId | Обязательные настройки |
+| Сервер | Command line | Mapping: паттерны + languageId |
 |---|---|---|
-| Vue Language Server (Volar) | `*.vue` / `vue` | **Initialization Options** — JSON ниже |
-| TypeScript Language Server | `*.ts *.tsx *.js …` / `typescript`, `javascript` | — |
-| CSS Language Server | `*.css …` / `css` | **Configuration** — см. runbook, грабля №9 |
-| HTML / JSON — по желанию | | |
+| Vue Language Server | `node <путь>/node_modules/.bin/vue-language-server --stdio` | `*.vue` → `vue` |
+| TypeScript Language Server | `node <путь>/bin/typescript-language-server --stdio` | `*.ts *.tsx` → `typescript`, `*.js *.mjs *.cjs` → `javascript` |
+| CSS Language Server | `node <путь>/bin/vscode-css-language-server --stdio` | `*.css` → `css` (аналогично scss/less) |
 
-Initialization Options для Vue (путь к tsdk — свой):
+### 3. Обязательные JSON-опции (вкладки сервера)
+
+**Vue → Initialization Options** (`tsdk` — свой путь к typescript):
 
 ```json
-{"typescript":{"tsdk":"/home/povly/.lsp4ij/lsp/vue-js-language-server-ls/node_modules/typescript/lib","disableAutoImportCache":false},
+{"typescript":{"tsdk":"/home/<user>/.lsp4ij/lsp/vue-js-language-server-ls/node_modules/typescript/lib"},
  "vue":{"hybridMode":false}}
 ```
 
-⚠️ **Две проверенные грабли (RC6/RC11):**
+**CSS → Configuration** (иначе валидация падает на `validProperties`):
 
-- `hybridMode: false` обязателен: в hybrid-режиме (по умолчанию) Volar отдаёт TypeScript-фичи
-  внешнему tsserver, которого вне VS Code нет — hover/переходы молча пустые.
-- **Истина для работающей IDE — GUI, а не XML на диске.** Конфиг, правленный файлом
-  (`UserDefinedLanguageServerSettings.xml`, `.idea/LanguageServersSettings.xml`), сессия может
-  не подхватить: Volar тогда отвергает initialize (без `options.typescript` — ResponseError),
-  сервер остаётся «зомби» — процесс жив, подсказок нет. Лечение: вставить JSON заново в GUI и
-  перезапустить IDE.
+```json
+{"css":{"lint":{"unknownProperties":"ignore","validProperties":[]}},
+ "scss":{"lint":{"unknownProperties":"ignore","validProperties":[]}},
+ "less":{"lint":{"unknownProperties":"ignore","validProperties":[]}}}
+```
 
-## Как устроено (для программистов)
+4. Перезапустить IDE. Проверка: в `.vue` навести мышь на `computed` (tooltip TS-документации),
+   `Ctrl+Space` в script (полный список), `Ctrl+B` на импорте (переход к файлу).
 
-- **TextMate-бандл** (`WebFrontendBundleProvider`, EP `textmate.bundleProvider`): 9 грамматик
-  открытых источников, распаковка в `~/.cache/OpenIDE/OpenIDE2026.2/wfm-bundle-v2/`. Layout —
-  классический TextMate (`info.plist` + `Syntaxes/`), иначе детектор `BundleType` даёт
-  «неизвестный формат».
-- **fileType-бины** (`WfmCss/WfmJsTs/WfmVueFileType`): забирают расширения у бандловых
-  AbstractFileType форка; язык — `Language.findLanguageByID("textmate")` с ленивым резолвом
-  и PlainText-фолбэком (тайминг загрузки плагинов).
-- **Схемы** (EP `bundledColorScheme`): self-contained, parent=Darcula + полная палитра
-  Catppuccin из MIT-xml: 25 `DEFAULT_*` (textmate-фолбэк) + 21 `LSP_*` (semantic tokens).
-  `DEFAULT_TEMPLATE_LANGUAGE_COLOR` намеренно без своего foreground (`baseAttributes="TEXT"`):
-  бледный fg у этого ключа перекрашивает весь встроенный код одним цветом (RC10).
-- **Грамматика vue**: контейнеры script/style названы с `.embedded.`
-  (`source.ts.embedded.vue`, `source.css.embedded.vue`) — штатная обрезка платформы
-  (`trimEmbeddedScope`) отрезает `text.html.vue`-предков, и generic-селектор `text source`
-  больше не подмешивает template-слой поверх семантики. Это фикс RC10 — работает с любой темой.
-- **Патчи грамматик под joni**: variable-length look-behind vscode js/ts → fixed-width;
-  `while:` у Volar (движок не читает) → `end:`-lookahead; `fileTypes` дописаны в js/ts.
-- **Спелчек** (`WfmSpellcheckingStrategy`): тела тегов исключены.
+⚠️ Главное правило: **конфиги lsp4ij заполнять только через GUI и перезапускать IDE после
+правок**. Правка XML-файлов настроек «на живую» не подхватывается работающей сессией —
+сервер молча не получает опции (подробнее — в «Решении проблем»).
 
-Архитектура подсветки: **textmate — основной слой синтаксиса, LSP semantic tokens — добавка
-по идентификаторам** (путь web-tools). Semantic-слой lsp4ij включается сам, кода не требует.
+## Решение проблем
+
+| Симптом | Причина | Решение |
+|---|---|---|
+| Весь веб-стек монохромный | Выбран не тот вариант темы (у Catppuccin есть `.theme.json`-вариант без базовых цветов) | Выбрать схему «Catppuccin \<Flavor\> **+ Web**» (или Darcula) |
+| В `.vue` красится template, а `<script>` одним цветом | Версия плагина < 1.9.0 | Обновиться до 1.9.0+ |
+| Vue-сервер «запускается, но тишина»: подсказок нет, LSP-консоль пустая, процесс жив | Initialization Options не дошли до сервера (правились файлом / поле в GUI пустое). Volar без `options.typescript` отвергает initialize и остаётся «зомби» | Вставить Initialization Options **заново через GUI** → перезапустить IDE |
+| В `.vue` пустые hover и переходы при живых подсказках в template | Volar в hybrid-режиме по умолчанию: TS-фичи отданы внешнему tsserver, которого вне VS Code нет | `"vue":{"hybridMode":false}` в Initialization Options |
+| Красная ошибка `Cannot read properties of null (reading 'validProperties')` в css | CSS-сервер не получил Configuration (секции css/scss/less) | Вставить Configuration JSON в GUI у CSS-сервера → перезапуск |
+| Подсказки в `.ts`/`.js` неполные или сервер не цепляется к файлам | В маппинге нет `languageId` — сервер получает язык файла (`textmate`) вместо `typescript` | В Mapping каждого сервера указать паттерны **и** languageId |
+| «Пакет web-frontend-mini имеет неизвестный формат» | Нарушен layout бандла (актуально при правке `resources/bundle/`) | Формат: `info.plist` + `Syntaxes/*.tmLanguage[.json]` в корне бандла |
+| jsx/tsx-вставки внутри `.js`/`.ts` обесцвечены | Upstream-ограничение textmate-движка (embedded-скопы) | Не лечится настройкой; при необходимости — тот же приём, что в vue 1.9.0 |
 
 ## Сборка из исходников
 
@@ -108,52 +109,23 @@ Initialization Options для Vue (путь к tsdk — свой):
 ## Структура репозитория
 
 ```
-src/povly/wfm/                       # 6 классов плагина (провайдер, fileTypes, highlighter, спелчек)
-resources/META-INF/plugin.xml        # дескриптор (since-build 262, depends textmate)
-resources/bundle/                    # info.plist + Syntaxes/ — 9 грамматик (атрибуция ниже)
-resources/colorScheme/Wfm*.xml       # 4 схемы «Catppuccin + Web»
-research/session2/                   # изучение web-tools 1.0.1: декомпиляции, харнессы, findings
-research/session4/                   # окраска vue-script: карта правил, PipelineRepro, зонды, решение
-dist/                                # собираемый zip (в git не входит)
+src/povly/wfm/          # 6 классов плагина: провайдер бандла, fileTypes, highlighter, спелчек
+resources/plugin.xml    # дескриптор (META-INF, since-build 262, depends: TextMate)
+resources/bundle/       # info.plist + Syntaxes/ — 9 грамматик (MIT-источники)
+resources/colorScheme/  # 4 схемы «Catppuccin + Web»
+research/               # материалы расследований: session2 (web-tools), session4 (окраска vue)
+build.sh                # сборка → dist/
 ```
 
-## История версий
+История изменений — `git log`; технические детали расследований — в `research/session*/`.
 
-| Версия | Что изменилось |
-|---|---|
-| **1.9.0** (текущая) | **vue `<script>` окрашен.** Корень RC10: селектор `text source` добавлял `DEFAULT_TEMPLATE_LANGUAGE_COLOR` последним слоем, и его бледный fg из Catppuccin-тем перекрывал всю семантику. Фикс: `.embedded.`-контейнеры в грамматике (штатная обрезка платформы) + нейтрализация ключа в схемах. Доказано харнессом `research/session4/PipelineRepro` |
-| 1.8.4–1.8.5 (diag) | Диагностика per-token ключей/RGB в живом редакторе; в релиз не входит |
-| 1.8.3 | Переименование embedded-скопов — механизм понят, эффекта не дал (почему — RC10) |
-| 1.8.0–1.8.2 | Схемы починены (двойная `<value>`) и переведены на self-contained; спелчек; ре-лекс как страховка |
-| 1.2–1.7 | Layout бандла, fileType-бины, module-deps, первый продакшн |
-
-Подробности каждой строки — runbook.
-
-## Известные ограничения
-
-- jsx/tsx-вставки внутри js/ts-грамматик всё ещё содержат `.embedded.`-скопы upstream —
-  при жалобах лечится тем же приёмом, что и vue (см. RC10).
-- LSP-подсказки требуют корректных маппингов и опций (раздел выше); симптомы «сервера нет» —
-  почти всегда RC6/RC11, а не плагин.
-- Живой замер web-tools не выполнялся (скипнуто решением юзера) — сравнение статическое,
-  `research/session2/`.
-
-## Атрибуция и лицензии
+## Лицензии и атрибуция
 
 | Материал | Источник | Лицензия |
 |---|---|---|
 | `css.tmLanguage` | atom/language-css | MIT |
 | `scss/less/html/javascript/typescript.tmLanguage.json` | shiki (textmate-grammars-themes) | MIT-мульти |
 | `vue.tmLanguage.json`, `vue-directives`, `vue-interpolations` | vuejs/language-tools (Volar) | MIT |
-| Значения `DEFAULT_*`/`LSP_*` схем | catppuccin/jetbrains (`themes/*.xml`) | MIT |
+| Значения цветов схем | catppuccin/jetbrains (`themes/*.xml`) | MIT |
 
-Код плагина — clean-room (изучали web-tools декомпиляцией и замерами, код не копировали).
-Имена файлов грамматик переименованы только там, где этого требует фильтр textmate-ридера
-(`*.tmLanguage`, `*.plist`, `*.tmLanguage.json`, case-sensitive).
-
-## Ссылки
-
-- **Runbook** `linux-fix/docs/openide-web-plugin.md` — вся история: 11 корневых причин,
-  диагностика, рецепты, «частые грабли»
-- `research/session2/README.md` — материалы изучения web-tools
-- `research/session4/findings-*.md` — карта правил краски, конвейер, semantic-путь, решение
+Код плагина — clean-room: web-tools изучался декомпиляцией и замерами, код не копировался.
