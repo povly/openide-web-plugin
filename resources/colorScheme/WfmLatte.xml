@@ -948,11 +948,7 @@
                 <option name="FOREGROUND" value="179299" />
             </value>
         </option>
-        <option name="DEFAULT_TEMPLATE_LANGUAGE_COLOR">
-            <value>
-                <option name="FOREGROUND" value="dd7878" />
-            </value>
-        </option>
+        <option name="DEFAULT_TEMPLATE_LANGUAGE_COLOR" baseAttributes="TEXT" />
         <option name="DEFAULT_VALID_STRING_ESCAPE">
             <value>
                 <option name="FOREGROUND" value="ea76cb" />
