@@ -58,5 +58,18 @@ public final class WfmEditorHighlighterProvider implements EditorHighlighterProv
         protected com.intellij.openapi.editor.ex.util.DataStorage createStorage() {
             return new TextMateLexerDataStorage();
         }
+
+        /**
+         * WFM fix for embedded contexts (vue <script> -> source.ts): the TextMate lexer state is
+         * binary (0 = clean line end, 1 = mid-context) and carries no context stack, so any
+         * incremental restart inside an embedded region re-lexes it as the root grammar and the
+         * script loses all colors (harness-verified: continuous 259 source.ts tokens vs 24 after
+         * a line restart). Re-lex the whole document from the initial state on every change —
+         * the continuous pass always re-enters the embedded context correctly.
+         */
+        @Override
+        public synchronized void documentChanged(com.intellij.openapi.editor.event.DocumentEvent event) {
+            setText(event.getDocument().getText());
+        }
     }
 }

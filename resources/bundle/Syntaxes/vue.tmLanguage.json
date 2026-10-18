@@ -1275,7 +1275,7 @@
           "name": "punctuation.separator.key-value.html.vue"
         },
         "7": {
-          "name": "source.ts.embedded.html.vue",
+          "name": "source.ts.vuehtml.html.vue",
           "patterns": [
             {
               "include": "source.ts#expression"
@@ -1346,7 +1346,7 @@
             {
               "begin": "(?<=('|\"|`))",
               "end": "(?=\\1)",
-              "name": "source.ts.embedded.html.vue",
+              "name": "source.ts.vuehtml.html.vue",
               "patterns": [
                 {
                   "include": "source.ts#expression"
@@ -1367,7 +1367,7 @@
             {
               "begin": "(?=[^'\"`])",
               "end": "(?=(\\s|>|\\/>))",
-              "name": "source.ts.embedded.html.vue",
+              "name": "source.ts.vuehtml.html.vue",
               "patterns": [
                 {
                   "include": "source.ts#expression"
@@ -1405,7 +1405,7 @@
               "name": "punctuation.definition.string.end.html.vue"
             }
           },
-          "name": "source.css.embedded.html.vue",
+          "name": "source.css.vuehtml.html.vue",
           "patterns": [
             {
               "include": "source.css#comment-block"
@@ -1527,12 +1527,12 @@
               "name": "punctuation.definition.interpolation.end.html.vue"
             }
           },
-          "name": "expression.embedded.vue",
+          "name": "expression.vuehtml.vue",
           "patterns": [
             {
               "begin": "\\G",
               "end": "(?=\\}\\})",
-              "name": "source.ts.embedded.html.vue",
+              "name": "source.ts.vuehtml.html.vue",
               "patterns": [
                 {
                   "include": "source.ts#expression"

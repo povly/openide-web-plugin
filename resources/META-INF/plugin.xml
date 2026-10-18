@@ -1,9 +1,9 @@
 <idea-plugin>
   <id>povly.webfrontendmini</id>
   <name>Web Frontend Mini</name>
-  <version>1.8.0</version>
+  <version>1.8.3</version>
   <vendor>povly</vendor>
-  <description>TextMate grammars (css/scss/less/vue + html/js/ts) for the OpenIDE web stack. v1.2: proper TextMate bundle layout (info.plist + Syntaxes/) fixes "unknown format" registration. v1.3: explicit TextMateBackedFileType beans claim css and js/mjs/cjs/ts/tsx/jsx (platform's "syntax highlighting only" AbstractFileTypes otherwise keep TextMate away), js/ts grammars patched with fileTypes. v1.8: bundled "+ Web" color schemes regenerated with a valid attribute structure (v1.7 had a duplicated value-wrapper that prevented the schemes from loading) and extended with LSP_* keys so lsp4ij semantic tokens get colors; spell checking for TextMate web files.</description>
+  <description>TextMate grammars (css/scss/less/vue + html/js/ts) for the OpenIDE web stack. v1.2: proper TextMate bundle layout (info.plist + Syntaxes/) fixes "unknown format" registration. v1.3: explicit TextMateBackedFileType beans claim css and js/mjs/cjs/ts/tsx/jsx (platform's "syntax highlighting only" AbstractFileTypes otherwise keep TextMate away), js/ts grammars patched with fileTypes. v1.8: bundled "+ Web" color schemes regenerated with a valid attribute structure (v1.7 had a duplicated value-wrapper that prevented the schemes from loading) and extended with LSP_* keys so lsp4ij semantic tokens get colors; spell checking for TextMate web files. v1.8.1: schemes are self-contained (parent_scheme=Darcula + the full Catppuccin palette from the theme's MIT xml) — cross-plugin parents do not resolve reliably in this fork. v1.8.2: whole-document re-lex on change for WFM editors (TextMate embedded contexts like vue script do not survive incremental lexer restarts); temporary live-editor diagnostics (WFM-DIAG2). v1.8.3: vue grammar scope names no longer contain ".embedded." (the upstream TextMate getTokenHighlights truncates scope chains at the first embedded scope, which left vue script tokens matchable only against text.html.vue — no rules, no colors).
   <idea-version since-build="262"/>
   <depends>com.intellij.modules.platform</depends>
   <depends>org.jetbrains.plugins.textmate</depends>
@@ -30,6 +30,7 @@
     <bundledColorScheme id="povly.wfm.frappe.web" path="/colorScheme/WfmFrappe" />
     <bundledColorScheme id="povly.wfm.latte.web" path="/colorScheme/WfmLatte" />
     <spellchecker.support language="textmate" implementationClass="povly.wfm.WfmSpellcheckingStrategy" />
+    <postStartupActivity implementation="povly.wfm.WfmLiveDiagStartup" />
     <textmate.bundleProvider implementation="povly.wfm.WebFrontendBundleProvider" />
   </extensions>
 </idea-plugin>
