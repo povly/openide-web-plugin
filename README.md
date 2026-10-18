@@ -19,6 +19,7 @@ see [Setup](#setting-up-completion--navigation-lsp) below.
 | Semantic highlighting | Identifiers (types, functions, props) in `.ts`/`.vue` are painted by the LSP server; colors are already baked into the schemes |
 | Spellchecking | Works in web files, doesn't stumble over tag contents |
 | Code folding | Standard, grammar-based |
+| File navigation | `Ctrl+B` / Ctrl+click on `<style|script src="./file">` paths in `.vue` opens the file — no LSP provider exists for these attributes, so the plugin ships its own handler |
 
 ## Requirements
 
