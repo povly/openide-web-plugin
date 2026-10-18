@@ -17,6 +17,10 @@ CP="$OPENIDE_HOME/plugins/textmate-plugin/lib/modules/*:$OPENIDE_HOME/lib/*"
 rm -rf "$OUT" "$DIST" dist/web-frontend-mini.zip
 mkdir -p "$OUT" "$DIST/lib"
 
+echo "[0/4] plugin.xml sanity"
+python3 -c "import sys, xml.etree.ElementTree as ET; ET.parse('resources/META-INF/plugin.xml')" \
+  || { echo "FATAL: resources/META-INF/plugin.xml is not valid XML"; exit 1; }
+
 echo "[1/4] javac --release $RELEASE"
 javac --release "$RELEASE" -cp "$CP" -d "$OUT" src/povly/wfm/*.java
 
