@@ -1,0 +1,207 @@
+Compiled from "LayeredTextAttributes.java"
+public final class com.intellij.openapi.editor.ex.util.LayeredTextAttributes extends com.intellij.openapi.editor.markup.TextAttributes {
+  private final com.intellij.openapi.editor.colors.TextAttributesKey[] myKeys;
+
+  public static com.intellij.openapi.editor.ex.util.LayeredTextAttributes create(com.intellij.openapi.editor.colors.EditorColorsScheme, com.intellij.openapi.editor.colors.TextAttributesKey[]);
+    Code:
+         0: aload_0
+         1: ifnonnull     8
+         4: iconst_0
+         5: invokestatic  #86                 // Method $$$reportNull$$$0:(I)V
+         8: aload_1
+         9: ifnonnull     16
+        12: iconst_1
+        13: invokestatic  #86                 // Method $$$reportNull$$$0:(I)V
+        16: new           #1                  // class com/intellij/openapi/editor/markup/TextAttributes
+        19: dup
+        20: invokespecial #3                  // Method com/intellij/openapi/editor/markup/TextAttributes."<init>":()V
+        23: astore_2
+        24: aload_1
+        25: astore_3
+        26: aload_3
+        27: arraylength
+        28: istore        4
+        30: iconst_0
+        31: istore        5
+        33: iload         5
+        35: iload         4
+        37: if_icmpge     74
+        40: aload_3
+        41: iload         5
+        43: aaload
+        44: astore        6
+        46: aload_0
+        47: aload         6
+        49: invokeinterface #7,  2            // InterfaceMethod com/intellij/openapi/editor/colors/EditorColorsScheme.getAttributes:(Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/markup/TextAttributes;
+        54: astore        7
+        56: aload         7
+        58: ifnull        68
+        61: aload_2
+        62: aload         7
+        64: invokestatic  #13                 // Method com/intellij/openapi/editor/markup/TextAttributes.merge:(Lcom/intellij/openapi/editor/markup/TextAttributes;Lcom/intellij/openapi/editor/markup/TextAttributes;)Lcom/intellij/openapi/editor/markup/TextAttributes;
+        67: astore_2
+        68: iinc          5, 1
+        71: goto          33
+        74: new           #17                 // class com/intellij/openapi/editor/ex/util/LayeredTextAttributes
+        77: dup
+        78: aload_1
+        79: aload_2
+        80: invokespecial #19                 // Method "<init>":([Lcom/intellij/openapi/editor/colors/TextAttributesKey;Lcom/intellij/openapi/editor/markup/TextAttributes;)V
+        83: areturn
+
+  private com.intellij.openapi.editor.ex.util.LayeredTextAttributes(com.intellij.openapi.editor.colors.TextAttributesKey[], com.intellij.openapi.editor.markup.TextAttributes);
+    Code:
+         0: aload_2
+         1: ifnonnull     8
+         4: iconst_2
+         5: invokestatic  #86                 // Method $$$reportNull$$$0:(I)V
+         8: aload_1
+         9: ifnonnull     16
+        12: iconst_3
+        13: invokestatic  #86                 // Method $$$reportNull$$$0:(I)V
+        16: aload_0
+        17: aload_2
+        18: invokevirtual #22                 // Method com/intellij/openapi/editor/markup/TextAttributes.getForegroundColor:()Ljava/awt/Color;
+        21: aload_2
+        22: invokevirtual #26                 // Method com/intellij/openapi/editor/markup/TextAttributes.getBackgroundColor:()Ljava/awt/Color;
+        25: aload_2
+        26: invokevirtual #29                 // Method com/intellij/openapi/editor/markup/TextAttributes.getEffectColor:()Ljava/awt/Color;
+        29: aload_2
+        30: invokevirtual #32                 // Method com/intellij/openapi/editor/markup/TextAttributes.getEffectType:()Lcom/intellij/openapi/editor/markup/EffectType;
+        33: aload_2
+        34: invokevirtual #36                 // Method com/intellij/openapi/editor/markup/TextAttributes.getFontType:()I
+        37: invokespecial #40                 // Method com/intellij/openapi/editor/markup/TextAttributes."<init>":(Ljava/awt/Color;Ljava/awt/Color;Ljava/awt/Color;Lcom/intellij/openapi/editor/markup/EffectType;I)V
+        40: aload_0
+        41: aload_1
+        42: putfield      #43                 // Field myKeys:[Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        45: return
+
+  public com.intellij.openapi.editor.colors.TextAttributesKey[] getKeys();
+    Code:
+         0: aload_0
+         1: getfield      #43                 // Field myKeys:[Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+         4: dup
+         5: ifnonnull     12
+         8: iconst_4
+         9: invokestatic  #86                 // Method $$$reportNull$$$0:(I)V
+        12: areturn
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: iload_0
+         1: tableswitch   { // 0 to 4
+                       0: 36
+                       1: 36
+                       2: 36
+                       3: 36
+                       4: 41
+                 default: 36
+            }
+        36: ldc           #90                 // String Argument for @NotNull parameter \'%s\' of %s.%s must not be null
+        38: goto          46
+        41: ldc           #92                 // String @NotNull method %s.%s must not return null
+        43: goto          46
+        46: iload_0
+        47: tableswitch   { // 0 to 4
+                       0: 80
+                       1: 80
+                       2: 80
+                       3: 80
+                       4: 84
+                 default: 80
+            }
+        80: iconst_3
+        81: goto          88
+        84: iconst_2
+        85: goto          88
+        88: anewarray     #94                 // class java/lang/Object
+        91: iload_0
+        92: tableswitch   { // 0 to 4
+                       0: 128
+                       1: 136
+                       2: 144
+                       3: 136
+                       4: 152
+                 default: 128
+            }
+       128: dup
+       129: iconst_0
+       130: ldc           #95                 // String scheme
+       132: aastore
+       133: goto          160
+       136: dup
+       137: iconst_0
+       138: ldc           #96                 // String keys
+       140: aastore
+       141: goto          160
+       144: dup
+       145: iconst_0
+       146: ldc           #97                 // String attributes
+       148: aastore
+       149: goto          160
+       152: dup
+       153: iconst_0
+       154: ldc           #98                 // String com/intellij/openapi/editor/ex/util/LayeredTextAttributes
+       156: aastore
+       157: goto          160
+       160: iload_0
+       161: tableswitch   { // 0 to 4
+                       0: 196
+                       1: 196
+                       2: 196
+                       3: 196
+                       4: 204
+                 default: 196
+            }
+       196: dup
+       197: iconst_1
+       198: ldc           #98                 // String com/intellij/openapi/editor/ex/util/LayeredTextAttributes
+       200: aastore
+       201: goto          212
+       204: dup
+       205: iconst_1
+       206: ldc           #99                 // String getKeys
+       208: aastore
+       209: goto          212
+       212: iload_0
+       213: tableswitch   { // 0 to 4
+                       0: 248
+                       1: 248
+                       2: 256
+                       3: 256
+                       4: 264
+                 default: 248
+            }
+       248: dup
+       249: iconst_2
+       250: ldc           #100                // String create
+       252: aastore
+       253: goto          267
+       256: dup
+       257: iconst_2
+       258: ldc           #101                // String <init>
+       260: aastore
+       261: goto          267
+       264: goto          267
+       267: invokestatic  #107                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+       270: iload_0
+       271: tableswitch   { // 0 to 4
+                       0: 304
+                       1: 304
+                       2: 304
+                       3: 304
+                       4: 315
+                 default: 304
+            }
+       304: new           #109                // class java/lang/IllegalArgumentException
+       307: dup_x1
+       308: swap
+       309: invokespecial #112                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+       312: goto          326
+       315: new           #114                // class java/lang/IllegalStateException
+       318: dup_x1
+       319: swap
+       320: invokespecial #115                // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+       323: goto          326
+       326: athrow
+}

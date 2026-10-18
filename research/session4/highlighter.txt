@@ -1,0 +1,206 @@
+Compiled from "TextMateHighlighter.java"
+public class org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateHighlighter extends com.intellij.openapi.fileTypes.SyntaxHighlighterBase {
+  private static final com.intellij.openapi.fileTypes.PlainSyntaxHighlighter PLAIN_SYNTAX_HIGHLIGHTER;
+
+  private final com.intellij.lexer.Lexer myLexer;
+
+  private final org.jetbrains.plugins.textmate.language.syntax.selector.TextMateSelectorWeigher mySelectorWeigher;
+
+  public org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateHighlighter(com.intellij.lexer.Lexer);
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method com/intellij/openapi/fileTypes/SyntaxHighlighterBase."<init>":()V
+         4: aload_0
+         5: new           #7                  // class org/jetbrains/plugins/textmate/language/syntax/selector/TextMateSelectorWeigherImpl
+         8: dup
+         9: invokespecial #9                  // Method org/jetbrains/plugins/textmate/language/syntax/selector/TextMateSelectorWeigherImpl."<init>":()V
+        12: invokestatic  #10                 // Method org/jetbrains/plugins/textmate/language/syntax/selector/TextMateCachingSelectorWeigherKt.caching:(Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateSelectorWeigher;)Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateCachingSelectorWeigher;
+        15: putfield      #16                 // Field mySelectorWeigher:Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateSelectorWeigher;
+        18: aload_0
+        19: aload_1
+        20: putfield      #22                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+        23: return
+
+  public com.intellij.lexer.Lexer getHighlightingLexer();
+    Code:
+         0: aload_0
+         1: getfield      #22                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+         4: ifnonnull     16
+         7: getstatic     #26                 // Field PLAIN_SYNTAX_HIGHLIGHTER:Lcom/intellij/openapi/fileTypes/PlainSyntaxHighlighter;
+        10: invokevirtual #30                 // Method com/intellij/openapi/fileTypes/PlainSyntaxHighlighter.getHighlightingLexer:()Lcom/intellij/lexer/Lexer;
+        13: goto          20
+        16: aload_0
+        17: getfield      #22                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+        20: dup
+        21: ifnonnull     28
+        24: iconst_0
+        25: invokestatic  #241                // Method $$$reportNull$$$0:(I)V
+        28: areturn
+
+  public com.intellij.openapi.editor.colors.TextAttributesKey[] getTokenHighlights(com.intellij.psi.tree.IElementType);
+    Code:
+         0: aload_1
+         1: instanceof    #36                 // class org/jetbrains/plugins/textmate/language/syntax/lexer/TextMateElementType
+         4: ifne          23
+         7: getstatic     #26                 // Field PLAIN_SYNTAX_HIGHLIGHTER:Lcom/intellij/openapi/fileTypes/PlainSyntaxHighlighter;
+        10: aload_1
+        11: invokevirtual #38                 // Method com/intellij/openapi/fileTypes/PlainSyntaxHighlighter.getTokenHighlights:(Lcom/intellij/psi/tree/IElementType;)[Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        14: dup
+        15: ifnonnull     22
+        18: iconst_1
+        19: invokestatic  #241                // Method $$$reportNull$$$0:(I)V
+        22: areturn
+        23: invokestatic  #42                 // Method org/jetbrains/plugins/textmate/TextMateService.getInstance:()Lorg/jetbrains/plugins/textmate/TextMateService;
+        26: astore_2
+        27: aload_2
+        28: invokevirtual #48                 // Method org/jetbrains/plugins/textmate/TextMateService.getCustomHighlightingColors:()Ljava/util/Map;
+        31: astore_3
+        32: aload_3
+        33: invokeinterface #52,  1           // InterfaceMethod java/util/Map.keySet:()Ljava/util/Set;
+        38: getstatic     #58                 // Field org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTheme.INSTANCE:Lorg/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTheme;
+        41: invokevirtual #64                 // Method org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTheme.getRules:()Ljava/util/Set;
+        44: invokestatic  #67                 // Method com/intellij/util/containers/ContainerUtil.union:(Ljava/util/Set;Ljava/util/Set;)Ljava/util/Set;
+        47: astore        4
+        49: aload_1
+        50: checkcast     #36                 // class org/jetbrains/plugins/textmate/language/syntax/lexer/TextMateElementType
+        53: invokestatic  #73                 // Method trimEmbeddedScope:(Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateElementType;)Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;
+        56: astore        5
+        58: new           #77                 // class org/jetbrains/plugins/textmate/language/TextMateScopeComparatorCore
+        61: dup
+        62: aload_0
+        63: getfield      #16                 // Field mySelectorWeigher:Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateSelectorWeigher;
+        66: aload         5
+        68: invokedynamic #79,  0             // InvokeDynamic #0:invoke:()Lkotlin/jvm/functions/Function1;
+        73: invokespecial #83                 // Method org/jetbrains/plugins/textmate/language/TextMateScopeComparatorCore."<init>":(Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateSelectorWeigher;Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;Lkotlin/jvm/functions/Function1;)V
+        76: aload         4
+        78: invokevirtual #86                 // Method org/jetbrains/plugins/textmate/language/TextMateScopeComparatorCore.sortAndFilter:(Ljava/util/Collection;)Ljava/util/List;
+        81: invokestatic  #90                 // Method com/intellij/util/containers/ContainerUtil.reverse:(Ljava/util/List;)Ljava/util/List;
+        84: astore        6
+        86: aload         6
+        88: ldc           #94                 // class com/intellij/openapi/editor/colors/TextAttributesKey
+        90: aload_3
+        91: invokedynamic #96,  0             // InvokeDynamic #1:fun:(Ljava/util/Map;)Lcom/intellij/util/Function;
+        96: invokestatic  #100                // Method com/intellij/util/containers/ContainerUtil.map2Array:(Ljava/util/Collection;Ljava/lang/Class;Lcom/intellij/util/Function;)[Ljava/lang/Object;
+        99: checkcast     #104                // class "[Lcom/intellij/openapi/editor/colors/TextAttributesKey;"
+       102: dup
+       103: ifnonnull     110
+       106: iconst_2
+       107: invokestatic  #241                // Method $$$reportNull$$$0:(I)V
+       110: areturn
+
+  private static org.jetbrains.plugins.textmate.language.syntax.lexer.TextMateScope trimEmbeddedScope(org.jetbrains.plugins.textmate.language.syntax.lexer.TextMateElementType);
+    Code:
+         0: aload_0
+         1: invokevirtual #106                // Method org/jetbrains/plugins/textmate/language/syntax/lexer/TextMateElementType.getScope:()Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;
+         4: astore_1
+         5: new           #110                // class java/util/ArrayList
+         8: dup
+         9: invokespecial #112                // Method java/util/ArrayList."<init>":()V
+        12: astore_2
+        13: aload_1
+        14: ifnull        98
+        17: aload_1
+        18: invokevirtual #113                // Method org/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope.getScopeName:()Ljava/lang/CharSequence;
+        21: astore_3
+        22: aload_3
+        23: ifnull        82
+        26: aload_3
+        27: ldc           #119                // String .embedded.
+        29: invokestatic  #121                // Method com/intellij/openapi/util/text/Strings.contains:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Z
+        32: ifeq          82
+        35: getstatic     #127                // Field org/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope.EMPTY:Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;
+        38: astore        4
+        40: aload_2
+        41: invokeinterface #131,  1          // InterfaceMethod java/util/List.size:()I
+        46: iconst_1
+        47: isub
+        48: istore        5
+        50: iload         5
+        52: iflt          79
+        55: aload         4
+        57: aload_2
+        58: iload         5
+        60: invokeinterface #137,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+        65: checkcast     #141                // class java/lang/CharSequence
+        68: invokevirtual #143                // Method org/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope.add:(Ljava/lang/CharSequence;)Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;
+        71: astore        4
+        73: iinc          5, -1
+        76: goto          50
+        79: aload         4
+        81: areturn
+        82: aload_2
+        83: aload_3
+        84: invokeinterface #147,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+        89: pop
+        90: aload_1
+        91: invokevirtual #150                // Method org/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope.getParent:()Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;
+        94: astore_1
+        95: goto          13
+        98: aload_0
+        99: invokevirtual #106                // Method org/jetbrains/plugins/textmate/language/syntax/lexer/TextMateElementType.getScope:()Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;
+       102: areturn
+
+  private static java.lang.CharSequence identity(java.lang.CharSequence);
+    Code:
+         0: aload_0
+         1: areturn
+
+  private static com.intellij.openapi.editor.colors.TextAttributesKey lambda$getTokenHighlights$0(java.util.Map, java.lang.CharSequence);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokeinterface #153,  2          // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+         7: checkcast     #156                // class org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTextAttributesAdapter
+        10: astore_2
+        11: aload_2
+        12: ifnull        25
+        15: aload_2
+        16: getstatic     #58                 // Field org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTheme.INSTANCE:Lorg/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTheme;
+        19: invokevirtual #158                // Method org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTextAttributesAdapter.getTextAttributesKey:(Lorg/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTheme;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        22: goto          32
+        25: getstatic     #58                 // Field org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTheme.INSTANCE:Lorg/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTheme;
+        28: aload_1
+        29: invokevirtual #162                // Method org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTheme.getTextAttributesKey:(Ljava/lang/CharSequence;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        32: areturn
+
+  static {};
+    Code:
+         0: new           #31                 // class com/intellij/openapi/fileTypes/PlainSyntaxHighlighter
+         3: dup
+         4: invokespecial #165                // Method com/intellij/openapi/fileTypes/PlainSyntaxHighlighter."<init>":()V
+         7: putstatic     #26                 // Field PLAIN_SYNTAX_HIGHLIGHTER:Lcom/intellij/openapi/fileTypes/PlainSyntaxHighlighter;
+        10: return
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: ldc           #247                // String @NotNull method %s.%s must not return null
+         2: iconst_2
+         3: anewarray     #249                // class java/lang/Object
+         6: dup
+         7: iconst_0
+         8: ldc           #250                // String org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateHighlighter
+        10: aastore
+        11: iload_0
+        12: tableswitch   { // 0 to 2
+                       0: 40
+                       1: 48
+                       2: 48
+                 default: 40
+            }
+        40: dup
+        41: iconst_1
+        42: ldc           #251                // String getHighlightingLexer
+        44: aastore
+        45: goto          56
+        48: dup
+        49: iconst_1
+        50: ldc           #252                // String getTokenHighlights
+        52: aastore
+        53: goto          56
+        56: invokestatic  #258                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+        59: new           #260                // class java/lang/IllegalStateException
+        62: dup_x1
+        63: swap
+        64: invokespecial #263                // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+        67: athrow
+}

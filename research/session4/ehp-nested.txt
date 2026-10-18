@@ -1,0 +1,52 @@
+Compiled from "TextMateEditorHighlighterProvider.java"
+final class org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateEditorHighlighterProvider$TextMateLexerEditorHighlighter extends com.intellij.openapi.editor.ex.util.LexerEditorHighlighter {
+  private org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateEditorHighlighterProvider$TextMateLexerEditorHighlighter(com.intellij.openapi.fileTypes.SyntaxHighlighter, com.intellij.openapi.editor.colors.EditorColorsScheme);
+    Code:
+         0: aload_2
+         1: ifnonnull     8
+         4: iconst_0
+         5: invokestatic  #50                 // Method $$$reportNull$$$0:(I)V
+         8: aload_0
+         9: aload_1
+        10: ifnull        17
+        13: aload_1
+        14: goto          25
+        17: new           #1                  // class org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateHighlighter
+        20: dup
+        21: aconst_null
+        22: invokespecial #3                  // Method org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateHighlighter."<init>":(Lcom/intellij/lexer/Lexer;)V
+        25: aload_2
+        26: invokespecial #7                  // Method com/intellij/openapi/editor/ex/util/LexerEditorHighlighter."<init>":(Lcom/intellij/openapi/fileTypes/SyntaxHighlighter;Lcom/intellij/openapi/editor/colors/EditorColorsScheme;)V
+        29: return
+
+  protected com.intellij.openapi.editor.ex.util.DataStorage createStorage();
+    Code:
+         0: new           #12                 // class org/jetbrains/plugins/textmate/language/syntax/lexer/TextMateLexerDataStorage
+         3: dup
+         4: invokespecial #14                 // Method org/jetbrains/plugins/textmate/language/syntax/lexer/TextMateLexerDataStorage."<init>":()V
+         7: areturn
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: ldc           #52                 // String Argument for @NotNull parameter \'%s\' of %s.%s must not be null
+         2: iconst_3
+         3: anewarray     #54                 // class java/lang/Object
+         6: dup
+         7: iconst_0
+         8: ldc           #55                 // String colors
+        10: aastore
+        11: dup
+        12: iconst_1
+        13: ldc           #56                 // String org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateEditorHighlighterProvider$TextMateLexerEditorHighlighter
+        15: aastore
+        16: dup
+        17: iconst_2
+        18: ldc           #57                 // String <init>
+        20: aastore
+        21: invokestatic  #63                 // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+        24: new           #65                 // class java/lang/IllegalArgumentException
+        27: dup_x1
+        28: swap
+        29: invokespecial #68                 // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+        32: athrow
+}

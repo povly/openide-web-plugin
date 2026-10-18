@@ -1,0 +1,18 @@
+Compiled from "BundleReaderCore.kt"
+public interface org.jetbrains.plugins.textmate.bundles.TextMateBundleReader {
+  public static final org.jetbrains.plugins.textmate.bundles.TextMateBundleReader$Companion Companion;
+
+  public abstract java.lang.String getBundleName();
+
+  public abstract kotlin.sequences.Sequence<org.jetbrains.plugins.textmate.bundles.TextMateGrammar> readGrammars();
+
+  public abstract kotlin.sequences.Sequence<org.jetbrains.plugins.textmate.bundles.TextMatePreferences> readPreferences();
+
+  public abstract kotlin.sequences.Sequence<org.jetbrains.plugins.textmate.language.preferences.TextMateSnippet> readSnippets();
+
+  static {};
+    Code:
+         0: getstatic     #22                 // Field org/jetbrains/plugins/textmate/bundles/TextMateBundleReader$Companion.$$INSTANCE:Lorg/jetbrains/plugins/textmate/bundles/TextMateBundleReader$Companion;
+         3: putstatic     #25                 // Field Companion:Lorg/jetbrains/plugins/textmate/bundles/TextMateBundleReader$Companion;
+         6: return
+}

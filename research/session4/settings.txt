@@ -1,0 +1,258 @@
+Compiled from "TextMateSettings.java"
+public final class org.jetbrains.plugins.textmate.configuration.TextMateSettings implements com.intellij.openapi.components.PersistentStateComponent<org.jetbrains.plugins.textmate.configuration.TextMateSettings$TextMateSettingsState> {
+  public org.jetbrains.plugins.textmate.configuration.TextMateSettings();
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+
+  public static org.jetbrains.plugins.textmate.configuration.TextMateSettings getInstance();
+    Code:
+         0: new           #7                  // class org/jetbrains/plugins/textmate/configuration/TextMateSettings
+         3: dup
+         4: invokespecial #9                  // Method "<init>":()V
+         7: areturn
+
+  public org.jetbrains.plugins.textmate.configuration.TextMateSettings$TextMateSettingsState getState();
+    Code:
+         0: new           #10                 // class org/jetbrains/plugins/textmate/configuration/TextMateSettings$TextMateSettingsState
+         3: dup
+         4: invokespecial #12                 // Method org/jetbrains/plugins/textmate/configuration/TextMateSettings$TextMateSettingsState."<init>":()V
+         7: astore_1
+         8: new           #13                 // class java/util/ArrayList
+        11: dup
+        12: invokespecial #15                 // Method java/util/ArrayList."<init>":()V
+        15: astore_2
+        16: invokestatic  #16                 // Method org/jetbrains/plugins/textmate/configuration/TextMateUserBundlesSettings.getInstance:()Lorg/jetbrains/plugins/textmate/configuration/TextMateUserBundlesSettings;
+        19: astore_3
+        20: aload_3
+        21: ifnull        116
+        24: aload_3
+        25: invokevirtual #22                 // Method org/jetbrains/plugins/textmate/configuration/TextMateUserBundlesSettings.getBundles:()Ljava/util/Map;
+        28: invokeinterface #26,  1           // InterfaceMethod java/util/Map.entrySet:()Ljava/util/Set;
+        33: invokeinterface #32,  1           // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+        38: astore        4
+        40: aload         4
+        42: invokeinterface #38,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+        47: ifeq          116
+        50: aload         4
+        52: invokeinterface #44,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        57: checkcast     #48                 // class java/util/Map$Entry
+        60: astore        5
+        62: aload_2
+        63: new           #50                 // class org/jetbrains/plugins/textmate/configuration/BundleConfigBean
+        66: dup
+        67: aload         5
+        69: invokeinterface #52,  1           // InterfaceMethod java/util/Map$Entry.getValue:()Ljava/lang/Object;
+        74: checkcast     #55                 // class org/jetbrains/plugins/textmate/configuration/TextMatePersistentBundle
+        77: invokevirtual #57                 // Method org/jetbrains/plugins/textmate/configuration/TextMatePersistentBundle.getName:()Ljava/lang/String;
+        80: aload         5
+        82: invokeinterface #61,  1           // InterfaceMethod java/util/Map$Entry.getKey:()Ljava/lang/Object;
+        87: checkcast     #64                 // class java/lang/String
+        90: aload         5
+        92: invokeinterface #52,  1           // InterfaceMethod java/util/Map$Entry.getValue:()Ljava/lang/Object;
+        97: checkcast     #55                 // class org/jetbrains/plugins/textmate/configuration/TextMatePersistentBundle
+       100: invokevirtual #66                 // Method org/jetbrains/plugins/textmate/configuration/TextMatePersistentBundle.getEnabled:()Z
+       103: invokestatic  #69                 // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       106: invokespecial #75                 // Method org/jetbrains/plugins/textmate/configuration/BundleConfigBean."<init>":(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;)V
+       109: invokevirtual #78                 // Method java/util/ArrayList.add:(Ljava/lang/Object;)Z
+       112: pop
+       113: goto          40
+       116: invokestatic  #82                 // Method org/jetbrains/plugins/textmate/configuration/TextMateBuiltinBundlesSettings.getInstance:()Lorg/jetbrains/plugins/textmate/configuration/TextMateBuiltinBundlesSettings;
+       119: astore        4
+       121: aload         4
+       123: ifnull        215
+       126: aload         4
+       128: invokevirtual #87                 // Method org/jetbrains/plugins/textmate/configuration/TextMateBuiltinBundlesSettings.getTurnedOffBundleNames:()Ljava/util/Set;
+       131: astore        5
+       133: aload         4
+       135: invokestatic  #90                 // Method org/jetbrains/plugins/textmate/TextMateServiceImplKt.discoverBuiltinBundles:(Lorg/jetbrains/plugins/textmate/configuration/TextMateBuiltinBundlesSettings;)Ljava/util/List;
+       138: invokeinterface #96,  1           // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       143: astore        6
+       145: aload         6
+       147: invokeinterface #38,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+       152: ifeq          215
+       155: aload         6
+       157: invokeinterface #44,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       162: checkcast     #99                 // class org/jetbrains/plugins/textmate/TextMateBundleToLoad
+       165: astore        7
+       167: aload_2
+       168: new           #50                 // class org/jetbrains/plugins/textmate/configuration/BundleConfigBean
+       171: dup
+       172: aload         7
+       174: invokevirtual #101                // Method org/jetbrains/plugins/textmate/TextMateBundleToLoad.getName:()Ljava/lang/String;
+       177: aload         7
+       179: invokevirtual #102                // Method org/jetbrains/plugins/textmate/TextMateBundleToLoad.getPath:()Ljava/lang/String;
+       182: aload         5
+       184: aload         7
+       186: invokevirtual #101                // Method org/jetbrains/plugins/textmate/TextMateBundleToLoad.getName:()Ljava/lang/String;
+       189: invokeinterface #105,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+       194: ifne          201
+       197: iconst_1
+       198: goto          202
+       201: iconst_0
+       202: invokestatic  #69                 // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       205: invokespecial #75                 // Method org/jetbrains/plugins/textmate/configuration/BundleConfigBean."<init>":(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;)V
+       208: invokevirtual #78                 // Method java/util/ArrayList.add:(Ljava/lang/Object;)Z
+       211: pop
+       212: goto          145
+       215: aload_1
+       216: aload_2
+       217: invokevirtual #108                // Method org/jetbrains/plugins/textmate/configuration/TextMateSettings$TextMateSettingsState.setBundles:(Ljava/util/Collection;)V
+       220: aload_1
+       221: dup
+       222: ifnonnull     229
+       225: iconst_0
+       226: invokestatic  #199                // Method $$$reportNull$$$0:(I)V
+       229: areturn
+
+  public void loadState(org.jetbrains.plugins.textmate.configuration.TextMateSettings$TextMateSettingsState);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_1
+         5: invokestatic  #199                // Method $$$reportNull$$$0:(I)V
+         8: invokestatic  #16                 // Method org/jetbrains/plugins/textmate/configuration/TextMateUserBundlesSettings.getInstance:()Lorg/jetbrains/plugins/textmate/configuration/TextMateUserBundlesSettings;
+        11: astore_2
+        12: aload_2
+        13: ifnull        92
+        16: new           #112                // class java/util/HashMap
+        19: dup
+        20: invokespecial #114                // Method java/util/HashMap."<init>":()V
+        23: astore_3
+        24: aload_1
+        25: getfield      #115                // Field org/jetbrains/plugins/textmate/configuration/TextMateSettings$TextMateSettingsState.bundles:Ljava/util/ArrayList;
+        28: invokevirtual #119                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+        31: astore        4
+        33: aload         4
+        35: invokeinterface #38,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+        40: ifeq          87
+        43: aload         4
+        45: invokeinterface #44,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        50: checkcast     #50                 // class org/jetbrains/plugins/textmate/configuration/BundleConfigBean
+        53: astore        5
+        55: aload_3
+        56: aload         5
+        58: invokevirtual #120                // Method org/jetbrains/plugins/textmate/configuration/BundleConfigBean.getPath:()Ljava/lang/String;
+        61: new           #55                 // class org/jetbrains/plugins/textmate/configuration/TextMatePersistentBundle
+        64: dup
+        65: aload         5
+        67: invokevirtual #121                // Method org/jetbrains/plugins/textmate/configuration/BundleConfigBean.getName:()Ljava/lang/String;
+        70: aload         5
+        72: invokevirtual #122                // Method org/jetbrains/plugins/textmate/configuration/BundleConfigBean.isEnabled:()Z
+        75: invokespecial #125                // Method org/jetbrains/plugins/textmate/configuration/TextMatePersistentBundle."<init>":(Ljava/lang/String;Z)V
+        78: invokeinterface #128,  3          // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        83: pop
+        84: goto          33
+        87: aload_2
+        88: aload_3
+        89: invokevirtual #132                // Method org/jetbrains/plugins/textmate/configuration/TextMateUserBundlesSettings.setBundlesConfig:(Ljava/util/Map;)V
+        92: return
+
+  public java.util.Collection<org.jetbrains.plugins.textmate.configuration.BundleConfigBean> getBundles();
+    Code:
+         0: aload_0
+         1: invokevirtual #136                // Method getState:()Lorg/jetbrains/plugins/textmate/configuration/TextMateSettings$TextMateSettingsState;
+         4: invokevirtual #140                // Method org/jetbrains/plugins/textmate/configuration/TextMateSettings$TextMateSettingsState.getBundles:()Ljava/util/List;
+         7: areturn
+
+  public void loadState(java.lang.Object);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: checkcast     #10                 // class org/jetbrains/plugins/textmate/configuration/TextMateSettings$TextMateSettingsState
+         5: invokevirtual #143                // Method loadState:(Lorg/jetbrains/plugins/textmate/configuration/TextMateSettings$TextMateSettingsState;)V
+         8: return
+
+  public java.lang.Object getState();
+    Code:
+         0: aload_0
+         1: invokevirtual #136                // Method getState:()Lorg/jetbrains/plugins/textmate/configuration/TextMateSettings$TextMateSettingsState;
+         4: areturn
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: iload_0
+         1: tableswitch   { // 0 to 1
+                       0: 24
+                       1: 29
+                 default: 24
+            }
+        24: ldc           #201                // String @NotNull method %s.%s must not return null
+        26: goto          34
+        29: ldc           #203                // String Argument for @NotNull parameter \'%s\' of %s.%s must not be null
+        31: goto          34
+        34: iload_0
+        35: tableswitch   { // 0 to 1
+                       0: 56
+                       1: 60
+                 default: 56
+            }
+        56: iconst_2
+        57: goto          64
+        60: iconst_3
+        61: goto          64
+        64: anewarray     #2                  // class java/lang/Object
+        67: iload_0
+        68: tableswitch   { // 0 to 1
+                       0: 92
+                       1: 100
+                 default: 92
+            }
+        92: dup
+        93: iconst_0
+        94: ldc           #204                // String org/jetbrains/plugins/textmate/configuration/TextMateSettings
+        96: aastore
+        97: goto          108
+       100: dup
+       101: iconst_0
+       102: ldc           #205                // String state
+       104: aastore
+       105: goto          108
+       108: iload_0
+       109: tableswitch   { // 0 to 1
+                       0: 132
+                       1: 140
+                 default: 132
+            }
+       132: dup
+       133: iconst_1
+       134: ldc           #206                // String getState
+       136: aastore
+       137: goto          148
+       140: dup
+       141: iconst_1
+       142: ldc           #204                // String org/jetbrains/plugins/textmate/configuration/TextMateSettings
+       144: aastore
+       145: goto          148
+       148: iload_0
+       149: tableswitch   { // 0 to 1
+                       0: 172
+                       1: 175
+                 default: 172
+            }
+       172: goto          183
+       175: dup
+       176: iconst_2
+       177: ldc           #207                // String loadState
+       179: aastore
+       180: goto          183
+       183: invokestatic  #211                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+       186: iload_0
+       187: tableswitch   { // 0 to 1
+                       0: 208
+                       1: 219
+                 default: 208
+            }
+       208: new           #213                // class java/lang/IllegalStateException
+       211: dup_x1
+       212: swap
+       213: invokespecial #216                // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+       216: goto          230
+       219: new           #218                // class java/lang/IllegalArgumentException
+       222: dup_x1
+       223: swap
+       224: invokespecial #219                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+       227: goto          230
+       230: athrow
+}

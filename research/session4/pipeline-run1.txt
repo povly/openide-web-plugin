@@ -1,0 +1,287 @@
+== theme rules: 164 selectors
+
+########## Echarts.vue root=text.html.vue descriptor=true
+tokens=601 matched=518 keyedNonText=518
+-- innermost-scope aggregates (tokens/matched/keyed):
+  null                                   179/101/101
+  punctuation.definition                 159/159/159
+  entity.name                            46/46/46
+  punctuation.separator                  38/38/38
+  source.css                             26/26/26
+  variable.other                         25/25/25
+  entity.other                           22/22/22
+  string.quoted                          20/20/20
+  keyword.control                        18/18/18
+  punctuation.terminator                 13/13/13
+  meta.object-literal                    9/9/9
+  meta.brace                             8/8/8
+  punctuation.accessor                   6/6/6
+  meta.object                            5/5/5
+  meta.tag                               5/5/5
+  text.html                              5/0/0
+  storage.type                           4/4/4
+  keyword.operator                       3/3/3
+-- script-token stage dumps:
+  tok[12] import
+    raw:   keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[23] from
+    raw:   keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[26] @inertiajs/vue3
+    raw:   string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [string, text source]
+    keys:  [DEFAULT_STRING, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[30] import
+    raw:   keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[38] from
+    raw:   keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[41] vue
+    raw:   string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [string, text source]
+    keys:  [DEFAULT_STRING, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[45] import
+    raw:   keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[49] from
+    raw:   keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[52] @/layouts/Layout.vue
+    raw:   string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [string, text source]
+    keys:  [DEFAULT_STRING, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[56] import
+    raw:   keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[60] from
+    raw:   keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[63] @/components/ui/Header.vue
+    raw:   string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [string, text source]
+    keys:  [DEFAULT_STRING, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[67] import
+    raw:   keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[71] from
+    raw:   keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[74] @/components/ui/Content.vue
+    raw:   string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [string, text source]
+    keys:  [DEFAULT_STRING, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[78] import
+    raw:   keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[82] from
+    raw:   keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[85] @/components/charts/PriceHistogram.vue
+    raw:   string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [string, text source]
+    keys:  [DEFAULT_STRING, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[89] import
+    raw:   keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[93] from
+    raw:   keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[96] @/components/charts/RevenueLines.vue
+    raw:   string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [string, text source]
+    keys:  [DEFAULT_STRING, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[100] import
+    raw:   keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.import.ts <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[104] from
+    raw:   keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  keyword.control.from.ts <- null <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [keyword, text source]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+  tok[107] @/components/charts/MonthlyBars.vue
+    raw:   string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    trim:  string.quoted.single.ts <- null <- meta.import.ts <- null <- source.ts <- null <- null <- null <- null <- text.html.vue
+    sel:   [string, text source]
+    keys:  [DEFAULT_STRING, DEFAULT_TEMPLATE_LANGUAGE_COLOR]
+
+########## phoneMask.ts root=source.ts descriptor=true
+tokens=933 matched=516 keyedNonText=516
+-- innermost-scope aggregates (tokens/matched/keyed):
+  null                                   240/20/20
+  punctuation.definition                 116/116/116
+  meta.brace                             94/0/0
+  variable.other                         84/84/84
+  keyword.operator                       76/76/76
+  source.ts                              39/0/0
+  storage.type                           33/33/33
+  punctuation.terminator                 31/31/31
+  entity.name                            25/25/25
+  keyword.control                        24/24/24
+  support.type                           24/24/24
+  punctuation.accessor                   20/20/20
+  variable.parameter                     18/18/18
+  meta.function                          16/0/0
+  meta.var-single-variable               15/0/0
+  comment.block                          12/12/12
+  constant.numeric                       12/12/12
+  meta.arrow                             10/0/0
+-- script-token stage dumps:
+  tok[1]  Маска телефона +7 (999) 999-99-99: слот
+    raw:   comment.block.documentation.ts <- source.ts
+    trim:  comment.block.documentation.ts <- source.ts
+    sel:   [comment, comment.block]
+    keys:  [DEFAULT_LINE_COMMENT, DEFAULT_BLOCK_COMMENT]
+  tok[5] export
+    raw:   keyword.control.export.ts <- meta.var.expr.ts <- source.ts
+    trim:  keyword.control.export.ts <- meta.var.expr.ts <- source.ts
+    sel:   [keyword]
+    keys:  [DEFAULT_KEYWORD]
+  tok[7] const
+    raw:   storage.type.ts <- meta.var.expr.ts <- source.ts
+    trim:  storage.type.ts <- meta.var.expr.ts <- source.ts
+    sel:   [storage, storage.type]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_KEYWORD]
+  tok[11] =
+    raw:   keyword.operator.assignment.ts <- null <- null <- meta.var.expr.ts <- source.ts
+    trim:  keyword.operator.assignment.ts <- null <- null <- meta.var.expr.ts <- source.ts
+    sel:   [keyword, keyword.operator]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_OPERATION_SIGN]
+  tok[14] +7 (999) 999-99-99
+    raw:   string.quoted.single.ts <- null <- null <- null <- meta.var.expr.ts <- source.ts
+    trim:  string.quoted.single.ts <- null <- null <- null <- meta.var.expr.ts <- source.ts
+    sel:   [string]
+    keys:  [DEFAULT_STRING]
+  tok[18] export
+    raw:   keyword.control.export.ts <- meta.var.expr.ts <- source.ts
+    trim:  keyword.control.export.ts <- meta.var.expr.ts <- source.ts
+    sel:   [keyword]
+    keys:  [DEFAULT_KEYWORD]
+  tok[20] const
+    raw:   storage.type.ts <- meta.var.expr.ts <- source.ts
+    trim:  storage.type.ts <- meta.var.expr.ts <- source.ts
+    sel:   [storage, storage.type]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_KEYWORD]
+  tok[24] =
+    raw:   keyword.operator.assignment.ts <- null <- null <- meta.var.expr.ts <- source.ts
+    trim:  keyword.operator.assignment.ts <- null <- null <- meta.var.expr.ts <- source.ts
+    sel:   [keyword, keyword.operator]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_OPERATION_SIGN]
+  tok[27] _
+    raw:   string.quoted.single.ts <- null <- null <- null <- meta.var.expr.ts <- source.ts
+    trim:  string.quoted.single.ts <- null <- null <- null <- meta.var.expr.ts <- source.ts
+    sel:   [string]
+    keys:  [DEFAULT_STRING]
+  tok[32]  Максимальное количество цифр в номере (
+    raw:   comment.block.documentation.ts <- source.ts
+    trim:  comment.block.documentation.ts <- source.ts
+    sel:   [comment, comment.block]
+    keys:  [DEFAULT_LINE_COMMENT, DEFAULT_BLOCK_COMMENT]
+  tok[35] export
+    raw:   keyword.control.export.ts <- meta.var.expr.ts <- source.ts
+    trim:  keyword.control.export.ts <- meta.var.expr.ts <- source.ts
+    sel:   [keyword]
+    keys:  [DEFAULT_KEYWORD]
+  tok[37] const
+    raw:   storage.type.ts <- meta.var.expr.ts <- source.ts
+    trim:  storage.type.ts <- meta.var.expr.ts <- source.ts
+    sel:   [storage, storage.type]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_KEYWORD]
+  tok[41] =
+    raw:   keyword.operator.assignment.ts <- null <- null <- meta.var.expr.ts <- source.ts
+    trim:  keyword.operator.assignment.ts <- null <- null <- meta.var.expr.ts <- source.ts
+    sel:   [keyword, keyword.operator]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_OPERATION_SIGN]
+  tok[43] 10
+    raw:   constant.numeric.decimal.ts <- null <- null <- null <- null <- meta.var.expr.ts <- source.ts
+    trim:  constant.numeric.decimal.ts <- null <- null <- null <- null <- meta.var.expr.ts <- source.ts
+    sel:   [constant, constant.numeric]
+    keys:  [DEFAULT_CONSTANT, DEFAULT_NUMBER]
+  tok[47]  Плейсхолдер пустого телефонного поля 
+    raw:   comment.block.documentation.ts <- source.ts
+    trim:  comment.block.documentation.ts <- source.ts
+    sel:   [comment, comment.block]
+    keys:  [DEFAULT_LINE_COMMENT, DEFAULT_BLOCK_COMMENT]
+  tok[50] export
+    raw:   keyword.control.export.ts <- meta.var.expr.ts <- source.ts
+    trim:  keyword.control.export.ts <- meta.var.expr.ts <- source.ts
+    sel:   [keyword]
+    keys:  [DEFAULT_KEYWORD]
+  tok[52] const
+    raw:   storage.type.ts <- meta.var.expr.ts <- source.ts
+    trim:  storage.type.ts <- meta.var.expr.ts <- source.ts
+    sel:   [storage, storage.type]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_KEYWORD]
+  tok[56] =
+    raw:   keyword.operator.assignment.ts <- null <- null <- meta.var.expr.ts <- source.ts
+    trim:  keyword.operator.assignment.ts <- null <- null <- meta.var.expr.ts <- source.ts
+    sel:   [keyword, keyword.operator]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_OPERATION_SIGN]
+  tok[59] +7 (___) ___-__-__
+    raw:   string.quoted.single.ts <- null <- null <- null <- meta.var.expr.ts <- source.ts
+    trim:  string.quoted.single.ts <- null <- null <- null <- meta.var.expr.ts <- source.ts
+    sel:   [string]
+    keys:  [DEFAULT_STRING]
+  tok[65]  Позиции слотов цифр в маске (индексы, г
+    raw:   comment.block.documentation.ts <- source.ts
+    trim:  comment.block.documentation.ts <- source.ts
+    sel:   [comment, comment.block]
+    keys:  [DEFAULT_LINE_COMMENT, DEFAULT_BLOCK_COMMENT]
+  tok[68] export
+    raw:   keyword.control.export.ts <- meta.var.expr.ts <- source.ts
+    trim:  keyword.control.export.ts <- meta.var.expr.ts <- source.ts
+    sel:   [keyword]
+    keys:  [DEFAULT_KEYWORD]
+  tok[70] const
+    raw:   storage.type.ts <- meta.var.expr.ts <- source.ts
+    trim:  storage.type.ts <- meta.var.expr.ts <- source.ts
+    sel:   [storage, storage.type]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_KEYWORD]
+  tok[74] =
+    raw:   keyword.operator.assignment.ts <- null <- null <- meta.var.expr.ts <- source.ts
+    trim:  keyword.operator.assignment.ts <- null <- null <- meta.var.expr.ts <- source.ts
+    sel:   [keyword, keyword.operator]
+    keys:  [DEFAULT_KEYWORD, DEFAULT_OPERATION_SIGN]
+  tok[78] split
+    raw:   entity.name.function.ts <- null <- meta.function-call.ts <- null <- null <- null <- null <- null <- meta.var.expr.ts <- source.ts
+    trim:  entity.name.function.ts <- null <- meta.function-call.ts <- null <- null <- null <- null <- null <- meta.var.expr.ts <- source.ts
+    sel:   [entity, entity.name, entity.name.function]
+    keys:  [DEFAULT_IDENTIFIER, DEFAULT_CLASS_NAME, DEFAULT_FUNCTION_DECLARATION]

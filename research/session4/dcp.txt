@@ -1,0 +1,308 @@
+Compiled from "TextMateDefaultColorsProvider.java"
+public final class org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateDefaultColorsProvider {
+  private final com.intellij.openapi.editor.colors.TextAttributesKey BOLD;
+
+  private final com.intellij.openapi.editor.colors.TextAttributesKey ITALIC;
+
+  private final com.intellij.openapi.editor.colors.TextAttributesKey UNDERLINE;
+
+  private final com.intellij.openapi.editor.colors.TextAttributesKey HEADING;
+
+  private final java.util.Map<java.lang.CharSequence, com.intellij.openapi.editor.colors.TextAttributesKey> DEFAULT_HIGHLIGHTING_RULES;
+
+  public org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateDefaultColorsProvider();
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: ldc           #7                  // String markup.bold
+         7: new           #9                  // class com/intellij/openapi/editor/markup/TextAttributes
+        10: dup
+        11: aconst_null
+        12: aconst_null
+        13: aconst_null
+        14: aconst_null
+        15: iconst_1
+        16: invokespecial #13                 // Method com/intellij/openapi/editor/markup/TextAttributes."<init>":(Ljava/awt/Color;Ljava/awt/Color;Ljava/awt/Color;Lcom/intellij/openapi/editor/markup/EffectType;I)V
+        19: invokestatic  #16                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/markup/TextAttributes;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        22: putfield      #22                 // Field BOLD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        25: aload_0
+        26: ldc           #28                 // String markup.italic
+        28: new           #9                  // class com/intellij/openapi/editor/markup/TextAttributes
+        31: dup
+        32: aconst_null
+        33: aconst_null
+        34: aconst_null
+        35: aconst_null
+        36: iconst_2
+        37: invokespecial #13                 // Method com/intellij/openapi/editor/markup/TextAttributes."<init>":(Ljava/awt/Color;Ljava/awt/Color;Ljava/awt/Color;Lcom/intellij/openapi/editor/markup/EffectType;I)V
+        40: invokestatic  #16                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/markup/TextAttributes;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        43: putfield      #30                 // Field ITALIC:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        46: aload_0
+        47: ldc           #33                 // String markup.underline
+        49: new           #9                  // class com/intellij/openapi/editor/markup/TextAttributes
+        52: dup
+        53: aconst_null
+        54: aconst_null
+        55: aconst_null
+        56: getstatic     #35                 // Field com/intellij/openapi/editor/markup/EffectType.LINE_UNDERSCORE:Lcom/intellij/openapi/editor/markup/EffectType;
+        59: iconst_0
+        60: invokespecial #13                 // Method com/intellij/openapi/editor/markup/TextAttributes."<init>":(Ljava/awt/Color;Ljava/awt/Color;Ljava/awt/Color;Lcom/intellij/openapi/editor/markup/EffectType;I)V
+        63: invokestatic  #16                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/markup/TextAttributes;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        66: putfield      #41                 // Field UNDERLINE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        69: aload_0
+        70: ldc           #44                 // String markup.heading
+        72: new           #9                  // class com/intellij/openapi/editor/markup/TextAttributes
+        75: dup
+        76: aconst_null
+        77: aconst_null
+        78: aconst_null
+        79: getstatic     #46                 // Field com/intellij/openapi/editor/markup/EffectType.BOLD_LINE_UNDERSCORE:Lcom/intellij/openapi/editor/markup/EffectType;
+        82: iconst_0
+        83: invokespecial #13                 // Method com/intellij/openapi/editor/markup/TextAttributes."<init>":(Ljava/awt/Color;Ljava/awt/Color;Ljava/awt/Color;Lcom/intellij/openapi/editor/markup/EffectType;I)V
+        86: invokestatic  #16                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/markup/TextAttributes;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        89: putfield      #49                 // Field HEADING:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        92: aload_0
+        93: bipush        36
+        95: anewarray     #52                 // class java/util/Map$Entry
+        98: dup
+        99: iconst_0
+       100: ldc           #7                  // String markup.bold
+       102: aload_0
+       103: getfield      #22                 // Field BOLD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       106: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       109: aastore
+       110: dup
+       111: iconst_1
+       112: ldc           #28                 // String markup.italic
+       114: aload_0
+       115: getfield      #30                 // Field ITALIC:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       118: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       121: aastore
+       122: dup
+       123: iconst_2
+       124: ldc           #33                 // String markup.underline
+       126: aload_0
+       127: getfield      #41                 // Field UNDERLINE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       130: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       133: aastore
+       134: dup
+       135: iconst_3
+       136: ldc           #44                 // String markup.heading
+       138: aload_0
+       139: getfield      #49                 // Field HEADING:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       142: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       145: aastore
+       146: dup
+       147: iconst_4
+       148: ldc           #60                 // String markup.changed
+       150: getstatic     #62                 // Field com/intellij/openapi/diff/DiffColors.DIFF_MODIFIED:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       153: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       156: aastore
+       157: dup
+       158: iconst_5
+       159: ldc           #67                 // String markup.inserted
+       161: getstatic     #69                 // Field com/intellij/openapi/diff/DiffColors.DIFF_INSERTED:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       164: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       167: aastore
+       168: dup
+       169: bipush        6
+       171: ldc           #72                 // String markup.deleted
+       173: getstatic     #74                 // Field com/intellij/openapi/diff/DiffColors.DIFF_DELETED:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       176: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       179: aastore
+       180: dup
+       181: bipush        7
+       183: ldc           #77                 // String comment
+       185: getstatic     #79                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.LINE_COMMENT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       188: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       191: aastore
+       192: dup
+       193: bipush        8
+       195: ldc           #84                 // String comment.line
+       197: getstatic     #79                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.LINE_COMMENT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       200: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       203: aastore
+       204: dup
+       205: bipush        9
+       207: ldc           #86                 // String comment.block
+       209: getstatic     #88                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.BLOCK_COMMENT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       212: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       215: aastore
+       216: dup
+       217: bipush        10
+       219: ldc           #91                 // String comment.documentation
+       221: getstatic     #93                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.DOC_COMMENT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       224: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       227: aastore
+       228: dup
+       229: bipush        11
+       231: ldc           #96                 // String constant
+       233: getstatic     #98                 // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.CONSTANT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       236: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       239: aastore
+       240: dup
+       241: bipush        12
+       243: ldc           #101                // String constant.number
+       245: getstatic     #103                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.NUMBER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       248: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       251: aastore
+       252: dup
+       253: bipush        13
+       255: ldc           #106                // String constant.numeric
+       257: getstatic     #103                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.NUMBER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       260: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       263: aastore
+       264: dup
+       265: bipush        14
+       267: ldc           #108                // String constant.character.escape
+       269: getstatic     #110                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       272: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       275: aastore
+       276: dup
+       277: bipush        15
+       279: ldc           #113                // String constant.character.entity
+       281: getstatic     #115                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.MARKUP_ENTITY:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       284: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       287: aastore
+       288: dup
+       289: bipush        16
+       291: ldc           #118                // String invalid
+       293: getstatic     #120                // Field com/intellij/openapi/editor/HighlighterColors.BAD_CHARACTER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       296: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       299: aastore
+       300: dup
+       301: bipush        17
+       303: ldc           #125                // String invalid.deprecated
+       305: getstatic     #127                // Field com/intellij/openapi/editor/colors/CodeInsightColors.DEPRECATED_ATTRIBUTES:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       308: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       311: aastore
+       312: dup
+       313: bipush        18
+       315: ldc           #132                // String keyword
+       317: getstatic     #134                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.KEYWORD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       320: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       323: aastore
+       324: dup
+       325: bipush        19
+       327: ldc           #137                // String keyword.operator
+       329: getstatic     #139                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.OPERATION_SIGN:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       332: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       335: aastore
+       336: dup
+       337: bipush        20
+       339: ldc           #142                // String storage
+       341: getstatic     #134                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.KEYWORD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       344: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       347: aastore
+       348: dup
+       349: bipush        21
+       351: ldc           #144                // String storage.type
+       353: getstatic     #134                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.KEYWORD:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       356: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       359: aastore
+       360: dup
+       361: bipush        22
+       363: ldc           #146                // String string
+       365: getstatic     #148                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.STRING:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       368: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       371: aastore
+       372: dup
+       373: bipush        23
+       375: ldc           #151                // String variable
+       377: getstatic     #153                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.LOCAL_VARIABLE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       380: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       383: aastore
+       384: dup
+       385: bipush        24
+       387: ldc           #156                // String variable.parameter
+       389: getstatic     #158                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.PARAMETER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       392: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       395: aastore
+       396: dup
+       397: bipush        25
+       399: ldc           #161                // String entity
+       401: getstatic     #163                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.IDENTIFIER:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       404: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       407: aastore
+       408: dup
+       409: bipush        26
+       411: ldc           #166                // String entity.name
+       413: getstatic     #168                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.CLASS_NAME:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       416: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       419: aastore
+       420: dup
+       421: bipush        27
+       423: ldc           #171                // String entity.name.class
+       425: getstatic     #168                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.CLASS_NAME:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       428: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       431: aastore
+       432: dup
+       433: bipush        28
+       435: ldc           #173                // String entity.name.function
+       437: getstatic     #175                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.FUNCTION_DECLARATION:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       440: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       443: aastore
+       444: dup
+       445: bipush        29
+       447: ldc           #178                // String entity.other.attribute-name
+       449: getstatic     #180                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.MARKUP_ATTRIBUTE:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       452: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       455: aastore
+       456: dup
+       457: bipush        30
+       459: ldc           #183                // String punctuation
+       461: getstatic     #185                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.DOT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       464: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       467: aastore
+       468: dup
+       469: bipush        31
+       471: ldc           #188                // String punctuation.definition.tag
+       473: getstatic     #190                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.MARKUP_TAG:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       476: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       479: aastore
+       480: dup
+       481: bipush        32
+       483: ldc           #193                // String support.function
+       485: getstatic     #195                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.FUNCTION_CALL:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       488: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       491: aastore
+       492: dup
+       493: bipush        33
+       495: ldc           #198                // String support.type
+       497: getstatic     #200                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       500: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       503: aastore
+       504: dup
+       505: bipush        34
+       507: ldc           #203                // String meta.tag
+       509: getstatic     #205                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.METADATA:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       512: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       515: aastore
+       516: dup
+       517: bipush        35
+       519: ldc           #208                // String text source
+       521: getstatic     #210                // Field com/intellij/openapi/editor/DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       524: invokestatic  #54                 // InterfaceMethod java/util/Map.entry:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;
+       527: aastore
+       528: invokestatic  #213                // InterfaceMethod java/util/Map.ofEntries:([Ljava/util/Map$Entry;)Ljava/util/Map;
+       531: putfield      #217                // Field DEFAULT_HIGHLIGHTING_RULES:Ljava/util/Map;
+       534: return
+
+  public java.util.Set<java.lang.CharSequence> getAllDefaultKeys();
+    Code:
+         0: aload_0
+         1: getfield      #217                // Field DEFAULT_HIGHLIGHTING_RULES:Ljava/util/Map;
+         4: invokeinterface #221,  1          // InterfaceMethod java/util/Map.keySet:()Ljava/util/Set;
+         9: areturn
+
+  public com.intellij.openapi.editor.colors.TextAttributesKey getTextAttributesKey(java.lang.CharSequence);
+    Code:
+         0: aload_0
+         1: getfield      #217                // Field DEFAULT_HIGHLIGHTING_RULES:Ljava/util/Map;
+         4: aload_1
+         5: getstatic     #225                // Field com/intellij/openapi/editor/HighlighterColors.TEXT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+         8: invokeinterface #228,  3          // InterfaceMethod java/util/Map.getOrDefault:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        13: checkcast     #17                 // class com/intellij/openapi/editor/colors/TextAttributesKey
+        16: areturn
+}

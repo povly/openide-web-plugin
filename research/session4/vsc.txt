@@ -1,0 +1,924 @@
+Compiled from "VSCBundleReader.kt"
+final class org.jetbrains.plugins.textmate.bundles.VSCBundleReader implements org.jetbrains.plugins.textmate.bundles.TextMateBundleReader {
+  private final org.jetbrains.plugins.textmate.bundles.VSCodeExtension extension;
+
+  private final org.jetbrains.plugins.textmate.plist.PlistReaderCore plistReader;
+
+  private final org.jetbrains.plugins.textmate.bundles.TextMateResourceReader resourceReader;
+
+  private final java.lang.String bundleName;
+
+  private final kotlin.Lazy languages$delegate;
+
+  private final kotlin.Lazy languageToScope$delegate;
+
+  private final kotlin.Lazy embeddedLanguages$delegate;
+
+  public org.jetbrains.plugins.textmate.bundles.VSCBundleReader(org.jetbrains.plugins.textmate.bundles.VSCodeExtension, org.jetbrains.plugins.textmate.plist.PlistReaderCore, org.jetbrains.plugins.textmate.bundles.TextMateResourceReader);
+    Code:
+         0: aload_1
+         1: ldc           #11                 // String extension
+         3: invokestatic  #17                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+         6: aload_2
+         7: ldc           #19                 // String plistReader
+         9: invokestatic  #17                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+        12: aload_3
+        13: ldc           #21                 // String resourceReader
+        15: invokestatic  #17                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+        18: aload_0
+        19: invokespecial #24                 // Method java/lang/Object."<init>":()V
+        22: aload_0
+        23: aload_1
+        24: putfield      #27                 // Field extension:Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtension;
+        27: aload_0
+        28: aload_2
+        29: putfield      #30                 // Field plistReader:Lorg/jetbrains/plugins/textmate/plist/PlistReaderCore;
+        32: aload_0
+        33: aload_3
+        34: putfield      #33                 // Field resourceReader:Lorg/jetbrains/plugins/textmate/bundles/TextMateResourceReader;
+        37: aload_0
+        38: aload_0
+        39: getfield      #27                 // Field extension:Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtension;
+        42: invokevirtual #39                 // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtension.getDisplayName:()Ljava/lang/String;
+        45: dup
+        46: ifnonnull     57
+        49: pop
+        50: aload_0
+        51: getfield      #27                 // Field extension:Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtension;
+        54: invokevirtual #42                 // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtension.getName:()Ljava/lang/String;
+        57: putfield      #46                 // Field bundleName:Ljava/lang/String;
+        60: aload_0
+        61: aload_0
+        62: invokedynamic #66,  0             // InvokeDynamic #0:invoke:(Lorg/jetbrains/plugins/textmate/bundles/VSCBundleReader;)Lkotlin/jvm/functions/Function0;
+        67: invokestatic  #72                 // Method kotlin/LazyKt.lazy:(Lkotlin/jvm/functions/Function0;)Lkotlin/Lazy;
+        70: putfield      #76                 // Field languages$delegate:Lkotlin/Lazy;
+        73: aload_0
+        74: aload_0
+        75: invokedynamic #81,  0             // InvokeDynamic #1:invoke:(Lorg/jetbrains/plugins/textmate/bundles/VSCBundleReader;)Lkotlin/jvm/functions/Function0;
+        80: invokestatic  #72                 // Method kotlin/LazyKt.lazy:(Lkotlin/jvm/functions/Function0;)Lkotlin/Lazy;
+        83: putfield      #84                 // Field languageToScope$delegate:Lkotlin/Lazy;
+        86: aload_0
+        87: aload_0
+        88: invokedynamic #92,  0             // InvokeDynamic #2:invoke:(Lorg/jetbrains/plugins/textmate/bundles/VSCBundleReader;)Lkotlin/jvm/functions/Function0;
+        93: invokestatic  #72                 // Method kotlin/LazyKt.lazy:(Lkotlin/jvm/functions/Function0;)Lkotlin/Lazy;
+        96: putfield      #95                 // Field embeddedLanguages$delegate:Lkotlin/Lazy;
+        99: return
+
+  public java.lang.String getBundleName();
+    Code:
+         0: aload_0
+         1: getfield      #46                 // Field bundleName:Ljava/lang/String;
+         4: areturn
+
+  private final java.util.Map<java.lang.String, org.jetbrains.plugins.textmate.bundles.VSCodeExtensionLanguage> getLanguages();
+    Code:
+         0: aload_0
+         1: getfield      #76                 // Field languages$delegate:Lkotlin/Lazy;
+         4: astore_1
+         5: aload_1
+         6: invokeinterface #111,  1          // InterfaceMethod kotlin/Lazy.getValue:()Ljava/lang/Object;
+        11: checkcast     #113                // class java/util/Map
+        14: areturn
+
+  private final java.util.Map<java.lang.String, java.lang.String> getLanguageToScope();
+    Code:
+         0: aload_0
+         1: getfield      #84                 // Field languageToScope$delegate:Lkotlin/Lazy;
+         4: astore_1
+         5: aload_1
+         6: invokeinterface #111,  1          // InterfaceMethod kotlin/Lazy.getValue:()Ljava/lang/Object;
+        11: checkcast     #113                // class java/util/Map
+        14: areturn
+
+  private final java.util.Map<java.lang.String, java.util.Collection<java.lang.String>> getEmbeddedLanguages();
+    Code:
+         0: aload_0
+         1: getfield      #95                 // Field embeddedLanguages$delegate:Lkotlin/Lazy;
+         4: astore_1
+         5: aload_1
+         6: invokeinterface #111,  1          // InterfaceMethod kotlin/Lazy.getValue:()Ljava/lang/Object;
+        11: checkcast     #113                // class java/util/Map
+        14: areturn
+
+  public kotlin.sequences.Sequence<org.jetbrains.plugins.textmate.bundles.TextMateGrammar> readGrammars();
+    Code:
+         0: aload_0
+         1: getfield      #27                 // Field extension:Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtension;
+         4: invokevirtual #124                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtension.getContributes:()Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtensionContributes;
+         7: invokevirtual #130                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionContributes.getGrammars:()Ljava/util/List;
+        10: checkcast     #132                // class java/lang/Iterable
+        13: invokestatic  #138                // Method kotlin/collections/CollectionsKt.asSequence:(Ljava/lang/Iterable;)Lkotlin/sequences/Sequence;
+        16: aload_0
+        17: invokedynamic #150,  0            // InvokeDynamic #3:invoke:(Lorg/jetbrains/plugins/textmate/bundles/VSCBundleReader;)Lkotlin/jvm/functions/Function1;
+        22: invokestatic  #156                // Method kotlin/sequences/SequencesKt.map:(Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function1;)Lkotlin/sequences/Sequence;
+        25: areturn
+
+  public kotlin.sequences.Sequence<org.jetbrains.plugins.textmate.bundles.TextMatePreferences> readPreferences();
+    Code:
+         0: aload_0
+         1: getfield      #27                 // Field extension:Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtension;
+         4: invokevirtual #124                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtension.getContributes:()Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtensionContributes;
+         7: invokevirtual #160                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionContributes.getLanguages:()Ljava/util/List;
+        10: checkcast     #132                // class java/lang/Iterable
+        13: invokestatic  #138                // Method kotlin/collections/CollectionsKt.asSequence:(Ljava/lang/Iterable;)Lkotlin/sequences/Sequence;
+        16: aload_0
+        17: invokedynamic #168,  0            // InvokeDynamic #4:invoke:(Lorg/jetbrains/plugins/textmate/bundles/VSCBundleReader;)Lkotlin/jvm/functions/Function1;
+        22: invokestatic  #171                // Method kotlin/sequences/SequencesKt.flatMap:(Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function1;)Lkotlin/sequences/Sequence;
+        25: areturn
+
+  public kotlin.sequences.Sequence<org.jetbrains.plugins.textmate.language.preferences.TextMateSnippet> readSnippets();
+    Code:
+         0: aload_0
+         1: getfield      #27                 // Field extension:Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtension;
+         4: invokevirtual #124                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtension.getContributes:()Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtensionContributes;
+         7: invokevirtual #176                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionContributes.getSnippets:()Ljava/util/List;
+        10: checkcast     #132                // class java/lang/Iterable
+        13: invokestatic  #138                // Method kotlin/collections/CollectionsKt.asSequence:(Ljava/lang/Iterable;)Lkotlin/sequences/Sequence;
+        16: invokedynamic #186,  0            // InvokeDynamic #5:invoke:()Lkotlin/jvm/functions/Function1;
+        21: invokestatic  #189                // Method kotlin/sequences/SequencesKt.filter:(Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function1;)Lkotlin/sequences/Sequence;
+        24: aload_0
+        25: invokedynamic #197,  0            // InvokeDynamic #6:invoke:(Lorg/jetbrains/plugins/textmate/bundles/VSCBundleReader;)Lkotlin/jvm/functions/Function1;
+        30: invokestatic  #171                // Method kotlin/sequences/SequencesKt.flatMap:(Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function1;)Lkotlin/sequences/Sequence;
+        33: areturn
+
+  private final kotlin.sequences.Sequence<java.lang.String> scopesForLanguage(java.lang.String);
+    Code:
+         0: new           #202                // class org/jetbrains/plugins/textmate/bundles/VSCBundleReader$scopesForLanguage$1
+         3: dup
+         4: aload_0
+         5: aload_1
+         6: aconst_null
+         7: invokespecial #205                // Method org/jetbrains/plugins/textmate/bundles/VSCBundleReader$scopesForLanguage$1."<init>":(Lorg/jetbrains/plugins/textmate/bundles/VSCBundleReader;Ljava/lang/String;Lkotlin/coroutines/Continuation;)V
+        10: checkcast     #207                // class kotlin/jvm/functions/Function2
+        13: invokestatic  #211                // Method kotlin/sequences/SequencesKt.sequence:(Lkotlin/jvm/functions/Function2;)Lkotlin/sequences/Sequence;
+        16: areturn
+
+  private static final java.util.Map languages_delegate$lambda$0(org.jetbrains.plugins.textmate.bundles.VSCBundleReader);
+    Code:
+         0: aload_0
+         1: getfield      #27                 // Field extension:Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtension;
+         4: invokevirtual #124                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtension.getContributes:()Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtensionContributes;
+         7: invokevirtual #160                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionContributes.getLanguages:()Ljava/util/List;
+        10: checkcast     #132                // class java/lang/Iterable
+        13: astore_1
+        14: iconst_0
+        15: istore_2
+        16: aload_1
+        17: bipush        10
+        19: invokestatic  #216                // Method kotlin/collections/CollectionsKt.collectionSizeOrDefault:(Ljava/lang/Iterable;I)I
+        22: invokestatic  #222                // Method kotlin/collections/MapsKt.mapCapacity:(I)I
+        25: bipush        16
+        27: invokestatic  #228                // Method kotlin/ranges/RangesKt.coerceAtLeast:(II)I
+        30: istore_3
+        31: aload_1
+        32: astore        4
+        34: new           #230                // class java/util/LinkedHashMap
+        37: dup
+        38: iload_3
+        39: invokespecial #233                // Method java/util/LinkedHashMap."<init>":(I)V
+        42: checkcast     #113                // class java/util/Map
+        45: astore        5
+        47: iconst_0
+        48: istore        6
+        50: aload         4
+        52: invokeinterface #237,  1          // InterfaceMethod java/lang/Iterable.iterator:()Ljava/util/Iterator;
+        57: astore        7
+        59: aload         7
+        61: invokeinterface #243,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+        66: ifeq          111
+        69: aload         7
+        71: invokeinterface #246,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        76: astore        8
+        78: aload         5
+        80: aload         8
+        82: checkcast     #248                // class org/jetbrains/plugins/textmate/bundles/VSCodeExtensionLanguage
+        85: astore        9
+        87: astore        11
+        89: iconst_0
+        90: istore        10
+        92: aload         9
+        94: invokevirtual #251                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionLanguage.getId:()Ljava/lang/String;
+        97: aload         11
+        99: swap
+       100: aload         8
+       102: invokeinterface #255,  3          // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       107: pop
+       108: goto          59
+       111: aload         5
+       113: nop
+       114: areturn
+
+  private static final java.util.Map languageToScope_delegate$lambda$0(org.jetbrains.plugins.textmate.bundles.VSCBundleReader);
+    Code:
+         0: aload_0
+         1: getfield      #27                 // Field extension:Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtension;
+         4: invokevirtual #124                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtension.getContributes:()Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtensionContributes;
+         7: invokevirtual #130                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionContributes.getGrammars:()Ljava/util/List;
+        10: checkcast     #132                // class java/lang/Iterable
+        13: astore_1
+        14: iconst_0
+        15: istore_2
+        16: aload_1
+        17: astore_3
+        18: new           #272                // class java/util/ArrayList
+        21: dup
+        22: invokespecial #273                // Method java/util/ArrayList."<init>":()V
+        25: checkcast     #275                // class java/util/Collection
+        28: astore        4
+        30: iconst_0
+        31: istore        5
+        33: aload_3
+        34: astore        6
+        36: iconst_0
+        37: istore        7
+        39: aload         6
+        41: invokeinterface #237,  1          // InterfaceMethod java/lang/Iterable.iterator:()Ljava/util/Iterator;
+        46: astore        8
+        48: aload         8
+        50: invokeinterface #243,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+        55: ifeq          140
+        58: aload         8
+        60: invokeinterface #246,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        65: astore        9
+        67: aload         9
+        69: astore        10
+        71: iconst_0
+        72: istore        11
+        74: aload         10
+        76: checkcast     #277                // class org/jetbrains/plugins/textmate/bundles/VSCodeExtensionGrammar
+        79: astore        12
+        81: iconst_0
+        82: istore        13
+        84: aload         12
+        86: invokevirtual #280                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionGrammar.getLanguage:()Ljava/lang/String;
+        89: dup
+        90: ifnull        111
+        93: astore        14
+        95: iconst_0
+        96: istore        15
+        98: aload         14
+       100: aload         12
+       102: invokevirtual #283                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionGrammar.getScopeName:()Ljava/lang/String;
+       105: invokestatic  #289                // Method kotlin/TuplesKt.to:(Ljava/lang/Object;Ljava/lang/Object;)Lkotlin/Pair;
+       108: goto          113
+       111: pop
+       112: aconst_null
+       113: dup
+       114: ifnull        135
+       117: astore        16
+       119: iconst_0
+       120: istore        17
+       122: aload         4
+       124: aload         16
+       126: invokeinterface #293,  2          // InterfaceMethod java/util/Collection.add:(Ljava/lang/Object;)Z
+       131: pop
+       132: goto          136
+       135: pop
+       136: nop
+       137: goto          48
+       140: nop
+       141: aload         4
+       143: checkcast     #295                // class java/util/List
+       146: nop
+       147: checkcast     #132                // class java/lang/Iterable
+       150: invokestatic  #299                // Method kotlin/collections/MapsKt.toMap:(Ljava/lang/Iterable;)Ljava/util/Map;
+       153: areturn
+
+  private static final java.util.HashMap embeddedLanguages_delegate$lambda$0(org.jetbrains.plugins.textmate.bundles.VSCBundleReader);
+    Code:
+         0: new           #319                // class java/util/HashMap
+         3: dup
+         4: invokespecial #320                // Method java/util/HashMap."<init>":()V
+         7: astore_1
+         8: aload_0
+         9: getfield      #27                 // Field extension:Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtension;
+        12: invokevirtual #124                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtension.getContributes:()Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtensionContributes;
+        15: invokevirtual #130                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionContributes.getGrammars:()Ljava/util/List;
+        18: checkcast     #132                // class java/lang/Iterable
+        21: astore_2
+        22: iconst_0
+        23: istore_3
+        24: aload_2
+        25: invokeinterface #237,  1          // InterfaceMethod java/lang/Iterable.iterator:()Ljava/util/Iterator;
+        30: astore        4
+        32: aload         4
+        34: invokeinterface #243,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+        39: ifeq          207
+        42: aload         4
+        44: invokeinterface #246,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        49: astore        5
+        51: aload         5
+        53: checkcast     #277                // class org/jetbrains/plugins/textmate/bundles/VSCodeExtensionGrammar
+        56: astore        6
+        58: iconst_0
+        59: istore        7
+        61: aload         6
+        63: invokevirtual #322                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionGrammar.getEmbeddedLanguages:()Ljava/util/Map;
+        66: invokeinterface #326,  1          // InterfaceMethod java/util/Map.entrySet:()Ljava/util/Set;
+        71: invokeinterface #329,  1          // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+        76: astore        8
+        78: aload         8
+        80: invokeinterface #243,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+        85: ifeq          202
+        88: aload         8
+        90: invokeinterface #246,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        95: checkcast     #331                // class java/util/Map$Entry
+        98: astore        9
+       100: aload         9
+       102: invokeinterface #334,  1          // InterfaceMethod java/util/Map$Entry.getKey:()Ljava/lang/Object;
+       107: checkcast     #103                // class java/lang/String
+       110: astore        10
+       112: aload         9
+       114: invokeinterface #335,  1          // InterfaceMethod java/util/Map$Entry.getValue:()Ljava/lang/Object;
+       119: checkcast     #103                // class java/lang/String
+       122: astore        11
+       124: aload_1
+       125: checkcast     #113                // class java/util/Map
+       128: astore        12
+       130: aload         11
+       132: astore        13
+       134: iconst_0
+       135: istore        14
+       137: aload         12
+       139: aload         13
+       141: invokeinterface #338,  2          // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+       146: astore        15
+       148: aload         15
+       150: ifnonnull     185
+       153: iconst_0
+       154: istore        16
+       156: new           #340                // class java/util/HashSet
+       159: dup
+       160: invokespecial #341                // Method java/util/HashSet."<init>":()V
+       163: checkcast     #328                // class java/util/Set
+       166: astore        16
+       168: aload         12
+       170: aload         13
+       172: aload         16
+       174: invokeinterface #255,  3          // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       179: pop
+       180: aload         16
+       182: goto          187
+       185: aload         15
+       187: nop
+       188: checkcast     #328                // class java/util/Set
+       191: aload         10
+       193: invokeinterface #342,  2          // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+       198: pop
+       199: goto          78
+       202: nop
+       203: nop
+       204: goto          32
+       207: nop
+       208: aload_1
+       209: areturn
+
+  private static final org.jetbrains.plugins.textmate.plist.Plist readGrammars$lambda$0$0(org.jetbrains.plugins.textmate.bundles.VSCBundleReader, org.jetbrains.plugins.textmate.bundles.VSCodeExtensionGrammar);
+    Code:
+         0: aload_0
+         1: getfield      #33                 // Field resourceReader:Lorg/jetbrains/plugins/textmate/bundles/TextMateResourceReader;
+         4: aload_1
+         5: invokevirtual #358                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionGrammar.getPath:()Ljava/lang/String;
+         8: invokeinterface #362,  2          // InterfaceMethod org/jetbrains/plugins/textmate/bundles/TextMateResourceReader.read:(Ljava/lang/String;)[B
+        13: dup
+        14: ifnull        37
+        17: astore_2
+        18: iconst_0
+        19: istore_3
+        20: aload_2
+        21: aload_0
+        22: getfield      #30                 // Field plistReader:Lorg/jetbrains/plugins/textmate/plist/PlistReaderCore;
+        25: aload_1
+        26: invokevirtual #358                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionGrammar.getPath:()Ljava/lang/String;
+        29: invokestatic  #368                // Method org/jetbrains/plugins/textmate/bundles/BundleReaderCoreKt.readPlist:([BLorg/jetbrains/plugins/textmate/plist/PlistReaderCore;Ljava/lang/String;)Lorg/jetbrains/plugins/textmate/plist/Plist;
+        32: nop
+        33: dup
+        34: ifnonnull     44
+        37: pop
+        38: getstatic     #374                // Field org/jetbrains/plugins/textmate/plist/Plist.Companion:Lorg/jetbrains/plugins/textmate/plist/Plist$Companion;
+        41: invokevirtual #380                // Method org/jetbrains/plugins/textmate/plist/Plist$Companion.getEMPTY_PLIST:()Lorg/jetbrains/plugins/textmate/plist/Plist;
+        44: areturn
+
+  private static final org.jetbrains.plugins.textmate.bundles.TextMateGrammar readGrammars$lambda$0(org.jetbrains.plugins.textmate.bundles.VSCBundleReader, org.jetbrains.plugins.textmate.bundles.VSCodeExtensionGrammar);
+    Code:
+         0: aload_1
+         1: ldc_w         #384                // String grammar
+         4: invokestatic  #17                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+         7: aload_0
+         8: aload_1
+         9: invokedynamic #391,  0            // InvokeDynamic #7:invoke:(Lorg/jetbrains/plugins/textmate/bundles/VSCBundleReader;Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtensionGrammar;)Lkotlin/jvm/functions/Function0;
+        14: invokestatic  #72                 // Method kotlin/LazyKt.lazy:(Lkotlin/jvm/functions/Function0;)Lkotlin/Lazy;
+        17: astore_2
+        18: aload_0
+        19: invokespecial #393                // Method getLanguages:()Ljava/util/Map;
+        22: aload_1
+        23: invokevirtual #280                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionGrammar.getLanguage:()Ljava/lang/String;
+        26: invokeinterface #338,  2          // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+        31: checkcast     #248                // class org/jetbrains/plugins/textmate/bundles/VSCodeExtensionLanguage
+        34: astore_3
+        35: aload_3
+        36: dup
+        37: ifnull        412
+        40: astore        5
+        42: iconst_0
+        43: istore        6
+        45: aload         5
+        47: invokevirtual #396                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionLanguage.getExtensions:()Ljava/util/List;
+        50: checkcast     #132                // class java/lang/Iterable
+        53: astore        7
+        55: iconst_0
+        56: istore        8
+        58: aload         7
+        60: astore        9
+        62: new           #272                // class java/util/ArrayList
+        65: dup
+        66: aload         7
+        68: bipush        10
+        70: invokestatic  #216                // Method kotlin/collections/CollectionsKt.collectionSizeOrDefault:(Ljava/lang/Iterable;I)I
+        73: invokespecial #397                // Method java/util/ArrayList."<init>":(I)V
+        76: checkcast     #275                // class java/util/Collection
+        79: astore        10
+        81: iconst_0
+        82: istore        11
+        84: aload         9
+        86: invokeinterface #237,  1          // InterfaceMethod java/lang/Iterable.iterator:()Ljava/util/Iterator;
+        91: astore        12
+        93: aload         12
+        95: invokeinterface #243,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       100: ifeq          156
+       103: aload         12
+       105: invokeinterface #246,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       110: astore        13
+       112: aload         10
+       114: aload         13
+       116: checkcast     #103                // class java/lang/String
+       119: astore        14
+       121: astore        15
+       123: iconst_0
+       124: istore        16
+       126: new           #399                // class org/jetbrains/plugins/textmate/bundles/TextMateFileNameMatcher$Extension
+       129: dup
+       130: aload         14
+       132: ldc_w         #401                // String .
+       135: checkcast     #403                // class java/lang/CharSequence
+       138: invokestatic  #409                // Method kotlin/text/StringsKt.removePrefix:(Ljava/lang/String;Ljava/lang/CharSequence;)Ljava/lang/String;
+       141: invokespecial #412                // Method org/jetbrains/plugins/textmate/bundles/TextMateFileNameMatcher$Extension."<init>":(Ljava/lang/String;)V
+       144: aload         15
+       146: swap
+       147: invokeinterface #293,  2          // InterfaceMethod java/util/Collection.add:(Ljava/lang/Object;)Z
+       152: pop
+       153: goto          93
+       156: aload         10
+       158: checkcast     #295                // class java/util/List
+       161: nop
+       162: checkcast     #275                // class java/util/Collection
+       165: aload         5
+       167: invokevirtual #415                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionLanguage.getFilenames:()Ljava/util/List;
+       170: checkcast     #132                // class java/lang/Iterable
+       173: astore        7
+       175: astore        15
+       177: iconst_0
+       178: istore        8
+       180: aload         7
+       182: astore        9
+       184: new           #272                // class java/util/ArrayList
+       187: dup
+       188: aload         7
+       190: bipush        10
+       192: invokestatic  #216                // Method kotlin/collections/CollectionsKt.collectionSizeOrDefault:(Ljava/lang/Iterable;I)I
+       195: invokespecial #397                // Method java/util/ArrayList."<init>":(I)V
+       198: checkcast     #275                // class java/util/Collection
+       201: astore        10
+       203: iconst_0
+       204: istore        11
+       206: aload         9
+       208: invokeinterface #237,  1          // InterfaceMethod java/lang/Iterable.iterator:()Ljava/util/Iterator;
+       213: astore        12
+       215: aload         12
+       217: invokeinterface #243,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       222: ifeq          269
+       225: aload         12
+       227: invokeinterface #246,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       232: astore        13
+       234: aload         10
+       236: aload         13
+       238: checkcast     #103                // class java/lang/String
+       241: astore        14
+       243: astore        17
+       245: iconst_0
+       246: istore        16
+       248: new           #417                // class org/jetbrains/plugins/textmate/bundles/TextMateFileNameMatcher$Name
+       251: dup
+       252: aload         14
+       254: invokespecial #418                // Method org/jetbrains/plugins/textmate/bundles/TextMateFileNameMatcher$Name."<init>":(Ljava/lang/String;)V
+       257: aload         17
+       259: swap
+       260: invokeinterface #293,  2          // InterfaceMethod java/util/Collection.add:(Ljava/lang/Object;)Z
+       265: pop
+       266: goto          215
+       269: aload         10
+       271: checkcast     #295                // class java/util/List
+       274: nop
+       275: aload         15
+       277: swap
+       278: checkcast     #132                // class java/lang/Iterable
+       281: invokestatic  #422                // Method kotlin/collections/CollectionsKt.plus:(Ljava/util/Collection;Ljava/lang/Iterable;)Ljava/util/List;
+       284: checkcast     #275                // class java/util/Collection
+       287: aload         5
+       289: invokevirtual #425                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionLanguage.getFilenamePatterns:()Ljava/util/List;
+       292: checkcast     #132                // class java/lang/Iterable
+       295: astore        7
+       297: astore        15
+       299: iconst_0
+       300: istore        8
+       302: aload         7
+       304: astore        9
+       306: new           #272                // class java/util/ArrayList
+       309: dup
+       310: aload         7
+       312: bipush        10
+       314: invokestatic  #216                // Method kotlin/collections/CollectionsKt.collectionSizeOrDefault:(Ljava/lang/Iterable;I)I
+       317: invokespecial #397                // Method java/util/ArrayList."<init>":(I)V
+       320: checkcast     #275                // class java/util/Collection
+       323: astore        10
+       325: iconst_0
+       326: istore        11
+       328: aload         9
+       330: invokeinterface #237,  1          // InterfaceMethod java/lang/Iterable.iterator:()Ljava/util/Iterator;
+       335: astore        12
+       337: aload         12
+       339: invokeinterface #243,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       344: ifeq          391
+       347: aload         12
+       349: invokeinterface #246,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       354: astore        13
+       356: aload         10
+       358: aload         13
+       360: checkcast     #103                // class java/lang/String
+       363: astore        14
+       365: astore        17
+       367: iconst_0
+       368: istore        16
+       370: new           #427                // class org/jetbrains/plugins/textmate/bundles/TextMateFileNameMatcher$Pattern
+       373: dup
+       374: aload         14
+       376: invokespecial #428                // Method org/jetbrains/plugins/textmate/bundles/TextMateFileNameMatcher$Pattern."<init>":(Ljava/lang/String;)V
+       379: aload         17
+       381: swap
+       382: invokeinterface #293,  2          // InterfaceMethod java/util/Collection.add:(Ljava/lang/Object;)Z
+       387: pop
+       388: goto          337
+       391: aload         10
+       393: checkcast     #295                // class java/util/List
+       396: nop
+       397: aload         15
+       399: swap
+       400: checkcast     #132                // class java/lang/Iterable
+       403: invokestatic  #422                // Method kotlin/collections/CollectionsKt.plus:(Ljava/util/Collection;Ljava/lang/Iterable;)Ljava/util/List;
+       406: nop
+       407: nop
+       408: dup
+       409: ifnonnull     416
+       412: pop
+       413: invokestatic  #431                // Method kotlin/collections/CollectionsKt.emptyList:()Ljava/util/List;
+       416: astore        4
+       418: new           #433                // class org/jetbrains/plugins/textmate/bundles/TextMateGrammar
+       421: dup
+       422: aload         4
+       424: checkcast     #275                // class java/util/Collection
+       427: aload_3
+       428: dup
+       429: ifnull        438
+       432: invokevirtual #436                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionLanguage.getFirstLine:()Ljava/lang/String;
+       435: goto          440
+       438: pop
+       439: aconst_null
+       440: aload_2
+       441: aload_3
+       442: dup
+       443: ifnull        462
+       446: invokevirtual #439                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionLanguage.getAliases:()Ljava/util/List;
+       449: dup
+       450: ifnull        462
+       453: invokestatic  #443                // Method kotlin/collections/CollectionsKt.firstOrNull:(Ljava/util/List;)Ljava/lang/Object;
+       456: checkcast     #103                // class java/lang/String
+       459: goto          464
+       462: pop
+       463: aconst_null
+       464: aload_1
+       465: invokevirtual #283                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionGrammar.getScopeName:()Ljava/lang/String;
+       468: invokespecial #446                // Method org/jetbrains/plugins/textmate/bundles/TextMateGrammar."<init>":(Ljava/util/Collection;Ljava/lang/String;Lkotlin/Lazy;Ljava/lang/String;Ljava/lang/String;)V
+       471: areturn
+
+  private static final kotlin.sequences.Sequence readPreferences$lambda$0(org.jetbrains.plugins.textmate.bundles.VSCBundleReader, org.jetbrains.plugins.textmate.bundles.VSCodeExtensionLanguage);
+    Code:
+         0: aload_1
+         1: ldc_w         #461                // String language
+         4: invokestatic  #17                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+         7: aload_1
+         8: invokevirtual #464                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionLanguage.getConfiguration:()Ljava/lang/String;
+        11: dup
+        12: ifnull        61
+        15: astore_2
+        16: iconst_0
+        17: istore_3
+        18: aload_0
+        19: getfield      #33                 // Field resourceReader:Lorg/jetbrains/plugins/textmate/bundles/TextMateResourceReader;
+        22: aload_2
+        23: invokeinterface #362,  2          // InterfaceMethod org/jetbrains/plugins/textmate/bundles/TextMateResourceReader.read:(Ljava/lang/String;)[B
+        28: dup
+        29: ifnull        53
+        32: astore        4
+        34: iconst_0
+        35: istore        5
+        37: aload         4
+        39: aload_0
+        40: aload_1
+        41: invokevirtual #251                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionLanguage.getId:()Ljava/lang/String;
+        44: invokespecial #466                // Method scopesForLanguage:(Ljava/lang/String;)Lkotlin/sequences/Sequence;
+        47: invokestatic  #472                // Method org/jetbrains/plugins/textmate/bundles/VSCBundleReaderKt.readPreferencesImpl:([BLkotlin/sequences/Sequence;)Lkotlin/sequences/Sequence;
+        50: goto          55
+        53: pop
+        54: aconst_null
+        55: nop
+        56: nop
+        57: dup
+        58: ifnonnull     65
+        61: pop
+        62: invokestatic  #475                // Method kotlin/sequences/SequencesKt.emptySequence:()Lkotlin/sequences/Sequence;
+        65: areturn
+
+  private static final boolean readSnippets$lambda$0(org.jetbrains.plugins.textmate.bundles.VSCodeExtensionSnippet);
+    Code:
+         0: aload_0
+         1: ldc_w         #484                // String snippetConfiguration
+         4: invokestatic  #17                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+         7: aload_0
+         8: invokevirtual #487                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionSnippet.getPath:()Ljava/lang/String;
+        11: ldc_w         #489                // String .json
+        14: iconst_0
+        15: iconst_2
+        16: aconst_null
+        17: invokestatic  #493                // Method kotlin/text/StringsKt.endsWith$default:(Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Z
+        20: ifne          39
+        23: aload_0
+        24: invokevirtual #487                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionSnippet.getPath:()Ljava/lang/String;
+        27: ldc_w         #495                // String .code-snippets
+        30: iconst_0
+        31: iconst_2
+        32: aconst_null
+        33: invokestatic  #493                // Method kotlin/text/StringsKt.endsWith$default:(Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Z
+        36: ifeq          43
+        39: iconst_1
+        40: goto          44
+        43: iconst_0
+        44: ireturn
+
+  private static final org.jetbrains.plugins.textmate.language.preferences.TextMateSnippet readSnippets$lambda$1$0$0$1$0(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String);
+    Code:
+         0: aload         4
+         2: ldc_w         #499                // String scopeName
+         5: invokestatic  #17                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+         8: new           #501                // class org/jetbrains/plugins/textmate/language/preferences/TextMateSnippet
+        11: dup
+        12: aload_0
+        13: aload_1
+        14: aload         4
+        16: checkcast     #403                // class java/lang/CharSequence
+        19: aload_2
+        20: aload_3
+        21: aload_2
+        22: invokespecial #504                // Method org/jetbrains/plugins/textmate/language/preferences/TextMateSnippet."<init>":(Ljava/lang/String;Ljava/lang/String;Ljava/lang/CharSequence;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+        25: areturn
+
+  private static final kotlin.sequences.Sequence readSnippets$lambda$1$0$0(org.jetbrains.plugins.textmate.bundles.VSCBundleReader, org.jetbrains.plugins.textmate.bundles.VSCodeExtensionSnippet, java.util.Map$Entry);
+    Code:
+         0: aload_2
+         1: ldc_w         #512                // String <destruct>
+         4: invokestatic  #17                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+         7: aload_2
+         8: invokeinterface #334,  1          // InterfaceMethod java/util/Map$Entry.getKey:()Ljava/lang/Object;
+        13: checkcast     #103                // class java/lang/String
+        16: astore_3
+        17: aload_2
+        18: invokeinterface #335,  1          // InterfaceMethod java/util/Map$Entry.getValue:()Ljava/lang/Object;
+        23: checkcast     #514                // class org/jetbrains/plugins/textmate/plist/PListValue
+        26: astore        4
+        28: aload         4
+        30: invokevirtual #517                // Method org/jetbrains/plugins/textmate/plist/PListValue.getPlist:()Lorg/jetbrains/plugins/textmate/plist/Plist;
+        33: astore        5
+        35: aload         5
+        37: ldc_w         #519                // String body
+        40: ldc_w         #521                // String
+        43: invokevirtual #525                // Method org/jetbrains/plugins/textmate/plist/Plist.getPlistValue:(Ljava/lang/String;Ljava/lang/Object;)Lorg/jetbrains/plugins/textmate/plist/PListValue;
+        46: astore        6
+        48: aload         6
+        50: invokevirtual #529                // Method org/jetbrains/plugins/textmate/plist/PListValue.getType:()Lorg/jetbrains/plugins/textmate/plist/PlistValueType;
+        53: getstatic     #535                // Field org/jetbrains/plugins/textmate/bundles/VSCBundleReader$WhenMappings.$EnumSwitchMapping$0:[I
+        56: swap
+        57: invokevirtual #541                // Method org/jetbrains/plugins/textmate/plist/PlistValueType.ordinal:()I
+        60: iaload
+        61: tableswitch   { // 1 to 2
+                       1: 84
+                       2: 96
+                 default: 242
+            }
+        84: aload         6
+        86: invokevirtual #544                // Method org/jetbrains/plugins/textmate/plist/PListValue.getString:()Ljava/lang/String;
+        89: dup
+        90: invokestatic  #548                // Method kotlin/jvm/internal/Intrinsics.checkNotNull:(Ljava/lang/Object;)V
+        93: goto          260
+        96: aload         6
+        98: invokevirtual #551                // Method org/jetbrains/plugins/textmate/plist/PListValue.getArray:()Ljava/util/List;
+       101: checkcast     #132                // class java/lang/Iterable
+       104: astore        8
+       106: iconst_0
+       107: istore        9
+       109: aload         8
+       111: astore        10
+       113: new           #272                // class java/util/ArrayList
+       116: dup
+       117: invokespecial #273                // Method java/util/ArrayList."<init>":()V
+       120: checkcast     #275                // class java/util/Collection
+       123: astore        11
+       125: iconst_0
+       126: istore        12
+       128: aload         10
+       130: astore        13
+       132: iconst_0
+       133: istore        14
+       135: aload         13
+       137: invokeinterface #237,  1          // InterfaceMethod java/lang/Iterable.iterator:()Ljava/util/Iterator;
+       142: astore        15
+       144: aload         15
+       146: invokeinterface #243,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       151: ifeq          212
+       154: aload         15
+       156: invokeinterface #246,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       161: astore        16
+       163: aload         16
+       165: astore        17
+       167: iconst_0
+       168: istore        18
+       170: aload         17
+       172: checkcast     #514                // class org/jetbrains/plugins/textmate/plist/PListValue
+       175: astore        19
+       177: iconst_0
+       178: istore        20
+       180: aload         19
+       182: invokevirtual #544                // Method org/jetbrains/plugins/textmate/plist/PListValue.getString:()Ljava/lang/String;
+       185: dup
+       186: ifnull        207
+       189: astore        21
+       191: iconst_0
+       192: istore        22
+       194: aload         11
+       196: aload         21
+       198: invokeinterface #293,  2          // InterfaceMethod java/util/Collection.add:(Ljava/lang/Object;)Z
+       203: pop
+       204: goto          208
+       207: pop
+       208: nop
+       209: goto          144
+       212: nop
+       213: aload         11
+       215: checkcast     #295                // class java/util/List
+       218: nop
+       219: checkcast     #132                // class java/lang/Iterable
+       222: ldc_w         #553                // String \n
+       225: checkcast     #403                // class java/lang/CharSequence
+       228: aconst_null
+       229: aconst_null
+       230: iconst_0
+       231: aconst_null
+       232: aconst_null
+       233: bipush        62
+       235: aconst_null
+       236: invokestatic  #557                // Method kotlin/collections/CollectionsKt.joinToString$default:(Ljava/lang/Iterable;Ljava/lang/CharSequence;Ljava/lang/CharSequence;Ljava/lang/CharSequence;ILjava/lang/CharSequence;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ljava/lang/String;
+       239: goto          260
+       242: new           #559                // class java/lang/IllegalStateException
+       245: dup
+       246: aload         6
+       248: invokedynamic #571,  0            // InvokeDynamic #8:makeConcatWithConstants:(Lorg/jetbrains/plugins/textmate/plist/PListValue;)Ljava/lang/String;
+       253: invokevirtual #574                // Method java/lang/Object.toString:()Ljava/lang/String;
+       256: invokespecial #575                // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+       259: athrow
+       260: astore        7
+       262: aload         5
+       264: ldc_w         #577                // String prefix
+       267: invokevirtual #580                // Method org/jetbrains/plugins/textmate/plist/Plist.getPlistValue:(Ljava/lang/String;)Lorg/jetbrains/plugins/textmate/plist/PListValue;
+       270: dup
+       271: ifnull        388
+       274: invokevirtual #544                // Method org/jetbrains/plugins/textmate/plist/PListValue.getString:()Ljava/lang/String;
+       277: dup
+       278: ifnull        388
+       281: astore        10
+       283: iconst_0
+       284: istore        11
+       286: aload         5
+       288: ldc_w         #582                // String description
+       291: ldc_w         #521                // String
+       294: invokevirtual #525                // Method org/jetbrains/plugins/textmate/plist/Plist.getPlistValue:(Ljava/lang/String;Ljava/lang/Object;)Lorg/jetbrains/plugins/textmate/plist/PListValue;
+       297: invokevirtual #544                // Method org/jetbrains/plugins/textmate/plist/PListValue.getString:()Ljava/lang/String;
+       300: dup
+       301: invokestatic  #548                // Method kotlin/jvm/internal/Intrinsics.checkNotNull:(Ljava/lang/Object;)V
+       304: astore        12
+       306: aload         5
+       308: ldc_w         #584                // String scope
+       311: invokevirtual #580                // Method org/jetbrains/plugins/textmate/plist/Plist.getPlistValue:(Ljava/lang/String;)Lorg/jetbrains/plugins/textmate/plist/PListValue;
+       314: dup
+       315: ifnull        324
+       318: invokevirtual #544                // Method org/jetbrains/plugins/textmate/plist/PListValue.getString:()Ljava/lang/String;
+       321: goto          326
+       324: pop
+       325: aconst_null
+       326: astore        13
+       328: aload         13
+       330: ifnull        359
+       333: new           #501                // class org/jetbrains/plugins/textmate/language/preferences/TextMateSnippet
+       336: dup
+       337: aload         10
+       339: aload         7
+       341: aload         13
+       343: checkcast     #403                // class java/lang/CharSequence
+       346: aload_3
+       347: aload         12
+       349: aload_3
+       350: invokespecial #504                // Method org/jetbrains/plugins/textmate/language/preferences/TextMateSnippet."<init>":(Ljava/lang/String;Ljava/lang/String;Ljava/lang/CharSequence;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+       353: invokestatic  #588                // Method kotlin/sequences/SequencesKt.sequenceOf:(Ljava/lang/Object;)Lkotlin/sequences/Sequence;
+       356: goto          382
+       359: aload_0
+       360: aload_1
+       361: invokevirtual #589                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionSnippet.getLanguage:()Ljava/lang/String;
+       364: invokespecial #466                // Method scopesForLanguage:(Ljava/lang/String;)Lkotlin/sequences/Sequence;
+       367: aload         10
+       369: aload         7
+       371: aload_3
+       372: aload         12
+       374: invokedynamic #597,  0            // InvokeDynamic #9:invoke:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lkotlin/jvm/functions/Function1;
+       379: invokestatic  #156                // Method kotlin/sequences/SequencesKt.map:(Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function1;)Lkotlin/sequences/Sequence;
+       382: nop
+       383: nop
+       384: dup
+       385: ifnonnull     392
+       388: pop
+       389: invokestatic  #475                // Method kotlin/sequences/SequencesKt.emptySequence:()Lkotlin/sequences/Sequence;
+       392: areturn
+
+  private static final kotlin.sequences.Sequence readSnippets$lambda$1(org.jetbrains.plugins.textmate.bundles.VSCBundleReader, org.jetbrains.plugins.textmate.bundles.VSCodeExtensionSnippet);
+    Code:
+         0: aload_1
+         1: ldc_w         #484                // String snippetConfiguration
+         4: invokestatic  #17                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+         7: aload_0
+         8: getfield      #33                 // Field resourceReader:Lorg/jetbrains/plugins/textmate/bundles/TextMateResourceReader;
+        11: aload_1
+        12: invokevirtual #487                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionSnippet.getPath:()Ljava/lang/String;
+        15: invokeinterface #362,  2          // InterfaceMethod org/jetbrains/plugins/textmate/bundles/TextMateResourceReader.read:(Ljava/lang/String;)[B
+        20: dup
+        21: ifnull        81
+        24: astore_2
+        25: iconst_0
+        26: istore_3
+        27: aload_2
+        28: aload_0
+        29: getfield      #30                 // Field plistReader:Lorg/jetbrains/plugins/textmate/plist/PlistReaderCore;
+        32: aload_1
+        33: invokevirtual #487                // Method org/jetbrains/plugins/textmate/bundles/VSCodeExtensionSnippet.getPath:()Ljava/lang/String;
+        36: invokestatic  #368                // Method org/jetbrains/plugins/textmate/bundles/BundleReaderCoreKt.readPlist:([BLorg/jetbrains/plugins/textmate/plist/PlistReaderCore;Ljava/lang/String;)Lorg/jetbrains/plugins/textmate/plist/Plist;
+        39: dup
+        40: ifnull        73
+        43: invokevirtual #611                // Method org/jetbrains/plugins/textmate/plist/Plist.entries:()Ljava/util/Set;
+        46: dup
+        47: ifnull        73
+        50: checkcast     #132                // class java/lang/Iterable
+        53: invokestatic  #138                // Method kotlin/collections/CollectionsKt.asSequence:(Ljava/lang/Iterable;)Lkotlin/sequences/Sequence;
+        56: dup
+        57: ifnull        73
+        60: aload_0
+        61: aload_1
+        62: invokedynamic #619,  0            // InvokeDynamic #10:invoke:(Lorg/jetbrains/plugins/textmate/bundles/VSCBundleReader;Lorg/jetbrains/plugins/textmate/bundles/VSCodeExtensionSnippet;)Lkotlin/jvm/functions/Function1;
+        67: invokestatic  #171                // Method kotlin/sequences/SequencesKt.flatMap:(Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function1;)Lkotlin/sequences/Sequence;
+        70: goto          75
+        73: pop
+        74: aconst_null
+        75: nop
+        76: nop
+        77: dup
+        78: ifnonnull     85
+        81: pop
+        82: invokestatic  #475                // Method kotlin/sequences/SequencesKt.emptySequence:()Lkotlin/sequences/Sequence;
+        85: areturn
+
+  public static final java.util.Map access$getLanguageToScope(org.jetbrains.plugins.textmate.bundles.VSCBundleReader);
+    Code:
+         0: aload_0
+         1: invokespecial #623                // Method getLanguageToScope:()Ljava/util/Map;
+         4: areturn
+
+  public static final java.util.Map access$getEmbeddedLanguages(org.jetbrains.plugins.textmate.bundles.VSCBundleReader);
+    Code:
+         0: aload_0
+         1: invokespecial #626                // Method getEmbeddedLanguages:()Ljava/util/Map;
+         4: areturn
+}

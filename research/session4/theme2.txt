@@ -1,0 +1,568 @@
+Compiled from "TextMateTheme.java"
+class org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateTheme$2 extends java.util.HashMap<java.lang.CharSequence, java.lang.CharSequence> {
+  org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateTheme$2();
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method java/util/HashMap."<init>":()V
+         4: aload_0
+         5: ldc           #7                  // String entity.other.attribute-name.localname.xml
+         7: ldc           #9                  // String XML_ATTRIBUTE_NAME
+         9: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        12: pop
+        13: aload_0
+        14: ldc           #17                 // String entity.name.tag.xml
+        16: ldc           #19                 // String XML_TAG_NAME
+        18: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        21: pop
+        22: aload_0
+        23: ldc           #21                 // String comment.block.html
+        25: ldc           #23                 // String HTML_COMMENT
+        27: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        30: pop
+        31: aload_0
+        32: ldc           #25                 // String entity.name.tag
+        34: ldc           #27                 // String HTML_TAG_NAME
+        36: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        39: pop
+        40: aload_0
+        41: ldc           #29                 // String entity.other.attribute-name.html
+        43: ldc           #31                 // String HTML_ATTRIBUTE_NAME
+        45: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        48: pop
+        49: aload_0
+        50: ldc           #33                 // String entity.name.function.decorator
+        52: ldc           #35                 // String PY.DECORATOR
+        54: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        57: pop
+        58: aload_0
+        59: ldc           #37                 // String entity.other.attribute-name.class.css
+        61: ldc           #39                 // String CSS.IDENT
+        63: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        66: pop
+        67: aload_0
+        68: ldc           #41                 // String comment.block.css
+        70: ldc           #43                 // String CSS.COMMENT
+        72: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        75: pop
+        76: aload_0
+        77: ldc           #45                 // String support.type.property-name
+        79: ldc           #47                 // String CSS.PROPERTY_NAME
+        81: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        84: pop
+        85: aload_0
+        86: ldc           #49                 // String meta.property-value.css
+        88: ldc           #51                 // String CSS.PROPERTY_VALUE
+        90: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        93: pop
+        94: aload_0
+        95: ldc           #53                 // String entity.name.tag.css
+        97: ldc           #55                 // String CSS.TAG_NAME
+        99: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       102: pop
+       103: aload_0
+       104: ldc           #57                 // String constant.numeric.css
+       106: ldc           #59                 // String CSS.NUMBER
+       108: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       111: pop
+       112: aload_0
+       113: ldc           #61                 // String support.function.misc.css
+       115: ldc           #63                 // String CSS.FUNCTION
+       117: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       120: pop
+       121: aload_0
+       122: ldc           #65                 // String variable.parameter.misc.css
+       124: ldc           #67                 // String CSS.URL
+       126: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       129: pop
+       130: aload_0
+       131: ldc           #69                 // String variable.other.less
+       133: ldc           #71                 // String LESS_VARIABLE
+       135: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       138: pop
+       139: aload_0
+       140: ldc           #73                 // String source.css.less
+       142: ldc           #75                 // String LESS_JS_CODE_DELIM
+       144: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       147: pop
+       148: aload_0
+       149: ldc           #77                 // String source.js.embedded.less
+       151: ldc           #79                 // String LESS_INJECTED_CODE
+       153: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       156: pop
+       157: aload_0
+       158: ldc           #81                 // String variable.parameter.sass
+       160: ldc           #83                 // String SASS_VARIABLE
+       162: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       165: pop
+       166: aload_0
+       167: ldc           #85                 // String string.quoted.double.css
+       169: ldc           #87                 // String SASS_STRING
+       171: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       174: pop
+       175: aload_0
+       176: ldc           #89                 // String keyword.control.at-rule.css
+       178: ldc           #91                 // String SASS_KEYWORD
+       180: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       183: pop
+       184: aload_0
+       185: ldc           #93                 // String support.type.property-name.css
+       187: ldc           #95                 // String SASS_PROPERTY_NAME
+       189: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       192: pop
+       193: aload_0
+       194: ldc           #97                 // String meta.selector.css entity.name.tag
+       196: ldc           #99                 // String SASS_TAG_NAME
+       198: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       201: pop
+       202: aload_0
+       203: ldc           #101                // String support.constant.property-value.css
+       205: ldc           #103                // String SASS_FUNCTION
+       207: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       210: pop
+       211: aload_0
+       212: ldc           #105                // String entity.other.attribute-name.tag
+       214: ldc           #107                // String SASS_MIXIN
+       216: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       219: pop
+       220: aload_0
+       221: ldc           #109                // String string.regexp
+       223: ldc           #111                // String JS.REGEXP
+       225: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       228: pop
+       229: aload_0
+       230: ldc           #113                // String comment.line.number-sign.yaml
+       232: ldc           #115                // String YAML_COMMENT
+       234: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       237: pop
+       238: aload_0
+       239: ldc           #117                // String entity.name.tag.yaml
+       241: ldc           #119                // String YAML_SCALAR_KEY
+       243: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       246: pop
+       247: aload_0
+       248: ldc           #121                // String string.unquoted.block.yaml
+       250: ldc           #123                // String YAML_SCALAR_VALUE
+       252: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       255: pop
+       256: aload_0
+       257: ldc           #125                // String string.quoted.single.yaml
+       259: ldc           #127                // String YAML_SCALAR_STRING
+       261: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       264: pop
+       265: aload_0
+       266: ldc           #129                // String string.quoted.double.yaml
+       268: ldc           #131                // String YAML_SCALAR_DSTRING
+       270: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       273: pop
+       274: aload_0
+       275: ldc           #133                // String string.unquoted.yaml
+       277: ldc           #135                // String YAML_TEXT
+       279: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       282: pop
+       283: aload_0
+       284: ldc           #137                // String comment.block.puppet
+       286: ldc           #139                // String PUPPET_BLOCK_COMMENT
+       288: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       291: pop
+       292: aload_0
+       293: ldc           #141                // String punctuation.definition.variable.puppet
+       295: ldc           #143                // String PUPPET_VARIABLE
+       297: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       300: pop
+       301: aload_0
+       302: ldc           #145                // String string source
+       304: ldc           #147                // String PUPPET_VARIABLE_INTERPOLATION
+       306: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       309: pop
+       310: aload_0
+       311: ldc           #149                // String keyword.control.puppet
+       313: ldc           #151                // String PUPPET_KEYWORD
+       315: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       318: pop
+       319: aload_0
+       320: ldc           #153                // String string.quoted.double.puppet
+       322: ldc           #155                // String PUPPET_STRING
+       324: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       327: pop
+       328: aload_0
+       329: ldc           #157                // String string.quoted.single.puppet
+       331: ldc           #159                // String PUPPET_SQ_STRING
+       333: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       336: pop
+       337: aload_0
+       338: ldc           #161                // String keyword.operator.assignment.puppet
+       340: ldc           #163                // String PUPPET_OPERATION_SIGN
+       342: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       345: pop
+       346: aload_0
+       347: ldc           #165                // String punctuation.section.scope.puppet
+       349: ldc           #167                // String PUPPET_PARENTH
+       351: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       354: pop
+       355: aload_0
+       356: ldc           #169                // String punctuation.definition.array.begin.puppet
+       358: ldc           #171                // String PUPPET_BRACKETS
+       360: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       363: pop
+       364: aload_0
+       365: ldc           #173                // String entity.name.type.class.puppet
+       367: ldc           #175                // String PUPPET_CLASS
+       369: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       372: pop
+       373: aload_0
+       374: ldc           #177                // String punctuation.definition.string.begin.ruby
+       376: ldc           #179                // String RUBY_HEREDOC_ID
+       378: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       381: pop
+       382: aload_0
+       383: ldc           #181                // String string.unquoted.heredoc.ruby
+       385: ldc           #183                // String RUBY_HEREDOC_CONTENT
+       387: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       390: pop
+       391: aload_0
+       392: ldc           #185                // String string.quoted.single.ruby
+       394: ldc           #187                // String RUBY_STRING
+       396: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       399: pop
+       400: aload_0
+       401: ldc           #189                // String string.quoted.double.ruby
+       403: ldc           #191                // String RUBY_INTERPOLATED_STRING
+       405: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       408: pop
+       409: aload_0
+       410: ldc           #193                // String string.quoted.other.literal.upper.ruby
+       412: ldc           #195                // String RUBY_WORDS
+       414: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       417: pop
+       418: aload_0
+       419: ldc           #197                // String entity.name.type.class.ruby
+       421: ldc           #199                // String RUBY_CONSTANT_DECLARATION
+       423: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       426: pop
+       427: aload_0
+       428: ldc           #201                // String variable.other.readwrite.global
+       430: ldc           #203                // String RUBY_GVAR
+       432: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       435: pop
+       436: aload_0
+       437: ldc           #205                // String variable.other.readwrite.class
+       439: ldc           #207                // String RUBY_CVAR
+       441: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       444: pop
+       445: aload_0
+       446: ldc           #209                // String variable.other.readwrite.instance
+       448: ldc           #211                // String RUBY_IVAR
+       450: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       453: pop
+       454: aload_0
+       455: ldc           #213                // String punctuation.separator.object
+       457: ldc           #215                // String RUBY_COMMA
+       459: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       462: pop
+       463: aload_0
+       464: ldc           #217                // String punctuation.separator.method
+       466: ldc           #219                // String RUBY_DOT
+       468: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       471: pop
+       472: aload_0
+       473: ldc           #221                // String punctuation.separator.statement
+       475: ldc           #223                // String RUBY_SEMICOLON
+       477: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       480: pop
+       481: aload_0
+       482: ldc           #225                // String punctuation.separator.key-value
+       484: ldc           #227                // String RUBY_HASH_ASSOC
+       486: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       489: pop
+       490: aload_0
+       491: ldc           #229                // String constant.other.symbol
+       493: ldc           #231                // String RUBY_SYMBOL
+       495: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       498: pop
+       499: aload_0
+       500: ldc           #233                // String punctuation.section.embedded.ruby
+       502: ldc           #235                // String RHTML_SCRIPTLET_START_ID
+       504: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       507: pop
+       508: aload_0
+       509: ldc           #237                // String comment.block.erb
+       511: ldc           #239                // String RHTML_COMMENT_ID
+       513: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       516: pop
+       517: aload_0
+       518: ldc           #241                // String source.ruby.rails.embedded.html
+       520: ldc           #243                // String RHTML_SCRIPTING_BACKGROUND_ID
+       522: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       525: pop
+       526: aload_0
+       527: ldc           #245                // String text.haml
+       529: ldc           #247                // String HAML_TEXT
+       531: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       534: pop
+       535: aload_0
+       536: ldc           #249                // String entity.name.tag.class.haml
+       538: ldc           #251                // String HAML_CLASS
+       540: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       543: pop
+       544: aload_0
+       545: ldc           #253                // String entity.name.tag.id.haml
+       547: ldc           #255                // String HAML_ID
+       549: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       552: pop
+       553: aload_0
+       554: ldc_w         #257                // String punctuation.definition.tag.haml
+       557: ldc_w         #259                // String HAML_TAG
+       560: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       563: pop
+       564: aload_0
+       565: ldc_w         #261                // String meta.tag.haml
+       568: ldc_w         #263                // String HAML_TAG_NAME
+       571: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       574: pop
+       575: aload_0
+       576: ldc_w         #265                // String comment.line.slash.haml
+       579: ldc_w         #267                // String HAML_COMMENT
+       582: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       585: pop
+       586: aload_0
+       587: ldc_w         #269                // String meta.prolog.haml
+       590: ldc_w         #271                // String HAML_XHTML
+       593: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       596: pop
+       597: aload_0
+       598: ldc_w         #273                // String source.ruby.embedded.haml
+       601: ldc_w         #275                // String HAML_RUBY_CODE
+       604: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       607: pop
+       608: aload_0
+       609: ldc_w         #277                // String meta.line.ruby.haml
+       612: ldc_w         #279                // String HAML_RUBY_START
+       615: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       618: pop
+       619: aload_0
+       620: ldc_w         #281                // String string.quoted.single.haml
+       623: ldc_w         #283                // String HAML_STRING
+       626: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       629: pop
+       630: aload_0
+       631: ldc_w         #285                // String string.quoted.double.haml
+       634: ldc_w         #287                // String HAML_STRING_INTERPOLATED
+       637: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       640: pop
+       641: aload_0
+       642: ldc_w         #289                // String text.slim
+       645: ldc_w         #291                // String SLIM_STATIC_CONTENT
+       648: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       651: pop
+       652: aload_0
+       653: ldc_w         #293                // String entity.name.tag.slim
+       656: ldc_w         #295                // String SLIM_TAG
+       659: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       662: pop
+       663: aload_0
+       664: ldc_w         #297                // String punctuation.definition.tag.slim
+       667: ldc_w         #299                // String SLIM_TAG_START
+       670: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       673: pop
+       674: aload_0
+       675: ldc_w         #301                // String comment.line.slash.slim
+       678: ldc_w         #303                // String SLIM_COMMENT
+       681: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       684: pop
+       685: aload_0
+       686: ldc_w         #305                // String meta.prolog.slim
+       689: ldc_w         #307                // String SLIM_DOCTYPE_KWD
+       692: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       695: pop
+       696: aload_0
+       697: ldc_w         #309                // String source.ruby.embedded.slim
+       700: ldc_w         #311                // String SLIM_RUBY_CODE
+       703: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       706: pop
+       707: aload_0
+       708: ldc_w         #313                // String meta.line.ruby.slim
+       711: ldc_w         #315                // String SLIM_CALL
+       714: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       717: pop
+       718: aload_0
+       719: ldc_w         #317                // String invalid.illegal.bad-ampersand.html
+       722: ldc_w         #319                // String SLIM_BAD_CHARACTER
+       725: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       728: pop
+       729: aload_0
+       730: ldc_w         #321                // String string.quoted.double.htm
+       733: ldc_w         #323                // String SLIM_STRING_INTERPOLATED
+       736: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       739: pop
+       740: aload_0
+       741: ldc_w         #325                // String text.gherkin.feature
+       744: ldc_w         #327                // String GHERKIN_TEXT
+       747: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       750: pop
+       751: aload_0
+       752: ldc_w         #329                // String comment.line.number-sign
+       755: ldc_w         #331                // String GHERKIN_COMMENT
+       758: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       761: pop
+       762: aload_0
+       763: ldc_w         #333                // String keyword.language.gherkin.feature
+       766: ldc_w         #335                // String GHERKIN_KEYWORD
+       769: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       772: pop
+       773: aload_0
+       774: ldc_w         #337                // String storage.type.tag.cucumber
+       777: ldc_w         #339                // String GHERKIN_TAG
+       780: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       783: pop
+       784: aload_0
+       785: ldc_w         #341                // String keyword.control.cucumber.table
+       788: ldc_w         #343                // String GHERKIN_TABLE_PIPE
+       791: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       794: pop
+       795: aload_0
+       796: ldc_w         #345                // String comment.block.coffee
+       799: ldc_w         #347                // String COFFEESCRIPT.BLOCK_COMMENT
+       802: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       805: pop
+       806: aload_0
+       807: ldc_w         #349                // String comment.line.coffee
+       810: ldc_w         #351                // String COFFEESCRIPT.LINE_COMMENT
+       813: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       816: pop
+       817: aload_0
+       818: ldc_w         #353                // String punctuation.terminator.statement.coffee
+       821: ldc_w         #355                // String COFFEESCRIPT.SEMICOLON
+       824: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       827: pop
+       828: aload_0
+       829: ldc_w         #357                // String meta.delimiter.object.comma.coffee
+       832: ldc_w         #359                // String COFFEESCRIPT.COMMA
+       835: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       838: pop
+       839: aload_0
+       840: ldc_w         #361                // String meta.delimiter.method.period.coffee
+       843: ldc_w         #363                // String COFFEESCRIPT.DOT
+       846: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       849: pop
+       850: aload_0
+       851: ldc_w         #365                // String entity.name.function.coffee
+       854: ldc_w         #367                // String COFFEESCRIPT.CLASS_NAME
+       857: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       860: pop
+       861: aload_0
+       862: ldc_w         #369                // String source.coffee
+       865: ldc_w         #371                // String COFFEESCRIPT.IDENTIFIER
+       868: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       871: pop
+       872: aload_0
+       873: ldc_w         #373                // String variable.assignment.coffee
+       876: ldc_w         #375                // String COFFEESCRIPT.OBJECT_KEY
+       879: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       882: pop
+       883: aload_0
+       884: ldc_w         #377                // String constant.numeric.coffee
+       887: ldc_w         #379                // String COFFEESCRIPT.NUMBER
+       890: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       893: pop
+       894: aload_0
+       895: ldc_w         #381                // String constant.language.boolean
+       898: ldc_w         #383                // String COFFEESCRIPT.BOOLEAN
+       901: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       904: pop
+       905: aload_0
+       906: ldc_w         #385                // String punctuation.definition.string.begin.coffee
+       909: ldc_w         #387                // String COFFEESCRIPT.STRING_LITERAL
+       912: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       915: pop
+       916: aload_0
+       917: ldc_w         #389                // String string.quoted.single.coffee
+       920: ldc_w         #391                // String COFFEESCRIPT.STRING
+       923: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       926: pop
+       927: aload_0
+       928: ldc_w         #393                // String string.quoted.double.heredoc.coffee
+       931: ldc_w         #395                // String COFFEESCRIPT.HEREDOC_CONTENT
+       934: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       937: pop
+       938: aload_0
+       939: ldc_w         #397                // String string.regexp.coffee
+       942: ldc_w         #399                // String COFFEESCRIPT.REGULAR_EXPRESSION_CONTENT
+       945: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       948: pop
+       949: aload_0
+       950: ldc_w         #401                // String punctuation.section.embedded.coffee
+       953: ldc_w         #403                // String COFFEESCRIPT.EXPRESSIONS_SUBSTITUTION_MARK
+       956: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       959: pop
+       960: aload_0
+       961: ldc_w         #405                // String meta.brace.round.coffee
+       964: ldc_w         #407                // String COFFEESCRIPT.PARENTHESIS
+       967: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       970: pop
+       971: aload_0
+       972: ldc_w         #409                // String meta.brace.square.coffee
+       975: ldc_w         #411                // String COFFEESCRIPT.BRACKET
+       978: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       981: pop
+       982: aload_0
+       983: ldc_w         #413                // String meta.brace.curly.coffee
+       986: ldc_w         #415                // String COFFEESCRIPT.BRACE
+       989: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       992: pop
+       993: aload_0
+       994: ldc_w         #417                // String keyword.operator.coffee
+       997: ldc_w         #419                // String COFFEESCRIPT.OPERATIONS
+      1000: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      1003: pop
+      1004: aload_0
+      1005: ldc_w         #421                // String keyword.control.coffee
+      1008: ldc_w         #423                // String COFFEESCRIPT.KEYWORD
+      1011: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      1014: pop
+      1015: aload_0
+      1016: ldc_w         #425                // String variable.language.coffee
+      1019: ldc_w         #427                // String COFFEESCRIPT.THIS
+      1022: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      1025: pop
+      1026: aload_0
+      1027: ldc_w         #429                // String storage.type.function.coffee
+      1030: ldc_w         #431                // String COFFEESCRIPT.FUNCTION
+      1033: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      1036: pop
+      1037: aload_0
+      1038: ldc_w         #433                // String constant.character.escape.coffee
+      1041: ldc_w         #435                // String COFFEESCRIPT.ESCAPE_SEQUENCE
+      1044: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      1047: pop
+      1048: aload_0
+      1049: ldc_w         #437                // String string.quoted.script.coffee
+      1052: ldc_w         #439                // String COFFEESCRIPT.JAVASCRIPT_CONTENT
+      1055: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      1058: pop
+      1059: aload_0
+      1060: ldc_w         #441                // String keyword.other.directive
+      1063: ldc_w         #443                // String OC.DIRECTIVE
+      1066: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      1069: pop
+      1070: aload_0
+      1071: ldc_w         #445                // String variable.other.selector.objc
+      1074: ldc_w         #447                // String IVAR
+      1077: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      1080: pop
+      1081: aload_0
+      1082: ldc_w         #449                // String variable.language.objc
+      1085: ldc_w         #451                // String OC.SELFSUPERTHIS
+      1088: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      1091: pop
+      1092: aload_0
+      1093: ldc_w         #453                // String meta.implementation.objc
+      1096: ldc_w         #455                // String PROTOCOL_REFERENCE
+      1099: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      1102: pop
+      1103: aload_0
+      1104: ldc_w         #457                // String variable.parameter.function.objc
+      1107: ldc_w         #459                // String OC.PARAMETER
+      1110: invokevirtual #11                 // Method put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      1113: pop
+      1114: return
+}

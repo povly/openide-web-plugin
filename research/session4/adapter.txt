@@ -1,0 +1,393 @@
+Compiled from "TextMateTextAttributesAdapter.java"
+public class org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateTextAttributesAdapter {
+  private final com.intellij.openapi.editor.markup.TextAttributes myTextAttributes;
+
+  private final double myForegroundAlpha;
+
+  private final double myBackgroundAlpha;
+
+  private final java.lang.CharSequence myScopeName;
+
+  public org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateTextAttributesAdapter(java.lang.CharSequence, org.jetbrains.plugins.textmate.language.preferences.TextMateTextAttributes);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_0
+         5: invokestatic  #270                // Method $$$reportNull$$$0:(I)V
+         8: aload_2
+         9: ifnonnull     16
+        12: iconst_1
+        13: invokestatic  #270                // Method $$$reportNull$$$0:(I)V
+        16: aload_0
+        17: invokespecial #1                  // Method java/lang/Object."<init>":()V
+        20: aload_0
+        21: aload_1
+        22: putfield      #7                  // Field myScopeName:Ljava/lang/CharSequence;
+        25: aload_0
+        26: new           #13                 // class com/intellij/openapi/editor/markup/TextAttributes
+        29: dup
+        30: invokespecial #15                 // Method com/intellij/openapi/editor/markup/TextAttributes."<init>":()V
+        33: putfield      #16                 // Field myTextAttributes:Lcom/intellij/openapi/editor/markup/TextAttributes;
+        36: aload_0
+        37: aload_2
+        38: invokevirtual #20                 // Method org/jetbrains/plugins/textmate/language/preferences/TextMateTextAttributes.getForeground:()Ljava/lang/String;
+        41: invokevirtual #26                 // Method getColor:(Ljava/lang/String;)Lcom/intellij/openapi/util/Pair;
+        44: astore_3
+        45: aload_0
+        46: getfield      #16                 // Field myTextAttributes:Lcom/intellij/openapi/editor/markup/TextAttributes;
+        49: aload_3
+        50: getfield      #30                 // Field com/intellij/openapi/util/Pair.first:Ljava/lang/Object;
+        53: checkcast     #36                 // class java/awt/Color
+        56: invokevirtual #38                 // Method com/intellij/openapi/editor/markup/TextAttributes.setForegroundColor:(Ljava/awt/Color;)V
+        59: aload_0
+        60: aload_3
+        61: getfield      #42                 // Field com/intellij/openapi/util/Pair.second:Ljava/lang/Object;
+        64: checkcast     #45                 // class java/lang/Double
+        67: invokevirtual #47                 // Method java/lang/Double.doubleValue:()D
+        70: putfield      #51                 // Field myForegroundAlpha:D
+        73: aload_0
+        74: aload_2
+        75: invokevirtual #55                 // Method org/jetbrains/plugins/textmate/language/preferences/TextMateTextAttributes.getBackground:()Ljava/lang/String;
+        78: invokevirtual #26                 // Method getColor:(Ljava/lang/String;)Lcom/intellij/openapi/util/Pair;
+        81: astore        4
+        83: aload_0
+        84: getfield      #16                 // Field myTextAttributes:Lcom/intellij/openapi/editor/markup/TextAttributes;
+        87: aload         4
+        89: getfield      #30                 // Field com/intellij/openapi/util/Pair.first:Ljava/lang/Object;
+        92: checkcast     #36                 // class java/awt/Color
+        95: invokevirtual #58                 // Method com/intellij/openapi/editor/markup/TextAttributes.setBackgroundColor:(Ljava/awt/Color;)V
+        98: aload_0
+        99: aload         4
+       101: getfield      #42                 // Field com/intellij/openapi/util/Pair.second:Ljava/lang/Object;
+       104: checkcast     #45                 // class java/lang/Double
+       107: invokevirtual #47                 // Method java/lang/Double.doubleValue:()D
+       110: putfield      #61                 // Field myBackgroundAlpha:D
+       113: getstatic     #64                 // Field org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTextAttributesAdapter$1.$SwitchMap$org$jetbrains$plugins$textmate$language$preferences$TextMateTextAttributes$FontStyle:[I
+       116: aload_2
+       117: invokevirtual #70                 // Method org/jetbrains/plugins/textmate/language/preferences/TextMateTextAttributes.getFontStyle:()Lorg/jetbrains/plugins/textmate/language/preferences/TextMateTextAttributes$FontStyle;
+       120: invokevirtual #74                 // Method org/jetbrains/plugins/textmate/language/preferences/TextMateTextAttributes$FontStyle.ordinal:()I
+       123: iaload
+       124: tableswitch   { // 1 to 4
+                       1: 156
+                       2: 167
+                       3: 178
+                       4: 189
+                 default: 253
+            }
+       156: aload_0
+       157: getfield      #16                 // Field myTextAttributes:Lcom/intellij/openapi/editor/markup/TextAttributes;
+       160: iconst_0
+       161: invokevirtual #82                 // Method com/intellij/openapi/editor/markup/TextAttributes.setFontType:(I)V
+       164: goto          253
+       167: aload_0
+       168: getfield      #16                 // Field myTextAttributes:Lcom/intellij/openapi/editor/markup/TextAttributes;
+       171: iconst_2
+       172: invokevirtual #82                 // Method com/intellij/openapi/editor/markup/TextAttributes.setFontType:(I)V
+       175: goto          253
+       178: aload_0
+       179: getfield      #16                 // Field myTextAttributes:Lcom/intellij/openapi/editor/markup/TextAttributes;
+       182: iconst_1
+       183: invokevirtual #82                 // Method com/intellij/openapi/editor/markup/TextAttributes.setFontType:(I)V
+       186: goto          253
+       189: aload_0
+       190: getfield      #16                 // Field myTextAttributes:Lcom/intellij/openapi/editor/markup/TextAttributes;
+       193: invokevirtual #86                 // Method com/intellij/openapi/editor/markup/TextAttributes.getForegroundColor:()Ljava/awt/Color;
+       196: astore        5
+       198: aload         5
+       200: ifnull        210
+       203: aload         5
+       205: astore        6
+       207: goto          234
+       210: getstatic     #90                 // Field com/intellij/openapi/editor/HighlighterColors.TEXT:Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       213: invokevirtual #96                 // Method com/intellij/openapi/editor/colors/TextAttributesKey.getDefaultAttributes:()Lcom/intellij/openapi/editor/markup/TextAttributes;
+       216: astore        7
+       218: aload         7
+       220: ifnull        231
+       223: aload         7
+       225: invokevirtual #86                 // Method com/intellij/openapi/editor/markup/TextAttributes.getForegroundColor:()Ljava/awt/Color;
+       228: goto          232
+       231: aconst_null
+       232: astore        6
+       234: aload_0
+       235: getfield      #16                 // Field myTextAttributes:Lcom/intellij/openapi/editor/markup/TextAttributes;
+       238: aload         6
+       240: invokevirtual #102                // Method com/intellij/openapi/editor/markup/TextAttributes.setEffectColor:(Ljava/awt/Color;)V
+       243: aload_0
+       244: getfield      #16                 // Field myTextAttributes:Lcom/intellij/openapi/editor/markup/TextAttributes;
+       247: getstatic     #105                // Field com/intellij/openapi/editor/markup/EffectType.LINE_UNDERSCORE:Lcom/intellij/openapi/editor/markup/EffectType;
+       250: invokevirtual #111                // Method com/intellij/openapi/editor/markup/TextAttributes.setEffectType:(Lcom/intellij/openapi/editor/markup/EffectType;)V
+       253: return
+
+  public com.intellij.openapi.editor.colors.TextAttributesKey getTextAttributesKey(org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateTheme);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_2
+         5: invokestatic  #270                // Method $$$reportNull$$$0:(I)V
+         8: aload_1
+         9: invokevirtual #115                // Method org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTheme.getDefaultBackground:()Ljava/awt/Color;
+        12: astore_2
+        13: aload_2
+        14: aload_0
+        15: getfield      #16                 // Field myTextAttributes:Lcom/intellij/openapi/editor/markup/TextAttributes;
+        18: invokevirtual #120                // Method com/intellij/openapi/editor/markup/TextAttributes.getBackgroundColor:()Ljava/awt/Color;
+        21: aload_0
+        22: getfield      #61                 // Field myBackgroundAlpha:D
+        25: invokestatic  #123                // Method mixBackground:(Ljava/awt/Color;Ljava/awt/Color;D)Ljava/awt/Color;
+        28: astore_3
+        29: aload_2
+        30: aload_0
+        31: getfield      #16                 // Field myTextAttributes:Lcom/intellij/openapi/editor/markup/TextAttributes;
+        34: invokevirtual #86                 // Method com/intellij/openapi/editor/markup/TextAttributes.getForegroundColor:()Ljava/awt/Color;
+        37: aload_0
+        38: getfield      #51                 // Field myForegroundAlpha:D
+        41: invokestatic  #123                // Method mixBackground:(Ljava/awt/Color;Ljava/awt/Color;D)Ljava/awt/Color;
+        44: astore        4
+        46: aload_3
+        47: ifnonnull     83
+        50: aload         4
+        52: ifnonnull     83
+        55: aload_0
+        56: getfield      #7                  // Field myScopeName:Ljava/lang/CharSequence;
+        59: invokestatic  #127                // Method java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+        62: invokedynamic #133,  0            // InvokeDynamic #0:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+        67: aload_0
+        68: getfield      #16                 // Field myTextAttributes:Lcom/intellij/openapi/editor/markup/TextAttributes;
+        71: invokestatic  #137                // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/markup/TextAttributes;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        74: dup
+        75: ifnonnull     82
+        78: iconst_3
+        79: invokestatic  #270                // Method $$$reportNull$$$0:(I)V
+        82: areturn
+        83: new           #13                 // class com/intellij/openapi/editor/markup/TextAttributes
+        86: dup
+        87: invokespecial #15                 // Method com/intellij/openapi/editor/markup/TextAttributes."<init>":()V
+        90: astore        5
+        92: aload         5
+        94: aload_0
+        95: getfield      #16                 // Field myTextAttributes:Lcom/intellij/openapi/editor/markup/TextAttributes;
+        98: invokevirtual #141                // Method com/intellij/openapi/editor/markup/TextAttributes.copyFrom:(Lcom/intellij/openapi/editor/markup/TextAttributes;)V
+       101: aload         4
+       103: ifnull        115
+       106: aload_0
+       107: getfield      #16                 // Field myTextAttributes:Lcom/intellij/openapi/editor/markup/TextAttributes;
+       110: aload         4
+       112: invokevirtual #38                 // Method com/intellij/openapi/editor/markup/TextAttributes.setForegroundColor:(Ljava/awt/Color;)V
+       115: aload_3
+       116: ifnull        127
+       119: aload_0
+       120: getfield      #16                 // Field myTextAttributes:Lcom/intellij/openapi/editor/markup/TextAttributes;
+       123: aload_3
+       124: invokevirtual #58                 // Method com/intellij/openapi/editor/markup/TextAttributes.setBackgroundColor:(Ljava/awt/Color;)V
+       127: getstatic     #145                // Field org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTheme.INSTANCE:Lorg/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTheme;
+       130: invokevirtual #149                // Method org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTheme.getName:()Ljava/lang/String;
+       133: aload_0
+       134: getfield      #7                  // Field myScopeName:Ljava/lang/CharSequence;
+       137: invokestatic  #127                // Method java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+       140: invokedynamic #152,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+       145: aload         5
+       147: invokestatic  #137                // Method com/intellij/openapi/editor/colors/TextAttributesKey.createTextAttributesKey:(Ljava/lang/String;Lcom/intellij/openapi/editor/markup/TextAttributes;)Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+       150: dup
+       151: ifnonnull     158
+       154: iconst_4
+       155: invokestatic  #270                // Method $$$reportNull$$$0:(I)V
+       158: areturn
+
+  private static java.awt.Color mixBackground(java.awt.Color, java.awt.Color, double);
+    Code:
+         0: aload_0
+         1: ifnull        14
+         4: aload_1
+         5: ifnull        14
+         8: dload_2
+         9: dconst_0
+        10: dcmpg
+        11: ifge          16
+        14: aconst_null
+        15: areturn
+        16: aload_1
+        17: aload_0
+        18: dload_2
+        19: invokestatic  #155                // Method com/intellij/ui/ColorUtil.mix:(Ljava/awt/Color;Ljava/awt/Color;D)Ljava/awt/Color;
+        22: areturn
+
+  public com.intellij.openapi.util.Pair<java.awt.Color, java.lang.Double> getColor(java.lang.String);
+    Code:
+         0: aload_1
+         1: ifnonnull     15
+         4: aconst_null
+         5: ldc2_w        #160                // double -1.0d
+         8: invokestatic  #162                // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+        11: invokestatic  #165                // Method com/intellij/openapi/util/Pair.create:(Ljava/lang/Object;Ljava/lang/Object;)Lcom/intellij/openapi/util/Pair;
+        14: areturn
+        15: aload_1
+        16: bipush        35
+        18: invokestatic  #169                // Method com/intellij/openapi/util/text/StringUtil.startsWithChar:(Ljava/lang/CharSequence;C)Z
+        21: ifeq          28
+        24: iconst_1
+        25: goto          29
+        28: iconst_0
+        29: istore_2
+        30: aload_1
+        31: iload_2
+        32: iload_2
+        33: bipush        6
+        35: iadd
+        36: invokevirtual #175                // Method java/lang/String.substring:(II)Ljava/lang/String;
+        39: aconst_null
+        40: invokestatic  #179                // Method com/intellij/ui/ColorUtil.fromHex:(Ljava/lang/String;Ljava/awt/Color;)Ljava/awt/Color;
+        43: astore_3
+        44: aload_1
+        45: invokevirtual #183                // Method java/lang/String.length:()I
+        48: bipush        7
+        50: if_icmple     67
+        53: aload_1
+        54: iload_2
+        55: bipush        6
+        57: iadd
+        58: invokevirtual #186                // Method java/lang/String.substring:(I)Ljava/lang/String;
+        61: invokestatic  #189                // Method parseAlpha:(Ljava/lang/String;)D
+        64: goto          70
+        67: ldc2_w        #160                // double -1.0d
+        70: dstore        4
+        72: aload_3
+        73: dload         4
+        75: invokestatic  #162                // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+        78: invokestatic  #165                // Method com/intellij/openapi/util/Pair.create:(Ljava/lang/Object;Ljava/lang/Object;)Lcom/intellij/openapi/util/Pair;
+        81: areturn
+
+  private static double parseAlpha(java.lang.String);
+    Code:
+         0: aload_0
+         1: bipush        16
+         3: invokestatic  #193                // Method java/lang/Integer.parseInt:(Ljava/lang/String;I)I
+         6: i2d
+         7: ldc2_w        #199                // double 256.0d
+        10: ddiv
+        11: dreturn
+        12: astore_1
+        13: ldc2_w        #160                // double -1.0d
+        16: dreturn
+      Exception table:
+         from    to  target type
+             0    11    12   Class java/lang/NumberFormatException
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: iload_0
+         1: tableswitch   { // 0 to 4
+                       0: 36
+                       1: 36
+                       2: 36
+                       3: 42
+                       4: 42
+                 default: 36
+            }
+        36: ldc_w         #272                // String Argument for @NotNull parameter \'%s\' of %s.%s must not be null
+        39: goto          48
+        42: ldc_w         #274                // String @NotNull method %s.%s must not return null
+        45: goto          48
+        48: iload_0
+        49: tableswitch   { // 0 to 4
+                       0: 84
+                       1: 84
+                       2: 84
+                       3: 88
+                       4: 88
+                 default: 84
+            }
+        84: iconst_3
+        85: goto          92
+        88: iconst_2
+        89: goto          92
+        92: anewarray     #2                  // class java/lang/Object
+        95: iload_0
+        96: tableswitch   { // 0 to 4
+                       0: 132
+                       1: 141
+                       2: 150
+                       3: 159
+                       4: 159
+                 default: 132
+            }
+       132: dup
+       133: iconst_0
+       134: ldc_w         #275                // String scopeName
+       137: aastore
+       138: goto          168
+       141: dup
+       142: iconst_0
+       143: ldc_w         #276                // String attributes
+       146: aastore
+       147: goto          168
+       150: dup
+       151: iconst_0
+       152: ldc_w         #277                // String textMateTheme
+       155: aastore
+       156: goto          168
+       159: dup
+       160: iconst_0
+       161: ldc_w         #278                // String org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTextAttributesAdapter
+       164: aastore
+       165: goto          168
+       168: iload_0
+       169: tableswitch   { // 0 to 4
+                       0: 204
+                       1: 204
+                       2: 204
+                       3: 213
+                       4: 213
+                 default: 204
+            }
+       204: dup
+       205: iconst_1
+       206: ldc_w         #278                // String org/jetbrains/plugins/textmate/language/syntax/highlighting/TextMateTextAttributesAdapter
+       209: aastore
+       210: goto          222
+       213: dup
+       214: iconst_1
+       215: ldc_w         #279                // String getTextAttributesKey
+       218: aastore
+       219: goto          222
+       222: iload_0
+       223: tableswitch   { // 0 to 4
+                       0: 256
+                       1: 256
+                       2: 265
+                       3: 274
+                       4: 274
+                 default: 256
+            }
+       256: dup
+       257: iconst_2
+       258: ldc_w         #280                // String <init>
+       261: aastore
+       262: goto          277
+       265: dup
+       266: iconst_2
+       267: ldc_w         #279                // String getTextAttributesKey
+       270: aastore
+       271: goto          277
+       274: goto          277
+       277: invokestatic  #284                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+       280: iload_0
+       281: tableswitch   { // 0 to 4
+                       0: 316
+                       1: 316
+                       2: 316
+                       3: 327
+                       4: 327
+                 default: 316
+            }
+       316: new           #286                // class java/lang/IllegalArgumentException
+       319: dup_x1
+       320: swap
+       321: invokespecial #289                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+       324: goto          338
+       327: new           #291                // class java/lang/IllegalStateException
+       330: dup_x1
+       331: swap
+       332: invokespecial #292                // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+       335: goto          338
+       338: athrow
+}

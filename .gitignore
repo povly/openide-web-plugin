@@ -13,3 +13,6 @@ manifest.mf
 #  - ideimpl/: 107M decompiled IntelliJ platform, re-derivable from /usr/share/openide
 research/session2/web-tools-1.0.1-signed.zip
 research/session2/ideimpl/
+
+# research/session4: re-derivable jar extraction (kept on disk only)
+research/session4/tmx/

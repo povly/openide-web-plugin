@@ -1,0 +1,141 @@
+Compiled from "TextMateScopeComparatorCore.kt"
+public final class org.jetbrains.plugins.textmate.language.TextMateScopeComparatorCore<T> implements java.util.Comparator<T> {
+  private final org.jetbrains.plugins.textmate.language.syntax.selector.TextMateSelectorWeigher weigher;
+
+  private final org.jetbrains.plugins.textmate.language.syntax.lexer.TextMateScope scope;
+
+  private final kotlin.jvm.functions.Function1<T, java.lang.CharSequence> scopeProvider;
+
+  public org.jetbrains.plugins.textmate.language.TextMateScopeComparatorCore(org.jetbrains.plugins.textmate.language.syntax.selector.TextMateSelectorWeigher, org.jetbrains.plugins.textmate.language.syntax.lexer.TextMateScope, kotlin.jvm.functions.Function1<? super T, ? extends java.lang.CharSequence>);
+    Code:
+         0: aload_1
+         1: ldc           #13                 // String weigher
+         3: invokestatic  #19                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+         6: aload_2
+         7: ldc           #21                 // String scope
+         9: invokestatic  #19                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+        12: aload_3
+        13: ldc           #23                 // String scopeProvider
+        15: invokestatic  #19                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+        18: aload_0
+        19: invokespecial #26                 // Method java/lang/Object."<init>":()V
+        22: aload_0
+        23: aload_1
+        24: putfield      #29                 // Field weigher:Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateSelectorWeigher;
+        27: aload_0
+        28: aload_2
+        29: putfield      #32                 // Field scope:Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;
+        32: aload_0
+        33: aload_3
+        34: putfield      #35                 // Field scopeProvider:Lkotlin/jvm/functions/Function1;
+        37: return
+
+  public int compare(T, T);
+    Code:
+         0: aload_0
+         1: getfield      #29                 // Field weigher:Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateSelectorWeigher;
+         4: aload_0
+         5: getfield      #35                 // Field scopeProvider:Lkotlin/jvm/functions/Function1;
+         8: aload_1
+         9: invokeinterface #46,  2           // InterfaceMethod kotlin/jvm/functions/Function1.invoke:(Ljava/lang/Object;)Ljava/lang/Object;
+        14: checkcast     #48                 // class java/lang/CharSequence
+        17: aload_0
+        18: getfield      #32                 // Field scope:Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;
+        21: invokeinterface #54,  3           // InterfaceMethod org/jetbrains/plugins/textmate/language/syntax/selector/TextMateSelectorWeigher.weigh:(Ljava/lang/CharSequence;Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;)Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateWeigh;
+        26: aload_0
+        27: getfield      #29                 // Field weigher:Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateSelectorWeigher;
+        30: aload_0
+        31: getfield      #35                 // Field scopeProvider:Lkotlin/jvm/functions/Function1;
+        34: aload_2
+        35: invokeinterface #46,  2           // InterfaceMethod kotlin/jvm/functions/Function1.invoke:(Ljava/lang/Object;)Ljava/lang/Object;
+        40: checkcast     #48                 // class java/lang/CharSequence
+        43: aload_0
+        44: getfield      #32                 // Field scope:Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;
+        47: invokeinterface #54,  3           // InterfaceMethod org/jetbrains/plugins/textmate/language/syntax/selector/TextMateSelectorWeigher.weigh:(Ljava/lang/CharSequence;Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;)Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateWeigh;
+        52: invokevirtual #60                 // Method org/jetbrains/plugins/textmate/language/syntax/selector/TextMateWeigh.compareTo:(Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateWeigh;)I
+        55: ireturn
+
+  public final java.util.List<T> sortAndFilter(java.util.Collection<? extends T>);
+    Code:
+         0: aload_1
+         1: ldc           #68                 // String objects
+         3: invokestatic  #19                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+         6: aload_1
+         7: checkcast     #70                 // class java/lang/Iterable
+        10: invokestatic  #76                 // Method kotlin/collections/CollectionsKt.asSequence:(Ljava/lang/Iterable;)Lkotlin/sequences/Sequence;
+        13: aload_0
+        14: invokedynamic #94,  0             // InvokeDynamic #0:invoke:(Lorg/jetbrains/plugins/textmate/language/TextMateScopeComparatorCore;)Lkotlin/jvm/functions/Function1;
+        19: invokestatic  #100                // Method kotlin/sequences/SequencesKt.filter:(Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function1;)Lkotlin/sequences/Sequence;
+        22: aload_0
+        23: invokevirtual #104                // Method reversed:()Ljava/util/Comparator;
+        26: dup
+        27: ldc           #106                // String reversed(...)
+        29: invokestatic  #109                // Method kotlin/jvm/internal/Intrinsics.checkNotNullExpressionValue:(Ljava/lang/Object;Ljava/lang/String;)V
+        32: invokestatic  #113                // Method kotlin/sequences/SequencesKt.sortedWith:(Lkotlin/sequences/Sequence;Ljava/util/Comparator;)Lkotlin/sequences/Sequence;
+        35: invokestatic  #117                // Method kotlin/sequences/SequencesKt.toList:(Lkotlin/sequences/Sequence;)Ljava/util/List;
+        38: areturn
+
+  public final T max(java.util.Collection<? extends T>);
+    Code:
+         0: aload_1
+         1: ldc           #68                 // String objects
+         3: invokestatic  #19                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+         6: getstatic     #126                // Field org/jetbrains/plugins/textmate/language/syntax/selector/TextMateWeigh.Companion:Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateWeigh$Companion;
+         9: invokevirtual #132                // Method org/jetbrains/plugins/textmate/language/syntax/selector/TextMateWeigh$Companion.getZERO:()Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateWeigh;
+        12: astore_2
+        13: aconst_null
+        14: astore_3
+        15: aload_1
+        16: invokeinterface #138,  1          // InterfaceMethod java/util/Collection.iterator:()Ljava/util/Iterator;
+        21: astore        4
+        23: aload         4
+        25: invokeinterface #144,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+        30: ifeq          97
+        33: aload         4
+        35: invokeinterface #148,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        40: astore        5
+        42: aload_0
+        43: getfield      #29                 // Field weigher:Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateSelectorWeigher;
+        46: aload_0
+        47: getfield      #35                 // Field scopeProvider:Lkotlin/jvm/functions/Function1;
+        50: aload         5
+        52: invokeinterface #46,  2           // InterfaceMethod kotlin/jvm/functions/Function1.invoke:(Ljava/lang/Object;)Ljava/lang/Object;
+        57: checkcast     #48                 // class java/lang/CharSequence
+        60: aload_0
+        61: getfield      #32                 // Field scope:Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;
+        64: invokeinterface #54,  3           // InterfaceMethod org/jetbrains/plugins/textmate/language/syntax/selector/TextMateSelectorWeigher.weigh:(Ljava/lang/CharSequence;Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;)Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateWeigh;
+        69: astore        6
+        71: aload         6
+        73: invokevirtual #152                // Method org/jetbrains/plugins/textmate/language/syntax/selector/TextMateWeigh.getWeigh:()I
+        76: ifle          23
+        79: aload         6
+        81: aload_2
+        82: invokevirtual #60                 // Method org/jetbrains/plugins/textmate/language/syntax/selector/TextMateWeigh.compareTo:(Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateWeigh;)I
+        85: ifle          23
+        88: aload         6
+        90: astore_2
+        91: aload         5
+        93: astore_3
+        94: goto          23
+        97: aload_3
+        98: areturn
+
+  private static final boolean sortAndFilter$lambda$0(org.jetbrains.plugins.textmate.language.TextMateScopeComparatorCore, java.lang.Object);
+    Code:
+         0: aload_0
+         1: getfield      #29                 // Field weigher:Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateSelectorWeigher;
+         4: aload_0
+         5: getfield      #35                 // Field scopeProvider:Lkotlin/jvm/functions/Function1;
+         8: aload_1
+         9: invokeinterface #46,  2           // InterfaceMethod kotlin/jvm/functions/Function1.invoke:(Ljava/lang/Object;)Ljava/lang/Object;
+        14: checkcast     #48                 // class java/lang/CharSequence
+        17: aload_0
+        18: getfield      #32                 // Field scope:Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;
+        21: invokeinterface #54,  3           // InterfaceMethod org/jetbrains/plugins/textmate/language/syntax/selector/TextMateSelectorWeigher.weigh:(Ljava/lang/CharSequence;Lorg/jetbrains/plugins/textmate/language/syntax/lexer/TextMateScope;)Lorg/jetbrains/plugins/textmate/language/syntax/selector/TextMateWeigh;
+        26: invokevirtual #152                // Method org/jetbrains/plugins/textmate/language/syntax/selector/TextMateWeigh.getWeigh:()I
+        29: ifle          36
+        32: iconst_1
+        33: goto          37
+        36: iconst_0
+        37: ireturn
+}

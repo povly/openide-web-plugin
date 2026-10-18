@@ -1,0 +1,2196 @@
+Compiled from "LexerEditorHighlighter.java"
+public class com.intellij.openapi.editor.ex.util.LexerEditorHighlighter implements com.intellij.openapi.editor.highlighter.EditorHighlighter,com.intellij.openapi.editor.ex.PrioritizedDocumentListener {
+  private static final com.intellij.openapi.diagnostic.Logger LOG;
+
+  private static final int LEXER_INCREMENTALITY_THRESHOLD;
+
+  private static final java.util.Set<java.lang.Class<?>> ourNonIncrementalLexers;
+
+  private com.intellij.openapi.editor.highlighter.HighlighterClient myEditor;
+
+  private final com.intellij.lexer.Lexer myLexer;
+
+  private final java.util.Map<com.intellij.psi.tree.IElementType, com.intellij.openapi.editor.markup.TextAttributes> myAttributesMap;
+
+  private final java.util.Map<com.intellij.psi.tree.IElementType, com.intellij.openapi.editor.colors.TextAttributesKey[]> myKeysMap;
+
+  private com.intellij.openapi.editor.ex.util.SegmentArrayWithData mySegments;
+
+  private final com.intellij.openapi.fileTypes.SyntaxHighlighter myHighlighter;
+
+  private com.intellij.openapi.editor.colors.EditorColorsScheme myScheme;
+
+  private final int myInitialState;
+
+  protected java.lang.CharSequence myText;
+
+  static final boolean $assertionsDisabled;
+
+  public com.intellij.openapi.editor.ex.util.LexerEditorHighlighter(com.intellij.openapi.fileTypes.SyntaxHighlighter, com.intellij.openapi.editor.colors.EditorColorsScheme);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_0
+         5: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         8: aload_2
+         9: ifnonnull     16
+        12: iconst_1
+        13: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        16: aload_0
+        17: invokespecial #1                  // Method java/lang/Object."<init>":()V
+        20: aload_0
+        21: new           #7                  // class java/util/HashMap
+        24: dup
+        25: invokespecial #9                  // Method java/util/HashMap."<init>":()V
+        28: putfield      #10                 // Field myAttributesMap:Ljava/util/Map;
+        31: aload_0
+        32: new           #7                  // class java/util/HashMap
+        35: dup
+        36: invokespecial #9                  // Method java/util/HashMap."<init>":()V
+        39: putfield      #16                 // Field myKeysMap:Ljava/util/Map;
+        42: aload_0
+        43: aload_2
+        44: putfield      #19                 // Field myScheme:Lcom/intellij/openapi/editor/colors/EditorColorsScheme;
+        47: aload_0
+        48: aload_1
+        49: invokeinterface #23,  1           // InterfaceMethod com/intellij/openapi/fileTypes/SyntaxHighlighter.getHighlightingLexer:()Lcom/intellij/lexer/Lexer;
+        54: putfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+        57: aload_0
+        58: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+        61: getstatic     #33                 // Field com/intellij/openapi/util/text/Strings.EMPTY_CHAR_SEQUENCE:Ljava/lang/CharSequence;
+        64: invokevirtual #39                 // Method com/intellij/lexer/Lexer.start:(Ljava/lang/CharSequence;)V
+        67: aload_0
+        68: aload_0
+        69: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+        72: invokevirtual #45                 // Method com/intellij/lexer/Lexer.getState:()I
+        75: putfield      #49                 // Field myInitialState:I
+        78: aload_0
+        79: aload_1
+        80: putfield      #53                 // Field myHighlighter:Lcom/intellij/openapi/fileTypes/SyntaxHighlighter;
+        83: aload_0
+        84: aload_0
+        85: invokevirtual #57                 // Method createSegments:()Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        88: putfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        91: return
+
+  protected com.intellij.openapi.editor.ex.util.SegmentArrayWithData createSegments();
+    Code:
+         0: new           #65                 // class com/intellij/openapi/editor/ex/util/SegmentArrayWithData
+         3: dup
+         4: aload_0
+         5: invokevirtual #67                 // Method createStorage:()Lcom/intellij/openapi/editor/ex/util/DataStorage;
+         8: invokespecial #71                 // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData."<init>":(Lcom/intellij/openapi/editor/ex/util/DataStorage;)V
+        11: areturn
+
+  protected com.intellij.openapi.editor.ex.util.DataStorage createStorage();
+    Code:
+         0: aload_0
+         1: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+         4: instanceof    #74                 // class com/intellij/lexer/RestartableLexer
+         7: ifeq          20
+        10: new           #76                 // class com/intellij/openapi/editor/ex/util/IntBasedStorage
+        13: dup
+        14: invokespecial #78                 // Method com/intellij/openapi/editor/ex/util/IntBasedStorage."<init>":()V
+        17: goto          27
+        20: new           #79                 // class com/intellij/openapi/editor/ex/util/ShortBasedStorage
+        23: dup
+        24: invokespecial #81                 // Method com/intellij/openapi/editor/ex/util/ShortBasedStorage."<init>":()V
+        27: areturn
+
+  public boolean isPlain();
+    Code:
+         0: aload_0
+         1: getfield      #53                 // Field myHighlighter:Lcom/intellij/openapi/fileTypes/SyntaxHighlighter;
+         4: instanceof    #82                 // class com/intellij/openapi/fileTypes/PlainSyntaxHighlighter
+         7: ireturn
+
+  protected final com.intellij.openapi.editor.Document getDocument();
+    Code:
+         0: invokestatic  #84                 // Method com/intellij/openapi/application/EditorLockFreeTyping.isEnabled:()Z
+         3: ifeq          30
+         6: aload_0
+         7: getfield      #90                 // Field myEditor:Lcom/intellij/openapi/editor/highlighter/HighlighterClient;
+        10: astore_2
+        11: aload_2
+        12: instanceof    #94                 // class com/intellij/openapi/editor/Editor
+        15: ifeq          30
+        18: aload_2
+        19: checkcast     #94                 // class com/intellij/openapi/editor/Editor
+        22: astore_1
+        23: aload_1
+        24: invokeinterface #96,  1           // InterfaceMethod com/intellij/openapi/editor/Editor.getElfDocument:()Lcom/intellij/openapi/editor/Document;
+        29: areturn
+        30: aload_0
+        31: getfield      #90                 // Field myEditor:Lcom/intellij/openapi/editor/highlighter/HighlighterClient;
+        34: ifnull        49
+        37: aload_0
+        38: getfield      #90                 // Field myEditor:Lcom/intellij/openapi/editor/highlighter/HighlighterClient;
+        41: invokeinterface #100,  1          // InterfaceMethod com/intellij/openapi/editor/highlighter/HighlighterClient.getDocument:()Lcom/intellij/openapi/editor/Document;
+        46: goto          50
+        49: aconst_null
+        50: areturn
+
+  public final synchronized boolean checkContentIsEqualTo(java.lang.CharSequence);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_2
+         5: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         8: aload_0
+         9: invokevirtual #105                // Method getDocument:()Lcom/intellij/openapi/editor/Document;
+        12: astore_2
+        13: aload_2
+        14: ifnull        41
+        17: aload_0
+        18: invokevirtual #106                // Method isInSyncWithDocument:()Z
+        21: ifeq          41
+        24: aload_2
+        25: invokeinterface #109,  1          // InterfaceMethod com/intellij/openapi/editor/Document.getImmutableCharSequence:()Ljava/lang/CharSequence;
+        30: aload_1
+        31: invokestatic  #115                // Method com/intellij/openapi/util/Comparing.equal:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Z
+        34: ifeq          41
+        37: iconst_1
+        38: goto          42
+        41: iconst_0
+        42: ireturn
+
+  public com.intellij.openapi.editor.colors.EditorColorsScheme getScheme();
+    Code:
+         0: aload_0
+         1: getfield      #19                 // Field myScheme:Lcom/intellij/openapi/editor/colors/EditorColorsScheme;
+         4: dup
+         5: ifnonnull     12
+         8: iconst_3
+         9: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        12: areturn
+
+  protected com.intellij.lexer.Lexer getLexer();
+    Code:
+         0: aload_0
+         1: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+         4: dup
+         5: ifnonnull     12
+         8: iconst_4
+         9: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        12: areturn
+
+  public void setEditor(com.intellij.openapi.editor.highlighter.HighlighterClient);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_5
+         5: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         8: getstatic     #121                // Field LOG:Lcom/intellij/openapi/diagnostic/Logger;
+        11: aload_0
+        12: getfield      #90                 // Field myEditor:Lcom/intellij/openapi/editor/highlighter/HighlighterClient;
+        15: ifnonnull     22
+        18: iconst_1
+        19: goto          23
+        22: iconst_0
+        23: ldc           #125                // String Highlighters cannot be reused with different editors
+        25: invokevirtual #127                // Method com/intellij/openapi/diagnostic/Logger.assertTrue:(ZLjava/lang/Object;)Z
+        28: pop
+        29: aload_0
+        30: aload_1
+        31: putfield      #90                 // Field myEditor:Lcom/intellij/openapi/editor/highlighter/HighlighterClient;
+        34: return
+
+  public void setColorScheme(com.intellij.openapi.editor.colors.EditorColorsScheme);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        6
+         6: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: aload_1
+        11: putfield      #19                 // Field myScheme:Lcom/intellij/openapi/editor/colors/EditorColorsScheme;
+        14: aload_0
+        15: getfield      #10                 // Field myAttributesMap:Ljava/util/Map;
+        18: invokeinterface #133,  1          // InterfaceMethod java/util/Map.clear:()V
+        23: return
+
+  public com.intellij.openapi.editor.highlighter.HighlighterIterator createIterator(int);
+    Code:
+         0: aload_0
+         1: dup
+         2: astore_2
+         3: monitorenter
+         4: aload_0
+         5: invokevirtual #106                // Method isInSyncWithDocument:()Z
+         8: ifne          60
+        11: aload_0
+        12: invokevirtual #105                // Method getDocument:()Lcom/intellij/openapi/editor/Document;
+        15: astore_3
+        16: getstatic     #138                // Field $assertionsDisabled:Z
+        19: ifne          34
+        22: aload_3
+        23: ifnonnull     34
+        26: new           #142                // class java/lang/AssertionError
+        29: dup
+        30: invokespecial #144                // Method java/lang/AssertionError."<init>":()V
+        33: athrow
+        34: aload_3
+        35: invokeinterface #145,  1          // InterfaceMethod com/intellij/openapi/editor/Document.isInBulkUpdate:()Z
+        40: ifeq          50
+        43: aload_3
+        44: iconst_0
+        45: invokeinterface #148,  2          // InterfaceMethod com/intellij/openapi/editor/Document.setInBulkUpdate:(Z)V
+        50: aload_0
+        51: aload_3
+        52: invokeinterface #109,  1          // InterfaceMethod com/intellij/openapi/editor/Document.getImmutableCharSequence:()Ljava/lang/CharSequence;
+        57: invokevirtual #152                // Method doSetText:(Ljava/lang/CharSequence;)V
+        60: aload_0
+        61: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        64: invokevirtual #155                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getLastValidOffset:()I
+        67: istore_3
+        68: new           #158                // class com/intellij/openapi/editor/ex/util/LexerEditorHighlighter$HighlighterIteratorImpl
+        71: dup
+        72: aload_0
+        73: iconst_0
+        74: iload_1
+        75: iload_3
+        76: invokestatic  #160                // Method java/lang/Math.min:(II)I
+        79: invokestatic  #166                // Method java/lang/Math.max:(II)I
+        82: invokespecial #169                // Method com/intellij/openapi/editor/ex/util/LexerEditorHighlighter$HighlighterIteratorImpl."<init>":(Lcom/intellij/openapi/editor/ex/util/LexerEditorHighlighter;I)V
+        85: aload_2
+        86: monitorexit
+        87: dup
+        88: ifnonnull     96
+        91: bipush        7
+        93: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        96: areturn
+        97: astore_3
+        98: aload_3
+        99: athrow
+       100: astore_3
+       101: aload_3
+       102: instanceof    #176                // class com/intellij/openapi/diagnostic/ControlFlowException
+       105: ifeq          110
+       108: aload_3
+       109: athrow
+       110: getstatic     #121                // Field LOG:Lcom/intellij/openapi/diagnostic/Logger;
+       113: iload_1
+       114: aload_0
+       115: invokestatic  #178                // Method java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+       118: invokedynamic #184,  0            // InvokeDynamic #0:makeConcatWithConstants:(ILjava/lang/String;)Ljava/lang/String;
+       123: aload_3
+       124: invokevirtual #188                // Method com/intellij/openapi/diagnostic/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+       127: new           #192                // class com/intellij/openapi/editor/ex/util/EmptyEditorHighlighter
+       130: dup
+       131: invokespecial #194                // Method com/intellij/openapi/editor/ex/util/EmptyEditorHighlighter."<init>":()V
+       134: iload_1
+       135: invokevirtual #195                // Method com/intellij/openapi/editor/ex/util/EmptyEditorHighlighter.createIterator:(I)Lcom/intellij/openapi/editor/highlighter/HighlighterIterator;
+       138: aload_2
+       139: monitorexit
+       140: dup
+       141: ifnonnull     149
+       144: bipush        8
+       146: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+       149: areturn
+       150: astore        4
+       152: aload_2
+       153: monitorexit
+       154: aload         4
+       156: athrow
+      Exception table:
+         from    to  target type
+            60    85    97   Class java/util/concurrent/CancellationException
+            60    85   100   Class java/lang/Throwable
+             4    87   150   any
+            97   140   150   any
+           150   154   150   any
+
+  public boolean isValid();
+    Code:
+         0: aload_0
+         1: getfield      #90                 // Field myEditor:Lcom/intellij/openapi/editor/highlighter/HighlighterClient;
+         4: invokeinterface #199,  1          // InterfaceMethod com/intellij/openapi/editor/highlighter/HighlighterClient.getProject:()Lcom/intellij/openapi/project/Project;
+         9: astore_1
+        10: aload_1
+        11: ifnull        27
+        14: aload_1
+        15: invokeinterface #203,  1          // InterfaceMethod com/intellij/openapi/project/Project.isDisposed:()Z
+        20: ifne          27
+        23: iconst_1
+        24: goto          28
+        27: iconst_0
+        28: ireturn
+
+  private boolean isInSyncWithDocument();
+    Code:
+         0: aload_0
+         1: invokevirtual #105                // Method getDocument:()Lcom/intellij/openapi/editor/Document;
+         4: astore_1
+         5: aload_1
+         6: ifnull        28
+         9: aload_1
+        10: invokeinterface #208,  1          // InterfaceMethod com/intellij/openapi/editor/Document.getTextLength:()I
+        15: ifeq          28
+        18: aload_0
+        19: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        22: invokevirtual #211                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentCount:()I
+        25: ifle          32
+        28: iconst_1
+        29: goto          33
+        32: iconst_0
+        33: ireturn
+
+  private boolean isInitialState(int);
+    Code:
+         0: aload_0
+         1: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+         4: instanceof    #74                 // class com/intellij/lexer/RestartableLexer
+         7: ifeq          33
+        10: aload_0
+        11: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        14: iload_1
+        15: invokevirtual #214                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.unpackStateFromData:(I)I
+        18: istore_2
+        19: aload_0
+        20: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+        23: checkcast     #74                 // class com/intellij/lexer/RestartableLexer
+        26: iload_2
+        27: invokeinterface #218,  2          // InterfaceMethod com/intellij/lexer/RestartableLexer.isRestartableState:(I)Z
+        32: ireturn
+        33: iload_1
+        34: iflt          41
+        37: iconst_1
+        38: goto          42
+        41: iconst_0
+        42: ireturn
+
+  int incrementalUpdate(int, int, int, com.intellij.openapi.editor.Document);
+    Code:
+         0: aload         4
+         2: ifnonnull     10
+         5: bipush        9
+         7: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        10: aload         4
+        12: invokeinterface #109,  1          // InterfaceMethod com/intellij/openapi/editor/Document.getImmutableCharSequence:()Ljava/lang/CharSequence;
+        17: astore        5
+        19: aload_0
+        20: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        23: invokevirtual #211                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentCount:()I
+        26: ifeq          40
+        29: aload_0
+        30: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        33: invokevirtual #155                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getLastValidOffset:()I
+        36: iload_1
+        37: if_icmpge     54
+        40: aload_0
+        41: aload         5
+        43: invokevirtual #222                // Method setText:(Ljava/lang/CharSequence;)V
+        46: aload         5
+        48: invokeinterface #225,  1          // InterfaceMethod java/lang/CharSequence.length:()I
+        53: ireturn
+        54: aload_0
+        55: aload         5
+        57: putfield      #230                // Field myText:Ljava/lang/CharSequence;
+        60: aload_0
+        61: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        64: iload_1
+        65: invokevirtual #233                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.findSegmentIndex:(I)I
+        68: iconst_2
+        69: isub
+        70: istore        6
+        72: iconst_0
+        73: iload         6
+        75: invokestatic  #166                // Method java/lang/Math.max:(II)I
+        78: istore        7
+        80: iload         7
+        82: istore        8
+        84: aload_0
+        85: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        88: iload         8
+        90: invokevirtual #236                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentData:(I)I
+        93: istore        9
+        95: aload_0
+        96: iload         9
+        98: invokevirtual #239                // Method isInitialState:(I)Z
+       101: ifne          118
+       104: iload         8
+       106: ifne          112
+       109: goto          118
+       112: iinc          8, -1
+       115: goto          84
+       118: aload_0
+       119: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       122: iload         8
+       124: invokevirtual #242                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentStart:(I)I
+       127: istore        10
+       129: aload         5
+       131: invokeinterface #225,  1          // InterfaceMethod java/lang/CharSequence.length:()I
+       136: istore        12
+       138: iload         10
+       140: ifne          190
+       143: aload_0
+       144: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       147: instanceof    #74                 // class com/intellij/lexer/RestartableLexer
+       150: ifeq          190
+       153: aload_0
+       154: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       157: checkcast     #74                 // class com/intellij/lexer/RestartableLexer
+       160: invokeinterface #245,  1          // InterfaceMethod com/intellij/lexer/RestartableLexer.getStartState:()I
+       165: istore        11
+       167: aload_0
+       168: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       171: aload         5
+       173: iload         10
+       175: aload         5
+       177: invokeinterface #225,  1          // InterfaceMethod java/lang/CharSequence.length:()I
+       182: iload         11
+       184: invokevirtual #248                // Method com/intellij/lexer/Lexer.start:(Ljava/lang/CharSequence;III)V
+       187: goto          278
+       190: aload_0
+       191: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       194: instanceof    #74                 // class com/intellij/lexer/RestartableLexer
+       197: ifeq          252
+       200: aload_0
+       201: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       204: aload_0
+       205: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       208: iload         8
+       210: invokevirtual #236                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentData:(I)I
+       213: invokevirtual #214                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.unpackStateFromData:(I)I
+       216: istore        11
+       218: aload_0
+       219: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       222: checkcast     #74                 // class com/intellij/lexer/RestartableLexer
+       225: aload         5
+       227: iload         10
+       229: aload         5
+       231: invokeinterface #225,  1          // InterfaceMethod java/lang/CharSequence.length:()I
+       236: iload         11
+       238: aload_0
+       239: iload         8
+       241: invokevirtual #251                // Method createTokenIterator:(I)Lcom/intellij/lexer/TokenIterator;
+       244: invokeinterface #255,  6          // InterfaceMethod com/intellij/lexer/RestartableLexer.start:(Ljava/lang/CharSequence;IIILcom/intellij/lexer/TokenIterator;)V
+       249: goto          278
+       252: aload_0
+       253: getfield      #49                 // Field myInitialState:I
+       256: istore        11
+       258: aload_0
+       259: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       262: aload         5
+       264: iload         10
+       266: aload         5
+       268: invokeinterface #225,  1          // InterfaceMethod java/lang/CharSequence.length:()I
+       273: iload         11
+       275: invokevirtual #248                // Method com/intellij/lexer/Lexer.start:(Ljava/lang/CharSequence;III)V
+       278: new           #258                // class com/intellij/openapi/editor/ex/util/ValidatingLexerWrapper
+       281: dup
+       282: aload_0
+       283: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       286: invokespecial #260                // Method com/intellij/openapi/editor/ex/util/ValidatingLexerWrapper."<init>":(Lcom/intellij/lexer/Lexer;)V
+       289: astore        13
+       291: aload         13
+       293: invokevirtual #263                // Method com/intellij/lexer/Lexer.getTokenType:()Lcom/intellij/psi/tree/IElementType;
+       296: astore        14
+       298: aload         14
+       300: ifnull        416
+       303: iload         8
+       305: iload         7
+       307: if_icmplt     313
+       310: goto          416
+       313: aload         13
+       315: invokevirtual #45                 // Method com/intellij/lexer/Lexer.getState:()I
+       318: istore        15
+       320: aload         13
+       322: invokevirtual #267                // Method com/intellij/lexer/Lexer.getTokenStart:()I
+       325: istore        16
+       327: aload         13
+       329: invokevirtual #270                // Method com/intellij/lexer/Lexer.getTokenEnd:()I
+       332: istore        17
+       334: aload_0
+       335: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       338: aload         14
+       340: iload         15
+       342: aload_0
+       343: iload         15
+       345: invokevirtual #273                // Method canRestart:(I)Z
+       348: invokevirtual #276                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.packData:(Lcom/intellij/psi/tree/IElementType;IZ)I
+       351: istore        9
+       353: aload_0
+       354: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       357: iload         8
+       359: invokevirtual #242                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentStart:(I)I
+       362: iload         16
+       364: if_icmpne     416
+       367: aload_0
+       368: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       371: iload         8
+       373: invokevirtual #280                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentEnd:(I)I
+       376: iload         17
+       378: if_icmpne     416
+       381: aload_0
+       382: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       385: iload         8
+       387: invokevirtual #236                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentData:(I)I
+       390: iload         9
+       392: if_icmpeq     398
+       395: goto          416
+       398: iinc          8, 1
+       401: aload         13
+       403: invokevirtual #283                // Method com/intellij/lexer/Lexer.advance:()V
+       406: aload         13
+       408: invokevirtual #263                // Method com/intellij/lexer/Lexer.getTokenType:()Lcom/intellij/psi/tree/IElementType;
+       411: astore        14
+       413: goto          298
+       416: invokestatic  #286                // Method com/intellij/openapi/application/ApplicationManager.getApplication:()Lcom/intellij/openapi/application/Application;
+       419: invokeinterface #292,  1          // InterfaceMethod com/intellij/openapi/application/Application.isInternal:()Z
+       424: ifeq          505
+       427: iload         10
+       429: ifne          505
+       432: iload         8
+       434: sipush        200
+       437: if_icmple     505
+       440: aload_0
+       441: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       444: invokevirtual #297                // Method java/lang/Object.getClass:()Ljava/lang/Class;
+       447: astore        14
+       449: getstatic     #301                // Field ourNonIncrementalLexers:Ljava/util/Set;
+       452: aload         14
+       454: invokeinterface #305,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+       459: ifne          505
+       462: getstatic     #121                // Field LOG:Lcom/intellij/openapi/diagnostic/Logger;
+       465: ldc_w         #311                // String %s is probably not incremental: no initial state throughout %d tokens
+       468: iconst_2
+       469: anewarray     #2                  // class java/lang/Object
+       472: dup
+       473: iconst_0
+       474: aload         14
+       476: invokevirtual #313                // Method java/lang/Class.getName:()Ljava/lang/String;
+       479: aastore
+       480: dup
+       481: iconst_1
+       482: iload         8
+       484: invokestatic  #319                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       487: aastore
+       488: invokestatic  #324                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+       491: invokevirtual #328                // Method com/intellij/openapi/diagnostic/Logger.warn:(Ljava/lang/String;)V
+       494: getstatic     #301                // Field ourNonIncrementalLexers:Ljava/util/Set;
+       497: aload         14
+       499: invokeinterface #332,  2          // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+       504: pop
+       505: aload_0
+       506: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       509: iload         8
+       511: invokevirtual #242                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentStart:(I)I
+       514: istore        10
+       516: new           #65                 // class com/intellij/openapi/editor/ex/util/SegmentArrayWithData
+       519: dup
+       520: aload_0
+       521: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       524: invokevirtual #335                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.createStorage:()Lcom/intellij/openapi/editor/ex/util/DataStorage;
+       527: invokespecial #71                 // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData."<init>":(Lcom/intellij/openapi/editor/ex/util/DataStorage;)V
+       530: astore        14
+       532: iconst_m1
+       533: istore        15
+       535: iconst_0
+       536: istore        16
+       538: iconst_m1
+       539: istore        17
+       541: iload_3
+       542: iload_2
+       543: isub
+       544: istore        18
+       546: iload_1
+       547: iload_3
+       548: iadd
+       549: istore        19
+       551: aload_0
+       552: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       555: invokevirtual #155                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getLastValidOffset:()I
+       558: istore        20
+       560: aload         13
+       562: invokevirtual #263                // Method com/intellij/lexer/Lexer.getTokenType:()Lcom/intellij/psi/tree/IElementType;
+       565: astore        21
+       567: aload         21
+       569: ifnull        723
+       572: aload         13
+       574: invokevirtual #45                 // Method com/intellij/lexer/Lexer.getState:()I
+       577: istore        22
+       579: aload         13
+       581: invokevirtual #267                // Method com/intellij/lexer/Lexer.getTokenStart:()I
+       584: istore        23
+       586: aload         13
+       588: invokevirtual #270                // Method com/intellij/lexer/Lexer.getTokenEnd:()I
+       591: istore        24
+       593: aload_0
+       594: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       597: aload         21
+       599: iload         22
+       601: aload_0
+       602: iload         22
+       604: invokevirtual #273                // Method canRestart:(I)Z
+       607: invokevirtual #276                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.packData:(Lcom/intellij/psi/tree/IElementType;IZ)I
+       610: istore        9
+       612: iload         23
+       614: iload         18
+       616: isub
+       617: istore        25
+       619: iload         23
+       621: iload         19
+       623: if_icmplt     692
+       626: iload         25
+       628: iload         20
+       630: if_icmpge     692
+       633: aload_0
+       634: iload         22
+       636: invokevirtual #273                // Method canRestart:(I)Z
+       639: ifeq          692
+       642: aload_0
+       643: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       646: iload         25
+       648: invokevirtual #233                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.findSegmentIndex:(I)I
+       651: istore        26
+       653: aload_0
+       654: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       657: iload         26
+       659: invokevirtual #242                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentStart:(I)I
+       662: iload         25
+       664: if_icmpne     692
+       667: aload_0
+       668: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       671: iload         26
+       673: invokevirtual #236                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentData:(I)I
+       676: iload         9
+       678: if_icmpne     692
+       681: iload         23
+       683: istore        15
+       685: iload         26
+       687: istore        17
+       689: goto          723
+       692: aload         14
+       694: iload         16
+       696: iload         23
+       698: iload         24
+       700: iload         9
+       702: invokevirtual #336                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.setElementAt:(IIII)V
+       705: iinc          16, 1
+       708: aload         13
+       710: invokevirtual #283                // Method com/intellij/lexer/Lexer.advance:()V
+       713: aload         13
+       715: invokevirtual #263                // Method com/intellij/lexer/Lexer.getTokenType:()Lcom/intellij/psi/tree/IElementType;
+       718: astore        21
+       720: goto          567
+       723: iload         15
+       725: ifle          805
+       728: iload         16
+       730: ifle          805
+       733: iload         17
+       735: iload         8
+       737: if_icmple     805
+       740: aload_0
+       741: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       744: iload         17
+       746: iconst_1
+       747: isub
+       748: aload         14
+       750: iload         16
+       752: iconst_1
+       753: isub
+       754: iload         18
+       756: invokestatic  #340                // Method segmentsEqual:(Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;ILcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;II)Z
+       759: ifeq          805
+       762: aload_0
+       763: iload         17
+       765: iconst_1
+       766: isub
+       767: invokevirtual #344                // Method hasAdditionalData:(I)Z
+       770: ifeq          776
+       773: goto          805
+       776: iinc          16, -1
+       779: iinc          17, -1
+       782: aload         14
+       784: iload         16
+       786: invokevirtual #242                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentStart:(I)I
+       789: istore        15
+       791: aload         14
+       793: iload         16
+       795: iload         16
+       797: iconst_1
+       798: iadd
+       799: invokevirtual #347                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.remove:(II)V
+       802: goto          728
+       805: iload         15
+       807: iconst_m1
+       808: if_icmpne     815
+       811: iload         12
+       813: istore        15
+       815: iload         17
+       817: ifge          829
+       820: aload_0
+       821: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       824: invokevirtual #211                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentCount:()I
+       827: istore        17
+       829: aload_0
+       830: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       833: iload         17
+       835: iload         18
+       837: invokevirtual #351                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.shiftSegments:(II)V
+       840: aload_0
+       841: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       844: iload         8
+       846: iload         17
+       848: aload         14
+       850: invokevirtual #354                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.replace:(IILcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;)V
+       853: iload         16
+       855: ifeq          900
+       858: iload         17
+       860: iload         8
+       862: iconst_1
+       863: iadd
+       864: if_icmpne     887
+       867: iload         16
+       869: iconst_1
+       870: if_icmpne     887
+       873: iload         9
+       875: aload_0
+       876: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       879: iload         8
+       881: invokevirtual #236                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentData:(I)I
+       884: if_icmpeq     900
+       887: aload_0
+       888: getfield      #90                 // Field myEditor:Lcom/intellij/openapi/editor/highlighter/HighlighterClient;
+       891: iload         10
+       893: iload         15
+       895: invokeinterface #358,  3          // InterfaceMethod com/intellij/openapi/editor/highlighter/HighlighterClient.repaint:(II)V
+       900: iload         15
+       902: ireturn
+
+  public synchronized void documentChanged(com.intellij.openapi.editor.event.DocumentEvent);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        10
+         6: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         9: aload_1
+        10: invokevirtual #361                // Method com/intellij/openapi/editor/event/DocumentEvent.getDocument:()Lcom/intellij/openapi/editor/Document;
+        13: astore_2
+        14: aload_2
+        15: invokeinterface #145,  1          // InterfaceMethod com/intellij/openapi/editor/Document.isInBulkUpdate:()Z
+        20: ifeq          36
+        23: aload_0
+        24: aconst_null
+        25: putfield      #230                // Field myText:Ljava/lang/CharSequence;
+        28: aload_0
+        29: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        32: invokevirtual #364                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.removeAll:()V
+        35: return
+        36: aload_0
+        37: aload_1
+        38: invokevirtual #367                // Method com/intellij/openapi/editor/event/DocumentEvent.getOffset:()I
+        41: aload_1
+        42: invokevirtual #370                // Method com/intellij/openapi/editor/event/DocumentEvent.getOldLength:()I
+        45: aload_1
+        46: invokevirtual #373                // Method com/intellij/openapi/editor/event/DocumentEvent.getNewLength:()I
+        49: aload_2
+        50: invokevirtual #376                // Method incrementalUpdate:(IIILcom/intellij/openapi/editor/Document;)I
+        53: pop
+        54: goto          92
+        57: astore_2
+        58: aload_0
+        59: aconst_null
+        60: putfield      #230                // Field myText:Ljava/lang/CharSequence;
+        63: aload_0
+        64: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        67: invokevirtual #364                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.removeAll:()V
+        70: aload_2
+        71: athrow
+        72: astore_2
+        73: new           #384                // class com/intellij/openapi/editor/ex/util/LexerEditorHighlighter$InvalidStateException
+        76: dup
+        77: aload_0
+        78: aload_1
+        79: invokestatic  #178                // Method java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+        82: invokedynamic #386,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+        87: aload_2
+        88: invokespecial #389                // Method com/intellij/openapi/editor/ex/util/LexerEditorHighlighter$InvalidStateException."<init>":(Lcom/intellij/openapi/editor/ex/util/LexerEditorHighlighter;Ljava/lang/String;Ljava/lang/Throwable;)V
+        91: athrow
+        92: return
+      Exception table:
+         from    to  target type
+             9    35    57   Class com/intellij/openapi/progress/ProcessCanceledException
+            36    54    57   Class com/intellij/openapi/progress/ProcessCanceledException
+             9    35    72   Class java/lang/RuntimeException
+            36    54    72   Class java/lang/RuntimeException
+
+  private com.intellij.lexer.TokenIterator createTokenIterator(int);
+    Code:
+         0: new           #392                // class com/intellij/openapi/editor/ex/util/LexerEditorHighlighter$1
+         3: dup
+         4: aload_0
+         5: iload_1
+         6: invokespecial #394                // Method com/intellij/openapi/editor/ex/util/LexerEditorHighlighter$1."<init>":(Lcom/intellij/openapi/editor/ex/util/LexerEditorHighlighter;I)V
+         9: areturn
+
+  private boolean canRestart(int);
+    Code:
+         0: aload_0
+         1: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+         4: instanceof    #74                 // class com/intellij/lexer/RestartableLexer
+         7: ifeq          24
+        10: aload_0
+        11: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+        14: checkcast     #74                 // class com/intellij/lexer/RestartableLexer
+        17: iload_1
+        18: invokeinterface #218,  2          // InterfaceMethod com/intellij/lexer/RestartableLexer.isRestartableState:(I)Z
+        23: ireturn
+        24: iload_1
+        25: aload_0
+        26: getfield      #49                 // Field myInitialState:I
+        29: if_icmpne     36
+        32: iconst_1
+        33: goto          37
+        36: iconst_0
+        37: ireturn
+
+  protected boolean hasAdditionalData(int);
+    Code:
+         0: iconst_0
+         1: ireturn
+
+  public int getPriority();
+    Code:
+         0: bipush        80
+         2: ireturn
+
+  private static boolean segmentsEqual(com.intellij.openapi.editor.ex.util.SegmentArrayWithData, int, com.intellij.openapi.editor.ex.util.SegmentArrayWithData, int, int);
+    Code:
+         0: aload_0
+         1: ifnonnull     9
+         4: bipush        11
+         6: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         9: aload_2
+        10: ifnonnull     18
+        13: bipush        12
+        15: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        18: aload_0
+        19: iload_1
+        20: invokevirtual #242                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentStart:(I)I
+        23: iload         4
+        25: iadd
+        26: aload_2
+        27: iload_3
+        28: invokevirtual #242                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentStart:(I)I
+        31: if_icmpne     67
+        34: aload_0
+        35: iload_1
+        36: invokevirtual #280                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentEnd:(I)I
+        39: iload         4
+        41: iadd
+        42: aload_2
+        43: iload_3
+        44: invokevirtual #280                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentEnd:(I)I
+        47: if_icmpne     67
+        50: aload_0
+        51: iload_1
+        52: invokevirtual #236                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentData:(I)I
+        55: aload_2
+        56: iload_3
+        57: invokevirtual #236                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentData:(I)I
+        60: if_icmpne     67
+        63: iconst_1
+        64: goto          68
+        67: iconst_0
+        68: ireturn
+
+  public com.intellij.openapi.editor.highlighter.HighlighterClient getClient();
+    Code:
+         0: aload_0
+         1: getfield      #90                 // Field myEditor:Lcom/intellij/openapi/editor/highlighter/HighlighterClient;
+         4: areturn
+
+  final synchronized void resetText(java.lang.CharSequence);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        13
+         6: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: aconst_null
+        11: putfield      #230                // Field myText:Ljava/lang/CharSequence;
+        14: aload_0
+        15: aload_1
+        16: invokevirtual #152                // Method doSetText:(Ljava/lang/CharSequence;)V
+        19: return
+
+  public void setText(java.lang.CharSequence);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        14
+         6: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: dup
+        11: astore_2
+        12: monitorenter
+        13: aload_0
+        14: aload_1
+        15: invokevirtual #152                // Method doSetText:(Ljava/lang/CharSequence;)V
+        18: aload_2
+        19: monitorexit
+        20: goto          28
+        23: astore_3
+        24: aload_2
+        25: monitorexit
+        26: aload_3
+        27: athrow
+        28: return
+      Exception table:
+         from    to  target type
+            13    20    23   any
+            23    26    23   any
+
+  private void doSetText(java.lang.CharSequence);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        15
+         6: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: getfield      #230                // Field myText:Ljava/lang/CharSequence;
+        13: aload_1
+        14: invokestatic  #115                // Method com/intellij/openapi/util/Comparing.equal:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Z
+        17: ifeq          21
+        20: return
+        21: aload_1
+        22: invokestatic  #397                // Method com/intellij/util/text/ImmutableCharSequence.asImmutable:(Ljava/lang/CharSequence;)Ljava/lang/CharSequence;
+        25: astore_1
+        26: aload_0
+        27: invokevirtual #57                 // Method createSegments:()Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        30: astore_2
+        31: aload_0
+        32: iconst_0
+        33: aload_2
+        34: aload_1
+        35: invokevirtual #403                // Method createTokenProcessor:(ILcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;Ljava/lang/CharSequence;)Lcom/intellij/openapi/editor/ex/util/LexerEditorHighlighter$TokenProcessor;
+        38: astore_3
+        39: aload_1
+        40: invokeinterface #225,  1          // InterfaceMethod java/lang/CharSequence.length:()I
+        45: istore        4
+        47: new           #258                // class com/intellij/openapi/editor/ex/util/ValidatingLexerWrapper
+        50: dup
+        51: aload_0
+        52: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+        55: invokespecial #260                // Method com/intellij/openapi/editor/ex/util/ValidatingLexerWrapper."<init>":(Lcom/intellij/lexer/Lexer;)V
+        58: astore        5
+        60: aload         5
+        62: aload_1
+        63: iconst_0
+        64: iload         4
+        66: aload_0
+        67: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+        70: instanceof    #74                 // class com/intellij/lexer/RestartableLexer
+        73: ifeq          91
+        76: aload_0
+        77: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+        80: checkcast     #74                 // class com/intellij/lexer/RestartableLexer
+        83: invokeinterface #245,  1          // InterfaceMethod com/intellij/lexer/RestartableLexer.getStartState:()I
+        88: goto          95
+        91: aload_0
+        92: getfield      #49                 // Field myInitialState:I
+        95: invokevirtual #248                // Method com/intellij/lexer/Lexer.start:(Ljava/lang/CharSequence;III)V
+        98: iconst_0
+        99: istore        6
+       101: aload         5
+       103: invokevirtual #263                // Method com/intellij/lexer/Lexer.getTokenType:()Lcom/intellij/psi/tree/IElementType;
+       106: astore        7
+       108: aload         7
+       110: ifnonnull     116
+       113: goto          184
+       116: aload         5
+       118: invokevirtual #45                 // Method com/intellij/lexer/Lexer.getState:()I
+       121: istore        8
+       123: aload_2
+       124: aload         7
+       126: iload         8
+       128: aload_0
+       129: iload         8
+       131: invokevirtual #273                // Method canRestart:(I)Z
+       134: invokevirtual #276                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.packData:(Lcom/intellij/psi/tree/IElementType;IZ)I
+       137: istore        9
+       139: aload_3
+       140: iload         6
+       142: aload         5
+       144: invokevirtual #267                // Method com/intellij/lexer/Lexer.getTokenStart:()I
+       147: aload         5
+       149: invokevirtual #270                // Method com/intellij/lexer/Lexer.getTokenEnd:()I
+       152: iload         9
+       154: aload         7
+       156: invokeinterface #407,  6          // InterfaceMethod com/intellij/openapi/editor/ex/util/LexerEditorHighlighter$TokenProcessor.addToken:(IIIILcom/intellij/psi/tree/IElementType;)V
+       161: iinc          6, 1
+       164: iload         6
+       166: sipush        1024
+       169: irem
+       170: ifne          176
+       173: invokestatic  #413                // Method com/intellij/openapi/progress/ProgressManager.checkCanceled:()V
+       176: aload         5
+       178: invokevirtual #283                // Method com/intellij/lexer/Lexer.advance:()V
+       181: goto          101
+       184: aload_0
+       185: aload_1
+       186: putfield      #230                // Field myText:Ljava/lang/CharSequence;
+       189: aload_0
+       190: aload_2
+       191: putfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       194: aload_3
+       195: invokeinterface #418,  1          // InterfaceMethod com/intellij/openapi/editor/ex/util/LexerEditorHighlighter$TokenProcessor.finish:()V
+       200: iload         4
+       202: ifle          256
+       205: aload_0
+       206: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       209: invokevirtual #211                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentCount:()I
+       212: ifeq          236
+       215: aload_0
+       216: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       219: aload_0
+       220: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       223: invokevirtual #211                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentCount:()I
+       226: iconst_1
+       227: isub
+       228: invokevirtual #280                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentEnd:(I)I
+       231: iload         4
+       233: if_icmpeq     256
+       236: new           #421                // class java/lang/IllegalStateException
+       239: dup
+       240: aload_0
+       241: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       244: invokestatic  #178                // Method java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+       247: invokedynamic #423,  0            // InvokeDynamic #2:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+       252: invokespecial #424                // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+       255: athrow
+       256: aload_0
+       257: getfield      #90                 // Field myEditor:Lcom/intellij/openapi/editor/highlighter/HighlighterClient;
+       260: ifnull        285
+       263: invokestatic  #286                // Method com/intellij/openapi/application/ApplicationManager.getApplication:()Lcom/intellij/openapi/application/Application;
+       266: invokeinterface #426,  1          // InterfaceMethod com/intellij/openapi/application/Application.isHeadlessEnvironment:()Z
+       271: ifne          285
+       274: aload_0
+       275: iload         4
+       277: invokedynamic #429,  0            // InvokeDynamic #3:run:(Lcom/intellij/openapi/editor/ex/util/LexerEditorHighlighter;I)Ljava/lang/Runnable;
+       282: invokestatic  #433                // Method com/intellij/util/ui/UIUtil.invokeLaterIfNeeded:(Ljava/lang/Runnable;)V
+       285: return
+
+  protected com.intellij.openapi.editor.ex.util.LexerEditorHighlighter$TokenProcessor createTokenProcessor(int, com.intellij.openapi.editor.ex.util.SegmentArrayWithData, java.lang.CharSequence);
+    Code:
+         0: aload_2
+         1: ifnonnull     9
+         4: bipush        16
+         6: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         9: aload_3
+        10: ifnonnull     18
+        13: bipush        17
+        15: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        18: aload_2
+        19: invokedynamic #439,  0            // InvokeDynamic #4:addToken:(Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;)Lcom/intellij/openapi/editor/ex/util/LexerEditorHighlighter$TokenProcessor;
+        24: dup
+        25: ifnonnull     33
+        28: bipush        18
+        30: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        33: areturn
+
+  public com.intellij.openapi.fileTypes.SyntaxHighlighter getSyntaxHighlighter();
+    Code:
+         0: aload_0
+         1: getfield      #53                 // Field myHighlighter:Lcom/intellij/openapi/fileTypes/SyntaxHighlighter;
+         4: dup
+         5: ifnonnull     13
+         8: bipush        19
+        10: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        13: areturn
+
+  private com.intellij.openapi.editor.markup.TextAttributes getAttributes(com.intellij.psi.tree.IElementType);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        20
+         6: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: getfield      #10                 // Field myAttributesMap:Ljava/util/Map;
+        13: aload_1
+        14: invokeinterface #442,  2          // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+        19: checkcast     #446                // class com/intellij/openapi/editor/markup/TextAttributes
+        22: astore_2
+        23: aload_2
+        24: ifnonnull     49
+        27: aload_0
+        28: aload_0
+        29: aload_1
+        30: invokevirtual #448                // Method getAttributesKeys:(Lcom/intellij/psi/tree/IElementType;)[Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        33: invokevirtual #452                // Method convertAttributes:([Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/markup/TextAttributes;
+        36: astore_2
+        37: aload_0
+        38: getfield      #10                 // Field myAttributesMap:Ljava/util/Map;
+        41: aload_1
+        42: aload_2
+        43: invokeinterface #456,  3          // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        48: pop
+        49: aload_2
+        50: dup
+        51: ifnonnull     59
+        54: bipush        21
+        56: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        59: areturn
+
+  private com.intellij.openapi.editor.colors.TextAttributesKey[] getAttributesKeys(com.intellij.psi.tree.IElementType);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        22
+         6: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: getfield      #16                 // Field myKeysMap:Ljava/util/Map;
+        13: aload_1
+        14: invokeinterface #442,  2          // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+        19: checkcast     #460                // class "[Lcom/intellij/openapi/editor/colors/TextAttributesKey;"
+        22: astore_2
+        23: aload_2
+        24: ifnonnull     50
+        27: aload_0
+        28: getfield      #53                 // Field myHighlighter:Lcom/intellij/openapi/fileTypes/SyntaxHighlighter;
+        31: aload_1
+        32: invokeinterface #462,  2          // InterfaceMethod com/intellij/openapi/fileTypes/SyntaxHighlighter.getTokenHighlights:(Lcom/intellij/psi/tree/IElementType;)[Lcom/intellij/openapi/editor/colors/TextAttributesKey;
+        37: astore_2
+        38: aload_0
+        39: getfield      #16                 // Field myKeysMap:Ljava/util/Map;
+        42: aload_1
+        43: aload_2
+        44: invokeinterface #456,  3          // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        49: pop
+        50: aload_2
+        51: dup
+        52: ifnonnull     60
+        55: bipush        23
+        57: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        60: areturn
+
+  public synchronized java.util.List<com.intellij.openapi.editor.markup.TextAttributes> getAttributesForPreviousAndTypedChars(com.intellij.openapi.editor.Document, int, char);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        24
+         6: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         9: aload_1
+        10: invokeinterface #109,  1          // InterfaceMethod com/intellij/openapi/editor/Document.getImmutableCharSequence:()Ljava/lang/CharSequence;
+        15: astore        4
+        17: aload         4
+        19: iload_2
+        20: iload_2
+        21: new           #465                // class com/intellij/util/text/SingleCharSequence
+        24: dup
+        25: iload_3
+        26: invokespecial #467                // Method com/intellij/util/text/SingleCharSequence."<init>":(C)V
+        29: invokestatic  #470                // Method com/intellij/openapi/util/text/StringUtil.replaceSubSequence:(Ljava/lang/CharSequence;IILjava/lang/CharSequence;)Lcom/intellij/util/text/MergingCharSequence;
+        32: astore        5
+        34: aload_0
+        35: aload         5
+        37: iload_2
+        38: invokevirtual #476                // Method getTokenType:(Ljava/lang/CharSequence;I)Ljava/util/List;
+        41: astore        6
+        43: iconst_2
+        44: anewarray     #446                // class com/intellij/openapi/editor/markup/TextAttributes
+        47: dup
+        48: iconst_0
+        49: aload_0
+        50: aload         6
+        52: iconst_0
+        53: invokeinterface #479,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+        58: checkcast     #484                // class com/intellij/psi/tree/IElementType
+        61: invokevirtual #486                // Method getAttributes:(Lcom/intellij/psi/tree/IElementType;)Lcom/intellij/openapi/editor/markup/TextAttributes;
+        64: invokevirtual #490                // Method com/intellij/openapi/editor/markup/TextAttributes.clone:()Lcom/intellij/openapi/editor/markup/TextAttributes;
+        67: aastore
+        68: dup
+        69: iconst_1
+        70: aload_0
+        71: aload         6
+        73: iconst_1
+        74: invokeinterface #479,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+        79: checkcast     #484                // class com/intellij/psi/tree/IElementType
+        82: invokevirtual #486                // Method getAttributes:(Lcom/intellij/psi/tree/IElementType;)Lcom/intellij/openapi/editor/markup/TextAttributes;
+        85: invokevirtual #490                // Method com/intellij/openapi/editor/markup/TextAttributes.clone:()Lcom/intellij/openapi/editor/markup/TextAttributes;
+        88: aastore
+        89: invokestatic  #494                // Method java/util/Arrays.asList:([Ljava/lang/Object;)Ljava/util/List;
+        92: dup
+        93: ifnonnull     101
+        96: bipush        25
+        98: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+       101: areturn
+
+  private com.intellij.lexer.Lexer getLexerWrapper(java.lang.CharSequence, int);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        26
+         6: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         9: iconst_0
+        10: istore_3
+        11: iconst_0
+        12: istore        4
+        14: iconst_0
+        15: istore        5
+        17: iconst_0
+        18: istore        6
+        20: iconst_0
+        21: istore        7
+        23: iload_2
+        24: ifle          110
+        27: aload_0
+        28: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        31: invokevirtual #211                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentCount:()I
+        34: ifle          110
+        37: aload_0
+        38: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        41: iload_2
+        42: iconst_1
+        43: isub
+        44: invokevirtual #233                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.findSegmentIndex:(I)I
+        47: iconst_2
+        48: isub
+        49: istore        8
+        51: iconst_0
+        52: iload         8
+        54: invokestatic  #166                // Method java/lang/Math.max:(II)I
+        57: istore        6
+        59: iload         6
+        61: istore        7
+        63: aload_0
+        64: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        67: iload         7
+        69: invokevirtual #236                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentData:(I)I
+        72: istore        4
+        74: iconst_1
+        75: istore        5
+        77: aload_0
+        78: iload         4
+        80: invokevirtual #239                // Method isInitialState:(I)Z
+        83: ifne          100
+        86: iload         7
+        88: ifne          94
+        91: goto          100
+        94: iinc          7, -1
+        97: goto          63
+       100: aload_0
+       101: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       104: iload         7
+       106: invokevirtual #242                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentStart:(I)I
+       109: istore_3
+       110: aload_0
+       111: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       114: instanceof    #74                 // class com/intellij/lexer/RestartableLexer
+       117: ifeq          156
+       120: iload         5
+       122: ifeq          139
+       125: aload_0
+       126: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       129: iload         4
+       131: invokevirtual #214                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.unpackStateFromData:(I)I
+       134: istore        8
+       136: goto          162
+       139: aload_0
+       140: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       143: checkcast     #74                 // class com/intellij/lexer/RestartableLexer
+       146: invokeinterface #245,  1          // InterfaceMethod com/intellij/lexer/RestartableLexer.getStartState:()I
+       151: istore        8
+       153: goto          162
+       156: aload_0
+       157: getfield      #49                 // Field myInitialState:I
+       160: istore        8
+       162: iload_2
+       163: ifne          206
+       166: aload_0
+       167: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       170: instanceof    #74                 // class com/intellij/lexer/RestartableLexer
+       173: ifeq          206
+       176: aload_0
+       177: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       180: aload_1
+       181: iload_3
+       182: aload_1
+       183: invokeinterface #225,  1          // InterfaceMethod java/lang/CharSequence.length:()I
+       188: aload_0
+       189: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       192: checkcast     #74                 // class com/intellij/lexer/RestartableLexer
+       195: invokeinterface #245,  1          // InterfaceMethod com/intellij/lexer/RestartableLexer.getStartState:()I
+       200: invokevirtual #248                // Method com/intellij/lexer/Lexer.start:(Ljava/lang/CharSequence;III)V
+       203: goto          264
+       206: aload_0
+       207: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       210: instanceof    #74                 // class com/intellij/lexer/RestartableLexer
+       213: ifeq          247
+       216: aload_0
+       217: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       220: checkcast     #74                 // class com/intellij/lexer/RestartableLexer
+       223: aload_1
+       224: iload_3
+       225: aload_1
+       226: invokeinterface #225,  1          // InterfaceMethod java/lang/CharSequence.length:()I
+       231: iload         8
+       233: aload_0
+       234: iload         7
+       236: invokevirtual #251                // Method createTokenIterator:(I)Lcom/intellij/lexer/TokenIterator;
+       239: invokeinterface #255,  6          // InterfaceMethod com/intellij/lexer/RestartableLexer.start:(Ljava/lang/CharSequence;IIILcom/intellij/lexer/TokenIterator;)V
+       244: goto          264
+       247: aload_0
+       248: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       251: aload_1
+       252: iload_3
+       253: aload_1
+       254: invokeinterface #225,  1          // InterfaceMethod java/lang/CharSequence.length:()I
+       259: iload         8
+       261: invokevirtual #248                // Method com/intellij/lexer/Lexer.start:(Ljava/lang/CharSequence;III)V
+       264: new           #258                // class com/intellij/openapi/editor/ex/util/ValidatingLexerWrapper
+       267: dup
+       268: aload_0
+       269: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+       272: invokespecial #260                // Method com/intellij/openapi/editor/ex/util/ValidatingLexerWrapper."<init>":(Lcom/intellij/lexer/Lexer;)V
+       275: astore        9
+       277: aload         9
+       279: invokevirtual #263                // Method com/intellij/lexer/Lexer.getTokenType:()Lcom/intellij/psi/tree/IElementType;
+       282: ifnull        394
+       285: iload         7
+       287: iload         6
+       289: if_icmplt     295
+       292: goto          394
+       295: aload         9
+       297: invokevirtual #267                // Method com/intellij/lexer/Lexer.getTokenStart:()I
+       300: istore        10
+       302: aload         9
+       304: invokevirtual #45                 // Method com/intellij/lexer/Lexer.getState:()I
+       307: istore        11
+       309: aload         9
+       311: invokevirtual #270                // Method com/intellij/lexer/Lexer.getTokenEnd:()I
+       314: istore        12
+       316: aload_0
+       317: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       320: aload         9
+       322: invokevirtual #263                // Method com/intellij/lexer/Lexer.getTokenType:()Lcom/intellij/psi/tree/IElementType;
+       325: iload         11
+       327: aload_0
+       328: iload         11
+       330: invokevirtual #273                // Method canRestart:(I)Z
+       333: invokevirtual #276                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.packData:(Lcom/intellij/psi/tree/IElementType;IZ)I
+       336: istore        4
+       338: aload_0
+       339: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       342: iload         7
+       344: invokevirtual #242                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentStart:(I)I
+       347: iload         10
+       349: if_icmpne     394
+       352: aload_0
+       353: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       356: iload         7
+       358: invokevirtual #280                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentEnd:(I)I
+       361: iload         12
+       363: if_icmpne     394
+       366: aload_0
+       367: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       370: iload         7
+       372: invokevirtual #236                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.getSegmentData:(I)I
+       375: iload         4
+       377: if_icmpeq     383
+       380: goto          394
+       383: iinc          7, 1
+       386: aload         9
+       388: invokevirtual #283                // Method com/intellij/lexer/Lexer.advance:()V
+       391: goto          277
+       394: aload         9
+       396: dup
+       397: ifnonnull     405
+       400: bipush        27
+       402: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+       405: areturn
+
+  private java.util.List<com.intellij.psi.tree.IElementType> getTokenType(java.lang.CharSequence, int);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        28
+         6: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: aload_1
+        11: iload_2
+        12: invokevirtual #500                // Method getLexerWrapper:(Ljava/lang/CharSequence;I)Lcom/intellij/lexer/Lexer;
+        15: astore_3
+        16: aconst_null
+        17: astore        5
+        19: aconst_null
+        20: astore        6
+        22: aload_3
+        23: invokevirtual #263                // Method com/intellij/lexer/Lexer.getTokenType:()Lcom/intellij/psi/tree/IElementType;
+        26: ifnull        111
+        29: aload_3
+        30: invokevirtual #45                 // Method com/intellij/lexer/Lexer.getState:()I
+        33: istore        7
+        35: aload_0
+        36: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        39: aload_3
+        40: invokevirtual #263                // Method com/intellij/lexer/Lexer.getTokenType:()Lcom/intellij/psi/tree/IElementType;
+        43: iload         7
+        45: aload_0
+        46: iload         7
+        48: invokevirtual #273                // Method canRestart:(I)Z
+        51: invokevirtual #276                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.packData:(Lcom/intellij/psi/tree/IElementType;IZ)I
+        54: istore        4
+        56: aload         5
+        58: ifnonnull     80
+        61: aload_3
+        62: invokevirtual #270                // Method com/intellij/lexer/Lexer.getTokenEnd:()I
+        65: iload_2
+        66: if_icmplt     80
+        69: aload_0
+        70: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        73: iload         4
+        75: invokevirtual #504                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.unpackTokenFromData:(I)Lcom/intellij/psi/tree/IElementType;
+        78: astore        5
+        80: aload_3
+        81: invokevirtual #270                // Method com/intellij/lexer/Lexer.getTokenEnd:()I
+        84: iload_2
+        85: iconst_1
+        86: iadd
+        87: if_icmplt     104
+        90: aload_0
+        91: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        94: iload         4
+        96: invokevirtual #504                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.unpackTokenFromData:(I)Lcom/intellij/psi/tree/IElementType;
+        99: astore        6
+       101: goto          111
+       104: aload_3
+       105: invokevirtual #283                // Method com/intellij/lexer/Lexer.advance:()V
+       108: goto          22
+       111: iconst_2
+       112: anewarray     #484                // class com/intellij/psi/tree/IElementType
+       115: dup
+       116: iconst_0
+       117: aload         5
+       119: aastore
+       120: dup
+       121: iconst_1
+       122: aload         6
+       124: aastore
+       125: invokestatic  #494                // Method java/util/Arrays.asList:([Ljava/lang/Object;)Ljava/util/List;
+       128: dup
+       129: ifnonnull     137
+       132: bipush        29
+       134: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+       137: areturn
+
+  public synchronized java.util.List<com.intellij.openapi.util.Pair<com.intellij.openapi.util.TextRange, com.intellij.openapi.editor.markup.TextAttributes>> getAttributesFor(com.intellij.openapi.editor.Document, int, java.lang.CharSequence);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        30
+         6: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         9: aload_3
+        10: ifnonnull     18
+        13: bipush        31
+        15: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        18: aload_0
+        19: aload_1
+        20: iload_2
+        21: iload_2
+        22: aload_3
+        23: invokevirtual #508                // Method getAttributesFor:(Lcom/intellij/openapi/editor/Document;IILjava/lang/CharSequence;)Ljava/util/List;
+        26: dup
+        27: ifnonnull     35
+        30: bipush        32
+        32: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        35: areturn
+
+  public synchronized java.util.List<com.intellij.openapi.util.Pair<com.intellij.openapi.util.TextRange, com.intellij.openapi.editor.markup.TextAttributes>> getAttributesFor(com.intellij.openapi.editor.Document, int, int, java.lang.CharSequence);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        33
+         6: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         9: aload         4
+        11: ifnonnull     19
+        14: bipush        34
+        16: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        19: aload_0
+        20: aload_1
+        21: invokeinterface #109,  1          // InterfaceMethod com/intellij/openapi/editor/Document.getImmutableCharSequence:()Ljava/lang/CharSequence;
+        26: iload_2
+        27: iload_3
+        28: aload         4
+        30: invokestatic  #470                // Method com/intellij/openapi/util/text/StringUtil.replaceSubSequence:(Ljava/lang/CharSequence;IILjava/lang/CharSequence;)Lcom/intellij/util/text/MergingCharSequence;
+        33: iload_2
+        34: invokevirtual #500                // Method getLexerWrapper:(Ljava/lang/CharSequence;I)Lcom/intellij/lexer/Lexer;
+        37: astore        5
+        39: new           #512                // class java/util/ArrayList
+        42: dup
+        43: invokespecial #514                // Method java/util/ArrayList."<init>":()V
+        46: astore        7
+        48: aload         5
+        50: invokevirtual #263                // Method com/intellij/lexer/Lexer.getTokenType:()Lcom/intellij/psi/tree/IElementType;
+        53: ifnull        187
+        56: aload         5
+        58: invokevirtual #45                 // Method com/intellij/lexer/Lexer.getState:()I
+        61: istore        8
+        63: aload_0
+        64: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+        67: aload         5
+        69: invokevirtual #263                // Method com/intellij/lexer/Lexer.getTokenType:()Lcom/intellij/psi/tree/IElementType;
+        72: iload         8
+        74: aload_0
+        75: iload         8
+        77: invokevirtual #273                // Method canRestart:(I)Z
+        80: invokevirtual #276                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.packData:(Lcom/intellij/psi/tree/IElementType;IZ)I
+        83: istore        6
+        85: aload         5
+        87: invokevirtual #270                // Method com/intellij/lexer/Lexer.getTokenEnd:()I
+        90: iload_2
+        91: if_icmple     159
+        94: iload_2
+        95: aload         5
+        97: invokevirtual #267                // Method com/intellij/lexer/Lexer.getTokenStart:()I
+       100: invokestatic  #166                // Method java/lang/Math.max:(II)I
+       103: istore        9
+       105: aload         5
+       107: invokevirtual #270                // Method com/intellij/lexer/Lexer.getTokenEnd:()I
+       110: iload_2
+       111: aload         4
+       113: invokeinterface #225,  1          // InterfaceMethod java/lang/CharSequence.length:()I
+       118: iadd
+       119: invokestatic  #160                // Method java/lang/Math.min:(II)I
+       122: istore        10
+       124: aload_0
+       125: aload_0
+       126: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+       129: iload         6
+       131: invokevirtual #504                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.unpackTokenFromData:(I)Lcom/intellij/psi/tree/IElementType;
+       134: invokevirtual #486                // Method getAttributes:(Lcom/intellij/psi/tree/IElementType;)Lcom/intellij/openapi/editor/markup/TextAttributes;
+       137: astore        11
+       139: aload         7
+       141: iload         9
+       143: iload         10
+       145: invokestatic  #515                // Method com/intellij/openapi/util/TextRange.create:(II)Lcom/intellij/openapi/util/TextRange;
+       148: aload         11
+       150: invokestatic  #521                // Method com/intellij/openapi/util/Pair.create:(Ljava/lang/Object;Ljava/lang/Object;)Lcom/intellij/openapi/util/Pair;
+       153: invokeinterface #526,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+       158: pop
+       159: aload         5
+       161: invokevirtual #270                // Method com/intellij/lexer/Lexer.getTokenEnd:()I
+       164: iload_2
+       165: aload         4
+       167: invokeinterface #225,  1          // InterfaceMethod java/lang/CharSequence.length:()I
+       172: iadd
+       173: if_icmplt     179
+       176: goto          187
+       179: aload         5
+       181: invokevirtual #283                // Method com/intellij/lexer/Lexer.advance:()V
+       184: goto          48
+       187: aload         7
+       189: dup
+       190: ifnonnull     198
+       193: bipush        35
+       195: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+       198: areturn
+
+  com.intellij.openapi.editor.markup.TextAttributes convertAttributes(com.intellij.openapi.editor.colors.TextAttributesKey[]);
+    Code:
+         0: aload_1
+         1: ifnonnull     9
+         4: bipush        36
+         6: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+         9: aload_0
+        10: getfield      #19                 // Field myScheme:Lcom/intellij/openapi/editor/colors/EditorColorsScheme;
+        13: aload_1
+        14: invokestatic  #527                // Method com/intellij/openapi/editor/ex/util/LayeredTextAttributes.create:(Lcom/intellij/openapi/editor/colors/EditorColorsScheme;[Lcom/intellij/openapi/editor/colors/TextAttributesKey;)Lcom/intellij/openapi/editor/ex/util/LayeredTextAttributes;
+        17: dup
+        18: ifnonnull     26
+        21: bipush        37
+        23: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        26: areturn
+
+  public java.lang.String toString();
+    Code:
+         0: aload_0
+         1: invokevirtual #297                // Method java/lang/Object.getClass:()Ljava/lang/Class;
+         4: invokevirtual #313                // Method java/lang/Class.getName:()Ljava/lang/String;
+         7: aload_0
+         8: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+        11: invokevirtual #297                // Method java/lang/Object.getClass:()Ljava/lang/Class;
+        14: ldc_w         #532                // class com/intellij/lexer/FlexAdapter
+        17: if_acmpne     30
+        20: aload_0
+        21: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+        24: invokevirtual #534                // Method java/lang/Object.toString:()Ljava/lang/String;
+        27: goto          40
+        30: aload_0
+        31: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+        34: invokevirtual #297                // Method java/lang/Object.getClass:()Ljava/lang/Class;
+        37: invokevirtual #313                // Method java/lang/Class.getName:()Ljava/lang/String;
+        40: aload_0
+        41: getfield      #29                 // Field myLexer:Lcom/intellij/lexer/Lexer;
+        44: invokevirtual #537                // Method com/intellij/lexer/Lexer.getBufferSequence:()Ljava/lang/CharSequence;
+        47: invokestatic  #178                // Method java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+        50: invokedynamic #540,  0            // InvokeDynamic #5:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+        55: areturn
+
+  public com.intellij.openapi.editor.ex.util.SegmentArrayWithData getSegments();
+    Code:
+         0: aload_0
+         1: getfield      #61                 // Field mySegments:Lcom/intellij/openapi/editor/ex/util/SegmentArrayWithData;
+         4: dup
+         5: ifnonnull     13
+         8: bipush        38
+        10: invokestatic  #742                // Method $$$reportNull$$$0:(I)V
+        13: areturn
+
+  private static void lambda$createTokenProcessor$0(com.intellij.openapi.editor.ex.util.SegmentArrayWithData, int, int, int, int, com.intellij.psi.tree.IElementType);
+    Code:
+         0: aload_0
+         1: iload_1
+         2: iload_2
+         3: iload_3
+         4: iload         4
+         6: invokevirtual #336                // Method com/intellij/openapi/editor/ex/util/SegmentArrayWithData.setElementAt:(IIII)V
+         9: return
+
+  private void lambda$doSetText$0(int);
+    Code:
+         0: aload_0
+         1: getfield      #90                 // Field myEditor:Lcom/intellij/openapi/editor/highlighter/HighlighterClient;
+         4: iconst_0
+         5: iload_1
+         6: invokeinterface #358,  3          // InterfaceMethod com/intellij/openapi/editor/highlighter/HighlighterClient.repaint:(II)V
+        11: return
+
+  static {};
+    Code:
+         0: ldc           #11                 // class com/intellij/openapi/editor/ex/util/LexerEditorHighlighter
+         2: invokevirtual #543                // Method java/lang/Class.desiredAssertionStatus:()Z
+         5: ifne          12
+         8: iconst_1
+         9: goto          13
+        12: iconst_0
+        13: putstatic     #138                // Field $assertionsDisabled:Z
+        16: ldc           #11                 // class com/intellij/openapi/editor/ex/util/LexerEditorHighlighter
+        18: invokestatic  #546                // Method com/intellij/openapi/diagnostic/Logger.getInstance:(Ljava/lang/Class;)Lcom/intellij/openapi/diagnostic/Logger;
+        21: putstatic     #121                // Field LOG:Lcom/intellij/openapi/diagnostic/Logger;
+        24: new           #550                // class java/util/HashSet
+        27: dup
+        28: invokespecial #552                // Method java/util/HashSet."<init>":()V
+        31: putstatic     #301                // Field ourNonIncrementalLexers:Ljava/util/Set;
+        34: return
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: iload_0
+         1: tableswitch   { // 0 to 38
+                       0: 172
+                       1: 172
+                       2: 172
+                       3: 178
+                       4: 178
+                       5: 172
+                       6: 172
+                       7: 178
+                       8: 178
+                       9: 172
+                      10: 172
+                      11: 172
+                      12: 172
+                      13: 172
+                      14: 172
+                      15: 172
+                      16: 172
+                      17: 172
+                      18: 178
+                      19: 178
+                      20: 172
+                      21: 178
+                      22: 172
+                      23: 178
+                      24: 172
+                      25: 178
+                      26: 172
+                      27: 178
+                      28: 172
+                      29: 178
+                      30: 172
+                      31: 172
+                      32: 178
+                      33: 172
+                      34: 172
+                      35: 178
+                      36: 172
+                      37: 178
+                      38: 178
+                 default: 172
+            }
+       172: ldc_w         #750                // String Argument for @NotNull parameter \'%s\' of %s.%s must not be null
+       175: goto          184
+       178: ldc_w         #752                // String @NotNull method %s.%s must not return null
+       181: goto          184
+       184: iload_0
+       185: tableswitch   { // 0 to 38
+                       0: 356
+                       1: 356
+                       2: 356
+                       3: 360
+                       4: 360
+                       5: 356
+                       6: 356
+                       7: 360
+                       8: 360
+                       9: 356
+                      10: 356
+                      11: 356
+                      12: 356
+                      13: 356
+                      14: 356
+                      15: 356
+                      16: 356
+                      17: 356
+                      18: 360
+                      19: 360
+                      20: 356
+                      21: 360
+                      22: 356
+                      23: 360
+                      24: 356
+                      25: 360
+                      26: 356
+                      27: 360
+                      28: 356
+                      29: 360
+                      30: 356
+                      31: 356
+                      32: 360
+                      33: 356
+                      34: 356
+                      35: 360
+                      36: 356
+                      37: 360
+                      38: 360
+                 default: 356
+            }
+       356: iconst_3
+       357: goto          364
+       360: iconst_2
+       361: goto          364
+       364: anewarray     #2                  // class java/lang/Object
+       367: iload_0
+       368: tableswitch   { // 0 to 38
+                       0: 540
+                       1: 549
+                       2: 558
+                       3: 567
+                       4: 567
+                       5: 576
+                       6: 549
+                       7: 567
+                       8: 567
+                       9: 585
+                      10: 594
+                      11: 603
+                      12: 612
+                      13: 621
+                      14: 621
+                      15: 621
+                      16: 630
+                      17: 639
+                      18: 567
+                      19: 567
+                      20: 648
+                      21: 567
+                      22: 648
+                      23: 567
+                      24: 585
+                      25: 567
+                      26: 621
+                      27: 567
+                      28: 621
+                      29: 567
+                      30: 585
+                      31: 657
+                      32: 567
+                      33: 585
+                      34: 657
+                      35: 567
+                      36: 666
+                      37: 567
+                      38: 567
+                 default: 540
+            }
+       540: dup
+       541: iconst_0
+       542: ldc_w         #753                // String highlighter
+       545: aastore
+       546: goto          675
+       549: dup
+       550: iconst_0
+       551: ldc_w         #754                // String scheme
+       554: aastore
+       555: goto          675
+       558: dup
+       559: iconst_0
+       560: ldc_w         #755                // String sequence
+       563: aastore
+       564: goto          675
+       567: dup
+       568: iconst_0
+       569: ldc_w         #756                // String com/intellij/openapi/editor/ex/util/LexerEditorHighlighter
+       572: aastore
+       573: goto          675
+       576: dup
+       577: iconst_0
+       578: ldc_w         #757                // String editor
+       581: aastore
+       582: goto          675
+       585: dup
+       586: iconst_0
+       587: ldc_w         #758                // String document
+       590: aastore
+       591: goto          675
+       594: dup
+       595: iconst_0
+       596: ldc_w         #759                // String e
+       599: aastore
+       600: goto          675
+       603: dup
+       604: iconst_0
+       605: ldc_w         #760                // String a1
+       608: aastore
+       609: goto          675
+       612: dup
+       613: iconst_0
+       614: ldc_w         #761                // String a2
+       617: aastore
+       618: goto          675
+       621: dup
+       622: iconst_0
+       623: ldc_w         #762                // String text
+       626: aastore
+       627: goto          675
+       630: dup
+       631: iconst_0
+       632: ldc_w         #763                // String segments
+       635: aastore
+       636: goto          675
+       639: dup
+       640: iconst_0
+       641: ldc_w         #764                // String myText
+       644: aastore
+       645: goto          675
+       648: dup
+       649: iconst_0
+       650: ldc_w         #765                // String tokenType
+       653: aastore
+       654: goto          675
+       657: dup
+       658: iconst_0
+       659: ldc_w         #766                // String s
+       662: aastore
+       663: goto          675
+       666: dup
+       667: iconst_0
+       668: ldc_w         #767                // String keys
+       671: aastore
+       672: goto          675
+       675: iload_0
+       676: tableswitch   { // 0 to 38
+                       0: 848
+                       1: 848
+                       2: 848
+                       3: 857
+                       4: 866
+                       5: 848
+                       6: 848
+                       7: 875
+                       8: 875
+                       9: 848
+                      10: 848
+                      11: 848
+                      12: 848
+                      13: 848
+                      14: 848
+                      15: 848
+                      16: 848
+                      17: 848
+                      18: 884
+                      19: 893
+                      20: 848
+                      21: 902
+                      22: 848
+                      23: 911
+                      24: 848
+                      25: 920
+                      26: 848
+                      27: 929
+                      28: 848
+                      29: 938
+                      30: 848
+                      31: 848
+                      32: 947
+                      33: 848
+                      34: 848
+                      35: 947
+                      36: 848
+                      37: 956
+                      38: 965
+                 default: 848
+            }
+       848: dup
+       849: iconst_1
+       850: ldc_w         #756                // String com/intellij/openapi/editor/ex/util/LexerEditorHighlighter
+       853: aastore
+       854: goto          974
+       857: dup
+       858: iconst_1
+       859: ldc_w         #768                // String getScheme
+       862: aastore
+       863: goto          974
+       866: dup
+       867: iconst_1
+       868: ldc_w         #769                // String getLexer
+       871: aastore
+       872: goto          974
+       875: dup
+       876: iconst_1
+       877: ldc_w         #770                // String createIterator
+       880: aastore
+       881: goto          974
+       884: dup
+       885: iconst_1
+       886: ldc_w         #771                // String createTokenProcessor
+       889: aastore
+       890: goto          974
+       893: dup
+       894: iconst_1
+       895: ldc_w         #772                // String getSyntaxHighlighter
+       898: aastore
+       899: goto          974
+       902: dup
+       903: iconst_1
+       904: ldc_w         #773                // String getAttributes
+       907: aastore
+       908: goto          974
+       911: dup
+       912: iconst_1
+       913: ldc_w         #774                // String getAttributesKeys
+       916: aastore
+       917: goto          974
+       920: dup
+       921: iconst_1
+       922: ldc_w         #775                // String getAttributesForPreviousAndTypedChars
+       925: aastore
+       926: goto          974
+       929: dup
+       930: iconst_1
+       931: ldc_w         #776                // String getLexerWrapper
+       934: aastore
+       935: goto          974
+       938: dup
+       939: iconst_1
+       940: ldc_w         #777                // String getTokenType
+       943: aastore
+       944: goto          974
+       947: dup
+       948: iconst_1
+       949: ldc_w         #778                // String getAttributesFor
+       952: aastore
+       953: goto          974
+       956: dup
+       957: iconst_1
+       958: ldc_w         #779                // String convertAttributes
+       961: aastore
+       962: goto          974
+       965: dup
+       966: iconst_1
+       967: ldc_w         #780                // String getSegments
+       970: aastore
+       971: goto          974
+       974: iload_0
+       975: tableswitch   { // 0 to 38
+                       0: 1144
+                       1: 1144
+                       2: 1153
+                       3: 1162
+                       4: 1162
+                       5: 1165
+                       6: 1174
+                       7: 1162
+                       8: 1162
+                       9: 1183
+                      10: 1192
+                      11: 1201
+                      12: 1201
+                      13: 1210
+                      14: 1219
+                      15: 1228
+                      16: 1237
+                      17: 1237
+                      18: 1162
+                      19: 1162
+                      20: 1246
+                      21: 1162
+                      22: 1255
+                      23: 1162
+                      24: 1264
+                      25: 1162
+                      26: 1273
+                      27: 1162
+                      28: 1282
+                      29: 1162
+                      30: 1291
+                      31: 1291
+                      32: 1162
+                      33: 1291
+                      34: 1291
+                      35: 1162
+                      36: 1300
+                      37: 1162
+                      38: 1162
+                 default: 1144
+            }
+      1144: dup
+      1145: iconst_2
+      1146: ldc_w         #781                // String <init>
+      1149: aastore
+      1150: goto          1309
+      1153: dup
+      1154: iconst_2
+      1155: ldc_w         #782                // String checkContentIsEqualTo
+      1158: aastore
+      1159: goto          1309
+      1162: goto          1309
+      1165: dup
+      1166: iconst_2
+      1167: ldc_w         #783                // String setEditor
+      1170: aastore
+      1171: goto          1309
+      1174: dup
+      1175: iconst_2
+      1176: ldc_w         #784                // String setColorScheme
+      1179: aastore
+      1180: goto          1309
+      1183: dup
+      1184: iconst_2
+      1185: ldc_w         #785                // String incrementalUpdate
+      1188: aastore
+      1189: goto          1309
+      1192: dup
+      1193: iconst_2
+      1194: ldc_w         #786                // String documentChanged
+      1197: aastore
+      1198: goto          1309
+      1201: dup
+      1202: iconst_2
+      1203: ldc_w         #787                // String segmentsEqual
+      1206: aastore
+      1207: goto          1309
+      1210: dup
+      1211: iconst_2
+      1212: ldc_w         #788                // String resetText
+      1215: aastore
+      1216: goto          1309
+      1219: dup
+      1220: iconst_2
+      1221: ldc_w         #789                // String setText
+      1224: aastore
+      1225: goto          1309
+      1228: dup
+      1229: iconst_2
+      1230: ldc_w         #790                // String doSetText
+      1233: aastore
+      1234: goto          1309
+      1237: dup
+      1238: iconst_2
+      1239: ldc_w         #771                // String createTokenProcessor
+      1242: aastore
+      1243: goto          1309
+      1246: dup
+      1247: iconst_2
+      1248: ldc_w         #773                // String getAttributes
+      1251: aastore
+      1252: goto          1309
+      1255: dup
+      1256: iconst_2
+      1257: ldc_w         #774                // String getAttributesKeys
+      1260: aastore
+      1261: goto          1309
+      1264: dup
+      1265: iconst_2
+      1266: ldc_w         #775                // String getAttributesForPreviousAndTypedChars
+      1269: aastore
+      1270: goto          1309
+      1273: dup
+      1274: iconst_2
+      1275: ldc_w         #776                // String getLexerWrapper
+      1278: aastore
+      1279: goto          1309
+      1282: dup
+      1283: iconst_2
+      1284: ldc_w         #777                // String getTokenType
+      1287: aastore
+      1288: goto          1309
+      1291: dup
+      1292: iconst_2
+      1293: ldc_w         #778                // String getAttributesFor
+      1296: aastore
+      1297: goto          1309
+      1300: dup
+      1301: iconst_2
+      1302: ldc_w         #779                // String convertAttributes
+      1305: aastore
+      1306: goto          1309
+      1309: invokestatic  #324                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+      1312: iload_0
+      1313: tableswitch   { // 0 to 38
+                       0: 1484
+                       1: 1484
+                       2: 1484
+                       3: 1495
+                       4: 1495
+                       5: 1484
+                       6: 1484
+                       7: 1495
+                       8: 1495
+                       9: 1484
+                      10: 1484
+                      11: 1484
+                      12: 1484
+                      13: 1484
+                      14: 1484
+                      15: 1484
+                      16: 1484
+                      17: 1484
+                      18: 1495
+                      19: 1495
+                      20: 1484
+                      21: 1495
+                      22: 1484
+                      23: 1495
+                      24: 1484
+                      25: 1495
+                      26: 1484
+                      27: 1495
+                      28: 1484
+                      29: 1495
+                      30: 1484
+                      31: 1484
+                      32: 1495
+                      33: 1484
+                      34: 1484
+                      35: 1495
+                      36: 1484
+                      37: 1495
+                      38: 1495
+                 default: 1484
+            }
+      1484: new           #792                // class java/lang/IllegalArgumentException
+      1487: dup_x1
+      1488: swap
+      1489: invokespecial #793                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+      1492: goto          1506
+      1495: new           #421                // class java/lang/IllegalStateException
+      1498: dup_x1
+      1499: swap
+      1500: invokespecial #424                // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+      1503: goto          1506
+      1506: athrow
+}

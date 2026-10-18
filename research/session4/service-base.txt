@@ -1,0 +1,48 @@
+Compiled from "TextMateService.java"
+public abstract class org.jetbrains.plugins.textmate.TextMateService {
+  protected static final com.intellij.openapi.diagnostic.Logger LOG;
+
+  public org.jetbrains.plugins.textmate.TextMateService();
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+
+  public static org.jetbrains.plugins.textmate.TextMateService getInstance();
+    Code:
+         0: invokestatic  #7                  // Method com/intellij/openapi/application/ApplicationManager.getApplication:()Lcom/intellij/openapi/application/Application;
+         3: ldc           #13                 // class org/jetbrains/plugins/textmate/TextMateService
+         5: invokeinterface #15,  2           // InterfaceMethod com/intellij/openapi/application/Application.getService:(Ljava/lang/Class;)Ljava/lang/Object;
+        10: checkcast     #13                 // class org/jetbrains/plugins/textmate/TextMateService
+        13: areturn
+
+  public org.jetbrains.plugins.textmate.bundles.TextMateBundleReader readBundle(java.nio.file.Path);
+    Code:
+         0: aconst_null
+         1: areturn
+
+  public abstract void reloadEnabledBundles();
+
+  public abstract void ensureInitialized();
+
+  public abstract org.jetbrains.plugins.textmate.language.TextMateLanguageDescriptor getLanguageDescriptorByExtension(java.lang.CharSequence);
+
+  public abstract org.jetbrains.plugins.textmate.language.preferences.ShellVariablesRegistry getShellVariableRegistry();
+
+  public abstract org.jetbrains.plugins.textmate.language.preferences.SnippetsRegistry getSnippetRegistry();
+
+  public abstract org.jetbrains.plugins.textmate.language.preferences.PreferencesRegistry getPreferenceRegistry();
+
+  public abstract org.jetbrains.plugins.textmate.language.TextMateLanguageDescriptor getLanguageDescriptorByFileName(java.lang.CharSequence);
+
+  public abstract java.util.Map<org.jetbrains.plugins.textmate.bundles.TextMateFileNameMatcher, java.lang.CharSequence> getFileNameMatcherToScopeNameMapping();
+
+  public abstract java.util.Map<java.lang.CharSequence, org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateTextAttributesAdapter> getCustomHighlightingColors();
+
+  static {};
+    Code:
+         0: ldc           #13                 // class org/jetbrains/plugins/textmate/TextMateService
+         2: invokestatic  #21                 // Method com/intellij/openapi/diagnostic/Logger.getInstance:(Ljava/lang/Class;)Lcom/intellij/openapi/diagnostic/Logger;
+         5: putstatic     #27                 // Field LOG:Lcom/intellij/openapi/diagnostic/Logger;
+         8: return
+}

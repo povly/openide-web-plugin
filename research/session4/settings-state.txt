@@ -1,0 +1,118 @@
+Compiled from "TextMateSettings.java"
+public final class org.jetbrains.plugins.textmate.configuration.TextMateSettings$TextMateSettingsState {
+  private final java.util.ArrayList<org.jetbrains.plugins.textmate.configuration.BundleConfigBean> bundles;
+
+  public org.jetbrains.plugins.textmate.configuration.TextMateSettings$TextMateSettingsState();
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: new           #7                  // class java/util/ArrayList
+         8: dup
+         9: invokespecial #9                  // Method java/util/ArrayList."<init>":()V
+        12: putfield      #10                 // Field bundles:Ljava/util/ArrayList;
+        15: return
+
+  public java.util.List<org.jetbrains.plugins.textmate.configuration.BundleConfigBean> getBundles();
+    Code:
+         0: new           #7                  // class java/util/ArrayList
+         3: dup
+         4: aload_0
+         5: getfield      #10                 // Field bundles:Ljava/util/ArrayList;
+         8: invokespecial #16                 // Method java/util/ArrayList."<init>":(Ljava/util/Collection;)V
+        11: areturn
+
+  public void setBundles(java.util.Collection<org.jetbrains.plugins.textmate.configuration.BundleConfigBean>);
+    Code:
+         0: aload_1
+         1: ifnonnull     8
+         4: iconst_0
+         5: invokestatic  #100                // Method $$$reportNull$$$0:(I)V
+         8: aload_0
+         9: getfield      #10                 // Field bundles:Ljava/util/ArrayList;
+        12: invokevirtual #19                 // Method java/util/ArrayList.clear:()V
+        15: aload_0
+        16: getfield      #10                 // Field bundles:Ljava/util/ArrayList;
+        19: aload_1
+        20: invokeinterface #22,  1           // InterfaceMethod java/util/Collection.size:()I
+        25: invokevirtual #28                 // Method java/util/ArrayList.ensureCapacity:(I)V
+        28: aload_1
+        29: invokeinterface #32,  1           // InterfaceMethod java/util/Collection.iterator:()Ljava/util/Iterator;
+        34: astore_2
+        35: aload_2
+        36: invokeinterface #36,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+        41: ifeq          69
+        44: aload_2
+        45: invokeinterface #42,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        50: checkcast     #46                 // class org/jetbrains/plugins/textmate/configuration/BundleConfigBean
+        53: astore_3
+        54: aload_0
+        55: getfield      #10                 // Field bundles:Ljava/util/ArrayList;
+        58: aload_3
+        59: invokevirtual #48                 // Method org/jetbrains/plugins/textmate/configuration/BundleConfigBean.copy:()Lorg/jetbrains/plugins/textmate/configuration/BundleConfigBean;
+        62: invokevirtual #52                 // Method java/util/ArrayList.add:(Ljava/lang/Object;)Z
+        65: pop
+        66: goto          35
+        69: return
+
+  public boolean equals(java.lang.Object);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: if_acmpne     7
+         5: iconst_1
+         6: ireturn
+         7: aload_1
+         8: ifnull        22
+        11: aload_0
+        12: invokevirtual #56                 // Method java/lang/Object.getClass:()Ljava/lang/Class;
+        15: aload_1
+        16: invokevirtual #56                 // Method java/lang/Object.getClass:()Ljava/lang/Class;
+        19: if_acmpeq     24
+        22: iconst_0
+        23: ireturn
+        24: aload_1
+        25: checkcast     #11                 // class org/jetbrains/plugins/textmate/configuration/TextMateSettings$TextMateSettingsState
+        28: astore_2
+        29: aload_0
+        30: getfield      #10                 // Field bundles:Ljava/util/ArrayList;
+        33: aload_2
+        34: getfield      #10                 // Field bundles:Ljava/util/ArrayList;
+        37: invokevirtual #60                 // Method java/util/ArrayList.equals:(Ljava/lang/Object;)Z
+        40: ifne          45
+        43: iconst_0
+        44: ireturn
+        45: iconst_1
+        46: ireturn
+
+  public int hashCode();
+    Code:
+         0: aload_0
+         1: getfield      #10                 // Field bundles:Ljava/util/ArrayList;
+         4: invokevirtual #63                 // Method java/util/ArrayList.hashCode:()I
+         7: ireturn
+
+  private static void $$$reportNull$$$0(int);
+    Code:
+         0: ldc           #102                // String Argument for @NotNull parameter \'%s\' of %s.%s must not be null
+         2: iconst_3
+         3: anewarray     #2                  // class java/lang/Object
+         6: dup
+         7: iconst_0
+         8: ldc           #103                // String value
+        10: aastore
+        11: dup
+        12: iconst_1
+        13: ldc           #104                // String org/jetbrains/plugins/textmate/configuration/TextMateSettings$TextMateSettingsState
+        15: aastore
+        16: dup
+        17: iconst_2
+        18: ldc           #105                // String setBundles
+        20: aastore
+        21: invokestatic  #111                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+        24: new           #113                // class java/lang/IllegalArgumentException
+        27: dup_x1
+        28: swap
+        29: invokespecial #116                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+        32: athrow
+}
