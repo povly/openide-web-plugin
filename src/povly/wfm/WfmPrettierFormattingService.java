@@ -55,31 +55,38 @@ public class WfmPrettierFormattingService extends AsyncDocumentFormattingService
 
     private static volatile long resolvedAt;
     private static volatile String cachedNode;
-    private static volatile String cachedPrettier;
-    private static volatile String cachedBladeFormatter;
+    private static volatile Tool cachedPrettierGlobal;
+    private static volatile Tool cachedBlade;
 
     @Override
     public @NotNull Set<Feature> getFeatures() {
-        return Set.of(Feature.FORMAT_FRAGMENTS);
+        // AD_HOC_FORMATTING: whole-file reformatText (Ctrl+Alt+L, Actions on Save) asks services
+        // with isExplicit=false and REQUIRES this feature to even consult the service.
+        // FORMAT_FRAGMENTS: range/selection reformat.
+        return Set.of(Feature.AD_HOC_FORMATTING, Feature.FORMAT_FRAGMENTS);
     }
 
     @Override
     public boolean canFormat(@NotNull PsiFile file) {
         String name = file.getName();
-        if (name.endsWith(".blade.php")) {
-            return bladeFormatterBin() != null;
-        }
-        boolean wfmOwned = file.getFileType() instanceof WfmCssFileType
+        boolean blade = name.endsWith(".blade.php");
+        boolean wfmOwned = blade || file.getFileType() instanceof WfmCssFileType
                 || file.getFileType() instanceof WfmJsTsFileType
                 || file.getFileType() instanceof WfmVueFileType;
-        return wfmOwned && prettierBin(projectDir(file)) != null;
+        if (!wfmOwned) return false;
+        boolean ok = commandFor(name, projectDir(file)) != null;
+        if (!ok) {
+            LOG.info("wfm: canFormat=false file=" + name + " reason=no-"
+                    + (blade ? "blade-formatter" : "prettier") + "-resolved");
+        }
+        return ok;
     }
 
     @Override
     protected @NotNull FormattingTask createFormattingTask(@NotNull AsyncFormattingRequest request) {
         File ioFile = request.getIOFile();
         String text = request.getDocumentText();
-        List<String> command = commandFor(ioFile);
+        List<String> command = commandFor(ioFile.getName(), projectDir(ioFile));
         return new FormattingTask() {
             private volatile Process process;
 
@@ -155,18 +162,23 @@ public class WfmPrettierFormattingService extends AsyncDocumentFormattingService
         return Duration.ofSeconds(20);
     }
 
-    /** Full CLI for the file: [node, toolBin, args…]; null when the tool is not resolvable. */
-    private static List<String> commandFor(File ioFile) {
-        String node = nodeBin();
-        if (node == null) return null;
-        if (ioFile.getName().endsWith(".blade.php")) {
-            String bin = bladeFormatterBin();
-            if (bin == null) return null;
-            return Arrays.asList(node, bin, "--stdin");
+    /** Full CLI by file name: [node, toolBin, args…]; null when the tool is not resolvable. */
+    private static List<String> commandFor(String fileName, File projectDir) {
+        if (fileName.endsWith(".blade.php")) {
+            Tool blade = bladeTool();
+            return blade == null ? null : Arrays.asList(blade.node, blade.bin, "--stdin");
         }
-        String bin = prettierBin(projectDir(ioFile));
-        if (bin == null) return null;
-        return Arrays.asList(node, bin, "--stdin-filepath", ioFile.getName());
+        resolveIfNeeded();
+        String local = firstExisting(projectDir == null ? List.<String>of() : List.of(
+                projectDir + "/node_modules/prettier/bin/prettier.cjs", // v3
+                projectDir + "/node_modules/prettier/bin/prettier.js")); // v2
+        Tool tool = local != null ? new Tool(cachedNode, local) : cachedPrettierGlobal;
+        return tool == null ? null
+                : Arrays.asList(tool.node, tool.bin, "--stdin-filepath", fileName);
+    }
+
+    private static File projectDir(File ioFile) {
+        return ioFile != null ? ioFile.getParentFile() : null;
     }
 
     private static File projectDir(PsiFile file) {
@@ -175,9 +187,8 @@ public class WfmPrettierFormattingService extends AsyncDocumentFormattingService
         return ioFile != null ? ioFile.getParentFile() : null;
     }
 
-    private static File projectDir(File ioFile) {
-        return ioFile != null ? ioFile.getParentFile() : null;
-    }
+    /** A global npm tool paired with the node binary of the nvm version that owns it. */
+    private record Tool(String node, String bin) {}
 
     private static void resolveIfNeeded() {
         long now = System.currentTimeMillis();
@@ -185,77 +196,78 @@ public class WfmPrettierFormattingService extends AsyncDocumentFormattingService
         synchronized (WfmPrettierFormattingService.class) {
             if (now - resolvedAt < RESOLVE_CACHE_MS) return;
             cachedNode = discoverNode();
-            cachedPrettier = null;          // per-project: resolved lazily by prettierBin(dir)
-            cachedBladeFormatter = discoverBladeFormatter();
+            cachedPrettierGlobal = discoverGlobalTool("prettier", "prettier.cjs", "prettier.js");
+            cachedBlade = discoverGlobalTool("blade-formatter", "blade-formatter.cjs", "blade-formatter.js");
             resolvedAt = now;
             LOG.info("wfm: external format resolved node=" + cachedNode
-                    + " bladeFormatter=" + cachedBladeFormatter);
+                    + " prettier=" + (cachedPrettierGlobal == null ? null : cachedPrettierGlobal.bin)
+                    + " bladeFormatter=" + (cachedBlade == null ? null : cachedBlade.bin));
         }
     }
 
-    private static String nodeBin() {
+    private static Tool bladeTool() {
         resolveIfNeeded();
-        return cachedNode;
+        return cachedBlade;
     }
 
-    private static String prettierBin(File projectDir) {
-        resolveIfNeeded();
-        List<String> candidates = new ArrayList<>();
-        if (projectDir != null) {
-            candidates.add(projectDir + "/node_modules/prettier/bin/prettier.cjs"); // v3
-            candidates.add(projectDir + "/node_modules/prettier/bin/prettier.js");  // v2
+    /**
+     * Version-independent global tool discovery: scans EVERY nvm version's
+     * lib/node_modules (newest first), so switching or adding node versions never breaks
+     * formatting — each tool runs with the node binary of the version that owns it.
+     */
+    private static Tool discoverGlobalTool(String packageName, String... binNames) {
+        String override = System.getProperty("wfm." + packageName + ".path", "");
+        if (!override.isBlank() && new File(override).isFile()) {
+            return new Tool(cachedNode != null ? cachedNode : "node", override);
         }
-        String global = npmGlobalRoot();
-        if (global != null) {
-            candidates.add(global + "/prettier/bin/prettier.cjs");
-            candidates.add(global + "/prettier/bin/prettier.js");
+        String rootOverride = System.getProperty("wfm.npm.global.root", "");
+        if (!rootOverride.isBlank()) {
+            for (String bin : binNames) {
+                File f = new File(rootOverride, packageName + "/" + bin);
+                if (f.isFile()) return new Tool(cachedNode != null ? cachedNode : "node", rootOverride + "/" + packageName + "/" + bin);
+            }
+            return null;
         }
-        return firstExisting(candidates);
+        for (File version : nvmVersionsNewestFirst()) {
+            for (String bin : binNames) {
+                File f = new File(version, "lib/node_modules/" + packageName + "/bin/" + bin);
+                if (f.isFile()) {
+                    return new Tool(version + "/bin/node", f.getPath());
+                }
+            }
+        }
+        return null;
     }
 
-    private static String bladeFormatterBin() {
-        resolveIfNeeded();
-        return cachedBladeFormatter;
-    }
-
-    private static String discoverBladeFormatter() {
-        String global = npmGlobalRoot();
-        if (global == null) return null;
-        return firstExisting(List.of(
-                global + "/blade-formatter/bin/blade-formatter.cjs",
-                global + "/blade-formatter/bin/blade-formatter.js"));
-    }
-
-    /** npm global root: VM-option override, else derived from the node binary (nvm layout). */
-    private static String npmGlobalRoot() {
-        String override = System.getProperty("wfm.npm.global.root", "");
-        if (!override.isBlank()) return override;
-        String node = nodeBinRaw();
-        if (node == null) return null;
-        File bin = new File(node).getParentFile();          // …/v24.19.0/bin
-        if (bin == null) return null;
-        return bin.getParent() + "/lib/node_modules";        // …/v24.19.0/lib/node_modules
-    }
-
-    /** node: registry override, else the newest nvm version dir, else "node" from PATH. */
+    /** Default node: VM-option override, else the newest nvm version, else "node" from PATH. */
     private static String discoverNode() {
-        String node = nodeBinRaw();
-        return node != null ? node : "node";
-    }
-
-    private static String nodeBinRaw() {
         String override = System.getProperty("wfm.node.path", "");
         if (!override.isBlank()) return override;
-        File nvmVersions = new File(System.getProperty("user.home"), ".nvm/versions/node");
-        File[] versions = nvmVersions.listFiles();
-        if (versions == null) return null;
-        return Arrays.stream(versions)
-                .filter(File::isDirectory)
-                .max(Comparator.naturalOrder())
-                .map(v -> new File(v, "bin/node"))
-                .filter(File::isFile)
-                .map(File::getPath)
-                .orElse(null);
+        File[] versions = nvmVersions();
+        if (versions != null) {
+            for (File v : descending(versions)) {
+                File node = new File(v, "bin/node");
+                if (node.isFile()) return node.getPath();
+            }
+        }
+        return "node";
+    }
+
+    private static List<File> nvmVersionsNewestFirst() {
+        File[] versions = nvmVersions();
+        return versions == null ? List.of() : descending(versions);
+    }
+
+    private static File[] nvmVersions() {
+        File nvm = new File(System.getProperty("user.home"), ".nvm/versions/node");
+        File[] versions = nvm.listFiles();
+        return versions;
+    }
+
+    private static List<File> descending(File[] versions) {
+        List<File> list = new ArrayList<>(Arrays.asList(versions));
+        list.sort(Comparator.reverseOrder());
+        return list;
     }
 
     private static String firstExisting(List<String> candidates) {
