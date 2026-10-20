@@ -10,12 +10,15 @@ import com.intellij.formatting.FormattingModelBuilder;
 import com.intellij.formatting.Indent;
 import com.intellij.formatting.Spacing;
 import com.intellij.formatting.Wrap;
+import com.intellij.lang.ASTNode;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.codeStyle.CodeStyleSettings;
+import com.intellij.psi.formatter.DocumentBasedFormattingModel;
 import com.intellij.psi.tree.IElementType;
 
 import org.jetbrains.plugins.textmate.TextMateService;
@@ -48,12 +51,26 @@ import java.util.regex.Pattern;
  *       so incremental restarts inside embedded regions (vue {@code <script>} → source.ts) re-lex
  *       as the root grammar — same quirk fixed for highlighting in v1.8.2
  *       ({@link WfmEditorHighlighterProvider}); formatting never relies on lexer restarts.</li>
- *   <li>v1 rules: brace-nesting indent normalization for every grammar; tag-nesting
+ * <li>v1 rules: brace-nesting indent normalization for every grammar; tag-nesting
  *       ({@code <div>…</div>}) indent for html-ish scopes (vue template); line/spacing rules
  *       ({@code { } ; , :}) only inside CSS-family scopes ({@code source.css/scss/less}, including
  *       vue embedded style). Everything else (js/ts) keeps its original inter-token
  *       spacing via {@link Spacing#getReadOnlySpacing()} — indentation still normalizes because
  *       existing line feeds are preserved and indents are recomputed.</li>
+ * <li>v1.14.0 root-cause №1 «Reformat меняет ничего»: {@code Formatter.createFormattingModelForPsiFile}
+ *       возвращает {@code PsiBasedFormattingModel}, который применяет каждую правку через AST
+ *       ({@code replaceWithPSI → FormatterUtil.replaceWhiteSpace(…, TokenType.WHITE_SPACE, …)}),
+ *       а {@code TextMateParserDefinition.createLexer()} возвращает {@code EmptyLexer} — TextMate PSI
+ *       не содержит WHITE_SPACE-узлов вовсе, все правки умирали молча (без исключений).
+ *       Фикс: {@link DocumentBasedFormattingModel} пишет whitespace прямо в Document
+ *       ({@code Document.replaceString}). Доказательства и карта пути движка:
+ *       {@code .ai-factory/references/FORMAT-ENGINE.md}.</li>
+ * <li>v1.14.0 root-cause №2 «каждое нажатие добавляет отступ»: {@code CodeFormatterFacade.getIndentOptions}
+ *       без провайдера запускает АВТО-ДЕТЕКТ опций; на смешанных табах/пробелах каждый прогон
+ *       детектил разные USE_TAB/INDENT_SIZE и перегенерил отступы — вечный дрейф (воспроизведено
+ *       в движок-лаборатории {@code tests/povly/wfm/WfmFormatEngineTest}, сценарий options-drift:
+ *       GROWING; на статичных опциях движок + эта модель полностью идемпотентны). Фикс:
+ *       {@link WfmFileIndentOptionsProvider} пинит опции профилем TextMate Code Style.</li>
  *   <li>Tag blocks: an opening {@code <tag …>} (non-void, non-self-closing) pairs with its
  *       matching {@code </tag>} into a group exactly like braces, so Reformat aligns vue
  *       template nesting. Void elements (br, img, …) and self-closing tags stay leaves.
@@ -142,7 +159,38 @@ public final class WfmFormattingModelBuilder implements FormattingModelBuilder {
                     document != null ? document.getModificationStamp() : -1, root));
             LOG.info("wfm: formatter model built file=" + file.getName() + " lexemes=" + lexemes.size());
         }
-        return Formatter.getInstance().createFormattingModelForPsiFile(file, root, context.getCodeStyleSettings());
+        return new InstrumentedDocumentModel(root, context.getCodeStyleSettings(), file);
+    }
+
+    /**
+     * Document-applied formatting model (v1.14.0 fix, see class Javadoc) with edit counting:
+     * {@code commitChanges()} logs the number of whitespace replacements that actually reached
+     * the document — the single reliable signal that the engine's edit chain is alive
+     * (model building alone does NOT prove it: the indent auto-detector also builds models).
+     */
+    private static final class InstrumentedDocumentModel extends DocumentBasedFormattingModel {
+        private final String fileName;
+        private int edits;
+
+        InstrumentedDocumentModel(Block root, CodeStyleSettings settings, PsiFile file) {
+            super(root, settings, file);
+            this.fileName = file.getName();
+        }
+
+        @Override
+        public TextRange replaceWhiteSpace(TextRange textRange, ASTNode nodeAfter, String whiteSpace) {
+            TextRange result = super.replaceWhiteSpace(textRange, nodeAfter, whiteSpace);
+            edits++;
+            LOG.debug("wfm: formatter edit offset=" + textRange.getStartOffset()
+                    + " ws=" + whiteSpace.replace("\n", "\\n"));
+            return result;
+        }
+
+        @Override
+        public void commitChanges() {
+            super.commitChanges();
+            LOG.info("wfm: formatter commit file=" + fileName + " edits=" + edits);
+        }
     }
 
     /** Full-document single-pass lexing; whitespace runs are dropped (blocks cover non-whitespace). */
@@ -193,7 +241,7 @@ public final class WfmFormattingModelBuilder implements FormattingModelBuilder {
     }
 
     /** One non-whitespace TextMate token with its full scope chain and document offsets. */
-    private record Lexeme(String text, String scope, int start, int end) {}
+    record Lexeme(String text, String scope, int start, int end) {}
 
     /**
      * Canonical spacing presets (Spacing instances are immutable and freely shared).
@@ -217,7 +265,7 @@ public final class WfmFormattingModelBuilder implements FormattingModelBuilder {
      * children get the normal indent — the first (opening delimiter) and the last (closing
      * delimiter) stay at the group's own level.
      */
-    private static final class WfmBlock implements Block {
+    static final class WfmBlock implements Block {
         private final List<Lexeme> lexemes; // shared immutable list for the whole file
         private final int from;             // [from, to) window into lexemes
         private final int to;

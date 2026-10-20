@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>povly.webfrontendmini</id>
   <name>Web Frontend Mini</name>
-  <version>1.13.2</version>
+  <version>1.15.0</version>
   <vendor>povly</vendor>
   <description><![CDATA[<p><b>Web Frontend Mini</b> brings the web frontend stack to OpenIDE: syntax highlighting, code formatting, CSS Modules intelligence and Catppuccin color schemes for the files the IDE opens as plain text — <code>.css .scss .less .js .ts .vue</code> and friends. Pure Java; the built-in features need no Node.js and pair perfectly with LSP servers via LSP4IJ when you want more.</p>
 
@@ -24,6 +24,8 @@
 
 <p>Clean-room replacement for the license-gated web-tools plugin. Sources and setup guide: <a href="https://github.com/povly/openide-web-plugin">GitHub</a>.</p>]]></description>
   <change-notes><![CDATA[<ul>
+<li>v1.15.0: formatting now delegates to real formatters — Prettier (css/scss/less/js/ts/jsx/vue; the project's own .prettierrc is honored, prettier is resolved from the project node_modules or the npm global root) and blade-formatter (.blade.php). The built-in lexeme formatter is retired: its block model also fed the platform's startup indent auto-adjust, which kept re-indenting files on every open. Requirements: Node.js on the machine (nvm layout discovered automatically; override via the wfm.node.path / wfm.npm.global.root registry keys). When no tool is found, Reformat is a safe no-op.</li>
+<li>v1.14.0: the two real "formatter does nothing / every press adds indent" root-causes, found by reading the platform engine sources (262) and an offline engine lab (./build.sh test now runs the real FormatProcessor against the plugin's block model — idempotency + fuzzer): (1) edits died silently in PsiBasedFormattingModel — the TextMate PSI is parsed with an EmptyLexer and has no WHITE_SPACE nodes, so every whitespace replacement no-oped; the model now applies edits directly to the Document (DocumentBasedFormattingModel); (2) the indent-options AUTO-DETECTOR ran on every Reformat and, on mixed tabs/spaces files, detected different options each time — the indentation drifted forever; a fileIndentOptionsProvider now pins the options to the TextMate Code Style profile (Settings → Editor → Code Style → TextMate). Reformat is idempotent and converges.</li>
 <li>v1.13.2: THE "reformat changes nothing" root-cause: the root block reported itself as a leaf (isLeaf was !composite), so the engine never descended into children and produced zero edits for any file — while models were still built (the indent detector walks getSubBlocks directly, masking it in logs). A leaf is now a single-lexeme block. Reformat should finally apply to css/scss/less/js/ts/vue/blade.</li>
 <li>v1.13.1: fixed v1.13.0 regressions — the code-style provider crashed settings init (getRootSettings is @NotNull during defaults construction; the indent auto-detection experiment is reverted) causing 77 errors and a broken file tree on startup, and two .tmPreferences files carried a mistyped closing tag which broke bundle registration. build.sh now validates every bundled XML/JSON at build time.</li>
 <li>v1.13.0: Blade (.blade.php) gets Reformat — the same lexeme formatter registered for the Blade language via a new minimal bundled grammar (tags + {{ }} echoes; @directive bodies are not re-indented yet). CSS: indent auto-detection disabled for TextMate (mixed tabs/spaces sources made every Ctrl+Alt+L re-detect a different style — looked like ever-growing indents; the formatter itself is idempotent).</li>
@@ -66,19 +68,24 @@
     <!-- Ctrl+B / Ctrl+click on <style|script src="./file.ext"> in .vue: neither Volar nor
          TextMate resolves these external-resource paths, the handler closes the gap. -->
     <gotoDeclarationHandler id="WfmVueResourceGoToHandler" implementationClass="povly.wfm.WfmVueResourceGoToHandler" order="last" />
-    <!-- Reformat (Ctrl+Alt+L, Actions on Save) for the wfm textmate files: the platform keeps
-         lang.formatter for textmate commented out (intellij.textmate.xml), so this builder
-         provides the lexeme block model. Indent-on-Enter comes from the platform's active
-         TextMateLineIndentProvider once bundle language-configuration ships indent rules. -->
-    <lang.formatter language="textmate" implementationClass="povly.wfm.WfmFormattingModelBuilder" />
-    <!-- Blade files (*.blade.php, language owned by the PHP for OpenIDE plugin): nobody
-         registers a formatter for Blade there, so the same lexeme model (tags + braces)
-         serves it via the bundled blade grammar — file matched by name, no fileType claim. -->
-    <lang.formatter language="Blade" implementationClass="povly.wfm.WfmFormattingModelBuilder" />
+    <!-- v1.15.0: external formatters do the real work now. The built-in lexeme formatter was
+         RETIRED (registrations removed): its model fed the platform's startup indent
+         DetectAndAdjust task, which kept re-indenting files on every open (the "growing indent"
+         bug's third layer, immune to FileIndentOptionsProvider). Classes stay in src for the
+         engine lab (tests) and a possible future revival. -->
     <!-- Settings → Editor → Code Style → TextMate (Tabs and Indents): the platform registers no
-         LanguageCodeStyleSettingsProvider for textmate, so the formatter and the indent provider
-         would only see IDE-wide defaults. One profile for all wfm grammars (singleton language). -->
+         LanguageCodeStyleSettingsProvider for textmate, so the Enter-indent provider and the
+         indent options would only see IDE-wide defaults. One profile for all wfm grammars. -->
     <langCodeStyleSettingsProvider implementationClass="povly.wfm.WfmCodeStyleSettingsProvider" />
+    <!-- v1.14.0: pin indent options for wfm/Blade files so the Enter-indent provider and any
+         core formatting see stable, user-configurable options (TextMate Code Style profile). -->
+    <fileIndentOptionsProvider implementationClass="povly.wfm.WfmFileIndentOptionsProvider" />
+    <!-- v1.15.0: Reformat (Ctrl+Alt+L, Actions on Save) via real formatters — Prettier for
+         css/scss/less/js/ts/vue (project-local node_modules first, then npm global), blade-formatter
+         for .blade.php. order="first" wins over CoreFormattingService (order="last"). Falls back
+         to the platform default (no-op) when no tool resolves. -->
+    <formattingService implementationClass="povly.wfm.WfmPrettierFormattingService" order="first" />
+    <notificationGroup id="Web Frontend Mini" displayType="BALLOON" />
     <!-- CSS-modules completion in .vue templates: :class="$style.|", $named.| and identifiers
          imported from *.module.css; class lists come from inline <style module> blocks and
          external module files. Coexists with Volar/LSP completions (LSP4IJ dedups by lookup string). -->

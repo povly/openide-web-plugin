@@ -8,10 +8,21 @@ cd "$(dirname "$0")"
 
 # --- test target: plain-java harness for pure logic; not part of the default build ---
 if [ "${1:-}" = "test" ]; then
+  OPENIDE_HOME="${OPENIDE_HOME:-/usr/share/openide}"
   OUT_TEST=out-test
+  CP="$OPENIDE_HOME/plugins/textmate-plugin/lib/modules/*:$OPENIDE_HOME/lib/*"
   rm -rf "$OUT_TEST" && mkdir -p "$OUT_TEST"
-  javac --release 21 -d "$OUT_TEST" src/povly/wfm/WfmCssModules.java tests/povly/wfm/WfmCssModulesTest.java
-  java -ea -cp "$OUT_TEST" povly.wfm.WfmCssModulesTest
+  javac --release 21 -cp "$CP" -d "$OUT_TEST" \
+    src/povly/wfm/WfmCssModules.java \
+    src/povly/wfm/WfmHighlighterStack.java \
+    src/povly/wfm/WfmFormattingModelBuilder.java \
+    tests/povly/wfm/WfmCssModulesTest.java \
+    tests/povly/wfm/WfmFormatEngineTest.java
+  java -ea -cp "$OUT_TEST:$CP" povly.wfm.WfmCssModulesTest
+  CSS_TEST=$?
+  java -ea -cp "$OUT_TEST:$CP" povly.wfm.WfmFormatEngineTest
+  ENGINE_TEST=$?
+  [ "$CSS_TEST" = "0" ] && [ "$ENGINE_TEST" = "0" ]
   exit $?
 fi
 

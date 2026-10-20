@@ -7,9 +7,9 @@ OpenIDE (an IntelliJ IDEA Community fork) does not highlight web files out of th
 highlighting, Catppuccin color schemes and spellchecking in a single zip, with none of the
 license-gated machinery of the web-tools plugin it replaces.
 
-Code formatting, smart indent, CSS-modules completion and external-resource navigation are
-built into the plugin; general code completion is provided by LSP servers —
-see [Setup](#setting-up-completion--navigation-lsp) below.
+Code formatting (via Prettier / blade-formatter), smart indent, CSS-modules completion and
+external-resource navigation are built into the plugin; general code completion is provided by
+LSP servers — see [Setup](#setting-up-completion--navigation-lsp) below.
 
 ## Features
 
@@ -20,7 +20,7 @@ see [Setup](#setting-up-completion--navigation-lsp) below.
 | Semantic highlighting | Identifiers (types, functions, props) in `.ts`/`.vue` are painted by the LSP server; colors are already baked into the schemes |
 | Spellchecking | Works in web files, doesn't stumble over tag contents |
 | Code folding | Standard, grammar-based |
-| Code formatting | Reformat (`Ctrl+Alt+L`), format-on-save and indent-on-Enter for all web files — the plugin's own formatter, no Node/prettier needed; see [Formatting](#code-formatting--smart-typing) |
+| Code formatting | Reformat (`Ctrl+Alt+L`) and format-on-save via real formatters — Prettier (css/scss/less/js/ts/vue, project `.prettierrc` honored) and blade-formatter (`.blade.php`); indent-on-Enter built in; see [Formatting](#code-formatting--smart-typing) |
 | Smart typing | Enter indents after `{`, `[`, `(` and tags; `Ctrl+/` comments with the region's syntax (`/* */` in css, `//` in scss/js/ts, `<!-- -->` in vue) |
 | CSS Modules | `:class="$style.\|"` completion: classes from inline `<style module>` blocks, named modules and imported `*.module.css` files; `Ctrl+B` jumps to the class definition; see [CSS Modules](#css-modules) |
 | File navigation | `Ctrl+B` / Ctrl+click on `<style\|script src="./file">` paths in `.vue` opens the file — no LSP provider exists for these attributes, so the plugin ships its own handler |
@@ -96,25 +96,28 @@ silently misses its options (see Troubleshooting).
 
 ## Code formatting & smart typing
 
-The plugin ships its own formatter, so `Ctrl+Alt+L` (Reformat) and
-Settings → Tools → Actions on Save → Reformat code work without any LSP server:
+`Ctrl+Alt+L` (Reformat) and Settings → Tools → Actions on Save → Reformat code run **real
+formatters** through the plugin (v1.15.0):
 
-- Reformat normalizes nesting indentation in every grammar — braces `{}` everywhere and
-  `<tag>…</tag>` pairs in html-ish scopes (vue template) — and applies line/spacing rules
-  (`{ } ; , :`) inside CSS-family scopes (css/scss/less, including vue `<style>`).
-  js/ts keep their token spacing while indentation still normalizes — conservative by design.
-- PHP / Blade / Twig / Smarty are served by the separate *PHP for OpenIDE* plugin and HTML
-  by the platform — this plugin deliberately doesn't touch them.
+- **Prettier** formats `.css .scss .less .js .mjs .cjs .ts .tsx .jsx .vue`. The project's own
+  `.prettierrc` / `package.json` config is honored (the process runs with the project dir as cwd);
+  prettier is resolved from the project's `node_modules` first, then from the npm global root.
+- **blade-formatter** formats `.blade.php` (npm global install: `npm i -g blade-formatter`).
+- Requirements: Node.js on the machine — an nvm layout (`~/.nvm/versions/node/*`) is discovered
+  automatically; otherwise point the IDE's VM options at it: `-Dwfm.node.path=…`,
+  `-Dwfm.npm.global.root=…` (Help → Edit Custom VM Options). To format without any config file,
+  prettier still applies its defaults.
+- When no tool is found, Reformat is a safe no-op (a balloon shows the error). The built-in
+  lexeme formatter (v1.10–v1.14) is retired: it was never fully idempotent and its model fed the
+  platform's startup indent auto-adjust, which kept re-indenting files on open.
 - Enter indents after `{`, `[`, `(` (js/ts) and opening tags (vue template); a line
   starting with `}`/`)`/a closing tag de-indents — via bundled `.tmPreferences`
-  indentation rules.
+  indentation rules. Defaults: Settings → Editor → Code Style → TextMate (2 spaces, no tabs;
+  one shared profile — platform limitation of the singleton TextMate language).
 - `Ctrl+/` comments with the syntax of the region: `/* */` in css, `//` and `/* */` in
   scss/less/js/ts, `<!-- -->` in vue templates.
-- Defaults: Settings → Editor → Code Style → TextMate (2 spaces, no tabs). One profile is
-  shared by all web file types — a platform limitation of the singleton TextMate language.
 
-LSP servers keep working side by side; the platform's Reformat action uses the plugin
-formatter for these files.
+LSP servers keep working side by side; Reformat is delegated to the external tools above.
 
 ## CSS Modules
 
@@ -149,7 +152,7 @@ covered by a plain-Java test harness: `./build.sh test`.
 
 ```bash
 ./build.sh        # → dist/web-frontend-mini.zip (validates plugin.xml)
-./build.sh test   # plain-Java harness for the css-modules parser (45 checks)
+./build.sh test   # plain-Java harness: css-modules parser (45 checks) + real-engine lab (idempotency, fuzzer)
 ```
 
 Requirements: JDK 21+, OpenIDE at `/usr/share/openide` (override with `OPENIDE_HOME`).
