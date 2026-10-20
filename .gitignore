@@ -17,3 +17,7 @@ research/session2/ideimpl/
 
 # research/session4: re-derivable jar extraction (kept on disk only)
 research/session4/tmx/
+
+# agent runtime state and heavy deps - not for git
+.omo/
+.opencode/node_modules/
