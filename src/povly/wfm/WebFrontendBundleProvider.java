@@ -40,7 +40,9 @@ public final class WebFrontendBundleProvider implements TextMateBundleProvider {
 
     /**
      * All bundle files shipped in the plugin jar under /bundle/.
-     * Names must satisfy the TEXTMATE reader filter (*.tmLanguage, *.plist, *.tmLanguage.json).
+     * Syntaxes/ names must satisfy the TEXTMATE reader filter (*.tmLanguage, *.plist, *.tmLanguage.json).
+     * Preferences/*.tmPreferences carry indentation rules + comment shell variables: they fuel the
+     * platform's active TextMateLineIndentProvider (Enter indent) and TextMateCommentProvider (Ctrl+/).
      */
     private static final String[] BUNDLE_FILES = {
             "info.plist",
@@ -53,6 +55,13 @@ public final class WebFrontendBundleProvider implements TextMateBundleProvider {
             "Syntaxes/html.tmLanguage.json",
             "Syntaxes/javascript.tmLanguage.json",
             "Syntaxes/typescript.tmLanguage.json",
+            "Syntaxes/blade.tmLanguage.json",
+            "Preferences/CSS.tmPreferences",
+            "Preferences/SCSS.tmPreferences",
+            "Preferences/LESS.tmPreferences",
+            "Preferences/Vue.tmPreferences",
+            "Preferences/JavaScript.tmPreferences",
+            "Preferences/TypeScript.tmPreferences",
     };
 
     @Override

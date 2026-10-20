@@ -1,9 +1,42 @@
 <idea-plugin>
   <id>povly.webfrontendmini</id>
   <name>Web Frontend Mini</name>
-  <version>1.9.1</version>
+  <version>1.13.2</version>
   <vendor>povly</vendor>
-  <description>TextMate grammars (css/scss/less/vue + html/js/ts) for the OpenIDE web stack. v1.2: proper TextMate bundle layout (info.plist + Syntaxes/) fixes "unknown format" registration. v1.3: explicit TextMateBackedFileType beans claim css and js/mjs/cjs/ts/tsx/jsx (platform's "syntax highlighting only" AbstractFileTypes otherwise keep TextMate away), js/ts grammars patched with fileTypes. v1.8: bundled "+ Web" color schemes regenerated with a valid attribute structure (v1.7 had a duplicated value-wrapper that prevented the schemes from loading) and extended with LSP_* keys so lsp4ij semantic tokens get colors; spell checking for TextMate web files. v1.8.1: schemes are self-contained (parent_scheme=Darcula + the full Catppuccin palette from the theme's MIT xml) — cross-plugin parents do not resolve reliably in this fork. v1.8.2: whole-document re-lex on change for WFM editors (TextMate embedded contexts like vue script do not survive incremental lexer restarts); temporary live-editor diagnostics (WFM-DIAG2). v1.8.3: vue grammar scope names no longer contain ".embedded." (the upstream TextMate getTokenHighlights truncates scope chains at the first embedded scope, which left vue script tokens matchable only against text.html.vue — no rules, no colors). v1.9.0: vue script/style finally colored — container scopes renamed with ".embedded." (the platform trimEmbeddedScope then strips text ancestors, so the generic "text source" selector no longer overlays DEFAULT_TEMPLATE_LANGUAGE_COLOR) and that key neutralized in the bundled schemes. v1.9.1: Ctrl+B navigation for external &lt;style&gt;/&lt;script&gt; src="..." files in .vue.</description>
+  <description><![CDATA[<p><b>Web Frontend Mini</b> brings the web frontend stack to OpenIDE: syntax highlighting, code formatting, CSS Modules intelligence and Catppuccin color schemes for the files the IDE opens as plain text — <code>.css .scss .less .js .ts .vue</code> and friends. Pure Java; the built-in features need no Node.js and pair perfectly with LSP servers via LSP4IJ when you want more.</p>
+
+<h3>What you get</h3>
+<ul>
+<li><b>Syntax highlighting</b> for <code>css scss less js mjs cjs ts tsx jsx vue</code> via TextMate grammars (MIT sources); in <code>.vue</code> the template, <code>&lt;script&gt;</code> and <code>&lt;style&gt;</code> are all colored.</li>
+<li><b>Code formatting</b> — Reformat (<code>Ctrl+Alt+L</code>) and format-on-save: nesting indentation for braces and <code>&lt;tag&gt;</code> pairs everywhere (incl. vue templates), line &amp; spacing rules (<code>{ } ; , :</code>) for the CSS family; indent-on-<code>Enter</code> and <code>Ctrl+/</code> comments with the syntax of the region.</li>
+<li><b>CSS Modules</b> in <code>.vue</code>: completion for <code>$style.*</code>, named modules (<code>&lt;style module="named"&gt;</code>) and classes imported from <code>*.module.css</code>; <code>Ctrl+B</code> jumps to the class definition (inline block or external file).</li>
+<li><b>Navigation</b>: <code>Ctrl+B</code> on <code>&lt;style|script src="./file"&gt;</code> paths in <code>.vue</code> opens the file.</li>
+<li><b>4 color schemes</b> «Catppuccin Mocha / Macchiato / Frappe / Latte + Web» with all web-stack and LSP semantic-token keys baked in.</li>
+<li><b>Spellchecking</b> that doesn't stumble over tag contents; grammar-based code folding.</li>
+</ul>
+
+<h3>Good to know</h3>
+<ul>
+<li>Formatting defaults: <i>Settings → Editor → Code Style → TextMate</i> (2 spaces; one shared profile for all web file types — platform limitation).</li>
+<li>PHP / Blade / Twig / Smarty are served by the separate <i>PHP for OpenIDE</i> plugin, HTML by the platform — this plugin deliberately doesn't touch them.</li>
+<li>Richer hover/completion comes from LSP servers (Volar, typescript-language-server, vscode-css-languageserver) connected via <a href="https://plugins.jetbrains.com/plugin/23257-lsp4ij">LSP4IJ</a>; the plugin's own features work without any LSP.</li>
+</ul>
+
+<p>Clean-room replacement for the license-gated web-tools plugin. Sources and setup guide: <a href="https://github.com/povly/openide-web-plugin">GitHub</a>.</p>]]></description>
+  <change-notes><![CDATA[<ul>
+<li>v1.13.2: THE "reformat changes nothing" root-cause: the root block reported itself as a leaf (isLeaf was !composite), so the engine never descended into children and produced zero edits for any file — while models were still built (the indent detector walks getSubBlocks directly, masking it in logs). A leaf is now a single-lexeme block. Reformat should finally apply to css/scss/less/js/ts/vue/blade.</li>
+<li>v1.13.1: fixed v1.13.0 regressions — the code-style provider crashed settings init (getRootSettings is @NotNull during defaults construction; the indent auto-detection experiment is reverted) causing 77 errors and a broken file tree on startup, and two .tmPreferences files carried a mistyped closing tag which broke bundle registration. build.sh now validates every bundled XML/JSON at build time.</li>
+<li>v1.13.0: Blade (.blade.php) gets Reformat — the same lexeme formatter registered for the Blade language via a new minimal bundled grammar (tags + {{ }} echoes; @directive bodies are not re-indented yet). CSS: indent auto-detection disabled for TextMate (mixed tabs/spaces sources made every Ctrl+Alt+L re-detect a different style — looked like ever-growing indents; the formatter itself is idempotent).</li>
+<li>v1.12.1: fixed a platform error — the formatter class requested the Formatter service from its static initializer (Spacing presets); the presets now load lazily on first real formatting. CSS spacing: commas and colons no longer collapse multi-line selector/value lists (typed line breaks survive). Model builds are logged at INFO to diagnose per-file formatting.</li>
+<li>v1.12.0: the real OutOfMemory root-cause, found by token fuzzing: a single-lexeme leaf block produced a child identical to itself (same range), so walkers like the startup indent auto-detector built infinite leaf-to-leaf chains — millions of blocks. Single-lexeme blocks now never have children; verified against 20,000 fuzzed token sequences (worst case linear). The earlier v1.11.1/v1.11.2 fixes were correct but partial and are kept.</li>
+<li>v1.11.2: startup/typing memory storm fixed — the indent auto-detector requests a formatting model per line; each request re-lexed the whole document before, overloading the GC (cascading OOMs). Models are now cached per file (invalidated on document change); oversized/no-grammar files get a no-op dummy model; createModel call rate is logged.</li>
+<li>v1.11.1: critical fix — Reformat (Ctrl+Alt+L) froze the IDE with OutOfMemory: a formatting group was re-detected as its own child, producing an infinite single-child block chain (7.4M blocks / 1.2GB in the heap dump). Install this version before using Reformat.</li>
+<li>v1.11.0: Reformat aligns vue template tag nesting (tag blocks in the formatter); marketplace-style description with change-notes.</li>
+<li>v1.10.0: own code formatter (Reformat, format-on-save, indent-on-Enter, Ctrl+/ comments via bundled .tmPreferences), Code Style page for TextMate, CSS Modules completion and Ctrl+B navigation in .vue.</li>
+<li>v1.9.1: Ctrl+B navigation for external &lt;style&gt;/&lt;script&gt; src files in .vue.</li>
+<li>v1.9.0: vue script/style finally colored (embedded-scope mechanics).</li>
+<li>v1.8.x: spellchecking, self-contained «+ Web» schemes, whole-document re-lex fix, bundle layout fix.</li>
+</ul>]]></change-notes>
   <idea-version since-build="262"/>
   <depends>com.intellij.modules.platform</depends>
   <depends>org.jetbrains.plugins.textmate</depends>
@@ -33,6 +66,26 @@
     <!-- Ctrl+B / Ctrl+click on <style|script src="./file.ext"> in .vue: neither Volar nor
          TextMate resolves these external-resource paths, the handler closes the gap. -->
     <gotoDeclarationHandler id="WfmVueResourceGoToHandler" implementationClass="povly.wfm.WfmVueResourceGoToHandler" order="last" />
+    <!-- Reformat (Ctrl+Alt+L, Actions on Save) for the wfm textmate files: the platform keeps
+         lang.formatter for textmate commented out (intellij.textmate.xml), so this builder
+         provides the lexeme block model. Indent-on-Enter comes from the platform's active
+         TextMateLineIndentProvider once bundle language-configuration ships indent rules. -->
+    <lang.formatter language="textmate" implementationClass="povly.wfm.WfmFormattingModelBuilder" />
+    <!-- Blade files (*.blade.php, language owned by the PHP for OpenIDE plugin): nobody
+         registers a formatter for Blade there, so the same lexeme model (tags + braces)
+         serves it via the bundled blade grammar — file matched by name, no fileType claim. -->
+    <lang.formatter language="Blade" implementationClass="povly.wfm.WfmFormattingModelBuilder" />
+    <!-- Settings → Editor → Code Style → TextMate (Tabs and Indents): the platform registers no
+         LanguageCodeStyleSettingsProvider for textmate, so the formatter and the indent provider
+         would only see IDE-wide defaults. One profile for all wfm grammars (singleton language). -->
+    <langCodeStyleSettingsProvider implementationClass="povly.wfm.WfmCodeStyleSettingsProvider" />
+    <!-- CSS-modules completion in .vue templates: :class="$style.|", $named.| and identifiers
+         imported from *.module.css; class lists come from inline <style module> blocks and
+         external module files. Coexists with Volar/LSP completions (LSP4IJ dedups by lookup string). -->
+    <completion.contributor language="textmate" implementationClass="povly.wfm.WfmCssModulesCompletionContributor" />
+    <!-- Ctrl+B on $style.foo / $named.foo / importedIdent.foo: jumps to the class definition in
+         the inline <style module> block or the external module file (selector offset). -->
+    <gotoDeclarationHandler id="WfmCssModulesGotoHandler" implementationClass="povly.wfm.WfmCssModulesGotoHandler" order="last" />
     <textmate.bundleProvider implementation="povly.wfm.WebFrontendBundleProvider" />
   </extensions>
 </idea-plugin>

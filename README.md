@@ -7,7 +7,8 @@ OpenIDE (an IntelliJ IDEA Community fork) does not highlight web files out of th
 highlighting, Catppuccin color schemes and spellchecking in a single zip, with none of the
 license-gated machinery of the web-tools plugin it replaces.
 
-Code completion and navigation are provided by LSP servers, not by the plugin —
+Code formatting, smart indent, CSS-modules completion and external-resource navigation are
+built into the plugin; general code completion is provided by LSP servers —
 see [Setup](#setting-up-completion--navigation-lsp) below.
 
 ## Features
@@ -19,7 +20,10 @@ see [Setup](#setting-up-completion--navigation-lsp) below.
 | Semantic highlighting | Identifiers (types, functions, props) in `.ts`/`.vue` are painted by the LSP server; colors are already baked into the schemes |
 | Spellchecking | Works in web files, doesn't stumble over tag contents |
 | Code folding | Standard, grammar-based |
-| File navigation | `Ctrl+B` / Ctrl+click on `<style|script src="./file">` paths in `.vue` opens the file — no LSP provider exists for these attributes, so the plugin ships its own handler |
+| Code formatting | Reformat (`Ctrl+Alt+L`), format-on-save and indent-on-Enter for all web files — the plugin's own formatter, no Node/prettier needed; see [Formatting](#code-formatting--smart-typing) |
+| Smart typing | Enter indents after `{`, `[`, `(` and tags; `Ctrl+/` comments with the region's syntax (`/* */` in css, `//` in scss/js/ts, `<!-- -->` in vue) |
+| CSS Modules | `:class="$style.\|"` completion: classes from inline `<style module>` blocks, named modules and imported `*.module.css` files; `Ctrl+B` jumps to the class definition; see [CSS Modules](#css-modules) |
+| File navigation | `Ctrl+B` / Ctrl+click on `<style\|script src="./file">` paths in `.vue` opens the file — no LSP provider exists for these attributes, so the plugin ships its own handler |
 
 ## Requirements
 
@@ -90,6 +94,44 @@ npm i -g typescript-language-server vscode-langservers-extracted @vue/language-s
 editing them.** Editing the settings XML of a running session is not picked up — the server
 silently misses its options (see Troubleshooting).
 
+## Code formatting & smart typing
+
+The plugin ships its own formatter, so `Ctrl+Alt+L` (Reformat) and
+Settings → Tools → Actions on Save → Reformat code work without any LSP server:
+
+- Reformat normalizes nesting indentation in every grammar — braces `{}` everywhere and
+  `<tag>…</tag>` pairs in html-ish scopes (vue template) — and applies line/spacing rules
+  (`{ } ; , :`) inside CSS-family scopes (css/scss/less, including vue `<style>`).
+  js/ts keep their token spacing while indentation still normalizes — conservative by design.
+- PHP / Blade / Twig / Smarty are served by the separate *PHP for OpenIDE* plugin and HTML
+  by the platform — this plugin deliberately doesn't touch them.
+- Enter indents after `{`, `[`, `(` (js/ts) and opening tags (vue template); a line
+  starting with `}`/`)`/a closing tag de-indents — via bundled `.tmPreferences`
+  indentation rules.
+- `Ctrl+/` comments with the syntax of the region: `/* */` in css, `//` and `/* */` in
+  scss/less/js/ts, `<!-- -->` in vue templates.
+- Defaults: Settings → Editor → Code Style → TextMate (2 spaces, no tabs). One profile is
+  shared by all web file types — a platform limitation of the singleton TextMate language.
+
+LSP servers keep working side by side; the platform's Reformat action uses the plugin
+formatter for these files.
+
+## CSS Modules
+
+In `.vue` files the plugin completes and resolves CSS-module class references:
+
+- `:class="$style.|"` — classes of the default inline `<style module>` block
+- `:class="$named.|"` — classes of `<style module="named">`
+- `<style module src="./x.module.css">` and `import styles from './x.module.css'` —
+  classes of external module files, resolved relative to the `.vue`
+- kebab-case classes insert as `$style['foo-bar']` (Volar-compatible string-key access);
+  a camelCase alias is offered alongside when it differs
+- `Ctrl+B` on `$style.foo` / `styles.foo` jumps to the class definition — the selector in
+  the inline block or the external module file
+
+Parsing is regex-based over the document (same layer as the `src="…"` navigation) and
+covered by a plain-Java test harness: `./build.sh test`.
+
 ## Troubleshooting
 
 | Symptom | Cause | Fix |
@@ -107,6 +149,7 @@ silently misses its options (see Troubleshooting).
 
 ```bash
 ./build.sh        # → dist/web-frontend-mini.zip (validates plugin.xml)
+./build.sh test   # plain-Java harness for the css-modules parser (45 checks)
 ```
 
 Requirements: JDK 21+, OpenIDE at `/usr/share/openide` (override with `OPENIDE_HOME`).
@@ -114,12 +157,13 @@ Requirements: JDK 21+, OpenIDE at `/usr/share/openide` (override with `OPENIDE_H
 ## Repository layout
 
 ```
-src/povly/wfm/          # 6 plugin classes: bundle provider, fileTypes, highlighter, spellcheck
+src/povly/wfm/          # 12 plugin classes: bundle provider, fileTypes, highlighter, spellcheck, formatter, code style, css modules (completion + goto)
+tests/povly/wfm/        # plain-Java test harness (./build.sh test)
 resources/plugin.xml    # descriptor (META-INF, since-build 262, depends: TextMate)
-resources/bundle/       # info.plist + Syntaxes/ — 9 grammars (MIT sources)
+resources/bundle/       # info.plist + Syntaxes/ (9 grammars, MIT) + Preferences/ (indent + comment rules)
 resources/colorScheme/  # 4 «Catppuccin + Web» schemes
 research/               # investigation materials: session2 (web-tools), session4 (vue coloring)
-build.sh                # build → dist/
+build.sh                # build → dist/; `test` target runs the harness
 ```
 
 Change history — `git log`; investigation details — `research/session*/`.
@@ -132,6 +176,7 @@ Change history — `git log`; investigation details — `research/session*/`.
 | `scss/less/html/javascript/typescript.tmLanguage.json` | shiki (textmate-grammars-themes) | MIT-multi |
 | `vue.tmLanguage.json`, `vue-directives`, `vue-interpolations` | vuejs/language-tools (Volar) | MIT |
 | Scheme color values | catppuccin/jetbrains (`themes/*.xml`) | MIT |
+| Formatter block-model reference | JetBrains/intellij-community (commented-out `TextMateFormattingModelBuilder` — studied as reference; the lexeme implementation is clean-room) | Apache 2.0 |
 
 The plugin code is clean-room: web-tools was studied by decompilation and measurements,
-no code copied.
+no code copied; `.tmPreferences` rules are written for this project.

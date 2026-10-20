@@ -1,0 +1,30 @@
+{
+  "name": "Blade",
+  "scopeName": "text.html.blade",
+  "fileTypes": ["blade.php"],
+  "patterns": [
+    {
+      "name": "comment.block.blade",
+      "begin": "\\{\\{--",
+      "end": "--\\}\\}"
+    },
+    {
+      "name": "meta.echo.blade",
+      "begin": "\\{\\{[!?]?",
+      "end": "[!?]?\\}\\}",
+      "patterns": [
+        {
+          "name": "variable.other.blade",
+          "match": "\\$[A-Za-z_][A-Za-z0-9_]*"
+        }
+      ]
+    },
+    {
+      "name": "keyword.control.directive.blade",
+      "match": "@[A-Za-z_][A-Za-z0-9_]*"
+    },
+    {
+      "include": "text.html.basic"
+    }
+  ]
+}

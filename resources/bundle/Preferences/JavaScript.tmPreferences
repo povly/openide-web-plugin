@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Indent-on-Enter + comments for js (also inside vue <script> via the source.js scope chain).
+     increase: line's last opening bracket ({ [ or () is followed only by whitespace (a closed
+     pair like "foo(bar)" does not match); decrease: line starts with a closing bracket. -->
+<plist version="1.0">
+<dict>
+  <key>name</key>
+  <string>WFM JavaScript indentation and comments</string>
+  <key>scope</key>
+  <string>source.js</string>
+  <key>settings</key>
+  <dict>
+    <key>indentationRules</key>
+    <dict>
+      <key>increaseIndentPattern</key>
+      <string>.*[{\[(][ \t]*</string>
+      <key>decreaseIndentPattern</key>
+      <string>\s*[}\])].*</string>
+    </dict>
+    <key>shellVariables</key>
+    <array>
+      <dict>
+        <key>name</key>
+        <string>TM_COMMENT_START</string>
+        <key>value</key>
+        <string>//</string>
+      </dict>
+      <dict>
+        <key>name</key>
+        <string>TM_COMMENT_START_2</string>
+        <key>value</key>
+        <string>/*</string>
+      </dict>
+      <dict>
+        <key>name</key>
+        <string>TM_COMMENT_END_2</string>
+        <key>value</key>
+        <string>*/</string>
+      </dict>
+    </array>
+  </dict>
+</dict>
+</plist>

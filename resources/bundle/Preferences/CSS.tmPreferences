@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Indent-on-Enter + comments for css (also applies inside vue <style> via the source.css
+     scope chain). Patterns use full-match semantics: TextMateLineIndentProvider evaluates
+     them with String.matches against the previous line. -->
+<plist version="1.0">
+<dict>
+  <key>name</key>
+  <string>WFM CSS indentation and comments</string>
+  <key>scope</key>
+  <string>source.css</string>
+  <key>settings</key>
+  <dict>
+    <key>indentationRules</key>
+    <dict>
+      <key>increaseIndentPattern</key>
+      <string>.*\{[^}"']*</string>
+      <key>decreaseIndentPattern</key>
+      <string>\s*\}.*</string>
+    </dict>
+    <key>shellVariables</key>
+    <array>
+      <dict>
+        <key>name</key>
+        <string>TM_COMMENT_START</string>
+        <key>value</key>
+        <string>/*</string>
+      </dict>
+      <dict>
+        <key>name</key>
+        <string>TM_COMMENT_END</string>
+        <key>value</key>
+        <string>*/</string>
+      </dict>
+    </array>
+  </dict>
+</dict>
+</plist>
