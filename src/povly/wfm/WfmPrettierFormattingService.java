@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -66,19 +67,27 @@ public class WfmPrettierFormattingService extends AsyncDocumentFormattingService
         return Set.of(Feature.AD_HOC_FORMATTING, Feature.FORMAT_FRAGMENTS);
     }
 
+    /** Web extensions we format with prettier; matched by NAME — fileType association wars
+     * (platform AbstractFileTypes, other plugins claiming the same extensions) must not decide
+     * whether Reformat works. */
+    private static final Set<String> PRETTIER_EXTENSIONS = Set.of(
+            "css", "scss", "less", "js", "mjs", "cjs", "ts", "tsx", "jsx", "vue");
+
+    private static String extension(String name) {
+        int dot = name.lastIndexOf('.');
+        return dot < 0 ? "" : name.substring(dot + 1).toLowerCase(Locale.ROOT);
+    }
+
     @Override
     public boolean canFormat(@NotNull PsiFile file) {
         String name = file.getName();
         boolean blade = name.endsWith(".blade.php");
-        boolean wfmOwned = blade || file.getFileType() instanceof WfmCssFileType
-                || file.getFileType() instanceof WfmJsTsFileType
-                || file.getFileType() instanceof WfmVueFileType;
-        if (!wfmOwned) return false;
-        boolean ok = commandFor(name, projectDir(file)) != null;
-        if (!ok) {
-            LOG.info("wfm: canFormat=false file=" + name + " reason=no-"
-                    + (blade ? "blade-formatter" : "prettier") + "-resolved");
-        }
+        boolean wfmOwned = blade || PRETTIER_EXTENSIONS.contains(extension(name));
+        boolean ok = wfmOwned && commandFor(name, projectDir(file)) != null;
+        // TEMPORARY (diagnostics): every decision logged — fileType shows what the platform
+        // actually associates, the result confirms the extension-based gate.
+        LOG.info("wfm: canFormat file=" + name + " fileType=" + file.getFileType().getName()
+                + " wfmOwned=" + wfmOwned + " result=" + ok);
         return ok;
     }
 

@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>povly.webfrontendmini</id>
   <name>Web Frontend Mini</name>
-  <version>1.15.3</version>
+  <version>1.15.4</version>
   <vendor>povly</vendor>
   <description><![CDATA[<p><b>Web Frontend Mini</b> brings the web frontend stack to OpenIDE: syntax highlighting, code formatting, CSS Modules intelligence and Catppuccin color schemes for the files the IDE opens as plain text — <code>.css .scss .less .js .ts .vue</code> and friends. Pure Java; the built-in features need no Node.js and pair perfectly with LSP servers via LSP4IJ when you want more.</p>
 
@@ -24,6 +24,7 @@
 
 <p>Clean-room replacement for the license-gated web-tools plugin. Sources and setup guide: <a href="https://github.com/povly/openide-web-plugin">GitHub</a>.</p>]]></description>
   <change-notes><![CDATA[<ul>
+<li>v1.15.4: canFormat now matches web files by EXTENSION instead of fileType instanceof — the fileType association for css/vue was never actually verified in the IDE and platform/other plugins can win the extension claim, silently disabling Reformat; every canFormat decision is logged (file name, actual fileType, result) until the culprit is confirmed.</li>
 <li>v1.15.3: vue/css Reformat was silently stolen by LSP4IJ — its LSPFormattingOnlyService grabs any file with an attached formatting-capable language server (Volar on .vue, css-ls on .css) and wins the FormattingService selection. Our service now sorts explicitly BEFORE both LSP4IJ formatting services (the before-rules are no-ops when LSP4IJ is absent). The formatting task also logs its start and catches all throwables, so idea.log always shows how far a Reformat went.</li>
 <li>v1.15.2: "Reformat does nothing" for css/js/ts/vue root-caused and fixed: ReformatCodeAction.update() disables the action when no lang.formatter resolves for the file's language — v1.15.0 removed the registration, so Ctrl+Alt+L never reached the Prettier service at all (blade kept working only because the PHP plugin registers its own builder). A no-op dummy builder re-enables the action; the external service still does the real formatting.</li>
 <li>v1.15.1: formatting-service feature fix — whole-file Reformat (Ctrl+Alt+L / Actions on Save) requires AD_HOC_FORMATTING to consult the service at all, which css files were silently missing; global tool discovery is now version-independent (every nvm version's lib/node_modules is scanned, each tool runs with the node of its own version — switching or adding node versions no longer breaks formatting); global prettier also receives --stdin-filepath for correct parser resolution; canFormat negatives are logged.</li>
