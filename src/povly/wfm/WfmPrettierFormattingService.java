@@ -93,6 +93,8 @@ public class WfmPrettierFormattingService extends AsyncDocumentFormattingService
             @Override
             public void run() {
                 long started = System.currentTimeMillis();
+                LOG.info("wfm: external format start file=" + ioFile.getName()
+                        + " tool=" + (command == null ? "none" : new File(command.get(1)).getName()));
                 if (command == null) {
                     request.onError("Formatter not found", "No prettier/blade-formatter binary resolved");
                     return;
@@ -132,6 +134,10 @@ public class WfmPrettierFormattingService extends AsyncDocumentFormattingService
                 }
                 catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
+                }
+                catch (Throwable t) {
+                    LOG.error("wfm: external format crashed file=" + ioFile.getName(), t);
+                    request.onError("Formatting failed", String.valueOf(t));
                 }
             }
 
